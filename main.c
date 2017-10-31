@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:59:56 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/31 16:13:57 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/10/31 17:30:20 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <wctype.h>
 #include <string.h>
 #include <errno.h>
+#include <xlocale.h>
+#include <locale.h>
+#include <wctype.h>
 
 
 #define CTRL_KEY(k) ((k) & 0x1f)
@@ -26,6 +29,7 @@
 char	*termcap = NULL;
 struct termios s_termios;
 struct termios s_termios_backup;
+
 
 char	init_termcap(void)
 {
@@ -91,14 +95,18 @@ int		process_read_key(void)
 
 	ft_bzero(&c, SIZE_OF_READ);
 	nread = read_key((char*)c);
-	debug_key(c, nread);  //DEBUG
+//	debug_key(c, nread);  //DEBUG
 	if (nread == 1 && *c == CTRL_KEY('q'))
 		return (0);
+	// Remplacer iswcntrl par ft_iswprint
+	if (nread <= sizeof(wint_t) && !iswcntrl_l((int)*c, NULL))
+		write(1, c, nread);
 	return (1);
 }
 
 int		main(void)
 {
+	setlocale(LC_ALL, "");
 	if (init_termcap() <= 0)
 		return (1);
 	set_tty();
