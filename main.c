@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:59:56 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/31 14:17:09 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/10/31 16:13:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,12 @@ void	set_tty(void)
 {
 	tcgetattr(0, &s_termios);
 	tcgetattr(0, &s_termios_backup);
-//	cfmakeraw(&s_termios);
-//	s_termios.c_lflag &= ~(ICANON);
-//	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ECHOPRT);
 	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 	s_termios.c_oflag &= ~(OPOST);
 	s_termios.c_cflag |= (CS8);
 	s_termios.c_cc[VMIN] = 0;
 	s_termios.c_cc[VTIME] = 1;
-//	s_termios.c_lflag &= ~(ECHO);
 	tcsetattr(0, 0, &s_termios);
 }
 
