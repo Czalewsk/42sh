@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:59:56 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/31 17:30:20 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/10/31 18:13:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,13 @@ int		process_read_key(void)
 //	debug_key(c, nread);  //DEBUG
 	if (nread == 1 && *c == CTRL_KEY('q'))
 		return (0);
-	// Remplacer iswcntrl par ft_iswprint
-	if (nread <= sizeof(wint_t) && !iswcntrl_l((int)*c, NULL))
+	if (nread <= sizeof(wint_t) && !ft_iswcntrl((int)*c))
 		write(1, c, nread);
 	return (1);
 }
 
 int		main(void)
 {
-	setlocale(LC_ALL, "");
 	if (init_termcap() <= 0)
 		return (1);
 	set_tty();

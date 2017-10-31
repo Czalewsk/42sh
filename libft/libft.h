@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 14:37:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/28 20:55:42 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/10/31 18:12:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,6 @@ char			*ft_strxjoin(int nb_elemt, ...);
 void			ft_strsplitdel(char ***tab);
 char			**ft_strsplitwhitespaces(char const *s);
 int				ft_isunicode(long int c);
+int				ft_iswcntrl(unsigned int c);
 
 #endif
