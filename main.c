@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:59:56 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/31 13:00:44 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/10/31 14:17:09 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 
 #define CTRL_KEY(k) ((k) & 0x1f)
-#define SIZE_OF_READ (8)
+#define SIZE_OF_READ (12)
 
 char	*termcap = NULL;
 struct termios s_termios;
