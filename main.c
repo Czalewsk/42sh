@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:59:56 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/31 18:13:08 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/01 11:41:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,30 @@ char	*termcap = NULL;
 struct termios s_termios;
 struct termios s_termios_backup;
 
+char	*left_cap = NULL;
+char	*right_cap = NULL;
+char	*up_cap = NULL;
+char	*down_cap = NULL;
+char	*clear_cap = NULL;
+char	*nextline_cap = NULL;
+char	*home_cap = NULL;
+char	*test_cap = NULL;
+
+void	init_term_cap(void)
+{
+	left_cap = tgetstr("le", NULL);
+	right_cap = tgetstr("nd", NULL);
+	down_cap = tgetstr("do", NULL);
+	up_cap = tgetstr("up", NULL);
+	clear_cap = tgetstr("cl", NULL);
+	nextline_cap = tgetstr("sf", NULL);
+	tputs(tgetstr("sc", NULL), 0, &ft_putchar_termcap);
+	home_cap = tgetstr("rc", NULL);
+	test_cap = tgetstr("cm", NULL);
+	if (left_cap && down_cap && up_cap && right_cap && clear_cap && nextline_cap && 
+			home_cap && test_cap)
+		ft_printf("TERMCAP CAPABILITY DONE\r\n");
+}
 
 char	init_termcap(void)
 {
@@ -47,6 +71,8 @@ char	init_termcap(void)
 		ft_printf("Could not access the termcaps database\n");
 	else if (!ret)
 		ft_printf("Terminale %s is not documented\n", env_term);
+	if (ret)
+		init_term_cap();
 	return (ret);
 }
 
@@ -88,6 +114,32 @@ int		read_key(char *c)
 	return (nread);
 }
 
+void	handle_arrow_key(char key)
+{
+	if (key == 68)
+		tputs(left_cap, 0, &ft_putchar_termcap);
+	if (key == 67)
+		tputs(right_cap, 0, &ft_putchar_termcap);
+	if (key == 72)
+		tputs(home_cap, 0, &ft_putchar_termcap);
+//	if (key == 65)
+//		tputs(up_cap, 0, &ft_putchar_termcap);
+//	if (key == 66)
+//		tputs(down_cap, 0, &ft_putchar_termcap);
+}
+
+void	handler_cntrl_key(int nread, char c[SIZE_OF_READ])
+{
+	if (nread == 3 && c[0] == 27 && c[1] == 91)
+		handle_arrow_key(c[2]);
+	if (nread == 1 && *c == CTRL_KEY('k'))
+		tputs(clear_cap, 0, &ft_putchar_termcap);
+	if (nread == 1 && *c == 13)
+		tputs(nextline_cap, 1, &ft_putchar_termcap);
+	if (nread == 1 && *c == CTRL_KEY('x'))
+		tputs(tgoto(test_cap, 1, 1), 1, &ft_putchar_termcap);
+}
+
 int		process_read_key(void)
 {
 	char	c[SIZE_OF_READ];
@@ -100,6 +152,8 @@ int		process_read_key(void)
 		return (0);
 	if (nread <= sizeof(wint_t) && !ft_iswcntrl((int)*c))
 		write(1, c, nread);
+	else
+		handler_cntrl_key(nread, c);
 	return (1);
 }
 

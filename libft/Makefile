@@ -6,7 +6,7 @@
 #    By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/16 13:16:18 by czalewsk          #+#    #+#              #
-#    Updated: 2017/10/31 18:12:38 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/10/31 19:38:17 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -146,7 +146,8 @@ OBJ = ft_strlen.o			\
 	  ft_strsplitdel.o		\
 	  ft_strsplitwhitespaces.o \
 	  ft_isunicode.o		\
-	  ft_iswcntrl.o
+	  ft_iswcntrl.o			\
+	  ft_putchar_termcap.o
 
 
 all : $(NAME)
