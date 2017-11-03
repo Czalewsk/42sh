@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:28:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/03 18:04:42 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/03 19:19:18 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ struct termios s_termios_backup;
 */
 
 #define PROMPT ("Cedychou_sh 🦆  ")
-
 
 /*
 ** Edition de ligne

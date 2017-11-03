@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/03 18:16:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/03 20:30:56 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	key_wrapper(t_key *entry, t_read *info)
 		return (1);
 	if (entry->nread == 3 && entry->entry[0] == 27 && entry->entry[1] == 91)
 		arrow_handler(entry->entry[2], info);
-	return (0);
+	return (2);
 }
 
 char	read_entry(t_buf *cmd, t_read *info, t_key *entry)
@@ -122,7 +122,7 @@ char	read_entry(t_buf *cmd, t_read *info, t_key *entry)
 	if (entry->nread == 1 && CTRL_KEY('d') == *(entry->entry))
 		return (-1);
 	if (entry->nread <= sizeof(wint_t) && !ft_iswcntrl((int)*(entry->entry)))
-		return (1);
+		return (0);
 	else
 		return (key_wrapper(entry, info)); // Switch entre les differents gestionnaires de touches
 }
@@ -145,8 +145,23 @@ void	handler_buf(t_buf *cmd, t_key *entry)
 
 void	handler_line(t_buf *cmd, t_read *info, t_key *entry)
 {
-	handler_buf(cmd, entry);
+	char *curs;
 
+	handler_buf(cmd, entry);
+	write(1, entry->entry, entry->nread);
+	info->total_char++;
+	info->curs_co++;
+	if (info->curs_co == info->total_char)
+		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
+	else
+	{
+		curs = cmd->cmd + info->curs_co - 1;
+		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
+		ft_memcpy(curs, entry->entry, entry->nread);
+	}
+	tputs(tgoto(tgetstr("cm", NULL), info->prompt, info->cmd_li), 0, &ft_putchar_termcap);
+	write(1, cmd->cmd, ft_strlen(cmd->cmd));
+	tputs(tgoto(tgetstr("cm", NULL), info->prompt + info->curs_co, info->cmd_li) , 0, &ft_putchar_termcap);
 }
 
 char	read_line(t_buf *cmd, t_read *info)
@@ -166,7 +181,7 @@ char	read_line(t_buf *cmd, t_read *info)
 		else if (ret == 1)
 			break ;
 	}
-	ft_strdel(&cmd->cmd);
+//	ft_strdel(&cmd->cmd);
 	return (ret);
 }
 
@@ -184,6 +199,7 @@ void	init_info(t_read *info)
 {
 	ft_bzero(info, sizeof(t_read));
 	info->win_co = tgetnum("co");
+	info->cmd_li = tgetnum("li");
 }
 
 int		main(void)
