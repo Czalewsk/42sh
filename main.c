@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:32:40 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/03 15:13:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/03 17:09:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	debug_key(char key[SIZE_READ], int nb)
 
 void	init_term_cap(void)
 {
+	ft_printf("STRANGE:%i\n\r", tgetflag("xn"));
 	left_cap = tgetstr("le", NULL);
 	right_cap = tgetstr("nd", NULL);
 	insert_cap = tgetstr("im", NULL);
@@ -86,14 +87,13 @@ void		read_key(t_key *entry)
 **  Gere l'affichage et le deplacement du cursor (retour a la ligne...)
 */
 
-char	sh_print_char(t_key *entry, t_read *info)
+void	sh_print_char(t_key *entry, t_read *info)
 {
-	tputs(insert_cap, 0, &ft_putchar_termcap);
+	tputs(insert_cap, 1, &ft_putchar_termcap);
 	write(1, entry->entry, entry->nread);
-	tputs(exit_insert_cap, 0, &ft_putchar_termcap);
+	tputs(exit_insert_cap, 1, &ft_putchar_termcap);
 	info->total_char++;
 	info->curs_co++;
-	return (1);
 }
 
 /*
@@ -142,16 +142,16 @@ char	read_entry(t_key *entry, t_read *info)
 	if (entry->nread == 1 && CTRL_KEY('a') == *(entry->entry))
 		return (-1);
 	if (entry->nread <= sizeof(wint_t) && !ft_iswcntrl((int)*(entry->entry)))
-		return (sh_print_char(entry, info));
+		return (1);
 	else
 		return (key_wrapper(entry, info)); // Switch entre les differents gestionnaires de touches
 }
 
 /*
-** Gestinnaire de ligne de commande
+** Gestionnaire de ligne de commande
 */
 
-void			handler_cmd(char **cmd, t_key *entry, t_read *info)
+void			handler_line(char **cmd, t_key *entry, t_read *info)
 {
 	char	*curs;
 	if (info->curs_co == info->total_char)
@@ -162,6 +162,7 @@ void			handler_cmd(char **cmd, t_key *entry, t_read *info)
 		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
 	}
+	sh_print_char(entry, info);
 }
 
 unsigned char	read_line(char **cmd, t_read *info)
@@ -189,7 +190,7 @@ unsigned char	read_line(char **cmd, t_read *info)
 			size_max *= 2;
 			*cmd = ft_memrealloc(*cmd, size_actual, size_max);
 		}
-		handler_cmd(cmd, &entry, info);
+		handler_line(cmd, &entry, info);
 		size_actual += entry.nread;
 	}
 	if (ret)
