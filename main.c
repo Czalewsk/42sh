@@ -5,68 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/02 19:00:06 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 19:23:51 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/02 19:00:06 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 19:00:06 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/02 17:10:44 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 18:57:10 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/02 17:10:44 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 17:10:44 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/02 17:09:56 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 17:09:56 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:32:40 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 17:09:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/03 15:13:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +14,8 @@
 
 char	*left_cap = NULL;
 char	*right_cap = NULL;
+char	*insert_cap = NULL;
+char	*exit_insert_cap = NULL;
 
 void	debug_key(char key[SIZE_READ], int nb)
 {
@@ -89,7 +31,9 @@ void	init_term_cap(void)
 {
 	left_cap = tgetstr("le", NULL);
 	right_cap = tgetstr("nd", NULL);
-	if (!left_cap || !right_cap)
+	insert_cap = tgetstr("im", NULL);
+	exit_insert_cap = tgetstr("ei", NULL);
+	if (!left_cap || !right_cap || !insert_cap || !exit_insert_cap)
 		ft_printf("TERMCAP CAPABILITY ERROR\r\n");
 }
 
@@ -142,11 +86,14 @@ void		read_key(t_key *entry)
 **  Gere l'affichage et le deplacement du cursor (retour a la ligne...)
 */
 
-void	sh_print_char(t_key *entry, t_read *info)
+char	sh_print_char(t_key *entry, t_read *info)
 {
+	tputs(insert_cap, 0, &ft_putchar_termcap);
 	write(1, entry->entry, entry->nread);
+	tputs(exit_insert_cap, 0, &ft_putchar_termcap);
 	info->total_char++;
 	info->curs_co++;
+	return (1);
 }
 
 /*
@@ -193,17 +140,33 @@ char	read_entry(t_key *entry, t_read *info)
 {
 	read_key(entry);
 	if (entry->nread == 1 && CTRL_KEY('a') == *(entry->entry))
-		return (1);
+		return (-1);
 	if (entry->nread <= sizeof(wint_t) && !ft_iswcntrl((int)*(entry->entry)))
-		sh_print_char(entry, info);
+		return (sh_print_char(entry, info));
 	else
 		return (key_wrapper(entry, info)); // Switch entre les differents gestionnaires de touches
-	return (0);
+}
+
+/*
+** Gestinnaire de ligne de commande
+*/
+
+void			handler_cmd(char **cmd, t_key *entry, t_read *info)
+{
+	char	*curs;
+	if (info->curs_co == info->total_char)
+		*cmd = ft_strncat(*cmd, entry->entry, entry->nread);
+	else
+	{
+		curs = (*cmd) + info->curs_co - 1;
+		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
+		ft_memcpy(curs, entry->entry, entry->nread);
+	}
 }
 
 unsigned char	read_line(char **cmd, t_read *info)
 {
-	unsigned char	ret;
+	char	ret;
 	size_t			size_max;
 	size_t			size_actual;
 	t_key			entry;
@@ -215,16 +178,18 @@ unsigned char	read_line(char **cmd, t_read *info)
 	*cmd = ft_strnew(size_max);
 	while (42)
 	{
-		if ((ret = read_entry(&entry, info)))
+		if ((ret = read_entry(&entry, info)) <= -1)
 			break ;
 		if (entry.nread == 1 && *(entry.entry) == 13)
 			break ;
-		if (entry.nread + size_actual >= size_max - 1)
+		if (!ret)
+			continue ;
+		if (entry.nread + size_actual >= size_max - 1) // Gestionnaire espace buffer
 		{
 			size_max *= 2;
 			*cmd = ft_memrealloc(*cmd, size_actual, size_max);
 		}
-		*cmd = ft_strncat(*cmd, entry.entry, entry.nread);
+		handler_cmd(cmd, &entry, info);
 		size_actual += entry.nread;
 	}
 	if (ret)
@@ -262,11 +227,11 @@ int		main(void)
 	while (42)
 	{
 		init_info(&info);
-		sh_prompt(&info); // Envoyer la valeur de ret et include dans la boucle
+		sh_prompt(&info); // Envoyer la valeur de ret
 		// A remplacer par une fonction qui return uniquement quand elle recoit un \n
 		if ((ret = read_line(&cmd, &info)))
 			break ;
-		ft_printf("|%s|", cmd);
+		ft_printf("\r\ncmd :|%s|", cmd); // DEBUG CMD
 		ft_strdel(&cmd);
 		// Execute a ret = cmd(&cmd);
 	}
