@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:28:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/02 19:17:57 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/03 18:04:42 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ struct termios s_termios_backup;
 /*
 ** Edition de ligne
 */
+#define SIZE_BUF_CMD (128)
 
 typedef struct		s_read
 {
 	size_t		prompt;
-	size_t		li;
-	size_t		co;
+	size_t		cmd_li;
+	size_t		win_co;
 	size_t		curs_li;
 	size_t		curs_co;
 	size_t		total_char;
@@ -64,3 +65,10 @@ typedef struct		s_key
 	int			nread;
 	char		entry[SIZE_READ];
 }					t_key;
+
+typedef struct		s_buf
+{
+	char	*cmd;
+	size_t	size_max;
+	size_t	size_actual;
+}					t_buf;
