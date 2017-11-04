@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:28:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/03 19:19:18 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/04 16:42:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ struct termios s_termios_backup;
 ** PROMPT
 */
 
-#define PROMPT ("Cedychou_sh 🦆  ")
-
+#define PROMPT ("Cedychou_sh : ")
+//  🦆 A remettre dans le prompt
 /*
 ** Edition de ligne
 */
@@ -52,11 +52,11 @@ struct termios s_termios_backup;
 typedef struct		s_read
 {
 	size_t		prompt;
-	size_t		cmd_li;
 	size_t		win_co;
-	size_t		curs_li;
-	size_t		curs_co;
 	size_t		total_char;
+	long		curs_char;
+	long		curs_li;
+	long		curs_co;
 }					t_read;
 
 typedef struct		s_key

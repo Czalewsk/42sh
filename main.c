@@ -6,16 +6,24 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/03 20:30:56 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/04 19:02:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cedychou.h"
+#include <fcntl.h>
 
 char	*left_cap = NULL;
 char	*right_cap = NULL;
 char	*insert_cap = NULL;
 char	*exit_insert_cap = NULL;
+char	*save_cursor_cap = NULL;
+char	*restore_cursor_cap = NULL;
+char	*begin_line_cap = NULL;
+char	*down_cap = NULL;
+char	*up_cap = NULL;
+char	*col_cap = NULL;
+char	*nleft_cap = NULL;
 
 void	debug_key(char key[SIZE_READ], int nb)
 {
@@ -29,12 +37,24 @@ void	debug_key(char key[SIZE_READ], int nb)
 
 void	init_term_cap(void)
 {
-	ft_printf("STRANGE:%i\n\r", tgetflag("xn"));
+	int fd;
+	fd = open("/dev/ttys005", O_RDWR);
+	dprintf(fd, "\n\rPC=%c{%d} | UP=%s| BC=%s| ospeed=%hi\n", PC, PC, UP, BC, ospeed);
+	close(fd);
 	left_cap = tgetstr("le", NULL);
 	right_cap = tgetstr("nd", NULL);
 	insert_cap = tgetstr("im", NULL);
 	exit_insert_cap = tgetstr("ei", NULL);
-	if (!left_cap || !right_cap || !insert_cap || !exit_insert_cap)
+	save_cursor_cap = tgetstr("sc", NULL);
+	restore_cursor_cap = tgetstr("rc", NULL);
+	begin_line_cap = tgetstr("cr", NULL);
+	down_cap = tgetstr("do", NULL);
+	up_cap = tgetstr("up", NULL);
+	col_cap = tgetstr("ch", NULL);
+//	nleft_cap = tgetstr("nw", NULL);
+	if (!left_cap || !right_cap || !insert_cap || !exit_insert_cap ||
+			!save_cursor_cap || !restore_cursor_cap || !begin_line_cap ||
+			!down_cap || !up_cap || !col_cap) //|| !nleft_cap)
 		ft_printf("TERMCAP CAPABILITY ERROR\r\n");
 }
 
@@ -84,12 +104,58 @@ void		read_key(t_key *entry)
 }
 
 /*
+** Gere le deplacement du curseur sur plusieurs lignes
+*/
+
+char	handler_cursor_pos(t_read *info, int mvt, int insert)
+{
+	int fd;
+	fd = open("/dev/ttys005", O_RDWR);
+	if (!insert && ((mvt > 0 && info->curs_char + mvt >= info->total_char + 1) ||
+			(mvt < 0 && info->curs_char + mvt < 0)))
+		return (0);
+	info->curs_char += mvt;
+	info->curs_co += mvt;
+//	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+//			info->win_co, info->curs_co, info->curs_li, info->prompt);
+	if (info->curs_co >= (info->win_co - 1 - (info->curs_li ? 0 : info->prompt)))
+	{
+		tputs(up_cap, 2, &ft_putchar_termcap);
+		dprintf(fd, "Changement de co=%ld\n", info->curs_co - 1 + info->prompt);
+	//	tputs(tgoto(nleft_cap, 0, (-1) * info->curs_co - 1 + info->prompt), 0, &ft_putchar_termcap);
+	//	tputs(down_cap, 0, &ft_putchar_termcap);
+	//	tputs(tgoto(col_cap, 1, info->curs_li), 0, &ft_putchar_termcap);
+		info->curs_li++;
+		info->curs_co = 0;
+	}
+	else if (info->curs_co < 0)
+	{
+		dprintf(fd, "La\n");
+		tputs(up_cap, 0, &ft_putchar_termcap);
+		tputs(tgoto(col_cap, 0, info->win_co - 1), 0, &ft_putchar_termcap);
+		info->curs_co = info->win_co - 1;
+		info->curs_li--;
+	}
+	else if (!insert)
+		tputs((mvt > 0 ? right_cap : left_cap), 0, &ft_putchar_termcap);
+	close(fd);
+	return (1);
+}
+
+/*
 ** Gere les differentes touches avec les fleches
 */
 
+
 char	arrow_handler(char key, t_read *info)
 {
-	if (key == 68 && info->curs_co > 0)
+	int fd;
+	fd = open("/dev/ttys005", O_RDWR);
+	if (key == 67)
+		dprintf(fd, "~%d~\n", handler_cursor_pos(info, 1, 0));
+	if (key == 68)
+		dprintf(fd, "~%d~\n", handler_cursor_pos(info, -1, 0));
+/*	if (key == 68 && info->curs_co > 0)
 	{
 		info->curs_co--;
 		tputs(left_cap, 0, &ft_putchar_termcap);
@@ -98,7 +164,8 @@ char	arrow_handler(char key, t_read *info)
 	{
 		info->curs_co++;
 		tputs(right_cap, 0, &ft_putchar_termcap);
-	}
+	}*/
+	close(fd);
 	return (0);
 }
 
@@ -143,25 +210,26 @@ void	handler_buf(t_buf *cmd, t_key *entry)
 	}
 }
 
+
 void	handler_line(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char *curs;
 
 	handler_buf(cmd, entry);
-	write(1, entry->entry, entry->nread);
 	info->total_char++;
-	info->curs_co++;
-	if (info->curs_co == info->total_char)
+	handler_cursor_pos(info, 1, 1);
+	if (info->curs_char == info->total_char)
 		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
 	else
 	{
-		curs = cmd->cmd + info->curs_co - 1;
+		curs = cmd->cmd + info->curs_char - 1;
 		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
 	}
-	tputs(tgoto(tgetstr("cm", NULL), info->prompt, info->cmd_li), 0, &ft_putchar_termcap);
-	write(1, cmd->cmd, ft_strlen(cmd->cmd));
-	tputs(tgoto(tgetstr("cm", NULL), info->prompt + info->curs_co, info->cmd_li) , 0, &ft_putchar_termcap);
+	cmd->size_actual += entry->nread;
+	tputs(restore_cursor_cap, 0, &ft_putchar_termcap);
+//	write(1, cmd->cmd, cmd->size_actual);
+
 }
 
 char	read_line(t_buf *cmd, t_read *info)
@@ -193,13 +261,13 @@ void	sh_prompt(t_read *info)
 		write(1, "\n\r", 2);
 	ft_putstr(PROMPT);
 	info->prompt = ft_strlen(PROMPT);
+	tputs(save_cursor_cap, 0, &ft_putchar_termcap);
 }
 
 void	init_info(t_read *info)
 {
 	ft_bzero(info, sizeof(t_read));
 	info->win_co = tgetnum("co");
-	info->cmd_li = tgetnum("li");
 }
 
 int		main(void)

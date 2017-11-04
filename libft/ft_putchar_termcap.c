@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/31 19:37:12 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/10/31 19:49:35 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/04 18:48:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	ft_putchar_termcap(int c)
 {
-	write(0, &c, 1);
+	write(1, &c, 1);
 	return (1);
 }
