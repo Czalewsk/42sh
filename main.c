@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/04 19:02:18 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/05 18:49:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*begin_line_cap = NULL;
 char	*down_cap = NULL;
 char	*up_cap = NULL;
 char	*col_cap = NULL;
-char	*nleft_cap = NULL;
+char	*li_cap = NULL;
 
 void	debug_key(char key[SIZE_READ], int nb)
 {
@@ -51,10 +51,10 @@ void	init_term_cap(void)
 	down_cap = tgetstr("do", NULL);
 	up_cap = tgetstr("up", NULL);
 	col_cap = tgetstr("ch", NULL);
-//	nleft_cap = tgetstr("nw", NULL);
+	li_cap = tgetstr("cv", NULL);
 	if (!left_cap || !right_cap || !insert_cap || !exit_insert_cap ||
 			!save_cursor_cap || !restore_cursor_cap || !begin_line_cap ||
-			!down_cap || !up_cap || !col_cap) //|| !nleft_cap)
+			!down_cap || !up_cap || !col_cap || !li_cap)
 		ft_printf("TERMCAP CAPABILITY ERROR\r\n");
 }
 
@@ -98,9 +98,14 @@ void	set_tty(void)
 
 void		read_key(t_key *entry)
 {
+	int fd;
+	fd = open("/dev/ttys005", O_RDWR);
+	ft_memset(entry->entry, 0, SIZE_READ);
 	while ((entry->nread = read(0, entry->entry, SIZE_READ))  <= 0)
 		if (entry->nread == -1)
 			ft_error(strerror(errno), &restore_tty_param); // A recoder :D
+	dprintf(fd, "read : entry is |%s|, nread is |%d|\n", entry->entry, entry->nread);
+	close(fd);
 }
 
 /*
@@ -116,24 +121,23 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert)
 		return (0);
 	info->curs_char += mvt;
 	info->curs_co += mvt;
-//	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
-//			info->win_co, info->curs_co, info->curs_li, info->prompt);
-	if (info->curs_co >= (info->win_co - 1 - (info->curs_li ? 0 : info->prompt)))
+	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+			info->win_co, info->curs_co, info->curs_li, info->prompt);
+	if (info->curs_co == (info->win_co - 1 - (info->curs_li ? 0 : info->prompt)))
 	{
-		tputs(up_cap, 2, &ft_putchar_termcap);
 		dprintf(fd, "Changement de co=%ld\n", info->curs_co - 1 + info->prompt);
-	//	tputs(tgoto(nleft_cap, 0, (-1) * info->curs_co - 1 + info->prompt), 0, &ft_putchar_termcap);
-	//	tputs(down_cap, 0, &ft_putchar_termcap);
-	//	tputs(tgoto(col_cap, 1, info->curs_li), 0, &ft_putchar_termcap);
+		tputs(down_cap, 0, &ft_putchar_termcap);
+		tputs(tgoto(col_cap, 0, 0), 0, &ft_putchar_termcap);
 		info->curs_li++;
+		info->max_li = (info->curs_li > info->max_li) ? info->max_li++ : info->max_li;
 		info->curs_co = 0;
 	}
 	else if (info->curs_co < 0)
 	{
 		dprintf(fd, "La\n");
+		tputs(tgoto(col_cap, info->win_co, 0), 0, &ft_putchar_termcap);
 		tputs(up_cap, 0, &ft_putchar_termcap);
-		tputs(tgoto(col_cap, 0, info->win_co - 1), 0, &ft_putchar_termcap);
-		info->curs_co = info->win_co - 1;
+		info->curs_co = info->win_co;
 		info->curs_li--;
 	}
 	else if (!insert)
@@ -152,9 +156,9 @@ char	arrow_handler(char key, t_read *info)
 	int fd;
 	fd = open("/dev/ttys005", O_RDWR);
 	if (key == 67)
-		dprintf(fd, "~%d~\n", handler_cursor_pos(info, 1, 0));
+		dprintf(fd, "right ~%d~\n", handler_cursor_pos(info, 1, 0));
 	if (key == 68)
-		dprintf(fd, "~%d~\n", handler_cursor_pos(info, -1, 0));
+		dprintf(fd, "left ~%d~\n", handler_cursor_pos(info, -1, 0));
 /*	if (key == 68 && info->curs_co > 0)
 	{
 		info->curs_co--;
@@ -213,23 +217,32 @@ void	handler_buf(t_buf *cmd, t_key *entry)
 
 void	handler_line(t_buf *cmd, t_read *info, t_key *entry)
 {
-	char *curs;
+	char	*curs;
+	int		len_curs;
 
+	int fd;
+	fd = open("/dev/ttys005", O_RDWR);
 	handler_buf(cmd, entry);
+//	write(1, entry->entry, entry->nread);
 	info->total_char++;
-	handler_cursor_pos(info, 1, 1);
+	dprintf(fd, "entry ~%d~\n", handler_cursor_pos(info, 1, 1));
 	if (info->curs_char == info->total_char)
 		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
 	else
 	{
+	dprintf(fd, "entree save: entry is | %s|, nread is |%d|, curs is |%s|, curs + 1 is |%s|\n", entry->entry, entry->nread, curs, curs + 1);
+		len_curs = ft_strlen(curs);
 		curs = cmd->cmd + info->curs_char - 1;
-		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
+		ft_memmove(curs + entry->nread, curs, len_curs + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
+	dprintf(fd, "sortie save : entry is | %s|, nread is |%d|, curs is |%s|, curs + 1 is |%s|\n", entry->entry, entry->nread, curs, curs + 1);
 	}
 	cmd->size_actual += entry->nread;
-	tputs(restore_cursor_cap, 0, &ft_putchar_termcap);
-//	write(1, cmd->cmd, cmd->size_actual);
-
+//	tputs(save_cursor_cap, 0, &ft_putchar_termcap);
+//	ft_putstr(curs + 1);
+	write(1, curs, len_curs);
+//	tputs(restore_cursor_cap, 0, &ft_putchar_termcap);
+	close(fd);
 }
 
 char	read_line(t_buf *cmd, t_read *info)

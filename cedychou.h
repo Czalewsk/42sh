@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:28:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/04 16:42:18 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/05 16:11:33 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct		s_read
 	size_t		total_char;
 	long		curs_char;
 	long		curs_li;
+	size_t		max_li;
 	long		curs_co;
 }					t_read;
 
