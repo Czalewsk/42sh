@@ -5,38 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/05 23:09:54 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/05 23:35:02 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/05 23:09:54 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/05 23:09:54 by czalewsk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/05 23:09:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/06 12:45:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cedychou.h"
 #include <fcntl.h>
-#define DEBUG_WIN ("/dev/ttys008")
+#define DEBUG_WIN ("/dev/ttys005")
 
 char	*left_cap = NULL;
 char	*right_cap = NULL;
@@ -137,9 +113,11 @@ void		read_key(t_key *entry)
 
 void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd)
 {
+	long line;
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
-	dprintf(fd, "X=%d\n", ((info->total_char - info->prompt) / info->win_co) - info->curs_li + ((info->total_char - info->prompt) % info->win_co) ? 1 : 0);
+	line = ((info->total_char + info->prompt - 1) / info->win_co) - info->curs_li;
+	dprintf(fd, "X=%ld\n", line);
 	if (info->total_char  - 1 == info->curs_char)
 		write(1, entry->entry, entry->nread);
 	else
@@ -149,7 +127,8 @@ void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd)
 			tputs(tparm(nup_cap, info->curs_li), 0, &ft_putchar_termcap);
 		write(1, cmd->cmd, cmd->size_actual);
 		tputs(tparm(col_cap, info->curs_co + (info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
-		tputs(tparm(nup_cap, ((info->total_char - info->prompt) / info->win_co) - info->curs_li + ((info->total_char - info->prompt) % info->win_co) ? 1 : 0), 0, &ft_putchar_termcap);
+		if (line > 0)
+			tputs(tparm(nup_cap, line), 0, &ft_putchar_termcap);
 	}
 	close(fd);
 }
