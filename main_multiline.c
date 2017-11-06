@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 12:45:34 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/06 13:54:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,23 +114,22 @@ void		read_key(t_key *entry)
 void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd)
 {
 	long line;
-	int fd;
-	fd = open(DEBUG_WIN, O_RDWR);
-	line = ((info->total_char + info->prompt - 1) / info->win_co) - info->curs_li;
-	dprintf(fd, "X=%ld\n", line);
+
 	if (info->total_char  - 1 == info->curs_char)
 		write(1, entry->entry, entry->nread);
 	else
 	{
+		line = ((info->total_char + info->prompt - 1) / info->win_co) -
+			info->curs_li;
 		tputs(tparm(col_cap, info->prompt), 0, &ft_putchar_termcap);
 		if (info->curs_li)
 			tputs(tparm(nup_cap, info->curs_li), 0, &ft_putchar_termcap);
 		write(1, cmd->cmd, cmd->size_actual);
-		tputs(tparm(col_cap, info->curs_co + (info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
+		tputs(tparm(col_cap, info->curs_co +
+			(info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
 		if (line > 0)
 			tputs(tparm(nup_cap, line), 0, &ft_putchar_termcap);
 	}
-	close(fd);
 }
 
 /*
@@ -292,7 +291,7 @@ void	sh_prompt(t_read *info)
 		write(1, "\n\r", 2);
 	ft_putstr(PROMPT);
 	info->prompt = ft_strlen(PROMPT);
-	tputs(save_cursor_cap, 0, &ft_putchar_termcap);
+//	tputs(save_cursor_cap, 0, &ft_putchar_termcap);
 }
 
 void	init_info(t_read *info)
