@@ -6,10 +6,9 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 14:53:00 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/06 15:44:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef __EDITION_H
 # define __EDITION_H
@@ -20,8 +19,8 @@
 ** DEFINE READ
 */
 
-#define SIZE_READ (12)
-#define CTRL_KEY(k) ((k) & 0x1f)
+# define SIZE_READ (12)
+# define CTRL_KEY(k) ((k) & 0x1f)
 
 typedef struct		s_read
 {
