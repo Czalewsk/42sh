@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:29:00 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/07 15:25:25 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/06 16:20:41 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "ft_printf.h"
 # include "output.h"
 # include "env.h"
+# include "debug.h"
 
 # include <wchar.h>
 # include <stdio.h>

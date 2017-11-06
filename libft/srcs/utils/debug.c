@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 16:08:43 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/06 15:48:05 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/06 16:21:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+#include "libft.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <fcntl.h>
+int		debug(char *format, ...)
+{
+	int			fd;
+	va_list		ap;
 
-# define DEBUG_WINDOW ("/dev/ttys005")
-
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
-
-#endif
+	fd = open(DEBUG_WINDOW, O_RDWR);
+	va_start(ap, format);
+	vdprintf(fd, format, ap);
+	va_end(ap);
+	close(fd);
+	return (1);
+}

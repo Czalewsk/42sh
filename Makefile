@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/06 14:40:30 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/06 16:36:59 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= 
+SRCS_FILES		= ft_sh
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= 
+HEAD_FILES		= ft_sh.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -65,11 +65,11 @@ HEADERS			= $(addprefix $(INCLUDES_PATH), $(HEAD_FILES))
 
 #----------------------------------| RULES |-----------------------------------#
 all:
-	@make -C libft/
+	@make -j -C libft/
 	@make -j $(NAME)
 
-$(NAME): $(OBJ)
-		@$(CC) -ltermcap $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT)
+		@$(CC) -Llibft -lft -ltermcap $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
 		@printf "\r$(GREEN)✅  [$(NAME)] was succesfully created ✅$(NOC)\n"
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT)

@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   42shell.c                                          :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 14:33:15 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 16:11:40 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/06 16:22:23 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "42shell.h"
-#include "debug.h"
+#ifndef __DEBUG_H
+# define __DEBUG_H
 
-int		main(int ac, char **av, char **env)
-{
-}
+# include "libft.h"
+# include <fcntl.h>
+
+# define DEBUG_WINDOW ("/dev/ttys005")
+
+# define DEBUG(x...) (debug(x));
+
+int		debug(char *format, ...);
+
+#endif

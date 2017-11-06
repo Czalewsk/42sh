@@ -6,7 +6,7 @@
 #    By: bviala <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/11/01 17:13:35 by bviala           ###   ########.fr        #
+#    Updated: 2017/11/06 16:30:17 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  utils/ft_islower.c utils/ft_isprint.c utils/ft_isupper.c		\
 			  utils/ft_tolower.c utils/ft_toupper.c utils/get_next_line.c	\
 			  utils/ft_sort_wordtab.c utils/ft_isspace.c					\
-			  utils/ft_rev_wordtab.c										\
+			  utils/ft_rev_wordtab.c utils/debug.c							\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
 			  printf/solve_c.c	printf/solve_d.c							\
@@ -99,7 +99,8 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES	= ft_printf.h lst.h maths.h mem.h output.h str.h utils.h env.h
+HEAD_FILES	= ft_printf.h lst.h maths.h mem.h output.h str.h utils.h env.h	\
+			  debug.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#

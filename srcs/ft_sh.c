@@ -6,13 +6,16 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 16:10:44 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/06 16:25:46 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "42shell.h"
-#include "debug.h"
+#include "ft_sh.h"
 
 int		main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
+	(void)env;
+	DEBUG("YOLO=%d\n", 5)
 }

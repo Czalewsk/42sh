@@ -6,14 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 15:44:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/06 16:24:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __EDITION_H
 # define __EDITION_H
 
-# include "42shell.h"
+# include "ft_sh.h"
 
 /*
 ** DEFINE READ
