@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/06 16:36:59 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/06 17:27:01 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= ft_sh
+SRCS_FILES		= ft_sh \
+				  termcaps/termcaps_init
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
@@ -47,6 +48,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
@@ -74,6 +76,7 @@ $(NAME): $(OBJ) $(LIBFT)
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT)
 		@mkdir $(OBJS_PATH) 2> /dev/null || true
+		@mkdir $(OBJS_DIRS) 2> /dev/null || true
 		@$(CC) $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) -o $@ -c $<
 		@printf "$(notdir $@)... ☑️ $(NOC)\n"
 

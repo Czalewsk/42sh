@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sh.c                                            :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lduval <lduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 17:50:16 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/03/28 04:17:08 by lduval            #+#    #+#             */
+/*   Updated: 2017/05/23 13:56:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-int		main(int ac, char **av, char **env)
+void	ft_error(char *str, void (*f)(void))
 {
-	(void)ac;
-	(void)av;
-	termcaps_init(env);
+	if (f)
+		(*f)();
+	ft_putstr("ERROR: ");
+	if (str)
+		ft_putendl(str);
+	exit(0);
 }
