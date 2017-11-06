@@ -6,13 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 13:54:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/06 20:38:56 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cedychou.h"
 #include <fcntl.h>
-#define DEBUG_WIN ("/dev/ttys005")
+#define DEBUG_WIN ("/dev/ttys011")
 
 char	*left_cap = NULL;
 char	*right_cap = NULL;
@@ -27,15 +27,19 @@ char	*col_cap = NULL;
 char	*nleft_cap = NULL;
 char	*ndo_cap = NULL;
 char	*nup_cap = NULL;
+char	*cl_line_cap = NULL;
 
 void	debug_key(char key[SIZE_READ], int nb)
 {
 	int i;
+	int fd;
 
 	i = 0;
-	ft_printf("READ=%i\r\n", nb);
+	fd = open(DEBUG_WIN, O_RDWR);
+	dprintf(fd, "READ=%i\r\n", nb);
 	while (i < nb)
-		printf("%hhi\r\n", key[i++]);
+		dprintf(fd, "%hhi\r\n", key[i++]);
+	close(fd);
 }
 
 void	init_term_cap(void)
@@ -56,9 +60,11 @@ void	init_term_cap(void)
 	col_cap = tgetstr("ch", NULL);
 	ndo_cap = tgetstr("DO", NULL);
 	nup_cap = tgetstr("UP", NULL);
+	cl_line_cap = tgetstr("cd", NULL);
 	if (!left_cap || !right_cap || !insert_cap || !exit_insert_cap ||
 			!save_cursor_cap || !restore_cursor_cap || !begin_line_cap ||
-			!down_cap || !up_cap || !col_cap || !ndo_cap || !nup_cap)
+			!down_cap || !up_cap || !col_cap || !ndo_cap || !nup_cap ||
+			!cl_line_cap)
 		ft_printf("TERMCAP CAPABILITY ERROR\r\n");
 }
 
@@ -124,6 +130,7 @@ void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd)
 		tputs(tparm(col_cap, info->prompt), 0, &ft_putchar_termcap);
 		if (info->curs_li)
 			tputs(tparm(nup_cap, info->curs_li), 0, &ft_putchar_termcap);
+		tputs(cl_line_cap, 1, &ft_putchar_termcap);
 		write(1, cmd->cmd, cmd->size_actual);
 		tputs(tparm(col_cap, info->curs_co +
 			(info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
@@ -136,7 +143,7 @@ void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd)
 ** Gere le deplacement du curseur sur plusieurs lignes
 */
 
-char	handler_cursor_pos(t_read *info, int mvt, int insert)
+char	handler_cursor_pos(t_read *info, int mvt, int insert, int del)
 {
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
@@ -157,7 +164,6 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert)
 	}
 	else if (mvt < 0 && info->curs_co < 0)
 	{
-//		dprintf(fd, "La\n");
 		tputs(up_cap, 0, &ft_putchar_termcap);
 		tputs(tparm(col_cap, info->win_co - 1), 0, &ft_putchar_termcap);
 		info->curs_li--;
@@ -179,9 +185,9 @@ char	arrow_handler(char key, t_read *info)
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
 	if (key == 67)
-		dprintf(fd, "~%d~\n", handler_cursor_pos(info, 1, 0));
+		dprintf(fd, "~%d~\n", handler_cursor_pos(info, 1, 0, 0));
 	if (key == 68)
-		dprintf(fd, "~%d~\n", handler_cursor_pos(info, -1, 0));
+		dprintf(fd, "~%d~\n", handler_cursor_pos(info, -1, 0, 0));
 /*	if (key == 68 && info->curs_co > 0)
 	{
 		info->curs_co--;
@@ -205,7 +211,7 @@ char	key_wrapper(t_key *entry, t_read *info)
 {
 	if (entry->nread == 1 && *(entry->entry) == 13)
 		return (1);
-	if (entry->nread == 3 && entry->entry[0] == 27 && entry->entry[1] == 91)
+	else if (entry->nread == 3 && entry->entry[0] == 27 && entry->entry[1] == 91)
 		arrow_handler(entry->entry[2], info);
 	return (2);
 }
@@ -213,9 +219,11 @@ char	key_wrapper(t_key *entry, t_read *info)
 char	read_entry(t_buf *cmd, t_read *info, t_key *entry)
 {
 	read_key(entry);
+//	debug_key(entry->entry, entry->nread);
 	if (entry->nread == 1 && CTRL_KEY('d') == *(entry->entry))
 		return (-1);
-	if (entry->nread <= sizeof(wint_t) && !ft_iswcntrl((int)*(entry->entry)))
+	if (entry->nread <= sizeof(wint_t) && 
+			(!ft_iswcntrl((int)*(entry->entry)) || (int)*(entry->entry) == 127))
 		return (0);
 	else
 		return (key_wrapper(entry, info)); // Switch entre les differents gestionnaires de touches
@@ -238,7 +246,7 @@ void	handler_buf(t_buf *cmd, t_key *entry)
 }
 
 
-void	handler_line(t_buf *cmd, t_read *info, t_key *entry)
+void	line_insert(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char *curs;
 
@@ -249,7 +257,7 @@ void	handler_line(t_buf *cmd, t_read *info, t_key *entry)
 	{
 		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
 		handler_display_line(info, entry, cmd);
-		handler_cursor_pos(info, 1, 1);
+		handler_cursor_pos(info, 1, 1, 0);
 	}
 	else
 	{
@@ -257,9 +265,42 @@ void	handler_line(t_buf *cmd, t_read *info, t_key *entry)
 		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
 		handler_display_line(info, entry, cmd);
-		handler_cursor_pos(info, 1, 0);
+		handler_cursor_pos(info, 1, 0, 0);
 	}
+}
 
+void	line_delete(t_buf *cmd, t_read *info, t_key *entry)
+{
+	char	*curs;
+	char	len;
+	int		line;
+
+	int fd;
+	fd = open(DEBUG_WIN, O_RDWR);
+	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd\n",
+			info->total_char, info->curs_char);
+	if (!cmd->cmd || !info->curs_char)
+		return ;
+	info->total_char--;
+	curs = cmd->cmd + info->curs_char;
+	ft_memmove(curs - 1, curs, ft_strlen(curs) + 1);
+	handler_display_line(info, entry, cmd);
+	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd\n",
+			info->total_char, info->curs_char);
+	handler_cursor_pos(info, -1, 0, 1);
+	close(fd);
+}
+
+void	line_wrapper(t_buf *cmd, t_read *info, t_key *entry)
+{
+	int fd;
+	fd = open(DEBUG_WIN, O_RDWR);
+	dprintf(fd, "nread=%i | entry[0]=%hhi\n", entry->nread, entry->entry[0]);
+	close(fd);
+	if (entry->nread == 1 && entry->entry[0] == 127)
+		line_delete(cmd, info, entry);
+	else
+		line_insert(cmd, info, entry);
 }
 
 char	read_line(t_buf *cmd, t_read *info)
@@ -275,7 +316,7 @@ char	read_line(t_buf *cmd, t_read *info)
 		if ((ret = read_entry(cmd, info, &entry)) == -1)
 			break ;
 		if (!ret)
-			handler_line(cmd, info, &entry);
+			line_wrapper(cmd, info, &entry);
 		else if (ret == 1)
 			break ;
 	}
