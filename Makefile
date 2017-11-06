@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/06 14:26:25 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/06 14:40:30 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ all:
 	@make -j $(NAME)
 
 $(NAME): $(OBJ)
-		@$(CC) $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
+		@$(CC) -ltermcap $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
 		@printf "\r$(GREEN)✅  [$(NAME)] was succesfully created ✅$(NOC)\n"
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT)
