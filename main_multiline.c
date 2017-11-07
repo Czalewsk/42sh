@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/07 09:48:42 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/07 13:57:02 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,21 +127,26 @@ void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd, int del)
 		write(1, entry->entry, entry->nread);
 	else
 	{
-	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+	dprintf(fd, "entre else win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
 			info->win_co, info->curs_co, info->curs_li, info->prompt);
 		line = ((info->total_char + info->prompt - 1) / info->win_co) -
 			info->curs_li;
 		tputs(tparm(col_cap, info->prompt), 0, &ft_putchar_termcap);
-		if ((info->curs_li) && dprintf(fd, "nup info->curs_li\n")) //&& !(del && !info->curs_co))
+		if ((info->curs_li) && dprintf(fd, "nup info->curs_li\n")) //&& !(del && !((info->total_char + info->prompt) % info->win_co))) 
 			tputs(tparm(nup_cap, info->curs_li), 0, &ft_putchar_termcap);
-		tputs(cl_line_cap, 1, &ft_putchar_termcap);
+		if (dprintf(fd, "clear\n"))
+			tputs(cl_line_cap, 0, &ft_putchar_termcap);
 		write(1, cmd->cmd, cmd->size_actual);
-		tputs(tparm(col_cap, info->curs_co +
-			(info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
+//		if (!(del && info->curs_co == 0 && line == 0) && dprintf(fd, "clear"))
+//		if () 
+			tputs(tparm(col_cap, info->curs_co +
+				(info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
 		if (line > 0 && dprintf(fd, "nup line > 0\n"))
 			tputs(tparm(nup_cap, line), 0, &ft_putchar_termcap);
-		if (del && info->curs_co == 0 && dprintf(fd, "new\n"))
-			tputs(tparm(col_cap, info->win_co - 1), 0, &ft_putchar_termcap);
+//		if (del && info->curs_co ==  0 && info->curs_li && dprintf(fd, "new\n"))
+//			tputs(tparm(col_cap, info->win_co), 0, &ft_putchar_termcap);
+		dprintf(fd, "sortie else win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+			info->win_co, info->curs_co, info->curs_li, info->prompt);
 	}
 	close(fd);
 }
@@ -159,8 +164,8 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert, int del)
 		return (0);
 	info->curs_char += mvt;
 	info->curs_co += mvt;
-//	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
-//			info->win_co, info->curs_co, info->curs_li, info->prompt);
+	dprintf(fd, "entree cursor win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+			info->win_co, info->curs_co, info->curs_li, info->prompt);
 	if (mvt > 0 && info->curs_co >= (long)(info->win_co - (info->curs_li ? 0 : info->prompt)))
 	{
 		dprintf(fd, "milieu ligne\n");
@@ -179,6 +184,8 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert, int del)
 	}
 	else if (!insert)
 		tputs((mvt > 0 ? right_cap : left_cap), 0, &ft_putchar_termcap);
+	dprintf(fd, "sortie cursor_pos win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+		info->win_co, info->curs_co, info->curs_li, info->prompt);
 	close(fd);
 	return (1);
 }
@@ -285,6 +292,7 @@ void	line_delete(t_buf *cmd, t_read *info, t_key *entry)
 
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
+// /!\ on enleve pas a cmd->size_actual!!!
 	if (!cmd->cmd || !info->curs_char)
 		return ;
 //	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd, cmd is |%s|\n",
