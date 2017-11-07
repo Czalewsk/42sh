@@ -6,13 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 20:38:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/07 09:48:42 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cedychou.h"
 #include <fcntl.h>
-#define DEBUG_WIN ("/dev/ttys011")
+#define DEBUG_WIN ("/dev/ttys005")
 
 char	*left_cap = NULL;
 char	*right_cap = NULL;
@@ -117,26 +117,33 @@ void		read_key(t_key *entry)
 ** Gere l'affichage des lignes
 */
 
-void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd)
+void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd, int del)
 {
 	long line;
 
-	if (info->total_char  - 1 == info->curs_char)
+	int fd;
+	fd = open(DEBUG_WIN, O_RDWR);
+	if (info->total_char  - 1 == info->curs_char && dprintf(fd, "write 1 char\n"))
 		write(1, entry->entry, entry->nread);
 	else
 	{
+	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+			info->win_co, info->curs_co, info->curs_li, info->prompt);
 		line = ((info->total_char + info->prompt - 1) / info->win_co) -
 			info->curs_li;
 		tputs(tparm(col_cap, info->prompt), 0, &ft_putchar_termcap);
-		if (info->curs_li)
+		if ((info->curs_li) && dprintf(fd, "nup info->curs_li\n")) //&& !(del && !info->curs_co))
 			tputs(tparm(nup_cap, info->curs_li), 0, &ft_putchar_termcap);
 		tputs(cl_line_cap, 1, &ft_putchar_termcap);
 		write(1, cmd->cmd, cmd->size_actual);
 		tputs(tparm(col_cap, info->curs_co +
 			(info->curs_li ? 0 : info->prompt)), 0, &ft_putchar_termcap);
-		if (line > 0)
+		if (line > 0 && dprintf(fd, "nup line > 0\n"))
 			tputs(tparm(nup_cap, line), 0, &ft_putchar_termcap);
+		if (del && info->curs_co == 0 && dprintf(fd, "new\n"))
+			tputs(tparm(col_cap, info->win_co - 1), 0, &ft_putchar_termcap);
 	}
+	close(fd);
 }
 
 /*
@@ -152,11 +159,11 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert, int del)
 		return (0);
 	info->curs_char += mvt;
 	info->curs_co += mvt;
-	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
-			info->win_co, info->curs_co, info->curs_li, info->prompt);
+//	dprintf(fd, "win_co=%ld | curs_co=%ld | curs_li=%ld | prompt=%ld\n",
+//			info->win_co, info->curs_co, info->curs_li, info->prompt);
 	if (mvt > 0 && info->curs_co >= (long)(info->win_co - (info->curs_li ? 0 : info->prompt)))
 	{
-//		dprintf(fd, "ICI\n");
+		dprintf(fd, "milieu ligne\n");
 		tputs(down_cap, 0, &ft_putchar_termcap);
 		tputs(tparm(col_cap, 0), 0, &ft_putchar_termcap);
 		info->curs_li++;
@@ -164,6 +171,7 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert, int del)
 	}
 	else if (mvt < 0 && info->curs_co < 0)
 	{
+		dprintf(fd, "bas curseur\n");
 		tputs(up_cap, 0, &ft_putchar_termcap);
 		tputs(tparm(col_cap, info->win_co - 1), 0, &ft_putchar_termcap);
 		info->curs_li--;
@@ -256,7 +264,7 @@ void	line_insert(t_buf *cmd, t_read *info, t_key *entry)
 	if (info->curs_char == info->total_char - 1)
 	{
 		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
-		handler_display_line(info, entry, cmd);
+		handler_display_line(info, entry, cmd, 0);
 		handler_cursor_pos(info, 1, 1, 0);
 	}
 	else
@@ -264,7 +272,7 @@ void	line_insert(t_buf *cmd, t_read *info, t_key *entry)
 		curs = cmd->cmd + info->curs_char;
 		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
-		handler_display_line(info, entry, cmd);
+		handler_display_line(info, entry, cmd, 0);
 		handler_cursor_pos(info, 1, 0, 0);
 	}
 }
@@ -277,16 +285,16 @@ void	line_delete(t_buf *cmd, t_read *info, t_key *entry)
 
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
-	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd\n",
-			info->total_char, info->curs_char);
 	if (!cmd->cmd || !info->curs_char)
 		return ;
+//	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd, cmd is |%s|\n",
+//			info->total_char, info->curs_char, cmd->cmd);
 	info->total_char--;
 	curs = cmd->cmd + info->curs_char;
 	ft_memmove(curs - 1, curs, ft_strlen(curs) + 1);
-	handler_display_line(info, entry, cmd);
-	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd\n",
-			info->total_char, info->curs_char);
+	handler_display_line(info, entry, cmd, 1);
+//	dprintf(fd, "info->total_char=%zd | info->curs_char=%zd, cmd is |%s|\n",
+//			info->total_char, info->curs_char, cmd->cmd);
 	handler_cursor_pos(info, -1, 0, 1);
 	close(fd);
 }
