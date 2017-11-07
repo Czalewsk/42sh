@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/07 15:23:49 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/07 17:46:56 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	handler_display_line(t_read *info, t_key *entry, t_buf *cmd, int del)
 
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
-	if (info->total_char  - 1 == info->curs_char)
+	if (info->total_char  - 1 == info->curs_char && !del && dprintf(fd, "LOL\n"))
 		write(1, entry->entry, entry->nread);
 	else
 	{
@@ -172,7 +172,7 @@ char	handler_cursor_pos(t_read *info, int mvt, int insert, int del)
 	}
 	else if (!insert)
 		tputs((mvt > 0 ? right_cap : left_cap), 0, &ft_putchar_termcap);
-	if (del > 0 && mvt < 0  && info->curs_li && !info->curs_co 
+	if (del > 0 && mvt < 0  && info->curs_li && !info->curs_co
 			&& info->total_char == info->curs_char)
 		tputs(down_cap, 0, &ft_putchar_termcap);
 	close(fd);
@@ -223,11 +223,11 @@ char	key_wrapper(t_key *entry, t_read *info)
 char	read_entry(t_buf *cmd, t_read *info, t_key *entry)
 {
 	read_key(entry);
-//	debug_key(entry->entry, entry->nread);
+	debug_key(entry->entry, entry->nread);
 	if (entry->nread == 1 && CTRL_KEY('d') == *(entry->entry))
 		return (-1);
-	if (entry->nread <= sizeof(wint_t) && 
-			(!ft_iswcntrl((int)*(entry->entry)) || (int)*(entry->entry) == 127))
+	if ((entry->nread <= sizeof(wint_t) && (!ft_iswcntrl((int)*(entry->entry))
+					|| (int)*(entry->entry) == 127)) || (entry->nread == 4 && entry->entry[0] == 27 && entry->entry[1] == 91 && entry->entry[2] == 51 && entry->entry[3] == 126))
 		return (0);
 	else
 		return (key_wrapper(entry, info)); // Switch entre les differents gestionnaires de touches
@@ -273,7 +273,7 @@ void	line_insert(t_buf *cmd, t_read *info, t_key *entry)
 	}
 }
 
-void	line_delete(t_buf *cmd, t_read *info, t_key *entry)
+void	line_delete(t_buf *cmd, t_read *info, t_key *entry, int back)
 {
 	char	*curs;
 	char	len;
@@ -281,14 +281,30 @@ void	line_delete(t_buf *cmd, t_read *info, t_key *entry)
 
 	int fd;
 	fd = open(DEBUG_WIN, O_RDWR);
-	if (!cmd->cmd || !info->curs_char)
+	dprintf(fd, "curs_co=%ld | curs_char : |%ld|, total_char : |%zu|\n",
+			info->curs_co, info->curs_char, info->total_char);
+	if (!cmd->cmd || (!info->curs_char && back)
+			|| (!back && info->curs_char == info->total_char))
 		return ;
 	info->total_char--;
-	curs = cmd->cmd + info->curs_char;
-	ft_memmove(curs - 1, curs, ft_strlen(curs) + 1);
 	cmd->size_actual--;
-	handler_display_line(info, entry, cmd, 1);
-	handler_cursor_pos(info, -1, 0, 1);
+	curs = cmd->cmd + info->curs_char;
+	if (back)
+	{
+		ft_memmove(curs - 1, curs, ft_strlen(curs) + 1);
+		handler_display_line(info, entry, cmd, 1);
+		handler_cursor_pos(info, -1, 0, 1);
+	}
+	else
+	{
+		dprintf(fd, " cmd=|%s|\n", cmd->cmd);
+		ft_memmove(curs, curs + 1, ft_strlen(curs + 1) + 1);
+		dprintf(fd, "cmd=1|%s|\n", cmd->cmd);
+		handler_display_line(info, entry, cmd, 1);
+		if (info->curs_li && !info->curs_co && info->total_char == info->curs_char)
+			tputs(down_cap, 0, &ft_putchar_termcap);
+//		handler_cursor_pos(info, 0, 0, 1);
+	}
 	close(fd);
 }
 
@@ -298,7 +314,11 @@ void	line_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 	fd = open(DEBUG_WIN, O_RDWR);
 	close(fd);
 	if (entry->nread == 1 && entry->entry[0] == 127)
-		line_delete(cmd, info, entry);
+		line_delete(cmd, info, entry, 1);
+	else if (entry->nread == 4 && entry->entry[0] == 27
+		&& entry->entry[1] == 91 && entry->entry[2] == 51
+		&& entry->entry[3] == 126)
+		line_delete(cmd, info, entry, 0);
 	else
 		line_insert(cmd, info, entry);
 }
