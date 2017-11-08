@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/07 17:46:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/08 09:01:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void	set_tty(void)
 	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 	s_termios.c_oflag &= ~(OPOST);
 	s_termios.c_cflag |= (CS8);
-	s_termios.c_cc[VMIN] = 0;
-	s_termios.c_cc[VTIME] = 1;
+	s_termios.c_cc[VMIN] = 1;
+	s_termios.c_cc[VTIME] = 0;
 	tcsetattr(0, 0, &s_termios);
 }
 
