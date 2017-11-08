@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   ft_ldl_clear.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 13:54:02 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/08 15:56:12 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/08 16:05:21 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+#include "libft.h"
 
-# include "libft.h"
-# include <fcntl.h>
-
-# define DEBUG_WINDOW ("/dev/ttys005")
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
-
-#endif
+void	ft_ldl_clear(t_ldl **ldl, void (*del)())
+{
+	if (!ldl || !*ldl)
+		return ;
+	*ldl = ft_ldl_front(*ldl);
+	while (*ldl)
+		ft_ldl_del(ldl, del);
+}

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   btree_create_node.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 13:54:02 by bviala           ###   ########.fr       */
+/*   Created: 2016/08/24 19:36:37 by bviala            #+#    #+#             */
+/*   Updated: 2016/08/24 19:42:36 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+#include "ft_btree.h"
 
-# include "libft.h"
-# include <fcntl.h>
+t_btree	*btree_create_node(void *item)
+{
+	t_btree *new;
 
-# define DEBUG_WINDOW ("/dev/ttys005")
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
-
-#endif
+	new = malloc(sizeof(t_btree));
+	new->left = 0;
+	new->right = 0;
+	new->item = item;
+	return (new);
+}

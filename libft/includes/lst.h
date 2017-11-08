@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gavizet <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/02 11:20:22 by gavizet           #+#    #+#             */
-/*   Updated: 2017/09/16 18:07:20 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/08 19:05:50 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_ldl
+{
+	void			*content;
+	struct s_ldl	*next;
+	struct s_ldl	*prev;
+}					t_ldl;
 
 void				ft_lstrev(t_list **liste);
 void				ft_lstprint(t_list **list);
@@ -37,4 +44,13 @@ void				ft_lstdelone(t_list **alst, void (*del) (void *, size_t));
 t_list				*ft_lstswap(t_list *list);
 void				ft_lstsort(t_list **begin_list, int (*cmp)());
 
+t_ldl				*ft_ldl_back(t_ldl *ldl);
+void				ft_ldl_clear(t_ldl **ldl, void (*del)());
+void				ft_ldl_del(t_ldl **ldl, void (*del)());
+t_ldl				*ft_ldl_front(t_ldl *ldl);
+void				ft_ldl_new(t_ldl **ldl, void *content);
+void				ft_ldl_pushback(t_ldl **ldl, void *content);
+void				ft_ldl_pushfront(t_ldl **ldl, void *content);
+void				ft_ldl_revers(t_ldl **ldl);
+size_t				ft_ldl_size(t_ldl *ldl);
 #endif

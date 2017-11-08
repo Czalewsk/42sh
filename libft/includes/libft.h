@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:29:00 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/06 16:20:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/08 14:02:13 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "output.h"
 # include "env.h"
 # include "debug.h"
+# include "ft_btree.h"
 
 # include <wchar.h>
 # include <stdio.h>

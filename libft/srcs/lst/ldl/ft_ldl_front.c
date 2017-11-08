@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   ft_ldl_front.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 13:54:02 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/08 16:11:26 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/08 18:25:40 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+#include "libft.h"
 
-# include "libft.h"
-# include <fcntl.h>
-
-# define DEBUG_WINDOW ("/dev/ttys005")
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
-
-#endif
+t_ldl	*ft_ldl_front(t_ldl *ldl)
+{
+	if (ldl)
+		while (ldl->prev)
+			ldl = ldl->prev;
+	return (ldl);
+}
