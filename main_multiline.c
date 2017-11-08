@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 17:18:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 09:01:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/08 21:55:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ char	read_entry(t_buf *cmd, t_read *info, t_key *entry)
 	debug_key(entry->entry, entry->nread);
 	if (entry->nread == 1 && CTRL_KEY('d') == *(entry->entry))
 		return (-1);
-	if ((entry->nread <= sizeof(wint_t) && (!ft_iswcntrl((int)*(entry->entry))
+	if (((!ft_iswcntrl((int)*(entry->entry))
 					|| (int)*(entry->entry) == 127)) || (entry->nread == 4 && entry->entry[0] == 27 && entry->entry[1] == 91 && entry->entry[2] == 51 && entry->entry[3] == 126))
 		return (0);
 	else
