@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 16:00:08 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/26 12:26:52 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/08 21:34:06 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ void				ft_putendl_fd(char const *s, int fd);
 void				ft_putwchar(wchar_t str);
 int					ft_putnwstr(const wchar_t *str, int len);
 void				ft_print_wordtab(char **s);
+int					ft_putchar_termcap(int c);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 20:32:04 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 21:26:09 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/08 21:48:11 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,40 @@ static void	debug_key(char key[SIZE_READ], int nb, long *nbr)
 	close(fd);
 }
 
+void	line_insert(t_buf *cmd, t_read *info, t_key *entry)
+{
+	char *curs;
+
+	buff_handler(cmd, entry);
+	info->total_char++;
+	cmd->size_actual += entry->nread;
+	if (info->curs_char == (long)info->total_char - 1)
+	{
+		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
+//		handler_display_line(info, entry, cmd, 0);
+//		handler_cursor_pos(info, 1, 1, 0);
+	}
+	else
+	{
+		curs = cmd->cmd + info->curs_char;
+		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
+		ft_memcpy(curs, entry->entry, entry->nread);
+//		handler_display_line(info, entry, cmd, 0);
+//		handler_cursor_pos(info, 1, 0, 0);
+	}
+}
+
+void	line_wrapper(t_buf *cmd, t_read *info, t_key *entry)
+{
+	if (entry->nread == 1 && entry->entry[0] == 127);
+//		line_delete(cmd, info, entry, 1);
+	else if (entry->nread == 4 && entry->entry[0] == 27
+		&& entry->entry[1] == 91 && entry->entry[2] == 51
+		&& entry->entry[3] == 126);
+//		line_delete(cmd, info, entry, 0);
+	else
+		line_insert(cmd, info, entry);
+}
 
 static char		is_delete(int nread, long int value)
 {
@@ -77,8 +111,8 @@ int				read_line(t_buf *cmd, t_read *info)
 	{
 		if ((ret = read_entry(info, &entry)) == -1)
 			break ;
-//		if (!ret)
-//			line_wrapper(cmd, info, &entry);
+		if (!ret)
+			line_wrapper(cmd, info, &entry);
 		else if (ret == 1)
 			break ;
 	}
