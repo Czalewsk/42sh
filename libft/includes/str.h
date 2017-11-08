@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:57 by bviala            #+#    #+#             */
-/*   Updated: 2017/08/21 20:24:50 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/08 13:46:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strmapi(char const *s, char (*f) (unsigned int, char));
 char				*ft_strnstr(const char *str, const char *to_find, size_t n);
 int					ft_calc_wstrlen(wchar_t *str, int precision, int i);
+int					ft_strlen_utf8(char *str);
 
 #endif

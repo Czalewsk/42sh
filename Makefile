@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/06 17:27:01 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/08 21:07:29 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,13 @@ LIBFT_PATH		= libft/includes/
 
 #------------------------------| SOURCE FILES |--------------------------------#
 SRCS_FILES		= ft_sh \
-				  termcaps/termcaps_init
+				  termcaps/termcaps_init \
+				  prompt/prompt_display \
+				  edition/buff_handler edition/read
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -48,7 +50,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

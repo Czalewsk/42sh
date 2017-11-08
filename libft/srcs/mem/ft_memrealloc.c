@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   ft_memrealloc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 21:14:44 by czalewsk         ###   ########.fr       */
+/*   Created: 2016/11/30 16:41:28 by czalewsk          #+#    #+#             */
+/*   Updated: 2016/12/01 16:47:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+#include "libft.h"
 
-# include "libft.h"
-# include <fcntl.h>
+void		*ft_memrealloc(void *addr, size_t old_size, size_t new_size)
+{
+	void	*newaddr;
 
-# define DEBUG_WINDOW ("/dev/ttys006")
-
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
-
-#endif
+	if (new_size < old_size)
+		return (addr);
+	newaddr = ft_memalloc(new_size);
+	if (!(addr))
+		return (newaddr);
+	ft_memmove(newaddr, addr, old_size);
+	free(addr);
+	return (newaddr);
+}

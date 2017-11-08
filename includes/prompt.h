@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 21:14:44 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/08 14:44:47 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef __PROMPT_H
+# define __PROMPT_H
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+# include "ft_sh.h"
 
-# include "libft.h"
-# include <fcntl.h>
-
-# define DEBUG_WINDOW ("/dev/ttys006")
-
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
+void		prompt_display(t_read *info);
 
 #endif

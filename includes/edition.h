@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/06 16:24:55 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/08 21:25:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 # define SIZE_READ (12)
 # define CTRL_KEY(k) ((k) & 0x1f)
+# define DEL_KEY (2117294875l)
 
 typedef struct		s_read
 {
@@ -45,5 +46,8 @@ typedef struct		s_buf
 	size_t			size_max;
 	size_t			size_actual;
 }					t_buf;
+
+void				buff_handler(t_buf *cmd, t_key *entry);
+int					read_line(t_buf *cmd, t_read *info);
 
 #endif

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   buff_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 21:14:44 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/08 15:17:27 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/08 19:40:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __DEBUG_H
-# define __DEBUG_H
+#include "ft_sh.h"
 
-# include "libft.h"
-# include <fcntl.h>
-
-# define DEBUG_WINDOW ("/dev/ttys006")
-
-# define DEBUG(x...) (debug(x));
-
-int		debug(char *format, ...);
-
-#endif
+void		buff_handler(t_buf *cmd, t_key *entry)
+{
+	if (!entry)
+	{
+		cmd->size_max = SIZE_BUF_CMD;
+		cmd->size_actual = 0;
+		cmd->cmd = ft_strnew(SIZE_BUF_CMD);
+		return ;
+	}
+	while (entry->nread + cmd->size_actual >= cmd->size_max - 1)
+	{
+		cmd->size_max *= 2;
+		cmd->cmd = ft_memrealloc(cmd->cmd, cmd->size_actual, cmd->size_max);
+	}
+}

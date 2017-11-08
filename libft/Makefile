@@ -6,7 +6,7 @@
 #    By: bviala <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/11/06 17:48:30 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/08 21:06:48 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  mem/ft_bzero.c mem/ft_memcpy.c mem/ft_memchr.c				\
 			  mem/ft_memcmp.c mem/ft_memdel.c mem/ft_memset.c				\
 			  mem/ft_memccpy.c mem/ft_memmove.c	mem/free_tab2d.c			\
-			  mem/ft_memalloc.c mem/ft_realloc_tab.c						\
+			  mem/ft_memalloc.c mem/ft_realloc_tab.c mem/ft_memrealloc.c	\
 			  output/ft_putnbr.c output/ft_putstr.c output/ft_putchar.c		\
 			  output/ft_putendl.c output/ft_putwchar.c						\
 			  output/ft_putnwstr.c output/ft_putnbr_fd.c					\
@@ -82,11 +82,12 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  str/ft_strsplit.c str/ft_str_isdigit.c str/ft_strnew_c.c		\
 			  str/ft_calc_wstrlen.c str/ft_strjoin_free.c					\
 			  str/ft_strndup.c	str/ft_strsplit_whitespaces.c				\
+			  str/ft_strlen_utf8.c											\
 			  utils/ft_swap.c utils/ft_isalnum.c utils/ft_isalpha.c			\
 			  utils/ft_isascii.c utils/ft_isdigit.c							\
 			  utils/ft_islower.c utils/ft_isprint.c utils/ft_isupper.c		\
 			  utils/ft_tolower.c utils/ft_toupper.c utils/get_next_line.c	\
-			  utils/ft_sort_wordtab.c utils/ft_isspace.c					\
+			  utils/ft_sort_wordtab.c utils/ft_isspace.c utils/ft_iswcntrl.c\
 			  utils/ft_rev_wordtab.c utils/debug.c utils/ft_error.c			\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\

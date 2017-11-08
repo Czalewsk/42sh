@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/06 17:47:47 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/08 21:05:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void				ft_sort_wordtab(char **tab);
 void				ft_rev_wordtab(char **tab);
 int					get_next_line(const int fd, char **line);
 void				ft_error(char *str, void (*f)(void));
+int					ft_iswcntrl(unsigned int c);
 
 #endif
