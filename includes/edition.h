@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 21:25:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/09 23:13:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ typedef struct		s_read
 	size_t			win_co;
 	size_t			total_char;
 	long			curs_char;
-	long			curs_li;
-	size_t			max_li;
-	long			curs_co;
 }					t_read;
 
 typedef struct		s_key
@@ -48,6 +45,8 @@ typedef struct		s_buf
 }					t_buf;
 
 void				buff_handler(t_buf *cmd, t_key *entry);
-int					read_line(t_buf *cmd, t_read *info);
+char				read_line(t_buf *cmd, t_read *info);
+void				read_key(t_key *entry);
+char				paste_handler(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif

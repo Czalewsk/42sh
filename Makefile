@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/08 21:07:29 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/09 22:36:25 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ LIBFT_PATH		= libft/includes/
 SRCS_FILES		= ft_sh \
 				  termcaps/termcaps_init \
 				  prompt/prompt_display \
-				  edition/buff_handler edition/read
+				  edition/buff_handler edition/read edition/paste_handler
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
