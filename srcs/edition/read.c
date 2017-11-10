@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/10 04:14:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/10 04:58:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 	(void)entry;
 	if (is_pasted(entry))
 		return (paste_handler(cmd, info, entry));
+	else if (!ft_iswcntrl((int)*(entry->entry)))
+		insert_char(cmd, info, entry);
+	else
+		key_manager(cmd, info, entry);
 	return (1);
 }
 
