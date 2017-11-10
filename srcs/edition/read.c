@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/09 23:13:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/10 04:14:56 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ char			is_pasted(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
+	(void)cmd;
+	(void)info;
+	(void)entry;
 	if (is_pasted(entry))
 		return (paste_handler(cmd, info, entry));
 	return (1);

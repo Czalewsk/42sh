@@ -6,16 +6,24 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/09 23:20:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/10 04:14:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int			paste_detector(unsigned char test)
+static void	remove_excess(t_key *entry, int len)
 {
-	static int			i;
-	const unsigned char	paste_finish[6] = {27, 91, 50, 48, 49, 126};
+	if (!len)
+		return ;
+	ft_memmove(entry->entry, entry->entry + len, entry->nread - len);
+	entry->nread -= len;
+}
+
+static int	paste_end(char test)
+{
+	static int	i;
+	const char	paste_finish[6] = {'\e', '[', '2', '0', '1', '~'};
 
 	if (test == paste_finish[i])
 	{
@@ -29,11 +37,41 @@ int			paste_detector(unsigned char test)
 	}
 }
 
+/*
+**int			paste_start(char test)
+**{
+**	static int	i;
+**	const char	paste_start[6] = {'\e', '[', '2', '0', '0', '~'};
+**
+**	if (test == paste_start[i])
+**	{
+**		i = (i == 5) ? 0 : i + 1;
+**		return ((i) ? 0 : -1);
+**	}
+**	else
+**	{
+**		i = 0;
+**		return (1);
+**	}
+**}
+**
+**char		is_pasted(t_key *entry)
+**{
+**	static int		i;
+**	int		ret;
+**	int		
+**
+**	while (((ret = paste_start(entry->entry[i])) >= 0) || i < entry->nread)
+**	{
+**		
+**	}
+**}
+*/
+
 char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 {
 	int		i;
 	int		ret;
-
 
 	// Traite (teste les char si ce sont des char de control...) 
 	// avant de les copier dans cmd et actualiser info
@@ -43,9 +81,8 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	(void)cmd;
 	(void)info;
 	i = 6;
-	while ((ret = paste_detector(entry->entry[i])) >= 0)
+	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
-//		DEBUG("i=%d | ret=%d | char=%hhd\n", i, ret, entry->entry[i])
 		if (i < entry->nread)
 			i++;
 		else
@@ -54,5 +91,6 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 			read_key(entry);
 		}
 	}
+	remove_excess(entry, i);
 	return (0);
 }

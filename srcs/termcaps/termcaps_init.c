@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/09 19:04:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/10 02:52:21 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	termcaps_cap_init(void)
 	g_termcaps_cap[CLEAR] = tgetstr("cl", NULL);
 // Activation du mode : bracketed paste
 	if (tgetstr("te", NULL))
+//		tputs("\e[?2005h", 0, &ft_putchar_termcap);
 		tputs("\e[?2004h", 0, &ft_putchar_termcap);
 	int i = 0;
 	for (i = 0; i < CLEAR; i++)
