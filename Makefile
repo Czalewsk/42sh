@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/10 04:59:27 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/11 20:56:00 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS_FILES		= ft_sh \
 				  termcaps/termcaps_init \
 				  prompt/prompt_display \
 				  edition/buff_handler edition/read edition/paste_handler \
-				  edition/key_manager edition/insert_char edition/key_manager
+				  edition/key_manager edition/insert_char edition/key_manager \
+				  edition/cursor
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/10 04:58:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/11 19:09:47 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,29 @@ char			is_pasted(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
-	(void)cmd;
-	(void)info;
-	(void)entry;
 	if (is_pasted(entry))
 		return (paste_handler(cmd, info, entry));
 	else if (!ft_iswcntrl((int)*(entry->entry)))
-		insert_char(cmd, info, entry);
+		return (insert_char(cmd, info, entry));
 	else
-		key_manager(cmd, info, entry);
-	return (1);
+		return (key_manager(cmd, info, entry));
 }
 
 char			read_line(t_buf *cmd, t_read *info)
 {
 	t_key		entry;
+	char		ret;
 
-	(void)cmd;
-	(void)info;
+	buff_handler(cmd, NULL);
 	while (42)
 	{
 		ft_bzero(&entry, sizeof(t_key));
 		read_key(&entry);
-		if (!key_wrapper(cmd, info, &entry))
+		if (!(ret = key_wrapper(cmd, info, &entry)))
 			continue ;
+		else if (ret < 0)
+			break ;
 		debug_key(&entry);
 	}
+	return (ret == -1 ? -1 : 1);
 }

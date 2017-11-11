@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/10 04:14:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/11 19:22:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,20 @@ static void	remove_excess(t_key *entry, int len)
 
 static int	paste_end(char test)
 {
+	int			ret;
 	static int	i;
 	const char	paste_finish[6] = {'\e', '[', '2', '0', '1', '~'};
+	const char	paste_finish2[7] = {'\e', '[', '2', -26 , '0', '1', '~'};
 
-	if (test == paste_finish[i])
+	ret = 0;
+	if (((i < 6) && test == paste_finish[i]) 
+			|| ((i < 7) && test == paste_finish2[i]))
 	{
-		i = (i == 5) ? 0 : i + 1;
-		return ((i) ? 0 : -1);
+		if ((i == 5 && test == paste_finish[i]) 
+				|| (i == 6 && test == paste_finish2[i]))
+			ret = -1;
+		i = ret ? 0 : i + 1;
+		return (ret);
 	}
 	else
 	{
@@ -83,6 +90,7 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	i = 6;
 	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
+		DEBUG("i=%d | ret=%d | char=%hhd\n", i, ret, entry->entry[i])
 		if (i < entry->nread)
 			i++;
 		else

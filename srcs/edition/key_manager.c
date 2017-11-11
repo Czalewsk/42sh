@@ -6,23 +6,39 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/10 05:28:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/11 21:09:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-t_key_map		g_key_map[4] =
+char			sh_quit(t_buf *cmd, t_read *info, t_key *entry)
 {
-	{0, ARROW_L, 3, {27, 91, 68}, {&ft_strlen, NULL, NULL}},
-	{1, ARROW_R, 3, {27, 91, 67}, {}},
+	(void)cmd;
+	(void)info;
+	(void)entry;
+	return (-1);
+}
+
+char			sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
+{
+	(void)cmd;
+	(void)info;
+	(void)entry;
+	return (-2);
+}
+
+static t_key_map		g_key_map[6] =
+{
+	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz}},
+	{1, ARROW_R, 3, {27, 91, 67}, {&curs_move_hz}},
 	{2, ARROW_U, 3, {27, 91, 65}, {}},
-	{3, ARROW_D, 3, {27, 91, 66}, {}}
+	{3, ARROW_D, 3, {27, 91, 66}, {}},
+	{4, QUIT,    1, {CTRL_KEY('D')}, {&sh_quit}},
+	{5, ENTER,   1, {13}, {&sh_validate_line}}
 };
 
-
-
-static int	key_tokkeniser(t_key *entry)
+static void		*key_token(t_key *entry)
 {
 	int		i;
 	int		j;
@@ -36,19 +52,19 @@ static int	key_tokkeniser(t_key *entry)
 			while (j < entry->nread && entry->entry[j] == g_key_map[i].key[j])
 				j++;
 			if (j == entry->nread)
-				return (i);
+				return (g_key_map[i].function[g_edition_state]);
 		}
 	}
-	return (-1);
+	return (NULL);
 }
 
-void		key_manager(t_buf *cmd, t_read *info, t_key *entry)
+char		key_manager(t_buf *cmd, t_read *info, t_key *entry)
 {
-	int		i;
+	char		(*f)(t_buf *, t_read *, t_key *);
+	char		ret;
 
-	(void)cmd;
-	(void)info;
-	(void)entry;
-	i = key_tokkeniser(entry);
-	DEBUG("---i = %d function is %p\n", i, (i >= 0) ? g_key_map[i].function[0] : NULL)
+	ret = 0;
+	if ((f = key_token(entry)))
+		ret = f(cmd, info, entry);
+	return (ret);
 }
