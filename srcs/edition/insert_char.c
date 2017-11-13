@@ -6,15 +6,24 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/13 19:08:58 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/13 20:12:41 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
+void		cursor_back_home(t_read *info)
 {
 	int		line;
+
+	tputs(tparm(g_termcaps_cap[COL], info->prompt), 0, &ft_putchar_termcap);
+	if ((line = ((info->curs_char + info->prompt) / (info->win_co))))
+		tputs(tparm(g_termcaps_cap[NUP], line), 0, &ft_putchar_termcap);
+	tputs(g_termcaps_cap[CLEAR], 0, &ft_putchar_termcap);
+}
+
+char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
+{
 	char	*curs;
 
 	buff_handler(cmd, entry);
@@ -29,14 +38,29 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 		curs = cmd->cmd + info->curs_char;
 		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
-		tputs(tparm(g_termcaps_cap[COL], info->prompt), 0, &ft_putchar_termcap);
-		if ((line = ((info->curs_char + info->prompt) / (info->win_co))))
-			tputs(tparm(g_termcaps_cap[NUP], line), 0, &ft_putchar_termcap);
-		tputs(g_termcaps_cap[CLEAR], 0, &ft_putchar_termcap);
+		cursor_back_home(info);
 		write(1, cmd->cmd, cmd->size_actual);
 	}
 	info->curs_char++;
 	info->total_char++;
+	cursor_display_update(info, 1);
+	return (1);
+}
+
+char		delete_char(t_buf *cmd, t_read *info, t_key *entry)
+{
+	char		*curs;
+
+	(void)entry;
+	if (!cmd->cmd || !info->curs_char)
+		return (1);
+	curs = cmd->cmd + info->curs_char;
+	ft_memmove(curs - 1, curs, ft_strlen(curs) + 1);
+	cursor_back_home(info);
+	cmd->size_actual--;
+	write(1, cmd->cmd, cmd->size_actual);
+	info->curs_char--;
+	info->total_char--;
 	cursor_display_update(info, 1);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/11 22:53:24 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/13 19:45:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ typedef enum		e_edition_state
 	NORMAL, COMPLETION, HISTORY, EDITION_MAX_STATE
 }					t_edition_state;
 
+
+/*
+** /!\ Insert Key_name before MAX_KEY /!\
+*/
+
 typedef enum		e_key_name
 {
-	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER
+	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -82,5 +87,6 @@ char				key_manager(t_buf *cmd, t_read *info, t_key *entry);
 void				hrz_deplacement(t_buf *cmd, t_read *info, t_key *entry);
 char				curs_move_hz(t_buf *cmd, t_read *info, t_key *entry);
 void				cursor_display_update(t_read *info, int write);
+char				delete_char(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif
