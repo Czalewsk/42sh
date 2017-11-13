@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/13 19:44:32 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/13 20:29:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static t_key_map		g_key_map[MAX_KEY] =
 	{3, ARROW_D, 3, {27, 91, 66}, {}},
 	{4, QUIT,    1, {CTRL_KEY('D')}, {&sh_quit}},
 	{5, ENTER,   1, {13}, {&sh_validate_line}},
-	{6, DELETE,  1, {127}, {&delete_char}}
+	{6, DELETE,  1, {127}, {&delete_char}},
+	{7, SUPPR,   4, {27, 91, 51, 126}, {&suppr_char}}
 };
 
 static void		*key_token(t_key *entry)
