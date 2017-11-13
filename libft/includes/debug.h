@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/12 17:17:09 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/13 09:41:39 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include <fcntl.h>
 
-# define DEBUG_WINDOW ("/dev/ttys004")
+# define DEBUG_WINDOW ("/dev/ttys005")
 
 # define DEBUG(x...) (debug(x));
 
