@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/13 18:46:58 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/13 19:08:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,21 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 {
 	int		line;
 	char	*curs;
-	int		i;
 
 	buff_handler(cmd, entry);
 	cmd->size_actual += entry->nread;
-	line = ((info->curs_char + info->prompt) / (info->win_co));
 	if (info->curs_char == (long)info->total_char)
 	{
-		DEBUG("HERE\n")
 		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
 		write(1, entry->entry, entry->nread);
 	}
 	else
 	{
-		i = (info->curs_char + info->prompt + 1) / info->win_co;
-		line = ((info->curs_char + info->prompt + 1 + (i ? i - 1 : 0))
-			/ (info->win_co + 1));
-		DEBUG("--LINE=%d\n", line)
 		curs = cmd->cmd + info->curs_char;
 		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
 		ft_memcpy(curs, entry->entry, entry->nread);
 		tputs(tparm(g_termcaps_cap[COL], info->prompt), 0, &ft_putchar_termcap);
-		if (line)
+		if ((line = ((info->curs_char + info->prompt) / (info->win_co))))
 			tputs(tparm(g_termcaps_cap[NUP], line), 0, &ft_putchar_termcap);
 		tputs(g_termcaps_cap[CLEAR], 0, &ft_putchar_termcap);
 		write(1, cmd->cmd, cmd->size_actual);
