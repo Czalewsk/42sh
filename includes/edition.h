@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 17:03:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:23:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef enum		e_edition_state
 typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
-	SHIFT_DO, MAX_KEY
+	SHIFT_DO, HOME, END, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -87,5 +87,7 @@ void				cursor_display_update(t_read *info, int write);
 char				delete_char(t_buf *cmd, t_read *info, t_key *entry);
 char				suppr_char(t_buf *cmd, t_read *info, t_key *entry);
 char				curs_move_vt(t_buf *cmd, t_read *info, t_key *entry);
+char				edition_home_end(t_buf *cmd, t_read *info, t_key *entry);
+void				cursor_back_home(t_read *info, int clean_screen);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 16:49:34 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:17:46 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 	return (-2);
 }
 
+/*
+** Tableau de pointeurs sur fonctions correspondant aux touches de controles
+**
+** 1 -> Index
+** 2 -> Enum de la touche
+** 3 -> Nombre de char a tester pour la touche voulu
+** 4 -> Tableau de char representant la touche
+** 5 -> Tableau de de pointeurs sur fonctions correspondats aux differents state
+**          de la machine a etat
+*/
 const t_key_map			g_key_map[MAX_KEY] =
 {
 	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz}},
@@ -40,6 +50,8 @@ const t_key_map			g_key_map[MAX_KEY] =
 	{7, SUPPR, 4, {27, 91, 51, 126}, {&suppr_char}},
 	{8, SHIFT_UP, 6, {27, 91, 49, 59, 50, 65}, {&curs_move_vt}},
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66}, {&curs_move_vt}},
+	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
+	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
 };
 
 static void				*key_token(t_key *entry)

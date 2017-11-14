@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 16:42:11 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:28:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,18 @@ char			curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
 	if (info->curs_char < 0 || info->curs_char > (long)info->total_char)
 		info->curs_char = (info->curs_char < 0 ? 0 : info->total_char);
 	cursor_display_update(info, 0);
+	return (0);
+}
+
+char			edition_home_end(t_buf *cmd, t_read *info, t_key *entry)
+{
+	(void)cmd;
+	if (entry->entry[2] == 72)
+		cursor_back_home(info, 0);
+	else
+	{
+		info->curs_char = info->total_char;
+		cursor_display_update(info, 0);
+	}
 	return (0);
 }
