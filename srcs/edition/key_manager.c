@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 17:17:46 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:52:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 ** 5 -> Tableau de de pointeurs sur fonctions correspondats aux differents state
 **          de la machine a etat
 */
-const t_key_map			g_key_map[MAX_KEY] =
+const t_key_map			g_key_map[] =
 {
 	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz}},
 	{1, ARROW_R, 3, {27, 91, 67}, {&curs_move_hz}},
@@ -60,7 +60,7 @@ static void				*key_token(t_key *entry)
 	int		j;
 
 	i = -1;
-	while (++i < (int)sizeof(g_key_map))
+	while (++i < MAX_KEY)
 	{
 		j = 0;
 		if (entry->nread == g_key_map[i].key_size)

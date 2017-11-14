@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 17:28:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:58:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			cursor_display_update(t_read *info, int write)
 		tputs(g_termcaps_cap[DOWN], 0, &ft_putchar_termcap);
 	else if (line)
 		tputs(tparm(g_termcaps_cap[line < 0 ? NUP : NDO], ABS(line)), 1,
-						&ft_putchar_termcap);
+			&ft_putchar_termcap);
 }
 
 char			curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
@@ -101,9 +101,14 @@ char			curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
 char			edition_home_end(t_buf *cmd, t_read *info, t_key *entry)
 {
 	(void)cmd;
-	if (entry->entry[2] == 72)
+	if (!cmd->size_actual)
+		return (0);
+	if (entry->entry[2] == 72 && info->curs_char > 0)
+	{
 		cursor_back_home(info, 0);
-	else
+		info->curs_char = 0;
+	}
+	else if (entry->entry[2] == 70 && info->curs_char != (long)info->total_char)
 	{
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
