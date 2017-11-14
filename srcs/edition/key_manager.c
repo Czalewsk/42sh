@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 17:52:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 18:25:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@ char					sh_quit(t_buf *cmd, t_read *info, t_key *entry)
 char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 {
 	(void)cmd;
-	(void)info;
 	(void)entry;
+	if (info->curs_char != (long)info->total_char)
+	{
+		info->curs_char = info->total_char;
+		cursor_display_update(info, 0);
+	}
 	return (-2);
 }
 
 /*
 ** Tableau de pointeurs sur fonctions correspondant aux touches de controles
 **
-** 1 -> Index
+** 1 -> Index pour debug
 ** 2 -> Enum de la touche
 ** 3 -> Nombre de char a tester pour la touche voulu
 ** 4 -> Tableau de char representant la touche
