@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 10:36:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 11:29:23 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char		curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
 
 	(void)cmd;
 	mvt = (entry->entry[2] == 68 ? -1 : 1);
+	g_move = 1;
 	if (info->curs_char + mvt > (long)info->total_char
 			|| info->curs_char + mvt < 0)
 		return (0);
@@ -83,10 +84,10 @@ char		curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
 		g_move = 0;
 	}
 	new_pos = old_pos + (entry->entry[5] == 66 ? info->win_co : -info->win_co);
-	line = ((info->curs_char + info->prompt + 1) / (info->win_co));
+	line = ((info->curs_char + info->prompt) / (info->win_co));
 	if (!(new_pos < -(long)info->prompt
 				|| ((new_pos > (long)info->total_char) &&
-				(long)((info->total_char + 1) / info->win_co) == line)))
+				(long)((info->total_char + info->prompt) / info->win_co) == line)))
 		old_pos = new_pos;
 	else
 		return (0);

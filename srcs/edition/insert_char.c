@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/13 20:26:37 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 11:39:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char		suppr_char(t_buf *cmd, t_read *info, t_key *entry)
 	char		*curs;
 
 	(void)entry;
-	if (!cmd->cmd || !info->total_char)
+	if (!cmd->cmd || (long)info->total_char == info->curs_char)
 		return (1);
 	curs = cmd->cmd + info->curs_char;
 	ft_memmove(curs + 1, curs, ft_strlen(curs + 1) + 1);
