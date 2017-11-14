@@ -6,14 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 11:29:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 14:59:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
 static int		g_move = 1;
-static int		g_col;
 
 static int		calcul_line(t_read *info, int write)
 {
@@ -42,11 +41,12 @@ void		cursor_display_update(t_read *info, int write)
 {
 	int		forbidden_co;
 	int		line;
+	int		col;
 
 	line = (info->curs_char + info->prompt + 1) / info->win_co;
 	forbidden_co = ((size_t)line == info->win_co) ? 1 : 0;
-	g_col = forbidden_co ? 0 : (info->curs_char + info->prompt) % info->win_co;
-	tputs(tparm(g_termcaps_cap[COL], g_col), 0, &ft_putchar_termcap);
+	col = forbidden_co ? 0 : (info->curs_char + info->prompt) % info->win_co;
+	tputs(tparm(g_termcaps_cap[COL], col), 0, &ft_putchar_termcap);
 	line = calcul_line(info, write);
 	if (line == 1)
 		tputs(g_termcaps_cap[DOWN], 0, &ft_putchar_termcap);
