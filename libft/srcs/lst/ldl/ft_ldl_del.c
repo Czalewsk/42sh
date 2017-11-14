@@ -6,31 +6,37 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 16:06:40 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/08 18:58:23 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/14 18:50:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_ldl_del(t_ldl **ldl, void (*del)())
+void	ft_ldl_del(t_ldl_head *ldl_head, t_ldl **ldl, void (*del)())
 {
 	t_ldl	*next;
 	t_ldl	*prev;
 
-	if (!ldl || !*ldl)
+	if (!ldl_head || !ldl || !*ldl)
 		return ;
-	if ((*ldl)->content && del)
-		del(&(*ldl)->content);
-	next = (*ldl)->next;
+	((*ldl)->content && del) ? del(&(*ldl)->content) : NULL;
 	prev = (*ldl)->prev;
-	free(*ldl);
-	if (prev)
+	next = (*ldl)->next;
+	if (!next && prev)
 	{
-		prev->next = next;
-		*ldl = prev;
+		ldl_head->tail = prev;
+		prev->next = NULL;
 	}
-	else
-		*ldl = next;
-	if (next)
-		*ldl = next;
+	else if (!prev && next)
+	{
+		ldl_head->head = next;
+		next->prev = NULL;
+	}
+	else if (next && prev)
+	{
+		next->prev = prev;
+		prev->next = next;
+	}
+	free(*ldl);
+	ldl_head->length--;
 }

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/08 19:05:50 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/14 19:33:34 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ typedef struct		s_ldl
 	struct s_ldl	*prev;
 }					t_ldl;
 
+typedef struct		s_ldl_head
+{
+	size_t			length;
+	struct s_ldl	*head;
+	struct s_ldl	*tail;
+}					t_ldl_head;
+
 void				ft_lstrev(t_list **liste);
 void				ft_lstprint(t_list **list);
 void				ft_lstprint_name(t_list **list);
@@ -44,13 +51,19 @@ void				ft_lstdelone(t_list **alst, void (*del) (void *, size_t));
 t_list				*ft_lstswap(t_list *list);
 void				ft_lstsort(t_list **begin_list, int (*cmp)());
 
-t_ldl				*ft_ldl_back(t_ldl *ldl);
-void				ft_ldl_clear(t_ldl **ldl, void (*del)());
-void				ft_ldl_del(t_ldl **ldl, void (*del)());
-t_ldl				*ft_ldl_front(t_ldl *ldl);
-void				ft_ldl_new(t_ldl **ldl, void *content);
-void				ft_ldl_pushback(t_ldl **ldl, void *content);
-void				ft_ldl_pushfront(t_ldl **ldl, void *content);
-void				ft_ldl_revers(t_ldl **ldl);
-size_t				ft_ldl_size(t_ldl *ldl);
+t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
+t_ldl_head			*ft_ldl_addfront(t_ldl_head *ldl_head, void *content);
+void				ft_ldl_clear(t_ldl_head **ldl, void (*del)());
+void				ft_ldl_del(t_ldl_head *ldl_head, t_ldl **ldl, void (*del)());
+t_ldl				*ft_ldl_head(t_ldl_head *ldl);
+t_ldl_head			*ft_ldl_insert(t_ldl_head *ldl, void *content, size_t pos);
+t_ldl_head			*ft_ldl_insert_sort(t_ldl_head *ldl, t_ldl *new, int (*fcmp)());
+t_ldl_head			*ft_ldl_new_list(void);
+void				ft_ldl_new_node(t_ldl **ldl, void *content);
+void				ft_ldl_remove_if(t_ldl_head *ldl, int (*fcmp)(),
+					void *content, void (*del)());
+t_ldl_head			*ft_ldl_rev(t_ldl_head *ldl);
+size_t				ft_ldl_size(t_ldl_head *ldl);
+t_ldl				*ft_ldl_tail(t_ldl_head *ldl);
+char				**ft_lfl_to_tab(t_ldl_head *ldl_head);
 #endif

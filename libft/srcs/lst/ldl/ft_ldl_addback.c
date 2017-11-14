@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ldl_pushback.c                                  :+:      :+:    :+:   */
+/*   ft_ldl_addback.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 16:16:06 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/08 18:26:50 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/09 19:16:44 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/09 20:48:35 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_ldl_pushback(t_ldl **ldl, void *content)
+t_ldl_head	*ft_ldl_addback(t_ldl_head *ldl_head, void *content)
 {
-	t_ldl	*new;
-	t_ldl	*back;
+	t_ldl		*new;
 
-	if (!ldl || !*ldl)
-		return (ft_ldl_new(ldl, content));
-	if ((new = (t_ldl *)malloc(sizeof(t_ldl))))
+	if (!ldl_head)
+		return (NULL);
+	ft_ldl_new_node(&new, content);
+	if (new)
 	{
-		back = ft_ldl_back(*ldl);
-		new->prev = back;
-		new->next = NULL;
-		new->content = content;
-		back->next = new;
+		if (!ldl_head->tail)
+		{
+			ldl_head->head = new;
+			ldl_head->tail = new;
+		}
+		else
+		{
+			ldl_head->tail->next = new;
+			new->prev = ldl_head->tail;
+			ldl_head->tail = new;
+		}
+		ldl_head->length++;
 	}
+	return (ldl_head);
 }

@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ldl_new.c                                       :+:      :+:    :+:   */
+/*   ft_ldl_head.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 16:13:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/08 18:25:56 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/09 19:46:47 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/09 19:48:28 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_ldl_new(t_ldl **ldl, void *content)
+t_ldl	*ft_ldl_head(t_ldl_head *ldl)
 {
-	t_ldl	*new;
-
-	if ((new = (t_ldl *)malloc(sizeof(t_ldl))))
-	{
-		new->content = content;
-		new->prev = NULL;
-		new->next = NULL;
-		*ldl = new;
-	}
+	if (ldl)
+		return (ldl->head);
+	return (NULL);
 }

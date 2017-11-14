@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ldl_size.c                                      :+:      :+:    :+:   */
+/*   ft_ldl_remove_if.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 16:43:18 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/09 21:50:44 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/14 18:27:25 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/14 19:00:26 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		ft_ldl_size(t_ldl_head *ldl)
+void	ft_ldl_remove_if(t_ldl_head *ldl_head, int (*fcmp)(),
+		void *content, void (*del)())
 {
-	if (ldl)
-		return (ldl->length);
-	return (0);
+	t_ldl *temp;
+
+	if (!ldl_head || !fcmp)
+		return ;
+	temp = ldl_head->head;
+	while (temp)
+	{
+		if (!(fcmp(temp->content, content)))
+			ft_ldl_del(ldl_head, &temp, del);
+		temp = temp->next;
+	}
 }
