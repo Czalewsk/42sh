@@ -6,11 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/13 19:23:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 09:00:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static int		g_move = 1;
+static int		g_col;
 
 static int		calcul_line(t_read *info, int write)
 {
@@ -21,6 +24,7 @@ static int		calcul_line(t_read *info, int write)
 	ret = 0;
 	if (write)
 	{
+		g_move = 1;
 		line = ((info->curs_char + info->prompt) / (info->win_co));
 		line_max = ((info->total_char + info->prompt - 1) / (info->win_co));
 		ret = line - line_max;
@@ -38,12 +42,11 @@ void		cursor_display_update(t_read *info, int write)
 {
 	int		forbidden_co;
 	int		line;
-	int		i;
 
 	line = (info->curs_char + info->prompt + 1) / info->win_co;
 	forbidden_co = ((size_t)line == info->win_co) ? 1 : 0;
-	i = forbidden_co ? 0 : (info->curs_char + info->prompt) % info->win_co;
-	tputs(tparm(g_termcaps_cap[COL], i), 0, &ft_putchar_termcap);
+	g_col = forbidden_co ? 0 : (info->curs_char + info->prompt) % info->win_co;
+	tputs(tparm(g_termcaps_cap[COL], g_col), 0, &ft_putchar_termcap);
 	line = calcul_line(info, write);
 	if (line == 1)
 		tputs(g_termcaps_cap[DOWN], 0, &ft_putchar_termcap);
@@ -61,7 +64,34 @@ char		curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
 	if (info->curs_char + mvt > (long)info->total_char
 			|| info->curs_char + mvt < 0)
 		return (0);
+	g_move = 1;
 	info->curs_char += mvt;
 	cursor_display_update(info, 0);
+	return (0);
+}
+
+char		curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
+{
+	static long		old_pos;
+	long			new_pos;
+
+	(void)cmd;
+	if (g_move)
+	{
+		old_pos = info->curs_char;
+		g_move = 0;
+	}
+	new_pos = old_pos + (entry->entry[5] == 66 ? info->win_co : -info->win_co);
+	if (!(new_pos < -(long)info->prompt || new_pos > (long)(info->total_char)
+				+ (long)info->win_co - 1))
+		old_pos = new_pos;
+	else
 		return (0);
+	info->curs_char = old_pos;
+	if (info->curs_char < 0)
+		info->curs_char = 0;
+	else if (info->curs_char > (long)info->total_char)
+		info->curs_char = info->total_char;
+	cursor_display_update(info, 0);
+	return (0);
 }
