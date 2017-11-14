@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/13 19:39:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 16:51:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			main(int ac, char **av, char **env)
 		prompt_display(&info);
 		if ((ret = read_line(&cmd, &info)) < 0)
 			break ;
-		DEBUG("\r\nCMD=|%s|", cmd.cmd)
+		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}
 	ft_strdel(&cmd.cmd);

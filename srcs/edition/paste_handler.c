@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/11 19:22:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:00:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static int	paste_end(char test)
 	int			ret;
 	static int	i;
 	const char	paste_finish[6] = {'\e', '[', '2', '0', '1', '~'};
-	const char	paste_finish2[7] = {'\e', '[', '2', -26 , '0', '1', '~'};
+	const char	paste_finish2[7] = {'\e', '[', '2', -26, '0', '1', '~'};
 
 	ret = 0;
-	if (((i < 6) && test == paste_finish[i]) 
+	if (((i < 6) && test == paste_finish[i])
 			|| ((i < 7) && test == paste_finish2[i]))
 	{
-		if ((i == 5 && test == paste_finish[i]) 
+		if ((i == 5 && test == paste_finish[i])
 				|| (i == 6 && test == paste_finish2[i]))
 			ret = -1;
 		i = ret ? 0 : i + 1;
@@ -66,11 +66,11 @@ static int	paste_end(char test)
 **{
 **	static int		i;
 **	int		ret;
-**	int		
+**	int
 **
 **	while (((ret = paste_start(entry->entry[i])) >= 0) || i < entry->nread)
 **	{
-**		
+**
 **	}
 **}
 */
@@ -80,17 +80,17 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	int		i;
 	int		ret;
 
-	// Traite (teste les char si ce sont des char de control...) 
+	// Traite (teste les char si ce sont des char de control...)
 	// avant de les copier dans cmd et actualiser info
-	// Les char testés par paste_detector doivent etre sauvegardé dans un temp t_key
-	// tant que paste_detector renvoit 0, s'il renvoit 1 les info peuvent etre 
-	// traiter sinon cest la fin du coller
+	// Les char testés par paste_detector doivent etre sauvegardé dans un temp
+	// t_key ant que paste_detector renvoit 0, s'il renvoit 1 les info peuvent
+	// etre traiter sinon cest la fin du coller
 	(void)cmd;
 	(void)info;
 	i = 6;
 	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
-		DEBUG("i=%d | ret=%d | char=%hhd\n", i, ret, entry->entry[i])
+		DEBUG("i=%d | ret=%d | char=%hhd\n", i, ret, entry->entry[i]);
 		if (i < entry->nread)
 			i++;
 		else

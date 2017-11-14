@@ -6,22 +6,19 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 07:53:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:03:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __EDITION_H
 # define __EDITION_H
 
-# include "ft_sh.h"
-
 /*
 ** DEFINE READ
-**
 ** SIZE_READ NE DOIT PAS ETRE INFERIEUR A 8
-**
 */
 
+# include "ft_sh.h"
 # define SIZE_READ (12)
 # define CTRL_KEY(k) ((k) & 0x1f)
 # define DEL_KEY (2117294875l)
@@ -38,7 +35,6 @@ typedef enum		e_edition_state
 	NORMAL, COMPLETION, HISTORY, EDITION_MAX_STATE
 }					t_edition_state;
 
-
 /*
 ** /!\ Insert Key_name before MAX_KEY /!\
 */
@@ -46,7 +42,7 @@ typedef enum		e_edition_state
 typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
-	SHIFT_DO
+	SHIFT_DO, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map

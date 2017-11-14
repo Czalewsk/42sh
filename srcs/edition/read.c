@@ -6,26 +6,25 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 07:50:03 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 16:51:22 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_sh.h"
 
-void	debug_key(t_key *entry)
+void			debug_key(t_key *entry)
 {
 	int		i;
 
 	i = 0;
-	DEBUG("READ=%i\r\n", entry->nread)
+	DEBUG("READ=%i\r\n", entry->nread);
 	while (i < entry->nread)
-		DEBUG("%hhi\r\n", entry->entry[i++])
+		DEBUG("%hhi\r\n", entry->entry[i++]);
 }
 
-void		read_key(t_key *entry)
+void			read_key(t_key *entry)
 {
-	while ((entry->nread = read(0, entry->entry, SIZE_READ))  <= 0)
+	while ((entry->nread = read(0, entry->entry, SIZE_READ)) <= 0)
 		if (entry->nread == -1)
 			ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
 }
@@ -69,8 +68,8 @@ char			read_line(t_buf *cmd, t_read *info)
 	{
 		ft_bzero(&entry, sizeof(t_key));
 		read_key(&entry);
-		ret = key_wrapper(cmd, info, &entry);
-//			continue ;
+		if (!(ret = key_wrapper(cmd, info, &entry)))
+			continue ;
 		if (ret < 0)
 			break ;
 		debug_key(&entry);

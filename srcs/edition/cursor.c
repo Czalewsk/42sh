@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 14:59:14 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 16:42:11 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int		g_move = 1;
 static int		calcul_line(t_read *info, int write)
 {
 	static int		line;
-	int		line_max;
-	int		ret;
+	int				line_max;
+	int				ret;
 
 	ret = 0;
 	if (write)
@@ -37,7 +37,7 @@ static int		calcul_line(t_read *info, int write)
 	return (ret);
 }
 
-void		cursor_display_update(t_read *info, int write)
+void			cursor_display_update(t_read *info, int write)
 {
 	int		forbidden_co;
 	int		line;
@@ -55,7 +55,7 @@ void		cursor_display_update(t_read *info, int write)
 						&ft_putchar_termcap);
 }
 
-char		curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
+char			curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
 {
 	int		mvt;
 
@@ -71,7 +71,7 @@ char		curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
 	return (0);
 }
 
-char		curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
+char			curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
 {
 	static long		old_pos;
 	long			new_pos;
@@ -86,8 +86,8 @@ char		curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
 	new_pos = old_pos + (entry->entry[5] == 66 ? info->win_co : -info->win_co);
 	line = ((info->curs_char + info->prompt) / (info->win_co));
 	if (!(new_pos < -(long)info->prompt
-				|| ((new_pos > (long)info->total_char) &&
-				(long)((info->total_char + info->prompt) / info->win_co) == line)))
+			|| ((new_pos > (long)info->total_char) &&
+			(long)((info->total_char + info->prompt) / info->win_co) == line)))
 		old_pos = new_pos;
 	else
 		return (0);

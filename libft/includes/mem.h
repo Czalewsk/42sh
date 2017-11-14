@@ -6,7 +6,7 @@
 /*   By: gavizet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 11:21:05 by gavizet           #+#    #+#             */
-/*   Updated: 2017/11/08 10:56:38 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/14 17:06:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void				*ft_memmove(void *dest, const void *src, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memccpy(void *dest, const void *src, int c, size_t n);
 char				**ft_realloc_tab(int size, char **tab);
-void				*ft_memrealloc(void *addr, size_t old_size, size_t new_size);
+void				*ft_memrealloc(void *addr, size_t old_size,
+		size_t new_size);
 
 #endif
