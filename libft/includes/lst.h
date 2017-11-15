@@ -6,12 +6,14 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/14 19:33:34 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/15 18:18:31 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LST_H
 # define LST_H
+# define FT_LDL_DEL_FIRST(list, del) ft_ldl_del_id(list, 1, del)
+# define FT_LDL_DEL_LAST(list, del) ft_ldl_del_id(list, list->length, del)
 
 # include "libft.h"
 
@@ -54,14 +56,20 @@ void				ft_lstsort(t_list **begin_list, int (*cmp)());
 t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
 t_ldl_head			*ft_ldl_addfront(t_ldl_head *ldl_head, void *content);
 void				ft_ldl_clear(t_ldl_head **ldl, void (*del)());
-void				ft_ldl_del(t_ldl_head *ldl_head, t_ldl **ldl, void (*del)());
+void				ft_ldl_del(t_ldl_head *ldl_head,
+					t_ldl **ldl, void (*del)());
+void				ft_ldl_del_id(t_ldl_head *ldl_head,
+					size_t pos, void (*del)());
+void				ft_ldl_del_if(t_ldl_head *ldl, int (*fcmp)(),
+					void *content, void (*del)());
+t_ldl_head			*ft_ldl_find(t_ldl_head *ldl_head, int (*fcmp)(),
+					size_t size, void *content);
 t_ldl				*ft_ldl_head(t_ldl_head *ldl);
 t_ldl_head			*ft_ldl_insert(t_ldl_head *ldl, void *content, size_t pos);
-t_ldl_head			*ft_ldl_insert_sort(t_ldl_head *ldl, t_ldl *new, int (*fcmp)());
+t_ldl_head			*ft_ldl_insert_sort(t_ldl_head *ldl,
+					t_ldl *new, int (*fcmp)());
 t_ldl_head			*ft_ldl_new_list(void);
 void				ft_ldl_new_node(t_ldl **ldl, void *content);
-void				ft_ldl_remove_if(t_ldl_head *ldl, int (*fcmp)(),
-					void *content, void (*del)());
 t_ldl_head			*ft_ldl_rev(t_ldl_head *ldl);
 size_t				ft_ldl_size(t_ldl_head *ldl);
 t_ldl				*ft_ldl_tail(t_ldl_head *ldl);
