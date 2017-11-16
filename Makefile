@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/01 17:10:51 by bviala           ###   ########.fr        #
+#    Updated: 2017/11/16 16:59:42 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,15 +31,20 @@ FLAGS			= -Wall -Wextra -Werror -g
 SRCS_PATH		= srcs/
 OBJS_PATH		= objs/
 INCLUDES_PATH	= includes/
-LIBFT_PATH		= libft_benny/includes/
+LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= 
+SRCS_FILES		= ft_sh \
+				  termcaps/termcaps_init \
+				  prompt/prompt_display \
+				  edition/buff_handler edition/read edition/paste_handler \
+				  edition/key_manager edition/insert_char edition/key_manager \
+				  edition/cursor
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= 
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -47,11 +52,12 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #-----------------------------------| LIBS |-----------------------------------#
-LIBFT			= libft_benny/libft.a
+LIBFT			= libft/libft.a
 INCLUDES_LIBFT	= -I $(LIBFT_PATH)
 HEADERS_LIBFT 	= $(addprefix $(LIBFT_PATH), libft.h)
 #------------------------------------------------------------------------------#
@@ -65,20 +71,21 @@ HEADERS			= $(addprefix $(INCLUDES_PATH), $(HEAD_FILES))
 
 #----------------------------------| RULES |-----------------------------------#
 all:
-	@make -C libft_benny/
+	@make -j -C libft/
 	@make -j $(NAME)
 
-$(NAME): $(OBJ)
-		@$(CC) $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT)
+		@$(CC) -Llibft -lft -ltermcap $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
 		@printf "\r$(GREEN)✅  [$(NAME)] was succesfully created ✅$(NOC)\n"
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT)
 		@mkdir $(OBJS_PATH) 2> /dev/null || true
+		@mkdir $(OBJS_DIRS) 2> /dev/null || true
 		@$(CC) $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) -o $@ -c $<
 		@printf "$(notdir $@)... ☑️ $(NOC)\n"
 
 clean:
-		@make -C libft_benny/ clean
+		@make -C libft/ clean
 		@if [ -e $(OBJS_PATH) ];\
 		then\
 			rm -rf $(OBJS_PATH);\
@@ -86,7 +93,7 @@ clean:
 		fi;
 
 fclean: clean
-		@make -C libft_benny/ fclean
+		@make -C libft/ fclean
 		@if [ -e $(NAME) ];\
 		then\
 			rm -rf $(NAME);\
