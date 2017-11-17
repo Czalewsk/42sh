@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   btree_insert_data.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 15:49:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/17 15:49:43 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/08 13:36:57 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/08 13:43:42 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		debug(char *format, ...)
+void	btree_insert_data(t_btree **root, void *item,
+		int (*cmpf)(void *, void *))
 {
-	int			fd;
-	va_list		ap;
-
-	fd = open(DEBUG_WINDOW, O_RDWR);
-	va_start(ap, format);
-	vdprintf(fd, format, ap);
-	va_end(ap);
-	close(fd);
-	return (1);
+	if (*root == 0)
+		*root = btree_create_node(item);
+	else
+	{
+		if ((*cmpf)(item, (*root)->item) < 0)
+			btree_insert_data(&((*root)->left), item, cmpf);
+		else
+			btree_insert_data(&((*root)->right), item, cmpf);
+	}
 }
