@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/17 15:52:55 by bviala           ###   ########.fr        #
+#    Updated: 2017/11/21 10:27:39 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,16 +35,17 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= ft_sh \
-				  termcaps/termcaps_init \
-				  prompt/prompt_display \
-				  edition/buff_handler edition/read edition/paste_handler \
-				  edition/key_manager edition/insert_char edition/key_manager \
-				  edition/cursor
+SRCS_FILES		= ft_sh														\
+				  termcaps/termcaps_init									\
+				  prompt/prompt_display										\
+				  history/history											\
+				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/key_manager edition/insert_char					\
+				  edition/key_manager edition/cursor
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h
+HEAD_FILES		= ft_sh.h edition.h history.h prompt.h termcaps.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -52,7 +53,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ history/ edition/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

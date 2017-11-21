@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 18:25:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/21 17:20:15 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ const t_key_map			g_key_map[] =
 {
 	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz}},
 	{1, ARROW_R, 3, {27, 91, 67}, {&curs_move_hz}},
-	{2, ARROW_U, 3, {27, 91, 65}, {NULL}},
-	{3, ARROW_D, 3, {27, 91, 66}, {NULL}},
+	{2, ARROW_U, 3, {27, 91, 65}, {&history_mode}},
+	{3, ARROW_D, 3, {27, 91, 66}, {&history_mode}},
 	{4, QUIT, 1, {CTRL_KEY('D')}, {&sh_quit}},
 	{5, ENTER, 1, {13}, {&sh_validate_line}},
 	{6, DELETE, 1, {127}, {&delete_char}},

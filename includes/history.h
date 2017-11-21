@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   history.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduval <lduval@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/28 04:17:08 by lduval            #+#    #+#             */
-/*   Updated: 2017/11/21 11:36:12 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/21 17:32:32 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef __HISTORY_H
+# define __HISTORY_H
 
-void	ft_error(char *str, void (*f)(void))
-{
-	if (f)
-		(*f)();
-	ft_putstr("ERROR: ");
-	if (str)
-		ft_putendl(str);
-	exit(0);
-}
+# define HIST_FILE "/Users/bviala/.bash_history"
+
+# include "ft_sh.h"
+
+char	history_mode(t_buf *cmd, t_read *info, t_key *entry);
+#endif

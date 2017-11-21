@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_lst_pushend.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduval <lduval@student.42.fr>              +#+  +:+       +#+        */
+/*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/28 04:17:08 by lduval            #+#    #+#             */
-/*   Updated: 2017/11/21 11:36:12 by bviala           ###   ########.fr       */
+/*   Created: 2016/11/13 12:10:53 by czalewsk          #+#    #+#             */
+/*   Updated: 2016/11/14 19:45:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_error(char *str, void (*f)(void))
+void	ft_lst_pushend(t_list **alst, t_list *new)
 {
-	if (f)
-		(*f)();
-	ft_putstr("ERROR: ");
-	if (str)
-		ft_putendl(str);
-	exit(0);
+	t_list		*addr;
+
+	if (!new || !alst)
+		return ;
+	else if (!(*alst))
+		*alst = new;
+	else
+	{
+		addr = *alst;
+		while (addr->next)
+			addr = addr->next;
+		addr->next = new;
+	}
 }
