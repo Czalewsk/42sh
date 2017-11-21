@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/21 13:13:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/21 19:48:07 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		cursor_back_home(t_read *info, int clean_screen)
 char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char	*curs;
+	int		len;
 
 	buff_handler(cmd, entry);
 	cmd->size_actual += entry->nread;
@@ -36,10 +37,10 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 	}
 	else
 	{
-		curs = cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char, 0);
-//		curs = cmd->cmd + info->curs_char;
-		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
-//		ft_memmove(curs + entry->nread, curs, ft_strlen(curs) + 1);
+		len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
+		curs = cmd->cmd + len;
+		ft_memmove(curs + entry->nread, curs, sh_curs_unicode(cmd->cmd,
+					ft_strlen(curs) + 1, 1));
 		ft_memcpy(curs, entry->entry, entry->nread);
 		cursor_back_home(info, 1);
 		write(1, cmd->cmd, cmd->size_actual);
@@ -57,13 +58,14 @@ char		delete_char(t_buf *cmd, t_read *info, t_key *entry)
 	(void)entry;
 	if (!cmd->cmd || !info->curs_char)
 		return (1);
-	curs = cmd->cmd + info->curs_char;
-	ft_memmove(curs - 1, curs, ft_strlen(curs) + 1);
+	curs = cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char, 1);
+	ft_memmove(cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char - 1, 0),
+			curs, ft_strlen(curs) + 1);
 	cursor_back_home(info, 1);
-	cmd->size_actual--;
+	cmd->size_actual = ft_strlen(cmd->cmd);
 	write(1, cmd->cmd, cmd->size_actual);
 	info->curs_char--;
-	info->total_char--;
+	info->total_char = ft_strlen_utf8(cmd->cmd);
 	cursor_display_update(info, 1);
 	return (1);
 }
@@ -75,10 +77,10 @@ char		suppr_char(t_buf *cmd, t_read *info, t_key *entry)
 	(void)entry;
 	if (!cmd->cmd || (long)info->total_char == info->curs_char)
 		return (1);
-	curs = cmd->cmd + info->curs_char;
-	ft_memmove(curs, curs + 1, ft_strlen(curs + 1) + 1);
+//	curs = cmd->cmd + info->curs_char;
+//	ft_memmove(curs, curs + 1, ft_strlen(curs + 1) + 1);
 	cursor_back_home(info, 1);
-	cmd->size_actual--;
+//	cmd->size_actual--;
 	write(1, cmd->cmd, cmd->size_actual);
 	info->total_char--;
 	cursor_display_update(info, 1);
