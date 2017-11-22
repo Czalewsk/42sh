@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 17:58:50 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/22 10:05:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ static int		calcul_line(t_read *info, int write)
 		line = ((info->curs_char + info->prompt) / (info->win_co));
 		line_max = ((info->total_char + info->prompt - 1) / (info->win_co));
 		ret = line - line_max;
+		DEBUG("line=%d\n", line)
+		DEBUG("max =%d\n", line_max)
 	}
 	else
 	{
+		DEBUG(" wline=%d\n", line)
 		line_max = ((info->curs_char + info->prompt) / (info->win_co));
+		DEBUG(" wmax =%d\n", line_max)
 		ret = line_max - line;
 		line = line_max;
 	}
@@ -103,10 +107,12 @@ char			edition_home_end(t_buf *cmd, t_read *info, t_key *entry)
 	(void)cmd;
 	if (!cmd->size_actual)
 		return (0);
+	g_move = 1;
 	if (entry->entry[2] == 72 && info->curs_char > 0)
 	{
-		cursor_back_home(info, 0);
 		info->curs_char = 0;
+		cursor_display_update(info, 0);
+
 	}
 	else if (entry->entry[2] == 70 && info->curs_char != (long)info->total_char)
 	{

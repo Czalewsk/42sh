@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 18:04:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/22 09:35:38 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ char			read_line(t_buf *cmd, t_read *info)
 	{
 		ft_bzero(&entry, sizeof(t_key));
 		read_key(&entry);
-		if (!(ret = key_wrapper(cmd, info, &entry)))
-			continue ;
+		ret = key_wrapper(cmd, info, &entry);
+//			continue ;
 		if (ret < 0)
 			break ;
-		debug_key(&entry);
+//		debug_key(&entry);
 	}
 	return (ret == -1 ? -1 : 1);
 }
