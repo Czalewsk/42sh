@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 17:59:51 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/24 09:39:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,25 @@
 
 static void	remove_excess(t_key *entry, int len)
 {
-	if (!len)
+	if (len <= 0 || entry->nread - len <= 0)
+	{
+		ft_bzero(entry, sizeof(t_key));
 		return ;
+	}
 	ft_memmove(entry->entry, entry->entry + len, entry->nread - len);
 	entry->nread -= len;
+	ft_bzero(entry->entry + entry->nread, SIZE_BUFF - entry->nread - 1);
 }
 
 static int	paste_end(char test)
 {
-	int			ret;
 	static int	i;
 	const char	paste_finish[6] = {'\e', '[', '2', '0', '1', '~'};
-	const char	paste_finish2[7] = {'\e', '[', '2', -26, '0', '1', '~'};
 
-	ret = 0;
-	if (((i < 6) && test == paste_finish[i])
-			|| ((i < 7) && test == paste_finish2[i]))
+	if (test == paste_finish[i])
 	{
-		if ((i == 5 && test == paste_finish[i])
-				|| (i == 6 && test == paste_finish2[i]))
-			ret = -1;
-		i = ret ? 0 : i + 1;
-		return (ret);
+		i = (i == 5) ? 0 : i + 1;
+		return ((i ? 0 : -1));
 	}
 	else
 	{
@@ -43,37 +40,6 @@ static int	paste_end(char test)
 		return (1);
 	}
 }
-
-/*
-**int			paste_start(char test)
-**{
-**	static int	i;
-**	const char	paste_start[6] = {'\e', '[', '2', '0', '0', '~'};
-**
-**	if (test == paste_start[i])
-**	{
-**		i = (i == 5) ? 0 : i + 1;
-**		return ((i) ? 0 : -1);
-**	}
-**	else
-**	{
-**		i = 0;
-**		return (1);
-**	}
-**}
-**
-**char		is_pasted(t_key *entry)
-**{
-**	static int		i;
-**	int		ret;
-**	int
-**
-**	while (((ret = paste_start(entry->entry[i])) >= 0) || i < entry->nread)
-**	{
-**
-**	}
-**}
-*/
 
 char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 {
@@ -90,15 +56,16 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	i = 6;
 	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
-		DEBUG("i=%d | ret=%d | char=%hhd\n", i, ret, entry->entry[i]);
-		if (i < entry->nread)
+//		DEBUG("i=%d | ret=%d | char=%hhd\n", i, ret, entry->entry[i]);
+		if (i < entry->nread - 1)
 			i++;
 		else
 		{
 			i = 0;
+			ft_bzero(entry, sizeof(t_key));
 			read_key(entry);
 		}
 	}
-	remove_excess(entry, i);
-	return (0);
+	remove_excess(entry, i + 1);
+	return (1);
 }

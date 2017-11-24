@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/22 09:46:55 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/24 09:01:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 	info->curs_char++;
 	info->total_char++;
 	cursor_display_update(info, 1);
+	ft_bzero(entry, sizeof(t_key));
 	return (1);
 }
 
@@ -66,6 +67,7 @@ char		delete_char(t_buf *cmd, t_read *info, t_key *entry)
 	info->curs_char--;
 	info->total_char = ft_strlen_utf8(cmd->cmd);
 	cursor_display_update(info, 1);
+	ft_bzero(entry, sizeof(t_key));
 	return (1);
 }
 
@@ -84,5 +86,6 @@ char		suppr_char(t_buf *cmd, t_read *info, t_key *entry)
 	write(1, cmd->cmd, cmd->size_actual);
 	info->total_char--;
 	cursor_display_update(info, 1);
+	ft_bzero(entry, sizeof(t_key));
 	return (1);
 }
