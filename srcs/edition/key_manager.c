@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/14 18:25:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/24 09:06:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ const t_key_map			g_key_map[] =
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66}, {&curs_move_vt}},
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
+	{12, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler}}
 };
 
 static void				*key_token(t_key *entry)
@@ -67,11 +68,11 @@ static void				*key_token(t_key *entry)
 	while (++i < MAX_KEY)
 	{
 		j = 0;
-		if (entry->nread == g_key_map[i].key_size)
+		if (entry->nread >= g_key_map[i].key_size)
 		{
 			while (j < entry->nread && entry->entry[j] == g_key_map[i].key[j])
 				j++;
-			if (j == entry->nread)
+			if (j == g_key_map[i].key_size)
 				return (g_key_map[i].function[g_edition_state]);
 		}
 	}
@@ -86,5 +87,7 @@ char					key_manager(t_buf *cmd, t_read *info, t_key *entry)
 	ret = 0;
 	if ((f = key_token(entry)))
 		ret = f(cmd, info, entry);
+	if (!ret)
+		ft_bzero(entry, sizeof(t_key));
 	return (ret);
 }

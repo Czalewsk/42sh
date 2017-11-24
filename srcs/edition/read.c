@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/22 09:35:38 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/24 09:50:00 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,12 @@ void			debug_key(t_key *entry)
 
 void			read_key(t_key *entry)
 {
-	while ((entry->nread = read(0, entry->entry, SIZE_READ)) <= 0)
-		if (entry->nread == -1)
-			ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
-}
+	int		ret;
 
-char			is_pasted(t_key *entry)
-{
-	if (entry->nread < 6)
-		return (0);
-	else if (entry->entry[0] == 27 && entry->entry[1] == 91
-			&& entry->entry[2] == 50 && entry->entry[3] == 48
-			&& entry->entry[4] == 48 && entry->entry[5] == 126)
-		return (1);
-	else
-		return (0);
+	ret = read(0, entry->entry + entry->nread, SIZE_READ);
+	if (ret == -1)
+		ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
+	entry->nread += ret;
 }
 
 /*
@@ -50,12 +41,10 @@ char			is_pasted(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
-	if (is_pasted(entry))
-		return (paste_handler(cmd, info, entry));
-	else if (!ft_iswcntrl((int)*(entry->entry)))
-		return (insert_char(cmd, info, entry));
-	else
+	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
+	else
+		return (insert_char(cmd, info, entry));
 }
 
 char			read_line(t_buf *cmd, t_read *info)
@@ -64,9 +53,9 @@ char			read_line(t_buf *cmd, t_read *info)
 	char		ret;
 
 	buff_handler(cmd, NULL);
+	ft_bzero(&entry, sizeof(t_key));
 	while (42)
 	{
-		ft_bzero(&entry, sizeof(t_key));
 		read_key(&entry);
 		ret = key_wrapper(cmd, info, &entry);
 //			continue ;

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/22 09:46:44 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/24 09:32:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # include "ft_sh.h"
 # define SIZE_READ (12)
+# define SIZE_BUFF (SIZE_READ * 2)
 # define CTRL_KEY(k) ((k) & 0x1f)
 # define DEL_KEY (2117294875l)
 # define ABS(x) (x > 0 ? x : -x)
@@ -42,7 +43,7 @@ typedef enum		e_edition_state
 typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
-	SHIFT_DO, HOME, END, MAX_KEY
+	SHIFT_DO, HOME, END, PASTE_KEYBOARD, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -65,7 +66,7 @@ typedef struct		s_read
 typedef struct		s_key
 {
 	int				nread;
-	char			entry[SIZE_READ];
+	char			entry[SIZE_BUFF];
 }					t_key;
 
 typedef struct		s_buf
