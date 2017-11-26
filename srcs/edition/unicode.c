@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:25:42 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/24 09:48:45 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/26 17:05:44 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		sh_curs_unicode(char *str, int index, int end)
 	i = 0;
 	char_visu = 0;
 	test = 0;
+	if (index < 0)
+		return (0);
 	while (((char_visu <= index)
 				|| (end && start_char != i - 1)) && (test = *(str + i)))
 	{
