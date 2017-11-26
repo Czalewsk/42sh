@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 #include "lexer.h"
-#include "debug.h"
 #include "libft.h"
 
 static const t_operator	g_operator[] = {
