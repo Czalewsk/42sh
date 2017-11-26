@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/24 09:32:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/26 18:09:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef enum		e_edition_state
 typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
-	SHIFT_DO, HOME, END, PASTE_KEYBOARD, MAX_KEY
+	SHIFT_DO, HOME, END, PASTE_KEYBOARD, CTRL_T, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -76,7 +76,7 @@ typedef struct		s_buf
 	size_t			size_actual;
 }					t_buf;
 
-void				buff_handler(t_buf *cmd, t_key *entry);
+void				buff_handler(t_buf *cmd, t_key *entry, char *str);
 char				read_line(t_buf *cmd, t_read *info);
 void				read_key(t_key *entry);
 char				paste_handler(t_buf *cmd, t_read *info, t_key *entry);
@@ -91,5 +91,7 @@ char				curs_move_vt(t_buf *cmd, t_read *info, t_key *entry);
 char				edition_home_end(t_buf *cmd, t_read *info, t_key *entry);
 void				cursor_back_home(t_read *info);
 int					sh_curs_unicode(char *str, int index, int end);
+void				print_string(char *str, t_buf *cmd, t_read *info);
+char				test_print(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif

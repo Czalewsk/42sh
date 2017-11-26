@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/26 17:06:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/26 18:12:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ const t_key_map			g_key_map[] =
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66}, {&curs_move_vt}},
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
-	{12, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler}}
+	{12, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler}},
+	{13, CTRL_T, 1, {CTRL_KEY('T')}, {&test_print}}
 };
 
 static void				*key_token(t_key *entry)
