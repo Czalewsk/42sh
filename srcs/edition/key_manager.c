@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 08:38:03 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/28 09:06:01 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 		cursor_display_update(info, 0);
 	}
 	return (-2);
+}
+
+char					sh_stop_line(t_buf *cmd, t_read *info, t_key *entry)
+{
+	(void)cmd;
+	(void)entry;
+	if (info->curs_char != (long)info->total_char)
+	{
+		info->curs_char = info->total_char;
+		cursor_display_update(info, 0);
+	}
+	return (-3);
 }
 
 /*
@@ -57,7 +69,8 @@ const t_key_map			g_key_map[] =
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
 	{12, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler}},
-	{13, CTRL_T, 1, {CTRL_KEY('T')}, {&test_print}}
+	{13, CTRL_T, 1, {CTRL_KEY('T')}, {&test_print}},
+	{14, CTRL_C, 1, {CTRL_KEY('C')}, {&sh_stop_line}}
 };
 
 static void				*key_token(t_key *entry)

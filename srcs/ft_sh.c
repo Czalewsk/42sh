@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 08:43:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/28 09:18:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,16 @@ int			main(int ac, char **av, char **env)
 	{
 		info_init(&info);
 		prompt_display(&info);
-		if ((ret = read_line(&cmd, &info)) < 0)
+		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
+		if (ret == -3)
+			continue ;
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		/*  TEST ADD PROMPT */
+		/**/
+		/*  Si cmd.cmd == testprompt alors je rentre en mode prompt secondaire
+		**  si la fonction retourne -3 CTRL C a ete appuyee
+		*/
 		char *line = NULL;
 		char ret2 = 0;
 		if (!ft_strcmp(cmd.cmd, "testprompt"))
@@ -47,7 +53,7 @@ int			main(int ac, char **av, char **env)
 			{
 			ret2 = prompt_add("test add prompt > ", &line);
 			DEBUG("\t(%d)LINE=~%s~\n", ret, line)
-				if (ret2 < 0 || !ft_strcmp("stop", line))
+				if (ret2 == -3 || !ft_strcmp("stop", line))
 					break ;
 			}
 		}
