@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/28 09:40:50 by thugo            ###   ########.fr        #
+#    Updated: 2017/11/28 13:31:32 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRCS_FILES		= ft_sh \
 				  edition/buff_handler edition/read edition/paste_handler \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
-				  prompt/prompt_add
+				  prompt/prompt_add \
+				  ast/lexer
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
