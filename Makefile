@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/26 19:43:20 by thugo            ###   ########.fr        #
+#    Updated: 2017/11/28 09:40:50 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ ORANGE			= \033[38;5;202m
 #------------------------------------------------------------------------------#
 
 #--------------------------------| LIBRARY |-----------------------------------#
-NAME 			= 42sh 
+NAME 			= 42sh
 #------------------------------------------------------------------------------#
 
 #-------------------------------| COMPILATION |--------------------------------#
@@ -40,8 +40,8 @@ SRCS_FILES		= ft_sh \
 				  prompt/prompt_display \
 				  edition/buff_handler edition/read edition/paste_handler \
 				  edition/key_manager edition/insert_char edition/key_manager \
-				  edition/cursor edition/unicode \
-				  ast/lexer
+				  edition/cursor edition/unicode edition/print \
+				  prompt/prompt_add
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
@@ -64,7 +64,7 @@ HEADERS_LIBFT 	= $(addprefix $(LIBFT_PATH), libft.h)
 #------------------------------------------------------------------------------#
 
 #--------------------------------| INCLUDES |----------------------------------#
-INCLUDES		= -I $(INCLUDES_PATH) 
+INCLUDES		= -I $(INCLUDES_PATH)
 HEADERS			= $(addprefix $(INCLUDES_PATH), $(HEAD_FILES))
 #------------------------------------------------------------------------------#
 .PHONY	:	all clean fclean re
