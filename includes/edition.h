@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 09:05:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/28 09:34:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ void				print_string(char *str, t_buf *cmd, t_read *info);
 char				test_print(t_buf *cmd, t_read *info, t_key *entry);
 void				info_init(t_read *info);
 char				test_prompt_add(t_buf *cmd, t_read *info, t_key *entry);
+void				restore_cmd(t_buf *cmd, t_read *old_info, t_read *info);
 
 #endif
