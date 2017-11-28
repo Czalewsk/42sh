@@ -6,13 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 09:34:09 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/28 18:28:20 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void	print_string(char *str, t_buf *cmd, t_read *info)
+void	add_str(t_buf *cmd, t_read *info, char *str)
 {
 	int		len;
 	char	*curs;
@@ -32,16 +32,26 @@ void	print_string(char *str, t_buf *cmd, t_read *info)
 	cursor_display_update(info, 1);
 }
 
-void	restore_cmd(t_buf *cmd, t_read *old_info, t_read *info)
+void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 {
-	cursor_back_home(old_info);
+	size_t		len;
+
+	if (!cmd || !info || !str)
+		return ;
+	buff_handler(cmd, NULL, str);
+	ft_strcpy(cmd->cmd, str);
+	cmd->size_actual = ft_strlen(cmd->cmd);
+	cursor_back_home(info);
 	write(1, cmd->cmd, cmd->size_actual);
+	len = ft_strlen_utf8(str);
+	info->curs_char = (pos_curs > len) ? len : pos_curs;
+	info->total_char = len;
 	cursor_display_update(info, 1);
 }
 
 char	test_print(t_buf *cmd, t_read *info, t_key *entry)
 {
 	(void)entry;
-	print_string("YO😃 LO", cmd, info);
+	display_str(cmd, info, "YO😃 LO", 1);
 	return (0);
 }
