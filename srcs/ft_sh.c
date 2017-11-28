@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/17 15:49:09 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/17 15:49:15 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/28 08:49:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int			g_edition_state = 0;
 
-static void	info_init(t_read *info)
+inline void	info_init(t_read *info)
 {
+	struct winsize	ws;
+
 	ft_bzero(info, sizeof(t_read));
-	info->win_co = tgetnum("co");
+	ioctl(1, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
+	info->win_co = ws.ws_col;
 }
 
 int			main(int ac, char **av, char **env)

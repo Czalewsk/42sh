@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/26 17:05:36 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/26 17:53:40 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 	char	*curs;
 	int		len;
 
-	buff_handler(cmd, entry);
+	buff_handler(cmd, entry, NULL);
 	cmd->size_actual += entry->nread;
 	if (info->curs_char == (long)info->total_char)
 	{
