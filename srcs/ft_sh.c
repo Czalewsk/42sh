@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 15:49:09 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/28 08:49:02 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/28 09:22:38 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int			main(int ac, char **av, char **env)
 	{
 		info_init(&info);
 		prompt_display(&info);
-		if ((ret = read_line(&cmd, &info)) < 0)
+		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
+		if (ret == -3)
+			continue ;
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/26 17:54:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/28 09:11:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ char			read_line(t_buf *cmd, t_read *info)
 			break ;
 //		debug_key(&entry);
 	}
-	return (ret == -1 ? -1 : 1);
+	return (ret);
 }
