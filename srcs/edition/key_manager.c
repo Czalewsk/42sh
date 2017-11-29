@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/21 17:20:15 by bviala           ###   ########.fr       */
+/*   Updated: 2017/11/28 16:58:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ char					sh_quit(t_buf *cmd, t_read *info, t_key *entry)
 
 char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 {
-	(void)cmd;
-	(void)entry;
 	if (info->curs_char != (long)info->total_char)
 	{
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
 	}
+	history_mode(cmd, info, entry);
 	return (-2);
 }
 
@@ -56,6 +55,8 @@ const t_key_map			g_key_map[] =
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66}, {&curs_move_vt}},
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
+	{12, PAGE_UP, 4, {27, 91, 53, 126}, {&history_mode}},
+	{13, PAGE_DO, 4, {27, 91, 54, 126}, {&history_mode}},
 };
 
 static void				*key_token(t_key *entry)
