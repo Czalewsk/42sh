@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/28 13:31:32 by thugo            ###   ########.fr        #
+#    Updated: 2017/11/29 10:46:38 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,11 @@ SRCS_FILES		= ft_sh \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
 				  prompt/prompt_add \
-				  ast/lexer
+				  ast/rules ast/lexer
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h lexer.h
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
