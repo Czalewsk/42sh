@@ -6,13 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/26 18:11:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/29 10:23:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void	print_string(char *str, t_buf *cmd, t_read *info)
+void	add_str(t_buf *cmd, t_read *info, char *str)
 {
 	int		len;
 	char	*curs;
@@ -32,9 +32,19 @@ void	print_string(char *str, t_buf *cmd, t_read *info)
 	cursor_display_update(info, 1);
 }
 
-char	test_print(t_buf *cmd, t_read *info, t_key *entry)
+void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 {
-	(void)entry;
-	print_string("YO😃 LO", cmd, info);
-	return (0);
+	size_t		len;
+
+	if (!cmd || !info || !str)
+		return ;
+	buff_handler(cmd, NULL, str);
+	ft_strcpy(cmd->cmd, str);
+	cmd->size_actual = ft_strlen(cmd->cmd);
+	cursor_back_home(info);
+	write(1, cmd->cmd, cmd->size_actual);
+	len = ft_strlen_utf8(str);
+	info->curs_char = (pos_curs > len) ? len : pos_curs;
+	info->total_char = len;
+	cursor_display_update(info, 1);
 }

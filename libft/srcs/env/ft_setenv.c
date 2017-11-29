@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_add.c                                       :+:      :+:    :+:   */
+/*   ft_setenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 12:10:44 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/29 10:30:41 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/28 11:33:54 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/28 18:07:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-char	prompt_add(char *prompt, char **line)
+void		ft_setenv(char *key, char *value, char ***env)
 {
-	t_buf		cmd;
-	t_read		info;
-	char		ret;
+	long		i;
 
-	ret = 0;
-	info_init(&info);
-	info.prompt = ft_strlen_utf8(prompt);
-	buff_handler(&cmd, NULL, NULL);
-	write(1, "\n\r", 2);
-	ft_putstr(prompt);
-	ret = read_line(&cmd, &info);
-	*line = cmd.cmd;
-	return (ret);
+	(void)value;
+	if (!env || !*env)
+		return ;
+	if ((i = ft_getenv_addr(*env, key) - *env) < 0)
+		ft_addenv(key, value, env);
+	else
+	{
+		ft_strdel(*env + i);
+		*(*env + i) = ft_strxjoin(3, key, "=", value);
+	}
 }

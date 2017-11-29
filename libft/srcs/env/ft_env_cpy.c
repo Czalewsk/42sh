@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_add.c                                       :+:      :+:    :+:   */
+/*   ft_env_cpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 12:10:44 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/29 10:30:41 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/28 14:14:57 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/28 18:07:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-char	prompt_add(char *prompt, char **line)
+void		ft_env_cpy(char ***env)
 {
-	t_buf		cmd;
-	t_read		info;
-	char		ret;
+	int		i;
+	int		j;
+	char	**new;
 
-	ret = 0;
-	info_init(&info);
-	info.prompt = ft_strlen_utf8(prompt);
-	buff_handler(&cmd, NULL, NULL);
-	write(1, "\n\r", 2);
-	ft_putstr(prompt);
-	ret = read_line(&cmd, &info);
-	*line = cmd.cmd;
-	return (ret);
+	i = 0;
+	j = 0;
+	if (!env || !*env)
+		return ;
+	while (*(*env + i))
+		i++;
+	new = ft_memalloc(sizeof(char*) * (++i));
+	while (--i >= 0)
+		*(new + i) = ft_strdup(*(*env + i));
+	*env = new;
 }
