@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/11/15 18:54:01 by bviala            #+#    #+#              #
-#    Updated: 2017/11/17 15:56:48 by bviala           ###   ########.fr        #
+#    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
+#    Updated: 2017/11/29 10:24:54 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  str/ft_strsplit.c str/ft_str_isdigit.c str/ft_strnew_c.c		\
 			  str/ft_calc_wstrlen.c str/ft_strjoin_free.c					\
 			  str/ft_strndup.c	str/ft_strsplit_whitespaces.c				\
-			  str/ft_strlen_utf8.c											\
+			  str/ft_strlen_utf8.c str/ft_strxjoin.c						\
 			  utils/ft_swap.c utils/ft_isalnum.c utils/ft_isalpha.c			\
 			  utils/ft_isascii.c utils/ft_isdigit.c							\
 			  utils/ft_islower.c utils/ft_isprint.c utils/ft_isupper.c		\
@@ -106,11 +106,12 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  printf/solve_s.c printf/solve_u.c								\
 			  printf/solve_wchar.c printf/solve_wstring.c					\
 			  printf/solve_x.c												\
-			  env/ft_getenv.c												\
 			  tree/btree_apply_infix.c tree/btree_apply_prefix.c 			\
 			  tree/btree_create_node.c tree/btree_apply_suffix.c			\
 			  tree/btree_insert_data.c tree/btree_level_count.c				\
-			  tree/btree_search_item.c
+			  tree/btree_search_item.c										\
+			  env/ft_getenv.c env/ft_setenv.c env/ft_env_cpy.c				\
+			  env/ft_addenv.c env/ft_printenv.c env/ft_unsetenv.c
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

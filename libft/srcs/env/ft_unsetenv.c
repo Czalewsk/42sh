@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_add.c                                       :+:      :+:    :+:   */
+/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/27 12:10:44 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/29 10:30:41 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/28 15:56:38 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/28 18:07:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-char	prompt_add(char *prompt, char **line)
+void		ft_unsetenv(char *key, char **env)
 {
-	t_buf		cmd;
-	t_read		info;
-	char		ret;
+	char	**to_del;
 
-	ret = 0;
-	info_init(&info);
-	info.prompt = ft_strlen_utf8(prompt);
-	buff_handler(&cmd, NULL, NULL);
-	write(1, "\n\r", 2);
-	ft_putstr(prompt);
-	ret = read_line(&cmd, &info);
-	*line = cmd.cmd;
-	return (ret);
+	if (!key || !env)
+		return ;
+	if (!(to_del = ft_getenv_addr(env, key)))
+		return ;
+	while (*env)
+		env++;
+	ft_strdel(to_del);
+	ft_memmove(to_del, to_del + 1, (env - to_del) * sizeof(char**));
 }
