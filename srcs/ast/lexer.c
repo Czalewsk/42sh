@@ -6,39 +6,15 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 09:37:06 by thugo             #+#    #+#             */
-/*   Updated: 2017/11/30 10:18:24 by thugo            ###   ########.fr       */
+/*   Updated: 2017/11/30 14:47:53 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ast_types.h"
+#include "ast.h"
 #include "libft.h"
 
-extern t_astrule g_astrules[];
-
-static int				get_operator(char **cur, t_token *token,
-	size_t *cursize)
-{
-	int		i;
-	size_t	size;
-
-	i = 0;
-	while (g_astrules[i].op)
-	{
-		size = ft_strlen(g_astrules[i].op);
-		if (!ft_strncmp(*cur, g_astrules[i].op, size))
-		{
-			if (*cursize)
-				return (1);
-			*cursize = size;
-			token->id = g_astrules[i].id;
-			*cur += size;
-			return (1);
-		}
-		++i;
-	}
-	return (0);
-}
+extern t_astrule		g_astrules[];
 
 /*
 **	Assigne le premier token trouve depuis **cur dans le param token.
@@ -67,7 +43,7 @@ int						lexer_getnexttoken(t_token *token, char **cur)
 		{
 			if (!token->str)
 				token->str = *cur;
-			if (get_operator(cur, token, &size))
+			if (lexer_tokenize(token, cur, &size))
 				return ((token->str = ft_strndup(token->str, size)) ? 1 : -3);
 			++size;
 		}

@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:26:31 by thugo             #+#    #+#             */
-/*   Updated: 2017/11/30 09:53:32 by thugo            ###   ########.fr       */
+/*   Updated: 2017/11/30 11:48:23 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,22 @@
 
 typedef	enum		e_token_id
 {
-	WORD, NEWLINE, AND_IF, OR_IF, DSEMI, DLESS, DGREAT, LESSAND,
+	WORD = 0, NEWLINE, AND_IF, OR_IF, DSEMI, DLESS, DGREAT, LESSAND,
 	GREATAND, LESSGREAT, DLESSDASH, IO_NUMBER, AND, LPAR, RPAR, PIPE, GREAT,
-	LESS, CLOBBER, SEMI
+	LESS, CLOBBER, SEMI, If, Then, Else, Elif, Fi, Do, Done, Case, Esac, While,
+	Until, For
 }					t_token_id;
+
+typedef enum		e_token_type
+{
+	OPERATOR = 0, RESERVED = 1
+}					t_token_type;
 
 typedef struct		s_astrule
 {
-	char		*op;
-	t_token_id	id;
+	char			*op;
+	t_token_id		id;
+	t_token_type	type;
 }					t_astrule;
 
 typedef struct		s_token

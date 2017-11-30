@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/29 10:46:38 by thugo            ###   ########.fr        #
+#    Updated: 2017/11/30 14:36:16 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ SRCS_FILES		= ft_sh \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
 				  prompt/prompt_add \
-				  ast/rules ast/lexer
+				  ast/rules ast/lexer ast/lexer_tokenize
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
