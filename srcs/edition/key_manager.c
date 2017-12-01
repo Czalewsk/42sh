@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 16:58:09 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/01 18:41:49 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
 	}
-	history_mode(cmd, info, entry);
 	return (-2);
 }
 
@@ -45,18 +44,18 @@ const t_key_map			g_key_map[] =
 {
 	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz}},
 	{1, ARROW_R, 3, {27, 91, 67}, {&curs_move_hz}},
-	{2, ARROW_U, 3, {27, 91, 65}, {&history_mode}},
-	{3, ARROW_D, 3, {27, 91, 66}, {&history_mode}},
+	{2, ARROW_U, 3, {27, 91, 65}, {&history_mode, NULL, &history_up}},
+	{3, ARROW_D, 3, {27, 91, 66}, {NULL, NULL, &history_do}},
 	{4, QUIT, 1, {CTRL_KEY('D')}, {&sh_quit}},
-	{5, ENTER, 1, {13}, {&sh_validate_line}},
+	{5, ENTER, 1, {13}, {&sh_validate_line, NULL, &sh_validate_line_history}},
 	{6, DELETE, 1, {127}, {&delete_char}},
 	{7, SUPPR, 4, {27, 91, 51, 126}, {&suppr_char}},
 	{8, SHIFT_UP, 6, {27, 91, 49, 59, 50, 65}, {&curs_move_vt}},
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66}, {&curs_move_vt}},
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
-	{12, PAGE_UP, 4, {27, 91, 53, 126}, {&history_mode}},
-	{13, PAGE_DO, 4, {27, 91, 54, 126}, {&history_mode}},
+	{12, PAGE_UP, 4, {27, 91, 53, 126}, {&history_mode, NULL, &history_up}},
+	{13, PAGE_DO, 4, {27, 91, 54, 126}, {NULL, NULL, &history_do}},
 };
 
 static void				*key_token(t_key *entry)

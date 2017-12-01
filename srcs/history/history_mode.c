@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   history_mode.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/01 20:05:29 by bviala           ###   ########.fr       */
+/*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
+/*   Updated: 2017/12/01 20:05:33 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __HISTORY_H
-# define __HISTORY_H
+#include "ft_sh.h"
 
-# define HIST_FILE "/Users/bviala/.cedychou_history"
+static t_ldl_head	*g_list = NULL;
+static t_ldl		*g_ldl = NULL;
 
-# include "ft_sh.h"
 
-int		check_history_access(const char *file);	
-char	history_mode(t_buf *cmd, t_read *info, t_key *entry);
-char	sh_validate_line_history(t_buf *cmd, t_read *info, t_key *entry);
-#endif
+
+//  close_history()
+//	history_up(t_buf *cmd, t_read *info, t_key *entry)
+//	history_do(t_buf *cmd, t_read *info, t_key *entry)
+
+		history_init()
+
+char	history_mode(t_buf *cmd, t_read *info, t_key *entry)
+{
+	if (!g_list)
+		g_list = history_init();
+}
