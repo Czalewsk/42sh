@@ -6,7 +6,7 @@
 #    By: bviala <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/11/28 17:32:15 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/02 18:00:17 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  utils/ft_tolower.c utils/ft_toupper.c utils/get_next_line.c	\
 			  utils/ft_sort_wordtab.c utils/ft_isspace.c utils/ft_iswcntrl.c\
 			  utils/ft_rev_wordtab.c utils/debug.c utils/ft_error.c			\
-			  utils/ft_iswcntrl.c											\
+			  utils/ft_iswcntrl.c utils/ft_list_files.c						\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
 			  printf/solve_c.c	printf/solve_d.c							\

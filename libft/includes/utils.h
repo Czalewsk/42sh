@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/08 21:05:26 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/02 18:01:42 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # include "libft.h"
+# include <dirent.h>
 
 # define BUFF_SIZE 250
 
@@ -40,5 +41,7 @@ void				ft_rev_wordtab(char **tab);
 int					get_next_line(const int fd, char **line);
 void				ft_error(char *str, void (*f)(void));
 int					ft_iswcntrl(unsigned int c);
+t_list				*ft_list_files(char *path);
+int					ft_is_not_root(char *name);
 
 #endif
