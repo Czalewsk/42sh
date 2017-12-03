@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 14:27:42 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/02 18:01:49 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/02 18:45:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ t_list		*ft_list_files(char *path)
 	if (!(dir = opendir(path)))
 		return (NULL);
 	while ((dirent = readdir(dir)))
-		ft_lstadd(&ret,
+	{
+		if (ft_is_not_root(dirent->d_name))
+			ft_lstadd(&ret,
 				ft_lstnew(dirent->d_name, ft_strlen(dirent->d_name) + 1), 0);
+	}
 	closedir(dir);
 	return (ret);
 }
