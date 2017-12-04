@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 09:22:03 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/04 19:22:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 {
 	(void)cmd;
 	(void)entry;
+	*(cmd->cmd + cmd->size_actual) = '\n';
+	*(cmd->cmd + cmd->size_actual + 1) = '\0';
 	if (info->curs_char != (long)info->total_char)
 	{
 		info->curs_char = info->total_char;
