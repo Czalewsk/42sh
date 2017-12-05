@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/27 14:44:41 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/05 22:03:14 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,11 +41,13 @@ SRCS_FILES		= ft_sh \
 				  edition/buff_handler edition/read edition/paste_handler \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
-				  prompt/prompt_add
+				  prompt/prompt_add \
+				  utils/escape/escape_functions utils/escape/sh_escape \
+				  utils/escape/sh_escape_dquote
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h utils.h sh_escape.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -53,7 +55,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
+ utils/escape)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
