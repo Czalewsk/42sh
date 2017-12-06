@@ -6,21 +6,22 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:23:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/05 21:53:47 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/06 17:06:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_escape.h"
+#include "utils.h"
 
 const char		g_charset[] = "\"\'\\";
 unsigned int	g_nb_remove = 0;
 
-extern inline void	set_escape(char *str, unsigned int index)
+extern inline void	set_remove(char *str, unsigned int index)
 {
 	*(str + index / 8) |= (1 << (index % 8));
 }
 
-extern inline char	sh_is_escape(char *str, unsigned int index)
+static inline char	esc_remove(char *str, unsigned int index)
 {
 	return (*(str + index / 8) & (1 << (index % 8)));
 }
@@ -34,7 +35,7 @@ static void			remove_escape(char *str, char *to_remove)
 	j = 0;
 	while (*str)
 	{
-		if (sh_is_escape(to_remove, i))
+		if (esc_remove(to_remove, i))
 		{
 			*str = *(str + 1 + j);
 			j++;
@@ -56,7 +57,7 @@ void				*escape_fonctions(char *str, char *escaped, char *to_remove,
 	(void)escaped;
 	if ((res = ft_strchr(g_charset, *str)))
 	{
-		set_escape(to_remove, index);
+		set_remove(to_remove, index);
 		++g_nb_remove;
 		return ((void *)fcts[(int)(res - g_charset)]);
 	}
@@ -73,7 +74,7 @@ char				sh_escape(char *str, char **escaped)
 	if (!str || !escaped || (i = ft_strlen(str)) <= 0)
 		return (-1);
 	f = &escape_fonctions;
-	*escaped = ft_memalloc((i / 8) + 1);
+	*escaped = ft_memalloc((i + 1));
 	to_remove = ft_memalloc((i / 8) + 1);
 	i = -1;
 	while (*(str + ++i))
@@ -86,12 +87,15 @@ char				sh_escape(char *str, char **escaped)
 /*
 **int		main(void)
 **{
-**	char str[] = "\"l\\`ol\\";
+**	char str[] = "\"l\\`ol\"";
 **	char *l = NULL;
 **	char ret;
 **
 **	ft_printf("Avant=%s|\n", str);
 **	ret = sh_escape(str, &l);
 **	ft_printf("Retour(%d) Escape=%hhX\nApres=%s|\n", ret, *l, str);
+**	ft_printf("\n~%i~\n", SH_IS_END_DQ(l, 2));
+**	while (*l)
+**		ft_printf("%i", *l++);
 **}
 */

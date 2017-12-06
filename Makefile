@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/12/05 22:03:14 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/05 22:05:52 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRCS_FILES		= ft_sh \
 				  edition/cursor edition/unicode edition/print \
 				  prompt/prompt_add \
 				  utils/escape/escape_functions utils/escape/sh_escape \
-				  utils/escape/sh_escape_dquote
+				  utils/escape/escape_dquote
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 14:58:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/06 14:10:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "edition.h"
 # include "termcaps.h"
 # include "prompt.h"
+# include "utils.h"
 
 /*
 ** Define :D
