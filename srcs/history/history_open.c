@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 19:06:53 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/01 20:05:31 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/06 15:10:38 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,24 @@ int		check_history_access(const char *file)
 	return (0);
 }
 
-/* char	sh_validate_line_history(t_buf *cmd, t_read *info, t_key *entry)
+char	sh_quit_history(t_buf *cmd, t_read *info, t_key *entry)
 {
+	close_history(1);
+	(void)cmd;
+	(void)info;
+	(void)entry;
+	return (-1);
+}
+
+char	sh_validate_line_history(t_buf *cmd, t_read *info, t_key *entry)
+{
+	(void)cmd;
+	(void)entry;
 	if (info->curs_char != (long)info->total_char)
 	{
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
 	}
-	if (check_history_access(HIST_FILE))
-		close_history()
+	close_history(0);
 	return (-2);
-}*/
+}

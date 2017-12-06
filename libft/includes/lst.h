@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/21 18:19:05 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/06 15:05:16 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,24 @@ void				ft_lstdelone(t_list **alst, void (*del) (void *, size_t));
 t_list				*ft_lstswap(t_list *list);
 void				ft_lstsort(t_list **begin_list, int (*cmp)());
 void				ft_lst_remove(t_list **alst, t_list *dl,
-					void (*del)(void *, size_t));
+		void (*del)(void *, size_t));
 void				ft_lst_pushend(t_list **alst, t_list *new);
 
 t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
 t_ldl_head			*ft_ldl_addfront(t_ldl_head *ldl_head, void *content);
 void				ft_ldl_clear(t_ldl_head **ldl, void (*del)());
 void				ft_ldl_del(t_ldl_head *ldl_head,
-					t_ldl **ldl, void (*del)());
+		t_ldl **ldl, void (*del)());
 void				ft_ldl_del_id(t_ldl_head *ldl_head,
-					size_t pos, void (*del)());
+		size_t pos, void (*del)());
 void				ft_ldl_del_if(t_ldl_head *ldl, int (*fcmp)(),
-					void *content, void (*del)());
-t_ldl_head			*ft_ldl_find(t_ldl_head *ldl_head, int (*fcmp)(),
-					size_t size, void *content);
+		void *content, void (*del)());
+t_ldl_head			*ft_ldl_find(t_ldl_head *ldl_head,
+		int (*fcmp)(), size_t size, void *content);
 t_ldl				*ft_ldl_head(t_ldl_head *ldl);
 t_ldl_head			*ft_ldl_insert(t_ldl_head *ldl, void *content, size_t pos);
 t_ldl_head			*ft_ldl_insert_sort(t_ldl_head *ldl,
-					t_ldl *new, int (*fcmp)());
+		t_ldl *new, int (*fcmp)());
 t_ldl_head			*ft_ldl_new_list(void);
 void				ft_ldl_new_node(t_ldl **ldl, void *content);
 t_ldl_head			*ft_ldl_rev(t_ldl_head *ldl);
