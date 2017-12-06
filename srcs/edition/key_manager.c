@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/06 15:29:28 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/06 16:04:03 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 		cursor_display_update(info, 0);
 	}
 	return (-2);
+}
+
+char					sh_stop_line(t_buf *cmd, t_read *info, t_key *entry)
+{
+	(void)cmd;
+	(void)entry;
+	if (info->curs_char != (long)info->total_char)
+	{
+		info->curs_char = info->total_char;
+		cursor_display_update(info, 0);
+	}
+	return (-3);
 }
 
 /*
@@ -58,6 +70,8 @@ const t_key_map			g_key_map[] =
 	{11, END, 3, {27, 91, 70}, {&edition_home_end, NULL, &edition_home_end}},
 	{12, PAGE_UP, 4, {27, 91, 53, 126}, {&history_mode, NULL, &history_up}},
 	{13, PAGE_DO, 4, {27, 91, 54, 126}, {NULL, NULL, &history_do}},
+	{14, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler, NULL, &paste_handler}},
+	{15, CTRL_C, 1, {CTRL_KEY('C')}, {&sh_stop_line, NULL, &sh_stop_line}}
 };
 
 static void				*key_token(t_key *entry)
@@ -69,11 +83,11 @@ static void				*key_token(t_key *entry)
 	while (++i < MAX_KEY)
 	{
 		j = 0;
-		if (entry->nread == g_key_map[i].key_size)
+		if (entry->nread >= g_key_map[i].key_size)
 		{
 			while (j < entry->nread && entry->entry[j] == g_key_map[i].key[j])
 				j++;
-			if (j == entry->nread)
+			if (j == g_key_map[i].key_size)
 				return (g_key_map[i].function[g_edition_state]);
 		}
 	}
@@ -88,5 +102,7 @@ char					key_manager(t_buf *cmd, t_read *info, t_key *entry)
 	ret = 0;
 	if ((f = key_token(entry)))
 		ret = f(cmd, info, entry);
+	if (!ret)
+		ft_bzero(entry, sizeof(t_key));
 	return (ret);
 }

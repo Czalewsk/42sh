@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/12/06 15:30:07 by bviala           ###   ########.fr        #
+#    Updated: 2017/12/06 16:06:59 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,8 @@ SRCS_FILES		= ft_sh														\
 				  history/history_mode history/history_open					\
 				  edition/buff_handler edition/read edition/paste_handler 	\
 				  edition/key_manager edition/insert_char					\
-				  edition/key_manager edition/cursor edition/print
-#------------------------------------------------------------------------------#
-
+				  edition/unicode edition/cursor edition/print				\
+				  prompt/prompt_add
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h edition.h history.h prompt.h termcaps.h
 #------------------------------------------------------------------------------#

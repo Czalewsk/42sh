@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   ft_strxjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 08:27:03 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/10/01 14:11:09 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/10/18 10:37:36 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PROMPT_H
-# define __PROMPT_H
+#include "libft.h"
 
-# include "ft_sh.h"
+char		*ft_strxjoin(int nb_elemt, ...)
+{
+	int			i;
+	int			len;
+	va_list		str;
+	char		*joint;
 
-void		prompt_display(t_read *info);
-char		prompt_add(char *prompt, char **line);
-
-#endif
+	i = -1;
+	len = 0;
+	va_start(str, nb_elemt);
+	while (++i < nb_elemt)
+		len += ft_strlen(va_arg(str, char *));
+	va_end(str);
+	joint = ft_strnew(len);
+	va_start(str, nb_elemt);
+	i = -1;
+	while (++i < nb_elemt)
+		ft_strcat(joint, va_arg(str, char *));
+	return (joint);
+}

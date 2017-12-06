@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/06 15:28:44 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/06 16:10:04 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 */
 
 # include "ft_sh.h"
+# include <sys/ioctl.h>
 # define SIZE_READ (12)
+# define SIZE_BUFF (SIZE_READ * 2)
 # define CTRL_KEY(k) ((k) & 0x1f)
 # define DEL_KEY (2117294875l)
 # define ABS(x) (x > 0 ? x : -x)
@@ -42,7 +44,7 @@ typedef enum		e_edition_state
 typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
-	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, MAX_KEY
+	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, PASTE_KEYBOARD, CTRL_C, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -65,7 +67,7 @@ typedef struct		s_read
 typedef struct		s_key
 {
 	int				nread;
-	char			entry[SIZE_READ];
+	char			entry[SIZE_BUFF];
 }					t_key;
 
 typedef struct		s_buf
@@ -75,7 +77,7 @@ typedef struct		s_buf
 	size_t			size_actual;
 }					t_buf;
 
-void				buff_handler(t_buf *cmd, t_key *entry);
+void				buff_handler(t_buf *cmd, t_key *entry, char *str);
 char				read_line(t_buf *cmd, t_read *info);
 void				read_key(t_key *entry);
 char				paste_handler(t_buf *cmd, t_read *info, t_key *entry);
@@ -88,7 +90,12 @@ char				delete_char(t_buf *cmd, t_read *info, t_key *entry);
 char				suppr_char(t_buf *cmd, t_read *info, t_key *entry);
 char				curs_move_vt(t_buf *cmd, t_read *info, t_key *entry);
 char				edition_home_end(t_buf *cmd, t_read *info, t_key *entry);
-void				cursor_back_home(t_read *info, int clean_screen);
 void				display_str(t_buf *cmd, t_read *info, char *str, size_t pos_cur);
+void				cursor_back_home(t_read *info);
+int					sh_curs_unicode(char *str, int index, int end);
+void				add_str(t_buf *cmd, t_read *info, char *str);
+char				test_print(t_buf *cmd, t_read *info, t_key *entry);
+void				info_init(t_read *info);
+char				test_prompt_add(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif

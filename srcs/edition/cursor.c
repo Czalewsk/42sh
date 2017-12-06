@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cursor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/21 18:46:17 by bviala           ###   ########.fr       */
+/*   Created: 2017/12/06 16:04:42 by bviala            #+#    #+#             */
+/*   Updated: 2017/12/06 16:04:44 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char			curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)
 	g_move = 1;
 	info->curs_char += mvt;
 	cursor_display_update(info, 0);
-	return (0);
+	ft_bzero(entry, sizeof(t_key));
+	return (1);
 }
 
 char			curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
@@ -95,7 +96,8 @@ char			curs_move_vt(t_buf *cmd, t_read *info, t_key *entry)
 	if (info->curs_char < 0 || info->curs_char > (long)info->total_char)
 		info->curs_char = (info->curs_char < 0 ? 0 : info->total_char);
 	cursor_display_update(info, 0);
-	return (0);
+	ft_bzero(entry, sizeof(t_key));
+	return (1);
 }
 
 char			edition_home_end(t_buf *cmd, t_read *info, t_key *entry)
@@ -103,15 +105,17 @@ char			edition_home_end(t_buf *cmd, t_read *info, t_key *entry)
 	(void)cmd;
 	if (!cmd->size_actual)
 		return (0);
+	g_move = 1;
 	if (entry->entry[2] == 72 && info->curs_char > 0)
 	{
-		cursor_back_home(info, 0);
 		info->curs_char = 0;
+		cursor_display_update(info, 0);
 	}
 	else if (entry->entry[2] == 70 && info->curs_char != (long)info->total_char)
 	{
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
 	}
-	return (0);
+	ft_bzero(entry, sizeof(t_key));
+	return (1);
 }
