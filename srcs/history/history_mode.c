@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/06 20:39:59 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/07 12:47:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void		close_history(int clear, t_buf *cmd)
 	g_edition_state = NORMAL;
 	if ((access = check_history_access(HIST_FILE)))
 	{
-		DEBUG("oui je write\n");
 		if ((fd = open(HIST_FILE, O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
 			return ;
 //		write(fd, g_ldl->content, ft_strlen(g_ldl->content));
+		DEBUG("oui je write\n");
 		write(fd, cmd->cmd, cmd->size_actual);
 		write(fd, "\n", 1);
 		close(fd);
@@ -52,6 +52,13 @@ char		history_up(t_buf *cmd, t_read *info, t_key *entry)
 	last =  (entry->entry[2] == 65) ? 0 : 1;
 	if (!g_ldl)
 		return (0);
+	if (ft_strcmp(cmd->cmd, g_ldl->content))
+	{
+		DEBUG("ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI\n");
+		ft_ldl_clear(&g_list, &ft_strdel);
+		entry->entry[2] = 65;
+		history_mode(cmd, info, entry);
+	}
 	if (!last && g_ldl->next)
 	{
 			g_ldl = g_ldl->next;
@@ -74,6 +81,13 @@ char		history_do(t_buf *cmd, t_read *info, t_key *entry)
 
 	if (!g_ldl)
 		return (0);
+	if (ft_strcmp(cmd->cmd, g_ldl->content))
+	{
+		DEBUG("ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI\n");
+		ft_ldl_clear(&g_list, &ft_strdel);
+		entry->entry[2] = 65;
+		history_mode(cmd, info, entry);
+	}
 	first = (entry->entry[2] == 66) ? 0 : 1;
 	if (!first && g_ldl->prev)
 	{
@@ -86,6 +100,12 @@ char		history_do(t_buf *cmd, t_read *info, t_key *entry)
 		g_i = 1;
 	}
 	display_str(cmd, info, g_ldl->content, ft_strlen(g_ldl->content));
+	if (g_i == 1)
+	{
+		ft_ldl_clear(&g_list, &ft_strdel);
+		g_i = 0;
+		g_edition_state = NORMAL;
+	}
 	return (0);
 }
 
@@ -124,21 +144,13 @@ static void	history_init(t_buf *cmd, t_read *info)
 
 char		history_mode(t_buf *cmd, t_read *info, t_key *entry)
 {
-	DEBUG("entry\n");
+	DEBUG("curs_char is |%d|\n", info->curs_char);
 	g_edition_state = HISTORY;
-	DEBUG("before init\n");
 	if (!g_list)
 		history_init(cmd, info);
-	DEBUG("after init\n");
-	if (info->curs_char)
-		g_list = ft_ldl_addfront(g_list, ft_strdup(cmd->cmd));
-	DEBUG("curs_char is |%d|\n", info->curs_char);
-	DEBUG("AAA\n");
+	g_list = ft_ldl_addfront(g_list, ft_strdup(cmd->cmd));
 	g_ldl = g_list->head;
-	DEBUG("BBB\n");
 	g_i = 1;
-	DEBUG("before hist_up\n");
 	history_up(cmd, info, entry);
-	DEBUG("exit\n");
 	return (0);
 }
