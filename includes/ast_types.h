@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:26:31 by thugo             #+#    #+#             */
-/*   Updated: 2017/11/30 11:48:23 by thugo            ###   ########.fr       */
+/*   Updated: 2017/12/04 20:18:01 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_astrule
 typedef struct		s_token
 {
 	char		*str;
+	size_t		size;
 	t_token_id	id;
 }					t_token;
 
