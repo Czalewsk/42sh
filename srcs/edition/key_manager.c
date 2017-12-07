@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/06 20:16:01 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/07 15:58:59 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,16 @@ const t_key_map			g_key_map[] =
 	{5, ENTER, 1, {13}, {&sh_validate_line, NULL, &sh_validate_line}},
 	{6, DELETE, 1, {127}, {&delete_char, NULL, &delete_char}},
 	{7, SUPPR, 4, {27, 91, 51, 126}, {&suppr_char, NULL, &suppr_char}},
-	{8, SHIFT_UP, 6, {27, 91, 49, 59, 50, 65}, {&curs_move_vt, NULL, &curs_move_vt}},
-	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66}, {&curs_move_vt, NULL, &curs_move_vt}},
+	{8, SHIFT_UP, 6, {27, 91, 49, 59, 50, 65},
+		{&curs_move_vt, NULL, &curs_move_vt}},
+	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66},
+		{&curs_move_vt, NULL, &curs_move_vt}},
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end, NULL, &edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end, NULL, &edition_home_end}},
 	{12, PAGE_UP, 4, {27, 91, 53, 126}, {&history_mode, NULL, &history_up}},
 	{13, PAGE_DO, 4, {27, 91, 54, 126}, {NULL, NULL, &history_do}},
-	{14, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler, NULL, &paste_handler}},
+	{14, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126},
+		{&paste_handler, NULL, &paste_handler}},
 	{15, CTRL_C, 1, {CTRL_KEY('C')}, {&sh_stop_line, NULL, &sh_stop_line}}
 };
 
@@ -88,7 +91,7 @@ static void				*key_token(t_key *entry)
 			while (j < entry->nread && entry->entry[j] == g_key_map[i].key[j])
 				j++;
 			if (j == g_key_map[i].key_size)
-				return (g_key_map[i].function[g_edition_state]);
+				return (g_key_map[i].function[g_sh.edition_state]);
 		}
 	}
 	return (NULL);

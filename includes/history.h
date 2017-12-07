@@ -6,14 +6,14 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/06 20:19:34 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/07 16:37:46 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __HISTORY_H
 # define __HISTORY_H
 
-# define HIST_FILE "/Users/bviala/.cedychou_history"
+# define HIST_FILE ".cedychou_history"
 
 # include "ft_sh.h"
 

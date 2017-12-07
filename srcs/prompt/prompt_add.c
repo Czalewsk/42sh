@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 15:53:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/06 15:53:50 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/07 15:37:49 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	prompt_add(char *prompt, char **line)
 	ret = 0;
 	info_init(&info);
 	info.prompt = ft_strlen_utf8(prompt);
-	buff_handler(&cmd, NULL, NULL);
 	write(1, "\n\r", 2);
 	ft_putstr(prompt);
 	ret = read_line(&cmd, &info);
