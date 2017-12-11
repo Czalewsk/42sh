@@ -6,83 +6,67 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 13:23:30 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/11 17:25:10 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/11 18:13:42 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 #include "sh_glob.h"
 
-int		sh_find_beg(char **curs, char **begin, char **end)
+void		sh_find_beg(char **curs, char **begin, char **end, int *state)
 {
-	(void)end;
 	if (**curs == '{')
 	{
+		*end = NULL;
 		*begin = *curs;
-		return (1);
+		(*curs)++;
+		*state = 1;
 	}
-	if (!**curs)
-		return (-1);
-	return (0);
 }
 
 int		sh_find_end(char **curs, char **begin, char **end)
 {
+	(void)begin;
 	if (**curs == '}')
 	{
 		*end = *curs;
 		return (2);
-	}
-	if (!**curs)
-	{
-		*curs = *begin;
-		return (0);
 	}
 	return (1);
 }
 
 int		brace_exp_valide_type(char **curs, char **begin, char **end)
 {
-	/* Retourne 2 si pas de fin et met curs a begin */
-	char	*tmp;
-
+	/* Retourne 2 ou 3 si VALIDE sinon 1 */
 	if (brace_exp_choice(curs, begin, end))
-	{
-		return (4);
-	}
+		return (2);
 	else if (brace_exp_seq(curs, begin, end))
-	{
-		return (5);
-	}
-	else if (!**curs)
-	{
-		return (1);
-	}
-	return (2);
+		return (3);
+	return (1);
 }
 
 char	glob_find_pattern(char **curs, char **begin, char **end)
 {
 	char		*tmp;
 	int			state;
-	int			(*const f[3])(char **, char **, char **) =
-	{&sh_find_beg, &sh_find_end, brace_exp_valide_type};
 
 	tmp = *curs;
+	*begin = NULL;
 	state = 0;
-	while (42)
+	*end = NULL;
+	while (*tmp && state < 2)
 	{
 		if (*tmp == '\\')
 			tmp += (*(tmp + 1) && *(tmp + 2)) ? 2 : 1;
-		state = (f[state](&tmp, begin, end));
+		sh_find_beg(&tmp, begin, end, &state);
+		if (state)
+			sh_find_end(&tmp, begin, end);
+		if (*end)
+			state = brace_exp_valide_type(&tmp, begin, end);
 		tmp++;
-		if (state >= 3 || state < 0)
-			break ;
 	}
-	if (state < 3)
-		return (0);
 	*curs = tmp;
-	return (state - 3);
+	return (*end ? state : 0);
 }
 
 char	**sh_brace_exp(char *tkkn)
