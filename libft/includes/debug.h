@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/21 08:41:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/11/22 10:21:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <fcntl.h>
 
 # define DEBUG_WINDOW ("/dev/ttys005")
-
 # define DEBUG(x...) (debug(x));
 
 int		debug(char *format, ...);

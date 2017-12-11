@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   ft_ldl_new_node.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 15:49:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/17 15:49:43 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/09 17:58:11 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/14 14:32:57 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		debug(char *format, ...)
+void	ft_ldl_new_node(t_ldl **ldl, void *content)
 {
-	int			fd;
-	va_list		ap;
+	t_ldl	*new;
 
-	fd = open(DEBUG_WINDOW, O_RDWR);
-	va_start(ap, format);
-	vdprintf(fd, format, ap);
-	va_end(ap);
-	close(fd);
-	return (1);
+	if ((new = (t_ldl *)malloc(sizeof(t_ldl))))
+	{
+		new->content = content;
+		new->prev = NULL;
+		new->next = NULL;
+		*ldl = new;
+	}
 }

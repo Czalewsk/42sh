@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   ft_ldl_rev.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 15:49:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/17 15:49:43 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/14 16:41:23 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/14 16:54:31 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		debug(char *format, ...)
+t_ldl_head	*ft_ldl_rev(t_ldl_head *ldl)
 {
-	int			fd;
-	va_list		ap;
+	t_ldl_head	*new;
+	t_ldl		*temp;
 
-	fd = open(DEBUG_WINDOW, O_RDWR);
-	va_start(ap, format);
-	vdprintf(fd, format, ap);
-	va_end(ap);
-	close(fd);
-	return (1);
+	if (!ldl || !(new = ft_ldl_new_list()))
+		return (NULL);
+	temp = ldl->tail;
+	while (temp)
+	{
+		new = ft_ldl_addback(new, temp->content);
+		temp = temp->prev;
+	}
+	free(ldl);
+	return (new);
 }

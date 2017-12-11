@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bviala <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/12/02 18:00:17 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/11 08:48:47 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,14 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  lst/ft_lstsize.c lst/ft_lstiter.c lst/ft_lstclear.c			\
 			  lst/ft_lstprint.c	lst/ft_lstdelone.c lst/ft_lstaddback.c		\
 			  lst/ft_lstswap.c lst/ft_lstsort.c lst/ft_lstprint_name.c		\
+			  lst/ldl/ft_ldl_addback.c lst/ldl/ft_ldl_addfront.c			\
+			  lst/ldl/ft_ldl_clear.c lst/ldl/ft_ldl_del.c					\
+			  lst/ldl/ft_ldl_del_id.c lst/ldl/ft_ldl_del_if.c				\
+			  lst/ldl/ft_ldl_find.c lst/ldl/ft_ldl_head.c					\
+			  lst/ldl/ft_ldl_insert.c lst/ldl/ft_ldl_insert_sort.c			\
+			  lst/ldl/ft_ldl_new_list.c	lst/ldl/ft_ldl_new_node.c 			\
+			  lst/ldl/ft_ldl_rev.c	lst/ldl/ft_ldl_size.c					\
+			  lst/ldl/ft_ldl_tail.c	lst/ldl/ft_ldl_to_tab.c					\
 			  maths/ft_abs.c maths/ft_pow.c	maths/ft_atoi.c maths/ft_itoa.c	\
 			  maths/ft_sqrt.c maths/ft_rec_fac.c maths/reverse_octet.c		\
 			  maths/ft_itoa_base_uns.c maths/ft_itoa_base_signed.c			\
@@ -98,13 +106,17 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  printf/solve_s.c printf/solve_u.c								\
 			  printf/solve_wchar.c printf/solve_wstring.c					\
 			  printf/solve_x.c												\
+			  tree/btree_apply_infix.c tree/btree_apply_prefix.c 			\
+			  tree/btree_create_node.c tree/btree_apply_suffix.c			\
+			  tree/btree_insert_data.c tree/btree_level_count.c				\
+			  tree/btree_search_item.c										\
 			  env/ft_getenv.c env/ft_setenv.c env/ft_env_cpy.c				\
 			  env/ft_addenv.c env/ft_printenv.c env/ft_unsetenv.c
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES	= ft_printf.h lst.h maths.h mem.h output.h str.h utils.h env.h	\
-			  debug.h
+			  debug.h ft_btree.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -112,7 +124,7 @@ SRCS		= $(addprefix $(SRCS_PATH), $(SRCS_FILES))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS	= $(addprefix $(OBJS_PATH), env/ printf/ mem/ output/ lst/ str/ utils/ maths/)
+OBJS_DIRS	= $(addprefix $(OBJS_PATH), env/ printf/ mem/ output/ lst/ lst/ldl/ str/ utils/ maths/ tree/)
 OBJS		= $(addprefix $(OBJS_PATH), $(SRCS_FILES:.c=.o))
 #------------------------------------------------------------------------------#
 
@@ -151,8 +163,7 @@ clean:
 	@if [ -e $(OBJS_PATH) ];\
 		then\
 		rm -rf $(OBJS);\
-		rmdir $(OBJS_DIRS) 2> /dev/null || true;\
-		rmdir $(OBJS_PATH) 2> /dev/null || true;\
+		rm -rf $(OBJS_PATH) 2> /dev/null || true;\
 		printf "\r$(YELLOW)⚠️  Deleted object files from $(NAME) ⚠️ \033[0m\033[K\n";\
 		fi;
 

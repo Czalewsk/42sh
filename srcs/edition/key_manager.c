@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 09:06:01 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/04 19:22:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 {
 	(void)cmd;
 	(void)entry;
+	*(cmd->cmd + cmd->size_actual) = '\n';
+	*(cmd->cmd + cmd->size_actual + 1) = '\0';
 	if (info->curs_char != (long)info->total_char)
 	{
 		info->curs_char = info->total_char;
@@ -69,7 +71,7 @@ const t_key_map			g_key_map[] =
 	{10, HOME, 3, {27, 91, 72}, {&edition_home_end}},
 	{11, END, 3, {27, 91, 70}, {&edition_home_end}},
 	{12, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126}, {&paste_handler}},
-	{13, CTRL_T, 1, {CTRL_KEY('T')}, {&test_print}},
+	{13, CTRL_T, 1, {CTRL_KEY('T')}, {NULL}},
 	{14, CTRL_C, 1, {CTRL_KEY('C')}, {&sh_stop_line}}
 };
 

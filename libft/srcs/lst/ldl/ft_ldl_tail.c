@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   ft_ldl_tail.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/17 15:49:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/17 15:49:43 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/08 15:52:22 by bviala            #+#    #+#             */
+/*   Updated: 2017/11/09 19:30:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		debug(char *format, ...)
+t_ldl	*ft_ldl_tail(t_ldl_head *ldl)
 {
-	int			fd;
-	va_list		ap;
-
-	fd = open(DEBUG_WINDOW, O_RDWR);
-	va_start(ap, format);
-	vdprintf(fd, format, ap);
-	va_end(ap);
-	close(fd);
-	return (1);
+	if (ldl)
+		return (ldl->tail);
+	return (NULL);
 }
