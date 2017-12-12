@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/07 16:39:50 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/08 17:06:37 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	sh_init_prog(char **env)
 	int j;
 
 	g_sh.edition_state = 0;
-	g_sh.hist = NULL;
+	g_sh.hist = ft_ldl_new_list();
 	g_sh.hist_current = NULL;
 	g_sh.hist_i = 0;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
