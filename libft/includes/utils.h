@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/02 18:01:42 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/12 13:59:46 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ void				ft_error(char *str, void (*f)(void));
 int					ft_iswcntrl(unsigned int c);
 t_list				*ft_list_files(char *path);
 int					ft_is_not_root(char *name);
+int					ft_strisnumber(char *str);
+int					ft_find_end_nbr(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/12/11 08:49:12 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/12 13:54:05 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS_FILES		= ft_sh \
 				  prompt/prompt_add \
 				  utils/escape/escape_functions utils/escape/sh_escape \
 				  utils/escape/escape_dquote \
-				  glob/brace_expansion
+				  glob/brace_expansion glob/brace_valide_type
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
