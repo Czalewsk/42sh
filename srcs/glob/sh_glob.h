@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 08:05:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 09:32:30 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ typedef struct	s_brace_check
 	t_brace_exp		valide;
 }				t_brace_check;
 
-char	brace_valide_type(t_brace_check *brace, char **curs, char *tkkn);
-void	brace_fill_seq_choice(char *str, char *end, t_brace_exp *valide,
+char			brace_valide_type(t_brace_check *brace, char **curs,
+		char *tkkn);
+void			brace_fill_seq_choice(char *str, char *end, t_brace_exp *valide,
 		unsigned char *closed);
-void	brace_fill_seq_num(char *str, t_brace_exp *valide);
+void			brace_fill_seq_num(char *str, t_brace_exp *valide);
+t_brace_exp		brace_find_pattern(char *tkkn);
 
 #endif
