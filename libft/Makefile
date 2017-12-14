@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/12/14 06:58:12 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/14 17:48:08 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ NAME 		= libft.a
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC			= gcc
-FLAGS		= -Wall -Wextra -Werror -O3 -g
+FLAGS		= -Wall -Wextra -Werror -g
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -51,7 +51,7 @@ INCLUDES_PATH	= includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
+SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  lst/ft_lstmap.c lst/ft_lstnew.c lst/ft_lstrev.c				\
 			  lst/ft_lstsize.c lst/ft_lstiter.c lst/ft_lstclear.c			\
 			  lst/ft_lstprint.c	lst/ft_lstdelone.c lst/ft_lstaddback.c		\

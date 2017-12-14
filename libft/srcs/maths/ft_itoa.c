@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 14:39:05 by bviala            #+#    #+#             */
-/*   Updated: 2017/08/16 19:35:14 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:23:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,22 @@ char		*ft_itoa(ssize_t nbr)
 	if (neg)
 		s[--len] = '-';
 	return (s);
+}
+
+void		ft_itoa_nm(ssize_t nbr, char *nb)
+{
+	int		len;
+	int		neg;
+
+	neg = (nbr < 0) ? 1 : 0;
+	len = ft_count_len(nbr) + neg;
+	nb[len] = '\0';
+	*nb = '0';
+	while (nbr != 0)
+	{
+		nb[--len] = (!neg) ? (nbr % 10 + '0') : ((nbr % 10) * -1 + '0');
+		nbr /= 10;
+	}
+	if (neg)
+		nb[--len] = '-';
 }
