@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/28 08:49:22 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/11/30 14:36:16 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ ORANGE			= \033[38;5;202m
 #------------------------------------------------------------------------------#
 
 #--------------------------------| LIBRARY |-----------------------------------#
-NAME 			= 42sh 
+NAME 			= 42sh
 #------------------------------------------------------------------------------#
 
 #-------------------------------| COMPILATION |--------------------------------#
@@ -41,11 +41,12 @@ SRCS_FILES		= ft_sh \
 				  edition/buff_handler edition/read edition/paste_handler \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
-				  prompt/prompt_add
+				  prompt/prompt_add \
+				  ast/rules ast/lexer ast/lexer_tokenize
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -53,7 +54,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ ast/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
@@ -64,7 +65,7 @@ HEADERS_LIBFT 	= $(addprefix $(LIBFT_PATH), libft.h)
 #------------------------------------------------------------------------------#
 
 #--------------------------------| INCLUDES |----------------------------------#
-INCLUDES		= -I $(INCLUDES_PATH) 
+INCLUDES		= -I $(INCLUDES_PATH)
 HEADERS			= $(addprefix $(INCLUDES_PATH), $(HEAD_FILES))
 #------------------------------------------------------------------------------#
 .PHONY	:	all clean fclean re
