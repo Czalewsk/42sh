@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 13:47:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 05:12:44 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 05:19:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char	brace_seq_alpha(char *curs)
 		return (0);
 	if (*(curs + 1) != '.' || *(curs + 2) != '.')
 		return (0);
-	if (!ft_isalpha(*(curs + 3)))
+	if (!ft_isalpha(*(curs + 3)) ||
+			ft_islower(*(curs + 3)) != ft_islower(*curs))
 		return (0);
 	return (1);
 }
