@@ -27,6 +27,8 @@
 # include "edition.h"
 # include "termcaps.h"
 # include "prompt.h"
+# include "ast.h"
+# include "parser.h"
 
 /*
 ** Define :D

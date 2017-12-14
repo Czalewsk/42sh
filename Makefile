@@ -42,11 +42,12 @@ SRCS_FILES		= ft_sh \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
 				  prompt/prompt_add \
-				  ast/rules ast/lexer ast/lexer_tokenize
+				  ast/rules ast/lexer ast/lexer_tokenize \
+				  parser/parser parser/compatibility parser/parser_rules
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h parser.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -54,7 +55,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ ast/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ ast/ parser/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
