@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 13:47:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/13 23:48:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 05:12:44 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,23 @@ char	brace_exp_choice(char *curs, char *end)
 			curs += (*(curs + 1) && *(curs + 2)) ? 2 : 1;
 		if (*curs == ',')
 			coma++;
-		if (*curs == ' ')// || *curs == '{')
+		if (*curs == ' ')
 			return (0);
 	}
-	return (coma);
+	return (coma ? 1 : 0);
 }
 
-char	brace_valide_type(char **curs, char **begin, char **end)
+char	brace_valide_type(t_brace_check *brace, char **curs)
 {
-	if (brace_exp_choice(*begin, *end))
-		return (3);
-	else if (brace_exp_seq(*begin, *end))
-		return (4);
-	*curs = *end;
-	*end = NULL;
+	int		ret;
+
+	ret = brace_exp_choice(brace->last_beg, *curs) +
+		brace_exp_seq(brace->last_beg, *curs);
+	if (ret)
+	{
+		brace->valide.begin = brace->last_beg;
+		brace->valide.end = *curs;
+	}
+	(*curs) += 1;
 	return (1);
 }
