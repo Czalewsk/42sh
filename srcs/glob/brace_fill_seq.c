@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 07:08:35 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 09:16:02 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 09:35:49 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,13 @@ void	brace_fill_seq_choice(char *str, char *end, t_brace_exp *valide,
 		}
 		s++;
 	}
-	/* DEBUG */
-	t_list *tmp = valide->word;
-	write(1, "\n", 1);
-	while (tmp)
-	{
-		ft_printf("Word=%s|\n", tmp->content);
-		tmp = tmp->next;
-	}
-	/* END */
 }
 
-void	brace_fill_seq_num(char *str, t_brace_exp *valide)
+void	brace_fill_seq_num(t_brace_exp *valide)
 {
 	int		i;
 	long	l;
 
-	(void)str;
 	l = ft_atol(valide->begin + 1);
 	i = valide->nb[0];
 	if (valide->nb[0] > 11 || l > INT_MAX || l < INT_MIN)
@@ -64,7 +54,4 @@ void	brace_fill_seq_num(char *str, t_brace_exp *valide)
 			INT_MIN : INT_MAX;
 	else
 		valide->nb[1] = l;
-	/* DEBUG */
-	ft_printf("\nBorne=%d|%d\n", valide->nb[0], valide->nb[1]);
-	/* END */
 }

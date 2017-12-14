@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 09:30:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 09:32:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 09:35:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ t_brace_exp		brace_find_pattern(char *tkkn)
 		brace_fill_seq_choice(tkkn, brace.valide.end,
 				&brace.valide, brace.closed);
 	else if (brace.valide.mode == 3)
-		brace_fill_seq_num(brace.valide.begin, &brace.valide);
+		brace_fill_seq_num(&brace.valide);
 	return (brace.valide);
 }
