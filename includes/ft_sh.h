@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/07 16:40:28 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 18:06:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ typedef struct			s_sh
 	int			edition_state;
 	t_ldl_head	*hist;
 	t_ldl		*hist_current;
-	size_t		hist_i;
+	t_ldl_head	*history;
+	t_ldl		*h_current;
+	char		*h_save;
 	char		*hist_file;
 	char		**env;
 }						t_sh;

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/08 17:06:37 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 18:15:45 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,22 @@ inline void	info_init(t_read *info)
 	info->win_co = ws.ws_col;
 }
 
+static void sh_quit_prog(t_buf *cmd)
+{
+	ft_ldl_clear(&g_sh.hist, &ft_strdel);
+	ft_ldl_clear(&g_sh.history, &ft_strdel);
+	ft_strdel(&(g_sh.hist_file));
+	free_tab2d(&(g_sh.env));
+	ft_strdel(&cmd->cmd);
+	termcaps_restore_tty();
+}
+
 static void	sh_init_prog(char **env)
 {
 	int i;
 	int j;
 
 	g_sh.edition_state = 0;
-	g_sh.hist = ft_ldl_new_list();
-	g_sh.hist_current = NULL;
-	g_sh.hist_i = 0;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
 	j = 0;
@@ -46,6 +53,7 @@ static void	sh_init_prog(char **env)
 		env++;
 	}
 	g_sh.env[i] = NULL;
+	init_history();
 	termcaps_init(g_sh.env);
 }
 
@@ -68,7 +76,6 @@ int			main(int ac, char **av, char **env)
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}
-	ft_strdel(&cmd.cmd);
-	termcaps_restore_tty();
+	sh_quit_prog(&cmd);
 	return (ret);
 }

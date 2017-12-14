@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/12 16:15:00 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 18:02:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char					sh_quit(t_buf *cmd, t_read *info, t_key *entry)
 {
-	close_history(1, cmd);
+	close_history(cmd);
 	(void)info;
 	(void)entry;
 	return (-1);
@@ -30,7 +30,7 @@ char					sh_validate_line(t_buf *cmd, t_read *info, t_key *entry)
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
 	}
-	close_history(0, cmd);
+	close_history(cmd);
 	return (-2);
 }
 

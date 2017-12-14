@@ -6,44 +6,34 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/12 23:21:48 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 18:21:44 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void		close_history(int clear, t_buf *cmd)
+void		close_history(t_buf *cmd)
 {
 	int fd;
 	int	access;
 
 	g_sh.edition_state = NORMAL;
+	if (ft_strcmp(cmd->cmd, "\n"))
+		g_sh.history = ft_ldl_addfront(g_sh.history,
+				ft_strndup(cmd->cmd, cmd->size_actual));
 	if ((access = check_history_access(g_sh.hist_file)))
 	{
-		if (!ft_strcmp(cmd->cmd, "\n") ||
-		(fd = open(g_sh.hist_file, O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
-			return ;
-		write(fd, cmd->cmd, cmd->size_actual + 1);
-		close(fd);
-	}
-	if (clear || access)
-	{
+		if (ft_strcmp(cmd->cmd, "\n") &&
+		(fd = open(g_sh.hist_file, O_RDWR | O_APPEND | O_CREAT, 0600)) != -1)
+		{
+			ft_putstr_fd(cmd->cmd, fd);
+			close(fd);
+		}
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);
-		g_sh.hist_i = 0;
 	}
 	else
-	{
-		if (g_sh.hist_i > 1)
-		{
-			DEBUG("je del first : |%s|\n", g_sh.hist->head->content);
-			FT_LDL_DEL_FIRST(g_sh.hist, &ft_strdel);
-		}
-		if (ft_strcmp(cmd->cmd, "\n"))
-		{
-			g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strndup(cmd->cmd, cmd->size_actual));
-			DEBUG("je addfront cmd->cmd : |%s|\n", cmd->cmd);
-		}
-	}
+		g_sh.h_current = g_sh.history->head;		
+	ft_strdel(&(g_sh.h_save));
 }
 
 char		history_up(t_buf *cmd, t_read *info, t_key *entry)
@@ -58,20 +48,13 @@ char		history_up(t_buf *cmd, t_read *info, t_key *entry)
 	if (ft_strcmp(cmd->cmd, g_sh.hist_current->content))
 	{
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);
-		g_sh.hist_i = 0;
 		entry->entry[2] = 65;
 		history_mode(cmd, info, entry);
 	}
 	if (!last && g_sh.hist_current->next)
-	{
 		g_sh.hist_current = g_sh.hist_current->next;
-		g_sh.hist_i++;
-	}
 	else if (last)
-	{
 		g_sh.hist_current = g_sh.hist->tail;
-		g_sh.hist_i = g_sh.hist->length;
-	}
 	display_str(cmd, info, g_sh.hist_current->content,
 			ft_strlen(g_sh.hist_current->content));
 	return (0);
@@ -89,20 +72,13 @@ char		history_do(t_buf *cmd, t_read *info, t_key *entry)
 	if (ft_strcmp(cmd->cmd, g_sh.hist_current->content))
 	{
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);
-		g_sh.hist_i = 0;
 		entry->entry[2] = 65;
 		history_mode(cmd, info, entry);
 	}
 	if (!first && g_sh.hist_current->prev)
-	{
 		g_sh.hist_current = g_sh.hist_current->prev;
-		g_sh.hist_i--;
-	}
 	else if (first)
-	{
 		g_sh.hist_current = g_sh.hist->head;
-		g_sh.hist_i = 1;
-	}
 	display_str(cmd, info, g_sh.hist_current->content,
 			ft_strlen(g_sh.hist_current->content));
 	return (0);
@@ -140,10 +116,15 @@ static void	history_init(t_buf *cmd, t_read *info)
 char		history_mode(t_buf *cmd, t_read *info, t_key *entry)
 {
 	g_sh.edition_state = HISTORY;
-	if (!g_sh.hist_i)
+	if (!g_sh.hist)
 		history_init(cmd, info);
 	g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(cmd->cmd));
 	g_sh.hist_current = g_sh.hist->head;
-	g_sh.hist_i = 1;
+	g_sh.h_save = ft_strdup(cmd->cmd);
+//	while (g_sh.hist_current)
+//	{
+//	DEBUG("UP : current is |%s|\n", g_sh.hist_current->content);
+//	g_sh.hist_current = g_sh.hist_current->next;
+//	}
 	return (history_up(cmd, info, entry));
 }

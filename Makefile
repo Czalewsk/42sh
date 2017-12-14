@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/12/06 16:06:59 by bviala           ###   ########.fr        #
+#    Updated: 2017/12/14 15:51:28 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ LIBFT_PATH		= libft/includes/
 SRCS_FILES		= ft_sh														\
 				  termcaps/termcaps_init									\
 				  prompt/prompt_display										\
-				  history/history_mode history/history_open					\
+				  history/history_mode history/history_noaccess				\
+				  history/history_utils										\
 				  edition/buff_handler edition/read edition/paste_handler 	\
 				  edition/key_manager edition/insert_char					\
 				  edition/unicode edition/cursor edition/print				\

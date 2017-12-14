@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/12/06 16:07:37 by bviala           ###   ########.fr        #
+#    Updated: 2017/12/14 14:13:18 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  output/ft_putstr_fd.c	output/ft_putendl_fd.c					\
 			  output/ft_putchar_fd.c output/ft_putnbr_base.c				\
 			  output/ft_print_wordtab.c	output/ft_putnstr.c 				\
-			  output/ft_putchar_termcap.c									\
+			  output/ft_putchar_termcap.c output/ft_putnchar.c				\
 			  str/ft_strcat.c str/ft_strchr.c str/ft_strclr.c				\
 			  str/ft_strcmp.c str/ft_strcpy.c str/ft_strdel.c				\
 			  str/ft_strdup.c str/ft_strequ.c str/ft_strlen.c				\
