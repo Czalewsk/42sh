@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 13:47:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 09:28:44 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 19:56:06 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	brace_valide_type(t_brace_check *brace, char **curs, char *tkkn)
 	{
 		brace->valide.begin = brace->last_beg;
 		brace->valide.end = *curs;
+		brace->valide.start = brace->last_beg - tkkn;
 		if ((brace->last_beg - 1) < tkkn)
 			return (126);
 		(*curs) = brace->last_beg - 1;

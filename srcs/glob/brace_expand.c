@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:29:52 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 17:49:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 19:56:21 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ void		brace_expand_deq_num(char *tkkn, t_glob_res *res,
 	int		inc;
 	char	nb[13];
 
-	ft_bzero(nb, 13);
+	ft_bzero(&nb, 12);
 	inc = find->nb[0] > find->nb[1] ? -1 : 1;
-	i = inc < 0 ? find->nb[0] - find->nb[1]
-		: find->nb[1] - find->nb[0];
-	glob_buff_handler(i, res);
-	pre = ft_strsub(tkkn, 0, find->begin - tkkn);
-	post = ft_strsub(find->end, 1, ft_strlen(find->end + 1));
+	i = inc < 0 ? (find->nb[0] - find->nb[1]) : (find->nb[1] - find->nb[0]);
+	if (i > 1000000 && ((nb[1] = nb[0] + (inc * 10000000)) || 1))
+		i = 1000000;
+	pre = ft_strsub(tkkn, 0, find->start);
+	post = ft_strsub(find->end, 1, ft_strlen(find->end));
 	ft_memmove(res->array + index + i, res->array + index,
-			sizeof(char**) * (index - res->size_actual));
+			sizeof(char**) * (res->size_actual + index));
+	glob_buff_handler(i, res);
 	res->size_actual += i;
 	i = find->nb[0];
-	ft_printf("HERE\n");
 	while (i != find->nb[1])
 	{
 		ft_itoa_nm(i, nb);
@@ -70,7 +70,7 @@ void		brace_expand_deq_alpha(char *tkkn, t_glob_res *res,
 	i = inc < 0 ? find->seq[0] - find->seq[1]
 		: find->seq[1] - find->seq[0];
 	glob_buff_handler(i, res);
-	pre = ft_strsub(tkkn, 0, find->begin - tkkn);
+	pre = ft_strsub(tkkn, 0, find->start);
 	post = ft_strdup(find->end);
 	ft_memmove(res->array + index + i, res->array + index,
 			sizeof(char**) * (index - res->size_actual));

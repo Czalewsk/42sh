@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 17:36:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 19:36:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 typedef struct	s_brace_exp
 {
 	char	*begin;
+	int		start;
 	char	*end;
 	t_list	*word;
-	int		nb[2];
+	long	nb[2];
 	char	seq[2];
 	char	mode;
 }				t_brace_exp;
