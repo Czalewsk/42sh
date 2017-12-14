@@ -6,14 +6,15 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 13:47:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 05:19:57 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 09:18:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
 #include "sh_glob.h"
 
-char	brace_seq_num(char *curs, char *end)
+//Ajouter Warning si les nombres sont plus grands qu'un int
+//ils seront tronques
+char	brace_seq_num(char *curs, char *end, t_brace_exp *valide)
 {
 	int		i;
 	int		j;
@@ -25,10 +26,15 @@ char	brace_seq_num(char *curs, char *end)
 		return (0);
 	if ((j = ft_find_end_nbr(curs + i + 2)) <= 0)
 		return (0);
-	return ((curs + i + j + 2) != end ? 0 : 1);
+	if ((curs + i + j + 2) != end)
+		return (0);
+	valide->nb[0] = i;
+	valide->nb[1] = j;
+	valide->mode = 3;
+	return (1);
 }
 
-char	brace_seq_alpha(char *curs)
+char	brace_seq_alpha(char *curs, t_brace_exp *valide)
 {
 	if (!ft_isalpha(*curs))
 		return (0);
@@ -37,45 +43,63 @@ char	brace_seq_alpha(char *curs)
 	if (!ft_isalpha(*(curs + 3)) ||
 			ft_islower(*(curs + 3)) != ft_islower(*curs))
 		return (0);
+	valide->seq[0] = *curs;
+	valide->seq[1] = *(curs + 3);
+	valide->mode = 2;
 	return (1);
 }
 
-char	brace_exp_seq(char *curs, char *end)
+char	brace_exp_seq(char *curs, char *end, t_brace_exp *valide)
 {
 	if (curs + 4 >= end)
 		return (0);
-	if (brace_seq_alpha(curs + 1) || brace_seq_num(curs + 1, end))
+	if (brace_seq_alpha(curs + 1, valide)
+			|| brace_seq_num(curs + 1, end, valide))
 		return (1);
 	return (0);
 }
 
-char	brace_exp_choice(char *curs, char *end)
+char	brace_exp_choice(char *curs, char *end, t_brace_check *brace,
+		char *tkkn)
 {
-	int		coma;
+	static unsigned char	index;
+	int						coma;
 
+	index++;
 	coma = 0;
+	*(brace->closed + (curs - tkkn)) = index;
 	while (++curs < end)
 	{
 		if (*curs == '\\')
 			curs += (*(curs + 1) && *(curs + 2)) ? 2 : 1;
-		if (*curs == ',')
+		if (*curs == ',' && !*(brace->closed + (curs - tkkn)))
+		{
+			*(brace->closed + (curs - tkkn)) = index;
 			coma++;
+		}
 		if (*curs == ' ')
 			return (0);
 	}
-	return (coma ? 1 : 0);
+	if (!coma)
+		return (0);
+	brace->valide.mode = 1;
+	return (1);
 }
 
-char	brace_valide_type(t_brace_check *brace, char **curs)
+char	brace_valide_type(t_brace_check *brace, char **curs, char *tkkn)
 {
 	int		ret;
 
-	ret = brace_exp_choice(brace->last_beg, *curs) +
-		brace_exp_seq(brace->last_beg, *curs);
+	ret = brace_exp_choice(brace->last_beg, *curs, brace, tkkn) +
+		brace_exp_seq(brace->last_beg, *curs, &brace->valide);
 	if (ret)
 	{
 		brace->valide.begin = brace->last_beg;
 		brace->valide.end = *curs;
+		if ((brace->last_beg - 1) < tkkn)
+			return (126);
+		(*curs) = brace->last_beg - 1;
+		return (0);
 	}
 	(*curs) += 1;
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 13:23:30 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 05:12:24 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 09:15:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char			brace_find_end(t_brace_check *brace, char **curs, char *tkkn)
 		(*curs) += (*((*curs) + 1)) ? 2 : 1;
 		return (1);
 	}
-	if (**curs == '}' && !GLOB_CHECK_CLOSE(brace->closed, (*curs - tkkn)))
+	if (**curs == '}' && !*(brace->closed + (*curs - tkkn)))
 	{
 		if (!brace->already_close)
-			GLOB_SET_CLOSE(brace->closed, (*curs - tkkn));
+			*(brace->closed + (*curs - tkkn)) = 255;
 		brace->already_close = 1;
 		return (2);
 	}
@@ -59,15 +59,17 @@ char			brace_find_beg(t_brace_check *brace, char **curs, char *tkkn)
 
 t_brace_exp		brace_find_pattern(char *tkkn)
 {
-	t_brace_check	brace;
+	int				i;
 	char			*curs;
+	t_brace_check	brace;
 	char			state;
 	char			(*const f[3])() =
 	{&brace_find_beg, &brace_find_end, &brace_valide_type};
 
 	ft_bzero(&brace, sizeof(t_brace_check));
-	brace.closed = ft_memalloc(ft_strlen(tkkn) / 8 + 1);
-	curs = tkkn + ft_strlen(tkkn);
+	i = ft_strlen(tkkn);
+	brace.closed = ft_memalloc(i + 1);
+	curs = (tkkn + i);
 	state = 0;
 	while (42)
 	{
@@ -75,6 +77,15 @@ t_brace_exp		brace_find_pattern(char *tkkn)
 		if (state > 4)
 			break ;
 	}
+	if (brace.valide.mode == 1)
+		brace_fill_seq_choice(tkkn, brace.valide.end,
+				&brace.valide, brace.closed);
+	else if (brace.valide.mode == 3)
+			brace_fill_seq_num(brace.valide.begin, &brace.valide);
+	/* DEBUG */
+	else
+		ft_printf("\nBorne=%c|%c\n", brace.valide.seq[0], brace.valide.seq[1]);
+		/* END DEBUG */
 	return (brace.valide);
 }
 
@@ -90,7 +101,6 @@ char			**sh_brace_exp(char *tkkn)
 	/* TEST GLOB FIND PATTERN	*/
 	if ((res = brace_find_pattern(tkkn)).end)
 	{
-		ft_printf("\nValide\n");
 		ft_printf("Debut=%s|\n", res.begin);
 		ft_printf("end  =%s|\n", res.end);
 	}

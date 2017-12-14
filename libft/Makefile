@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2017/12/12 14:00:29 by czalewsk         ###   ########.fr        #
+#    Updated: 2017/12/14 06:58:12 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  maths/ft_abs.c maths/ft_pow.c	maths/ft_atoi.c maths/ft_itoa.c	\
 			  maths/ft_sqrt.c maths/ft_rec_fac.c maths/reverse_octet.c		\
 			  maths/ft_itoa_base_uns.c maths/ft_itoa_base_signed.c			\
-			  maths/ft_litoa.c maths/ft_llitoa.c 							\
+			  maths/ft_litoa.c maths/ft_llitoa.c maths/ft_atol.c			\
 			  mem/ft_bzero.c mem/ft_memcpy.c mem/ft_memchr.c				\
 			  mem/ft_memcmp.c mem/ft_memdel.c mem/ft_memset.c				\
 			  mem/ft_memccpy.c mem/ft_memmove.c	mem/free_tab2d.c			\
@@ -98,7 +98,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c				\
 			  utils/ft_tolower.c utils/ft_toupper.c utils/get_next_line.c	\
 			  utils/ft_sort_wordtab.c utils/ft_isspace.c utils/ft_iswcntrl.c\
 			  utils/ft_rev_wordtab.c utils/debug.c utils/ft_error.c			\
-			  utils/ft_iswcntrl.c utils/ft_list_files.c						\
+			  utils/ft_iswcntrl.c utils/ft_list_files.c	utils/ft_isint.c	\
 			  utils/ft_strisnumber.c utils/ft_find_end_nbr.c				\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
