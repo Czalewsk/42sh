@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:38:27 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 18:09:29 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 20:00:41 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,20 @@
 char	no_history_up(t_buf *cmd, t_read *info, int last)
 {
 	int len;
-	t_ldl *temp;
 
-	temp = g_sh.hist_current;
-	len = (info->curs_char) ? info->curs_char : ft_strlen(cmd->cmd);
-	if (last)
+	len = ft_strlen(g_sh.h_save);
+	if (!last)
 	{
-		temp = g_sh.hist->tail;
-		while (temp->prev)
-		{
-			temp = temp->prev;
-			if (!ft_strncmp(temp->content, cmd->cmd, len))
-				break ;
-		}
+		while (g_sh.h_current &&
+				ft_strncmp(g_sh.h_save, g_sh.h_current->content, len))
+			g_sh.h_current = g_sh.h_current->next;
 	}
-	else
+	if (g_sh.h_current)
 	{
-		while (temp->next) 
-		{
-			temp = temp->next;
-			if (!ft_strncmp(temp->content, cmd->cmd, len))
-				break ;
-		}
-	}
-	if (temp)
-	{
-		g_sh.hist_current = temp;
-		display_str(cmd, info, g_sh.hist_current->content,
-			ft_strlen(g_sh.hist_current->content));
+		display_str(cmd, info, g_sh.h_current->content,
+			ft_strlen(g_sh.h_current->content));
+		if (g_sh.h_current->next)
+			g_sh.h_current = g_sh.h_current->next;
 	}
 	return (0);
 }
@@ -50,34 +36,20 @@ char	no_history_up(t_buf *cmd, t_read *info, int last)
 char	no_history_do(t_buf *cmd, t_read *info, int first)
 {
 	int len;
-	t_ldl *temp;
-
-	temp = g_sh.hist_current;
-	len = (info->curs_char) ? info->curs_char : ft_strlen(cmd->cmd);
-	if (first)
+	
+	len = ft_strlen(g_sh.h_save);
+	if (!first)
 	{
-		temp = g_sh.hist->head;
-		while (temp->next)
-		{
-			temp = temp->next;
-			if (!ft_strncmp(temp->content, cmd->cmd, len))
-				break ;
-		}
+		while (g_sh.h_current &&
+				ft_strncmp(g_sh.h_save, g_sh.h_current->content, len))
+			g_sh.h_current = g_sh.h_current->prev;
 	}
-	else
+	if (g_sh.h_current)
 	{
-		while (temp->prev) 
-		{
-			temp = temp->prev;
-			if (!ft_strncmp(temp->content, cmd->cmd, len))
-				break ;
-		}
-	}
-	if (temp)
-	{
-		g_sh.hist_current = temp;
-		display_str(cmd, info, g_sh.hist_current->content,
-			ft_strlen(g_sh.hist_current->content));
+		display_str(cmd, info, g_sh.h_current->content,
+			ft_strlen(g_sh.h_current->content));
+		if (g_sh.h_current->prev)
+			g_sh.h_current = g_sh.h_current->prev;
 	}
 	return (0);
 }
