@@ -45,6 +45,7 @@ void	ft_affiche(t_tree *c)
 		ft_printf("\n%s", r->token.str);
 		r = r->right;
 	}
+	ft_printf("\nEnd of right");
 }
 
 t_tree	*init_node(t_token c, t_tree *n)
@@ -126,7 +127,7 @@ int		parser(char *cmd)
 			return (-1);
 		else if (place_token(t) < 0)
 		{
-			ft_printf("\nError parsing near `%s'\n", t.str);
+			ft_printf("\nError parsing near `%s' PLACE TOKEN\n", t.str);
 			free(t.str);
 			if (head_tree)
 				return (ft_free_tree(head_tree));
@@ -135,7 +136,7 @@ int		parser(char *cmd)
 	if (head_tree)
 	{
 		if (check_last_token(current) != 0)
-			ft_printf("\nError parsing near `%s'\n", t.str);
+			ft_printf("\nError parsing near `%s' LAST\n", current->token.str);
 		else
 			ft_affiche(head_tree);
 		return (ft_free_tree(head_tree));

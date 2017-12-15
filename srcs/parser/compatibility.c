@@ -12,15 +12,12 @@
 
 #include "ft_sh.h"
 
-t_tree							*cmpand_if(t_tree *current, t_token t)
+t_tree							*take_head(t_tree *current, t_token t)
 {
 	t_tree	*n;
 
 	n = NULL;
-	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done &&
-		current->token.id != SEMI)
-		return (NULL);
+
 	n = init_node(t, n);
 	if (current->father == head_tree)
 	{
@@ -29,9 +26,31 @@ t_tree							*cmpand_if(t_tree *current, t_token t)
 		head_tree->father = n;
 		current = n;
 	}
+	return (current);
+}
+
+t_tree							*take_right(t_tree *current, t_token t)
+{
+	t_tree						*n;
+
+	n = NULL;
+	n = init_node(t, n);
+	current->right = n;
+	n->father = current->father;
+	current = n;
+	return (current);
+}
+
+t_tree							*cmpand_if(t_tree *current, t_token t)
+{
+	if (current->token.id != WORD && current->token.id != Fi && 
+		current->token.id != Esac && current->token.id != Done &&
+		current->token.id != SEMI)
+		return (NULL);
+	if (current->father == head_tree)
+		return (take_head(current, t));
 	else
 	{
-		// cas du sciprt shell
 		DEBUG("and_if Quel cas > ?\n");
 	}
 	return (current);
@@ -39,24 +58,14 @@ t_tree							*cmpand_if(t_tree *current, t_token t)
 
 t_tree							*cmpand(t_tree *current, t_token t)
 {
-	t_tree	*n;
-
-	n = NULL;
 	if (current->token.id != WORD && current->token.id != Fi && 
 		current->token.id != Esac && current->token.id != Done &&
 		current->token.id != SEMI)
 		return (NULL);
-	n = init_node(t, n);
 	if (current->father == head_tree)
-	{
-		n->left = head_tree;
-		head_tree = n;
-		head_tree->father = n;
-		current = n;
-	}
+		return (take_head(current, t));
 	else
 	{
-		//dans le shell script ?
 		DEBUG("and Quel cas > ?\n");
 	}
 	return (current);
@@ -84,36 +93,10 @@ t_tree							*cmpdsemi(t_tree *current, t_token t)
 
 t_tree							*cmpsemi(t_tree *current, t_token t)
 {
-	t_tree					*n;
-
-	// just add to right !!!!! modifié les compatibilités de ce token
 	if (current->token.id != WORD && current->token.id != Fi &&
 		current->token.id != Esac && current->token.id != Done)
 		return (NULL);
-	n = NULL;
-	n = init_node(t, n);
-	current->right = n;
-	n->father = current->father;
-	current = n;
-
-	//	t_tree	*n;
-	// n = NULL;
-	// if (current->token.id != WORD && current->token.id != Fi &&
-	// 	current->token.id != Esac && current->token.id != Done)
-	// 	return (NULL);
-	// n = init_node(t, n);
-	// if (current->father == head_tree)
-	// {
-	// 	n->left = head_tree;
-	// 	head_tree = n;
-	// 	head_tree->father = n;
-	// 	current = n;
-	// }
-	// else
-	// {
-	// 	DEBUG("and Quel cas > ?\n");
-	// }
-	return (current);
+	return (take_right(current, t));
 }
 
 t_tree							*cmpnewline(t_tree *current, t_token t)
@@ -124,21 +107,12 @@ t_tree							*cmpnewline(t_tree *current, t_token t)
 
 t_tree							*cmpor_if(t_tree *current, t_token t)
 {
-	t_tree	*n;
-
-	n = NULL;
 	if (current->token.id != WORD && current->token.id != Fi && 
 		current->token.id != Esac && current->token.id != Done &&
 		current->token.id != SEMI)
 		return (NULL);
-	n = init_node(t, n);
 	if (current->father == head_tree)
-	{
-		n->left = head_tree;
-		head_tree = n;
-		head_tree->father = n;
-		current = n;
-	}
+		return (take_head(current, t));
 	else
 	{
 		DEBUG("or_if Quel cas > ?\n");
@@ -159,64 +133,28 @@ t_tree							*cmppipe(t_tree *current, t_token t)
 		current->token.id == Done || current->token.id == Esac)
 		return (NULL);
 	else
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
 t_tree							*cmpdless(t_tree *current, t_token t)
 {
-	t_tree					*n;
-
-	n = NULL;
 	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-		// valide
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
 t_tree							*cmpdgreat(t_tree *current, t_token t)
 {
-	t_tree					*n;
-
-	n = NULL;
 	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-		// valide
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
 t_tree							*cmplessand(t_tree *current, t_token t)
 {
-	t_tree					*n;
-
-	n = NULL;
 	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-		// valide
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
@@ -226,14 +164,7 @@ t_tree							*cmpgreatand(t_tree *current, t_token t)
 
 	n = NULL;
 	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-		// valide
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
@@ -257,34 +188,16 @@ t_tree							*cmpclobber(t_tree *current, t_token t)
 
 t_tree							*cmpless(t_tree *current, t_token t)
 {
-	t_tree					*n;
-
-	n = NULL;
 	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
 t_tree							*cmpgreat(t_tree *current, t_token t)
 {
-	t_tree					*n;
-
-	n = NULL;
 	if (current->token.id == WORD || current->token.id == NEWLINE ||
 		current->token.id == IO_NUMBER)
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		return (current);
-	}
+		return (take_right(current, t));
 	return (NULL);
 }
 
@@ -344,30 +257,13 @@ t_tree							*cmpesac(t_tree *current, t_token t)
 
 t_tree							*cmpwhile(t_tree *current, t_token t)
 {
-	t_tree						*n;
-
-	n = NULL;
 	if (current->token.id == SEMI || current->token.id == AND ||
 		current->token.id == OR_IF || current->token.id == AND_IF)
 	{
-		n = init_node(t, n);
 		if (current->father == head_tree)
-		{
-			n->left = head_tree;
-			head_tree->father = n;
-			head_tree = n;
-			current = n;			
-		}
+			return (take_head(current, t));
 	}
-	else
-	{
-		n = init_node(t, n);
-		current->right = n;
-		n->father = current->father;
-		current = n;
-		// simple word
-	}
-	return (current);
+	return (take_right(current, t));
 }
 
 t_tree							*cmpuntil(t_tree *current, t_token t)
@@ -388,31 +284,6 @@ t_tree							*cmpword(t_tree *current, t_token t)
 
 	n = NULL;
 	if (current->token.id == SEMI)
-	{
-		n = init_node(t, n);
-		// if (current->father != current)
-		// {
-		// 	current->father->father = n;
-		// 	n->left = current->father->father;
-		// 	current = n;
-		// }
-		n->left = head_tree;
-		head_tree = n;
-		head_tree->father = n;
-		current = n;
-		// else
-		// if 
-		// {
-		// 	n->left = head_tree;
-		// 	current->father = n;
-		// 	current = n;
-		// // }
-		// head_tree = n;
-		return (current);
-	}
-	n = init_node(t, n);
-	current->right = n;
-	n->father = current->father;
-	current = n;
-	return (current);
+		return (take_head(current, t));
+	return (take_right(current, t));
 }
