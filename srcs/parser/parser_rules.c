@@ -48,3 +48,32 @@ const t_compatibilitytree g_compatibilitytrees[] = {
 	{0, NULL}
 //	{0, NULL}
 };
+
+// const t_case		g_case[] = {
+// 	{DSEMI, &cmpdsemi},
+// 	{Esac, &cmpesac},
+// };
+
+// const t_while		g_while[] = {
+// 	{Do, &cmpdo},
+// 	{Done, &cmpdone},
+// 	{0, NULL}
+// };
+
+// const t_if			g_if[] = {
+// 	{Then, &cmpthen},
+// 	{Else, &cmpelse},
+// 	{Elif, &cmpelif},
+// 	{Fi, &cmpfi},
+// }
+
+// const t_
+// const t_first_token g_first_token[] = {
+// 		{WORD},
+// 		{LPAR},
+// 		{If},
+// 		{While},
+// 		{Until},
+// 		{Case},
+// 		{0, NULL}
+// };

@@ -53,6 +53,7 @@ t_tree							*cmpand(t_tree *current, t_token t)
 	}
 	else
 	{
+		//dans le shell script ?
 		DEBUG("and Quel cas > ?\n");
 	}
 	return (current);
@@ -72,30 +73,43 @@ t_tree							*cmprpar(t_tree *current, t_token t)
 
 t_tree							*cmpdsemi(t_tree *current, t_token t)
 {
-	DEBUG("%s\n", t.str);
+	if (current->father->token.id != Case)
+		return (NULL);
+	(void)t;
 	return (current);
 }
 
 t_tree							*cmpsemi(t_tree *current, t_token t)
 {
-	t_tree	*n;
+	t_tree					*n;
 
-	n = NULL;
-	if (current->token.id != WORD && current->token.id != Fi && 
+	// just add to right !!!!! modifié les compatibilités de ce token
+	if (current->token.id != WORD && current->token.id != Fi &&
 		current->token.id != Esac && current->token.id != Done)
 		return (NULL);
+	n = NULL;
 	n = init_node(t, n);
-	if (current->father == head_tree)
-	{
-		n->left = head_tree;
-		head_tree = n;
-		head_tree->father = n;
-		current = n;
-	}
-	else
-	{
-		DEBUG("and Quel cas > ?\n");
-	}
+	current->right = n;
+	n->father = current->father;
+	current = n;
+
+	//	t_tree	*n;
+	// n = NULL;
+	// if (current->token.id != WORD && current->token.id != Fi &&
+	// 	current->token.id != Esac && current->token.id != Done)
+	// 	return (NULL);
+	// n = init_node(t, n);
+	// if (current->father == head_tree)
+	// {
+	// 	n->left = head_tree;
+	// 	head_tree = n;
+	// 	head_tree->father = n;
+	// 	current = n;
+	// }
+	// else
+	// {
+	// 	DEBUG("and Quel cas > ?\n");
+	// }
 	return (current);
 }
 
@@ -326,6 +340,12 @@ t_tree							*cmpesac(t_tree *current, t_token t)
 
 t_tree							*cmpwhile(t_tree *current, t_token t)
 {
+	// t_tree						*n;
+
+	// if (current->father)
+	// {
+
+	// }
 	DEBUG("%s\n", t.str);
 	return (current);
 }

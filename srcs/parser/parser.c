@@ -15,7 +15,7 @@
 extern t_compatibilitytree		g_compatibilitytrees[];
 
 
-void	ft_free_tree(t_tree *c)
+int	ft_free_tree(t_tree *c)
 {
 	t_tree *r;
 	t_tree *tmp;
@@ -27,9 +27,10 @@ void	ft_free_tree(t_tree *c)
 	{
 		tmp = r;
 		free(tmp->token.str);
-		free(tmp);
 		r = r->right;
-	}	
+		free(tmp);
+	}
+	return (0);
 }
 
 void	ft_affiche(t_tree *c)
@@ -41,7 +42,7 @@ void	ft_affiche(t_tree *c)
 	r = c;
 	while (r)
 	{
-		DEBUG("%s\n", r->token.str);
+		ft_printf("\n%s", r->token.str);
 		r = r->right;
 	}
 }
@@ -70,16 +71,10 @@ int		add_in_tree(t_token t)
 	i = 0;
 	while (g_compatibilitytrees[i].cmp)
 	{
-		// DEBUG("Token: %i | Comp: %i\n", t.id, g_compatibilitytrees[i].id);
 		if (t.id == g_compatibilitytrees[i].id)
 		{
-			// DEBUG("%s|%i\n", t.str, t.id);
 			if ((current = g_compatibilitytrees[i].cmp(current, t)) == NULL)
-			{
-				DEBUG("Error parsing add in tree near `%s\n'", t.str);
-				free(t.str);
 				return (-4);
-			}
 			return (0);
 		}
 		i++;
@@ -93,12 +88,9 @@ int		place_token(t_token t)
 	{
 		if (t.id == NEWLINE)
 			return (0);
-		if (t.id != SEMI && t.id != WORD)
-		{
-			DEBUG("Error parsing head near `%s\n'", t.str);
-			free(t.str);
+		if (t.id != WORD && t.id != LPAR && t.id != If && t.id != While
+			&& t.id != Until && t.id != Case)
 			return (-1);
-		}
 		else if ((head_tree = init_node(t, head_tree)) == NULL)
 			return (-3);
 		current = head_tree;
@@ -115,35 +107,38 @@ int		check_last_token(t_tree *current)
 		current->token.id == LESSAND || current->token.id == GREATAND ||
 		current->token.id == LESSGREAT || current->token.id == DLESS ||
 		current->token.id == DGREAT)
-	{
-		DEBUG("Error parsing last near `\\n' \n");
-		ft_free_tree(head_tree);
 		return (-1);		
-	}
 	return (0);
 }
 
 int		parser(char *cmd)
 {
 	int	ret;
-	t_token	t;
 	char *cur;
+	t_token	t;
+
 
 	cur = cmd;
 	head_tree = NULL;
 	while ((ret = lexer_getnexttoken(&t, &cmd, &cur)) != 0)
 	{
-		// if (ret < 0)
-		// 	return (-1);
-		// else if (place_token(t) < 0)
-		// 	return (-4);
+		if (ret < 0)
+			return (-1);
+		else if (place_token(t) < 0)
+		{
+			ft_printf("\nError parsing near `%s'\n", t.str);
+			free(t.str);
+			if (head_tree)
+				return (ft_free_tree(head_tree));
+		}
 	}
 	if (head_tree)
 	{
 		if (check_last_token(current) != 0)
-			return (-1);
-		ft_affiche(head_tree);
-		ft_free_tree(head_tree);
+			ft_printf("\nError parsing near `%s'\n", t.str);
+		else
+			ft_affiche(head_tree);
+		return (ft_free_tree(head_tree));
 	}
 	return (0);
 }
