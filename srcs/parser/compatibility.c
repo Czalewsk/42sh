@@ -18,7 +18,8 @@ t_tree							*cmpand_if(t_tree *current, t_token t)
 
 	n = NULL;
 	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done)
+		current->token.id != Esac && current->token.id != Done &&
+		current->token.id != SEMI)
 		return (NULL);
 	n = init_node(t, n);
 	if (current->father == head_tree)
@@ -30,6 +31,7 @@ t_tree							*cmpand_if(t_tree *current, t_token t)
 	}
 	else
 	{
+		// cas du sciprt shell
 		DEBUG("and_if Quel cas > ?\n");
 	}
 	return (current);
@@ -41,7 +43,8 @@ t_tree							*cmpand(t_tree *current, t_token t)
 
 	n = NULL;
 	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done)
+		current->token.id != Esac && current->token.id != Done &&
+		current->token.id != SEMI)
 		return (NULL);
 	n = init_node(t, n);
 	if (current->father == head_tree)
@@ -125,7 +128,8 @@ t_tree							*cmpor_if(t_tree *current, t_token t)
 
 	n = NULL;
 	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done)
+		current->token.id != Esac && current->token.id != Done &&
+		current->token.id != SEMI)
 		return (NULL);
 	n = init_node(t, n);
 	if (current->father == head_tree)
@@ -340,13 +344,29 @@ t_tree							*cmpesac(t_tree *current, t_token t)
 
 t_tree							*cmpwhile(t_tree *current, t_token t)
 {
-	// t_tree						*n;
+	t_tree						*n;
 
-	// if (current->father)
-	// {
-
-	// }
-	DEBUG("%s\n", t.str);
+	n = NULL;
+	if (current->token.id == SEMI || current->token.id == AND ||
+		current->token.id == OR_IF || current->token.id == AND_IF)
+	{
+		n = init_node(t, n);
+		if (current->father == head_tree)
+		{
+			n->left = head_tree;
+			head_tree->father = n;
+			head_tree = n;
+			current = n;			
+		}
+	}
+	else
+	{
+		n = init_node(t, n);
+		current->right = n;
+		n->father = current->father;
+		current = n;
+		// simple word
+	}
 	return (current);
 }
 
@@ -367,6 +387,29 @@ t_tree							*cmpword(t_tree *current, t_token t)
 	t_tree					*n;
 
 	n = NULL;
+	if (current->token.id == SEMI)
+	{
+		n = init_node(t, n);
+		// if (current->father != current)
+		// {
+		// 	current->father->father = n;
+		// 	n->left = current->father->father;
+		// 	current = n;
+		// }
+		n->left = head_tree;
+		head_tree = n;
+		head_tree->father = n;
+		current = n;
+		// else
+		// if 
+		// {
+		// 	n->left = head_tree;
+		// 	current->father = n;
+		// 	current = n;
+		// // }
+		// head_tree = n;
+		return (current);
+	}
 	n = init_node(t, n);
 	current->right = n;
 	n->father = current->father;
