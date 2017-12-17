@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:29:52 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 19:56:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/17 21:56:29 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ void		brace_expand_deq_num(char *tkkn, t_glob_res *res,
 	pre = ft_strsub(tkkn, 0, find->start);
 	post = ft_strsub(find->end, 1, ft_strlen(find->end));
 	ft_memmove(res->array + index + i, res->array + index,
-			sizeof(char**) * (res->size_actual + index));
-	glob_buff_handler(i, res);
+			sizeof(char**) * (res->size_actual - index));
 	res->size_actual += i;
 	i = find->nb[0];
 	while (i != find->nb[1])
@@ -73,7 +72,7 @@ void		brace_expand_deq_alpha(char *tkkn, t_glob_res *res,
 	pre = ft_strsub(tkkn, 0, find->start);
 	post = ft_strdup(find->end);
 	ft_memmove(res->array + index + i, res->array + index,
-			sizeof(char**) * (index - res->size_actual));
+			sizeof(char**) * (res->size_actual - index));
 	res->size_actual += i;
 	i = find->seq[0];
 	while (i != find->seq[1])
@@ -99,16 +98,15 @@ void		brace_expand_choice(char *tkkn, t_glob_res *res,
 	glob_buff_handler(i, res);
 	pre = ft_strsub(tkkn, 0, find->begin - tkkn);
 	post = ft_strsub(find->end, 1, ft_strlen(find->end + 1));
-	ft_memmove(res->array + index + i, res->array + index,
-			sizeof(char**) * (index - res->size_actual));
+	ft_memmove(res->array + index + i, res->array + index + 1,
+			sizeof(char**) * (res->size_actual - index));
 	word = find->word;
-	i = -1;
+	res->size_actual += (i - 1);
 	while (word)
 	{
-		res->array[index + ++i] = ft_strxjoin(3, pre, word->content, post);
+		res->array[index++] = ft_strxjoin(3, pre, word->content, post);
 		word = word->next;
 	}
-	res->size_actual += (i + 1);
 	ft_strdel(&pre);
 	ft_strdel(&post);
 	ft_lstdel(&find->word, &del_str);

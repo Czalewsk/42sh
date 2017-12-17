@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 13:47:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 19:56:06 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/17 21:55:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	brace_seq_num(char *curs, char *end, t_brace_exp *valide)
 		return (0);
 	if ((curs + i + j + 2) != end)
 		return (0);
+	if (*(curs + 4) != '}')
+		return (0);
 	valide->nb[0] = i;
 	valide->nb[1] = j;
 	valide->mode = 3;
@@ -42,6 +44,8 @@ char	brace_seq_alpha(char *curs, t_brace_exp *valide)
 		return (0);
 	if (!ft_isalpha(*(curs + 3)) ||
 			ft_islower(*(curs + 3)) != ft_islower(*curs))
+		return (0);
+	if (*(curs + 4) != '}')
 		return (0);
 	valide->seq[0] = *curs;
 	valide->seq[1] = *(curs + 3);
