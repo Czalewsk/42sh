@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 12:11:14 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/18 16:29:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_list				*ft_lstswap(t_list *list);
 void				ft_lstsort(t_list **begin_list, int (*cmp)());
 t_list				*ft_lstnew_str(char *str, size_t content_size);
 size_t				ft_lstlen(t_list *lst);
+void				ft_lst_del_str(void *str, size_t size);
 
 t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
 t_ldl_head			*ft_ldl_addfront(t_ldl_head *ldl_head, void *content);

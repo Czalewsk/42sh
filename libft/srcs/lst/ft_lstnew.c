@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:14:45 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 07:52:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/18 16:43:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,10 @@ t_list		*ft_lstnew_str(char *str, size_t content_size)
 	}
 	maillon->next = NULL;
 	return (maillon);
+}
+
+void		ft_lst_del_str(void *str, size_t size)
+{
+	(void)size;
+	free(str);
 }

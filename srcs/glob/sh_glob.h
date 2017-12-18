@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 19:36:24 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/18 16:32:36 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_glob_res
 	long		size_actual;
 }				t_glob_res;
 
+void		glob_buff_handler(long nb_elem, t_glob_res *res);
 char			brace_valide_type(t_brace_check *brace, char **curs,
 		char *tkkn);
 void			brace_fill_seq_choice(char *str, char *end, t_brace_exp *valide,
