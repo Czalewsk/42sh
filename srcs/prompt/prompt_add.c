@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 12:10:44 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/29 10:30:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/14 21:05:25 by maastie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	prompt_add(char *prompt, char **line)
 	ret = 0;
 	info_init(&info);
 	info.prompt = ft_strlen_utf8(prompt);
-	buff_handler(&cmd, NULL, NULL);
 	write(1, "\n\r", 2);
 	ft_putstr(prompt);
 	ret = read_line(&cmd, &info);
