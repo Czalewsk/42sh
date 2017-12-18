@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:29:52 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/18 17:17:20 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/18 17:42:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 inline static void		brace_update_array(t_glob_res *res, long index, long i)
 {
+	ft_strdel(&(res->array[index]));
 	ft_memmove(res->array + index + i, res->array + index + 1,
 			sizeof(char**) * (res->size_actual - index + 1));
 	res->size_actual += i;

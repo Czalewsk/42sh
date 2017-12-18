@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:14:45 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/18 16:43:34 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/18 17:49:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ t_list		*ft_lstnew_str(char *str, size_t content_size)
 	}
 	else
 	{
-		if (!(maillon->content = ft_memalloc(content_size)))
-			return (NULL);
 		maillon->content = str;
 		maillon->content_size = content_size;
 	}
