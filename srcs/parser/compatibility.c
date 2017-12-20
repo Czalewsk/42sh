@@ -12,278 +12,310 @@
 
 #include "ft_sh.h"
 
-t_tree							*take_head(t_tree *current, t_token t)
+extern t_reserved				g_reserveds[];
+extern t_valid					g_valids[];
+extern t_excepted 				g_excepteds[];
+extern t_modify					g_modifys[];
+
+t_tree		*go_to_current_right(t_tree *cur, t_tree *new)
 {
-	t_tree	*n;
+	new->father = cur;
+	cur->right = new;
+	return (new);
+}
 
-	n = NULL;
+t_tree		*go_to_current_left(t_tree *cur, t_tree *new)
+{
+	t_tree	*tmp;
 
-	n = init_node(t, n);
-	if (current->father == head_tree)
+	tmp = cur;
+	while (tmp->father)
+		tmp = tmp->father;
+	tmp->left = new;
+	new->father = tmp;
+	return (new);
+}
+
+int	check_excepted(t_tree *cur, t_tree *new)
+{
+	int		i;
+
+	i = 0;
+	if (cur->token.id == WORD && new->token.id == WORD)
+		return (0);
+	while (g_excepteds[i].one || g_excepteds[i].two)
 	{
-		n->left = head_tree;
-		head_tree = n;
-		head_tree->father = n;
-		current = n;
+		if (g_excepteds[i].one == cur->token.id)
+			if (g_excepteds[i].two == new->token.id)
+				return (0);
+		i++;
 	}
-	return (current);
+	return (-1);
 }
 
-t_tree							*take_right(t_tree *current, t_token t)
+int	modify_id(t_tree *new)
 {
-	t_tree						*n;
+	int		i;
 
-	n = NULL;
-	n = init_node(t, n);
-	current->right = n;
-	n->father = current->father;
-	current = n;
-	return (current);
-}
-
-t_tree							*cmpand_if(t_tree *current, t_token t)
-{
-	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done &&
-		current->token.id != SEMI)
-		return (NULL);
-	if (current->father == head_tree)
-		return (take_head(current, t));
-	else
+	i = 0;
+	while (g_modifys[i].id)
 	{
-		DEBUG("and_if Quel cas > ?\n");
+		if (g_modifys[i].id == new->token.id)
+			return (0);
+		i++;
 	}
-	return (current);
+	return (1);
 }
 
-t_tree							*cmpand(t_tree *current, t_token t)
+t_tree						*cmpand_if(t_tree *cur, t_tree *new)
 {
-	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done &&
-		current->token.id != SEMI)
-		return (NULL);
-	if (current->father == head_tree)
-		return (take_head(current, t));
-	else
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpand(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmplpar(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmprpar(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpdsemi(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpsemi(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpnewline(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpor_if(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmppipe(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpdless(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpdgreat(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmplessand(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpgreatand(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpdlessdash(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmplessgreat(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpclobber(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpless(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpgreat(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpif(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_left(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpthen(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpelse(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpelif(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpfi(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpdo(t_tree *cur, t_tree *new)
+{
+
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpdone(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_right(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpcase(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpesac(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpwhile(t_tree *cur, t_tree *new)
+{
+	if (cur->token.id == WORD && modify_id(new) == 0)
+		new->token.id = WORD;
+	if (check_excepted(cur, new) == 0)
+		return (go_to_current_left(cur, new));
+	free(new);
+	return (NULL);
+}
+
+t_tree						*cmpuntil(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpfor(t_tree *cur, t_tree *new)
+{
+	(void)new;
+	return (cur);
+}
+
+t_tree						*cmpword(t_tree *cur, t_tree *new)
+{
+	if (check_excepted(cur, new) == 0)
 	{
-		DEBUG("and Quel cas > ?\n");
+		if ((!imb || (imb && imb->end_of_reserved != NULL)) && cur->token.id == SEMI)
+			return (go_to_current_left(cur, new));
+		return (go_to_current_right(cur, new));
 	}
-	return (current);
-}
-
-t_tree							*cmplpar(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmprpar(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpdsemi(t_tree *current, t_token t)
-{
-	if (current->father->token.id != Case)
-		return (NULL);
-	(void)t;
-	return (current);
-}
-
-t_tree							*cmpsemi(t_tree *current, t_token t)
-{
-	if (current->token.id != WORD && current->token.id != Fi &&
-		current->token.id != Esac && current->token.id != Done)
-		return (NULL);
-	return (take_right(current, t));
-}
-
-t_tree							*cmpnewline(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpor_if(t_tree *current, t_token t)
-{
-	if (current->token.id != WORD && current->token.id != Fi && 
-		current->token.id != Esac && current->token.id != Done &&
-		current->token.id != SEMI)
-		return (NULL);
-	if (current->father == head_tree)
-		return (take_head(current, t));
-	else
-	{
-		DEBUG("or_if Quel cas > ?\n");
-	}
-	return (current);
-}
-
-t_tree							*cmppipe(t_tree *current, t_token t)
-{
-	t_tree					*n;
-
-	n = NULL;
-	if (current->token.id == AND_IF || current->token.id == OR_IF ||
-		current->token.id == AND || current->token.id == DSEMI ||
-		current->token.id == PIPE || current->token.id == Then ||
-		current->token.id == Else || current->token.id == Elif ||
-		current->token.id == Fi || current->token.id == Do ||
-		current->token.id == Done || current->token.id == Esac)
-		return (NULL);
-	else
-		return (take_right(current, t));
+	free(new);
 	return (NULL);
-}
-
-t_tree							*cmpdless(t_tree *current, t_token t)
-{
-	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-		return (take_right(current, t));
-	return (NULL);
-}
-
-t_tree							*cmpdgreat(t_tree *current, t_token t)
-{
-	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-		return (take_right(current, t));
-	return (NULL);
-}
-
-t_tree							*cmplessand(t_tree *current, t_token t)
-{
-	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-		return (take_right(current, t));
-	return (NULL);
-}
-
-t_tree							*cmpgreatand(t_tree *current, t_token t)
-{
-	t_tree					*n;
-
-	n = NULL;
-	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-		return (take_right(current, t));
-	return (NULL);
-}
-
-t_tree							*cmpdlessdash(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmplessgreat(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpclobber(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpless(t_tree *current, t_token t)
-{
-	if (current->token.id == WORD || current->token.id == IO_NUMBER)
-		return (take_right(current, t));
-	return (NULL);
-}
-
-t_tree							*cmpgreat(t_tree *current, t_token t)
-{
-	if (current->token.id == WORD || current->token.id == NEWLINE ||
-		current->token.id == IO_NUMBER)
-		return (take_right(current, t));
-	return (NULL);
-}
-
-t_tree							*cmpif(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpthen(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpelse(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpelif(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpfi(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpdo(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpdone(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpcase(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpesac(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpwhile(t_tree *current, t_token t)
-{
-	if (current->token.id == SEMI || current->token.id == AND ||
-		current->token.id == OR_IF || current->token.id == AND_IF)
-	{
-		if (current->father == head_tree)
-			return (take_head(current, t));
-	}
-	return (take_right(current, t));
-}
-
-t_tree							*cmpuntil(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpfor(t_tree *current, t_token t)
-{
-	DEBUG("%s\n", t.str);
-	return (current);
-}
-
-t_tree							*cmpword(t_tree *current, t_token t)
-{
-	t_tree					*n;
-
-	n = NULL;
-	if (current->token.id == SEMI)
-		return (take_head(current, t));
-	return (take_right(current, t));
 }

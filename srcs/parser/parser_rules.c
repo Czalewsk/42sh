@@ -46,34 +46,91 @@ const t_compatibilitytree g_compatibilitytrees[] = {
 	{Until, &cmpuntil},
 	{For, &cmpfor},
 	{0, NULL}
-//	{0, NULL}
+	// true
+	// false
+	// in
 };
 
-// const t_case		g_case[] = {
-// 	{DSEMI, &cmpdsemi},
-// 	{Esac, &cmpesac},
-// };
+const t_reserved g_reserveds[] = {
+//	{If, Fi},
+//	{Case, Esac},
+	{While, Done},
+//	{Until, Done},
+//	{For, t_for, Done},
+	{0, 0}
+};
 
-// const t_while		g_while[] = {
-// 	{Do, &cmpdo},
-// 	{Done, &cmpdone},
-// 	{0, NULL}
-// };
+const t_close_imb g_close_imbs[] = {
+	{While, Do, Done},
+	{0, 0, 0}
+};
 
-// const t_if			g_if[] = {
-// 	{Then, &cmpthen},
-// 	{Else, &cmpelse},
-// 	{Elif, &cmpelif},
-// 	{Fi, &cmpfi},
-// }
+const t_modify g_modifys[] = {
+	{While},
+	{If},
+	{Do},
+	{Case},
+	{For},
+	{Until},
+	{Then},
+	{Elif},
+	{Else},
+	{Fi},
+	{0}
+};
 
-// const t_
-// const t_first_token g_first_token[] = {
-// 		{WORD},
-// 		{LPAR},
-// 		{If},
-// 		{While},
-// 		{Until},
-// 		{Case},
-// 		{0, NULL}
-// };
+const t_excepted g_excepteds[] = {
+	{While, While},
+	{While, If},
+	{While, WORD},
+	{Do, WORD},
+	{SEMI, WORD},
+	{Done, SEMI},
+	{Do, SEMI},
+	{SEMI, Do},
+	{SEMI, Done},
+	{SEMI, WORD},
+	{AND, WORD},
+	{AND_IF, WORD},
+	{OR_IF, WORD},
+	{PIPE, WORD},
+	{AND, While},
+	{AND_IF, While},
+	{OR_IF, While},
+	{PIPE, While},
+	{SEMI, While},
+	{DLESS, WORD},
+	{DGREAT, WORD},
+	{LESSAND, WORD},
+	{GREATAND, WORD},
+	{DLESSDASH, WORD},
+	{LESSGREAT, WORD},
+	{CLOBBER, WORD},
+	{LESS, WORD},
+	{GREAT, WORD},
+	{WORD, DLESS},
+	{WORD, DGREAT},
+	{WORD, LESSAND},
+	{WORD, GREATAND},
+	{WORD, DLESSDASH},
+	{WORD, LESSGREAT},
+	{WORD, CLOBBER},
+	{WORD, LESS},
+	{WORD, GREAT},
+	{WORD, AND_IF},
+	{WORD, OR_IF},
+	{WORD, AND},
+	{WORD, SEMI},
+	{WORD, PIPE},
+	{WORD, WORD},
+	// {Case, WORD},
+	// {If, WORD},
+	// {Then, WORD},
+	// {Elif, WORD},
+	// {Else, WORD},
+	// {DSEMI, WORD},
+	// {Until, WORD},
+	// {Case, WORD},
+	// {WORD, Fi},
+	{0, 0}
+};
