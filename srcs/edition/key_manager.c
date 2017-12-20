@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 18:02:27 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/20 18:20:04 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ char					sh_stop_line(t_buf *cmd, t_read *info, t_key *entry)
 }
 
 /*
- ** Tableau de pointeurs sur fonctions correspondant aux touches de controles
- **
- ** 1 -> Index pour debug
- ** 2 -> Enum de la touche
- ** 3 -> Nombre de char a tester pour la touche voulu
- ** 4 -> Tableau de char representant la touche
- ** 5 -> Tableau de de pointeurs sur fonctions correspondats aux differents state
- **          de la machine a etat
- */
+** Tableau de pointeurs sur fonctions correspondant aux touches de controles
+**
+** 1 -> Index pour debug
+** 2 -> Enum de la touche
+** 3 -> Nombre de char a tester pour la touche voulu
+** 4 -> Tableau de char representant la touche
+** 5 -> Tableau de pointeurs sur fonctions correspondants
+**			aux differents etats de la machine a etat
+*/
 const t_key_map			g_key_map[] =
 {
 	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz, NULL, &curs_move_hz}},

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/14 18:15:45 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/20 18:20:19 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ inline void	info_init(t_read *info)
 	info->win_co = ws.ws_col;
 }
 
-static void sh_quit_prog(t_buf *cmd)
+static void	sh_quit_prog(t_buf *cmd)
 {
 	ft_ldl_clear(&g_sh.hist, &ft_strdel);
 	ft_ldl_clear(&g_sh.history, &ft_strdel);

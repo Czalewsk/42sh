@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 18:21:44 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/20 18:17:17 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void		close_history(t_buf *cmd)
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);
 	}
 	else
-		g_sh.h_current = g_sh.history->head;		
+		g_sh.h_current = g_sh.history->head;
+	g_sh.h_first = 0;
 	ft_strdel(&(g_sh.h_save));
 }
 
@@ -121,10 +122,5 @@ char		history_mode(t_buf *cmd, t_read *info, t_key *entry)
 	g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(cmd->cmd));
 	g_sh.hist_current = g_sh.hist->head;
 	g_sh.h_save = ft_strdup(cmd->cmd);
-//	while (g_sh.hist_current)
-//	{
-//	DEBUG("UP : current is |%s|\n", g_sh.hist_current->content);
-//	g_sh.hist_current = g_sh.hist_current->next;
-//	}
 	return (history_up(cmd, info, entry));
 }

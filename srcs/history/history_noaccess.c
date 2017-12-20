@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:38:27 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 20:00:41 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/20 18:18:42 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,50 @@
 
 char	no_history_up(t_buf *cmd, t_read *info, int last)
 {
-	int len;
-
-	len = ft_strlen(g_sh.h_save);
-	if (!last)
-	{
-		while (g_sh.h_current &&
-				ft_strncmp(g_sh.h_save, g_sh.h_current->content, len))
-			g_sh.h_current = g_sh.h_current->next;
-	}
-	if (g_sh.h_current)
-	{
+	if (!g_sh.h_current)
+		return (0);
+	if (!last && g_sh.h_current->next && g_sh.h_first)
+		g_sh.h_current = g_sh.h_current->next;
+	else if (last)
+		g_sh.h_current = g_sh.history->tail;
+	if (!g_sh.h_first)
+		g_sh.h_first++;
+	if (!ft_strncmp(g_sh.h_save, g_sh.h_current->content,
+				ft_strlen(g_sh.h_save)))
 		display_str(cmd, info, g_sh.h_current->content,
-			ft_strlen(g_sh.h_current->content));
-		if (g_sh.h_current->next)
-			g_sh.h_current = g_sh.h_current->next;
+				ft_strlen(g_sh.h_current->content));
+	else
+	{
+		if (last)
+			return (no_history_do(cmd, info, 0));
+		return (no_history_up(cmd, info, 0));
 	}
 	return (0);
 }
 
 char	no_history_do(t_buf *cmd, t_read *info, int first)
 {
-	int len;
-	
-	len = ft_strlen(g_sh.h_save);
-	if (!first)
+	if (!g_sh.h_current)
+		return (0);
+	if (!first && g_sh.h_current->prev)
+		g_sh.h_current = g_sh.h_current->prev;
+	else if (!first && !g_sh.h_current->prev)
 	{
-		while (g_sh.h_current &&
-				ft_strncmp(g_sh.h_save, g_sh.h_current->content, len))
-			g_sh.h_current = g_sh.h_current->prev;
+		display_str(cmd, info, g_sh.h_save, ft_strlen(g_sh.h_save));
+		g_sh.h_first = 0;
+		return (0);
 	}
-	if (g_sh.h_current)
-	{
+	else if (first)
+		g_sh.h_current = g_sh.history->head;
+	if (!ft_strncmp(g_sh.h_save, g_sh.h_current->content,
+				ft_strlen(g_sh.h_save)))
 		display_str(cmd, info, g_sh.h_current->content,
-			ft_strlen(g_sh.h_current->content));
-		if (g_sh.h_current->prev)
-			g_sh.h_current = g_sh.h_current->prev;
+				ft_strlen(g_sh.h_current->content));
+	else
+	{
+		if (first)
+			return (no_history_up(cmd, info, 0));
+		return (no_history_do(cmd, info, 0));
 	}
 	return (0);
 }

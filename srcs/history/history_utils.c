@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:26:34 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 18:14:21 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/20 17:56:06 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	init_history(void)
 	g_sh.hist_current = NULL;
 	g_sh.history = ft_ldl_new_list();
 	g_sh.h_current = g_sh.history->head;
+	g_sh.h_first = 0;
 	g_sh.h_save = NULL;
 	line = NULL;
 	if (check_history_access(g_sh.hist_file))
