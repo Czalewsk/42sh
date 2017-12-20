@@ -255,6 +255,8 @@ int		parser(char *cmd)
 		imb = is_a_first_reserved(imb, current);
 		imb = is_a_close_reserved(imb, current);
 	}
+	if (imb && imb->end_of_reserved == NULL)
+		ft_printf("\nError parsing need to complete this TOKEN %s\n", imb->reserved_node->token.str);
 	if (head_tree)
 	{
 		if (check_last_token(current) != 0)
