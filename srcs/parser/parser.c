@@ -129,10 +129,12 @@ t_imb		*is_a_close_reserved(t_imb *imb, t_tree *cur)
 		if (g_reserveds[i].id == imb->reserved_node->token.id)
 		{
 			if (g_reserveds[i].end_id == cur->token.id)
+			{
 				imb->end_of_reserved = cur;
-			if (imb->old)
-				imb = imb->old;
-			current = imb->reserved_node;
+				if (imb->old)
+					imb = imb->old;
+				current = imb->reserved_node;
+			}
 			return (imb);
 		}
 		i++;

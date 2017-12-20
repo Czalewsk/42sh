@@ -105,6 +105,7 @@ t_tree						*cmpsemi(t_tree *cur, t_tree *new)
 {
 	if (check_excepted(cur, new) == 0)
 		return (go_to_current_right(cur, new));
+	ft_printf("\n%s, %s\n", cur->token.str, new->token.str);
 	free(new);
 	return (NULL);
 }
@@ -313,7 +314,9 @@ t_tree						*cmpword(t_tree *cur, t_tree *new)
 	if (check_excepted(cur, new) == 0)
 	{
 		if ((!imb || (imb && imb->end_of_reserved != NULL)) && cur->token.id == SEMI)
+		{
 			return (go_to_current_left(cur, new));
+		}
 		return (go_to_current_right(cur, new));
 	}
 	free(new);
