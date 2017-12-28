@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/20 17:55:38 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/21 19:25:42 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "termcaps.h"
 # include "prompt.h"
 # include "history.h"
+# include "builtins.h"
 
 /*
 ** Define :D
@@ -41,7 +42,7 @@ typedef struct			s_sh
 	t_ldl		*h_current;
 	char		*h_save;
 	char		*hist_file;
-	int			h_first;			
+	int			h_first;
 	char		**env;
 }						t_sh;
 
@@ -50,5 +51,4 @@ extern t_sh				g_sh;
 # define SIZE_BUF_CMD (128)
 # define PROMPT ("Cedychou_sh : ")
 // (canard) <U+1F986> A remettre dans le prompt
-
 #endif

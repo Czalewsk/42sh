@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/12/14 15:51:28 by bviala           ###   ########.fr        #
+#    Updated: 2017/12/28 16:10:17 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,16 +36,17 @@ LIBFT_PATH		= libft/includes/
 
 #------------------------------| SOURCE FILES |--------------------------------#
 SRCS_FILES		= ft_sh														\
+				  builtins/builtin_history									\
 				  termcaps/termcaps_init									\
 				  prompt/prompt_display										\
 				  history/history_mode history/history_noaccess				\
-				  history/history_utils										\
+				  history/history_utils	history/history_search				\
 				  edition/buff_handler edition/read edition/paste_handler 	\
 				  edition/key_manager edition/insert_char					\
 				  edition/unicode edition/cursor edition/print				\
 				  prompt/prompt_add
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h history.h prompt.h termcaps.h
+HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -53,7 +54,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ history/ edition/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), builtins/ termcaps/ prompt/ history/ edition/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

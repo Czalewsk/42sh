@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 18:02:55 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/28 17:26:07 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 
 # include "ft_sh.h"
 
+/*
+**		MOVE IN HISTORY
+*/
 int		check_history_access(const char *file);
 void	close_history(t_buf *cmd);
 void	close_history_noaccess(t_buf *cmd);
@@ -26,4 +29,13 @@ char	history_up(t_buf *cmd, t_read *info, t_key *entry);
 void	init_history(void);
 char	no_history_do(t_buf *cmd, t_read *info, int first);
 char	no_history_up(t_buf *cmd, t_read *info, int last);
+
+/*
+** 		SEARCH IN HISTORY
+*/
+void	history_search_nb(t_buf *cmd, t_read *info, int nb);
+void	history_search_nb_neg(t_buf *cmd, t_read *info, int nb);
+void	history_search_contain_name(t_buf *cmd, t_read *info, char *str);
+void	history_search_begin_name(t_buf *cmd, t_read *info, char *str);
+
 #endif

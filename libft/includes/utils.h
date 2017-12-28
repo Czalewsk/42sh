@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 18:10:03 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/21 18:13:00 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/21 19:12:17 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_str
 	int				size;
 }					t_str;
 
+int					ft_count_len(int nb);
 int					ft_islower(int c);
 int					ft_isalpha(int n);
 int					ft_isdigit(int n);
