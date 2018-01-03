@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/26 17:53:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/03 18:58:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void		cursor_back_home(t_read *info)
 {
 	int		line;
 
-	tputs(tparm(g_termcaps_cap[COL], info->prompt), 0, &ft_putchar_termcap);
-	if ((line = ((info->curs_char + info->prompt) / (info->win_co))))
+	tputs(tparm(g_termcaps_cap[COL], info->prompt % info->win_co), 0,
+			&ft_putchar_termcap);
+	if ((line = ((info->curs_char + info->prompt) / info->win_co) -
+				(info->prompt / info->win_co)))
 		tputs(tparm(g_termcaps_cap[NUP], line), 0, &ft_putchar_termcap);
 	tputs(g_termcaps_cap[CLEAR], 0, &ft_putchar_termcap);
 }
