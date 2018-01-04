@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/12/18 16:45:10 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/03 19:42:23 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS_FILES		= ft_sh \
 				  edition/buff_handler edition/read edition/paste_handler \
 				  edition/key_manager edition/insert_char edition/key_manager \
 				  edition/cursor edition/unicode edition/print \
+				  edition/curs_back \
 				  prompt/prompt_add \
 				  utils/escape/escape_functions utils/escape/sh_escape \
 				  utils/escape/escape_dquote \
