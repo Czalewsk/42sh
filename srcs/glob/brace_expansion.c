@@ -6,27 +6,19 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 13:23:30 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/18 17:34:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/04 15:09:01 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_glob.h"
 
-static void			init_brace_res(t_glob_res *res, char *tkkn)
+t_list			*sh_brace_exp(char *tkkn)
 {
-	res->array = ft_memalloc(sizeof(char*) * (BRACE_DEFAULT_SIZE + 1));
-	res->size_max = BRACE_DEFAULT_SIZE;
-	res->size_actual = 1;
-	res->array[0] = ft_strdup(tkkn);
-}
-
-char			**sh_brace_exp(char *tkkn)
-{
-	char			*tmp;
+	t_list			*tmp;
 	long			i;
 	t_brace_exp		find;
-	t_glob_res		res;
-	void	(*const	f[4])(char *, t_glob_res *, t_brace_exp *, long) =
+	t_list			*res;
+	void	(*const	f[4])(char *, t_list *, t_brace_exp *) =
 	{NULL, &brace_expand_choice,
 		&brace_expand_deq_alpha, &brace_expand_deq_num};
 
@@ -36,20 +28,19 @@ char			**sh_brace_exp(char *tkkn)
 	if (nl)
 		*nl = '\0';
 	/* END */
-	init_brace_res(&res, tkkn);
-	while (i < res.size_actual)
+	res = NULL;
+	ft_lstadd(&res, ft_lstnew_str(ft_strdup(tkkn), 42), 0);
+	tmp = res;
+	while (tmp)
 	{
-		tmp = ft_strdup(res.array[i]);
-		find = brace_find_pattern(tmp);
+		find = brace_find_pattern(tmp->content);
 		if (find.end)
 		{
-			f[(int)find.mode](tmp, &res, &find, i);
-			i = 0;
-			ft_strdel(&tmp);
+			f[(int)find.mode](tmp->content, tmp, &find);
+			tmp = res;
 			continue ;
 		}
-		ft_strdel(&tmp);
-		i++;
+		tmp = tmp->next;
 	}
-	return (res.array);
+	return (res);
 }

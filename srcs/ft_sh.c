@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/18 17:37:18 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/04 15:09:23 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,17 @@ int			main(int ac, char **av, char **env)
 			continue ;
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 	/* TEST GLOB FIND PATTERN	*/
-	char **tmp = sh_brace_exp(cmd.cmd);
-	int i = 0;
+	t_list *resultat = sh_brace_exp(cmd.cmd);
+	t_list *tmp;
+	tmp = resultat;
 	write(1,"\n",1);
-	while (*(tmp + i))
+	while (tmp)
 	{
-		ft_printf(" %s", *(tmp + i));
-		i++;
+		ft_printf(" %s", tmp->content);
+		tmp = tmp->next;
 	}
+	ft_lstclear(&resultat);
 	write(1,"\n",1);
-	free_tab2d(&tmp);
 	/* FIN DU TEST*/
 		ft_strdel(&cmd.cmd);
 	}
