@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 09:30:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/18 17:46:17 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/04 17:23:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ char			brace_find_beg(t_brace_check *brace, char **curs, char *tkkn)
 	if (!*curs || (*curs != tkkn && *(*curs - 1) == '\\'))
 	{
 		if (!*curs || (*curs - 2 < tkkn))
-			return (126);
-		*curs -= 2;
+			return (124);
+		(*curs) -= 2;
 	}
-	else if (**curs == '{')
+	if (**curs == '{')
 	{
 		brace->last_beg = *curs;
 		brace->already_close = 0;
@@ -51,7 +51,7 @@ char			brace_find_beg(t_brace_check *brace, char **curs, char *tkkn)
 		return (1);
 	}
 	if (*curs == tkkn)
-		return (126);
+		return (125);
 	(*curs)--;
 	return (0);
 }
