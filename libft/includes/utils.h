@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 06:53:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/05 11:10:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ int					ft_is_not_root(char *name);
 int					ft_strisnumber(char *str);
 int					ft_find_end_nbr(char *str);
 int					ft_isint(char *nb);
+char				ft_is_escape(char *esc, char *str);
 
 #endif
