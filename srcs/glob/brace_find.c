@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 09:30:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/04 17:23:32 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/05 11:11:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char			brace_find_beg(t_brace_check *brace, char **curs, char *tkkn)
 			return (124);
 		(*curs) -= 2;
 	}
-	if (**curs == '{')
+	if (**curs == '{' && !ft_is_escape(*curs, tkkn))
 	{
 		brace->last_beg = *curs;
 		brace->already_close = 0;
@@ -70,12 +70,8 @@ t_brace_exp		brace_find_pattern(char *tkkn)
 	brace.closed = ft_memalloc(i + 1);
 	curs = (tkkn + i);
 	state = 0;
-	while (42)
-	{
+	while (state <= 4)
 		state = f[(int)state](&brace, &curs, tkkn);
-		if (state > 4)
-			break ;
-	}
 	if (brace.valide.mode == 1)
 		brace_fill_seq_choice(tkkn, brace.valide.end,
 				&brace.valide, brace.closed);
