@@ -43,7 +43,9 @@ SRCS_FILES		= ft_sh \
 				  edition/cursor edition/unicode edition/print \
 				  prompt/prompt_add \
 				  ast/rules ast/lexer ast/lexer_tokenize \
-				  parser/parser parser/compatibility parser/parser_rules
+				  parser/parser parser/compatibility parser/parser_rules \
+				  parser/fill_for_jobs parser/free_parser parser/add_in_tree \
+				  parser/reserved
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
