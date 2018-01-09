@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/09 14:45:23 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/09 16:43:06 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			main(int ac, char **av, char **env)
 	while (ac || av)
 	{
 		info_init(&info);
-		prompt_display(&info);
+		prompt_display(&info, 1);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
 		if (ret == -3)
