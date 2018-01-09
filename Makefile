@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/03 19:42:23 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/09 15:39:02 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,23 +35,26 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= ft_sh \
-				  termcaps/termcaps_init \
-				  prompt/prompt_display \
-				  edition/buff_handler edition/read edition/paste_handler \
-				  edition/key_manager edition/insert_char edition/key_manager \
-				  edition/cursor edition/unicode edition/print \
-				  edition/curs_back \
-				  prompt/prompt_add \
-				  utils/escape/escape_functions utils/escape/sh_escape \
-				  utils/escape/escape_dquote \
-				  glob/brace_expansion glob/brace_valide_type \
-				  glob/brace_fill_seq glob/brace_find glob/brace_expand \
-				  glob/glob_buff_handler
+SRCS_FILES		= ft_sh 													\
+				  termcaps/termcaps_init 									\
+				  prompt/prompt_display prompt/prompt_add					\
+				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/key_manager edition/insert_char edition/cursor	\
+				  edition/unicode edition/print edition/curs_back			\
+				  utils/escape/escape_functions utils/escape/sh_escape		\
+				  utils/escape/escape_dquote								\
+				  glob/brace_expansion glob/brace_valide_type				\
+				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
+				  glob/glob_buff_handler									\
+				  builtins/builtin_history									\
+				  history/history_mode history/history_noaccess				\
+				  history/history_utils	history/history_search				\
+				  history/history_ctrlr										\
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h utils.h sh_escape.h
+HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
+				  utils.h sh_escape.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -60,7 +63,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob)
+ utils/escape/ glob/ builtins/ history/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

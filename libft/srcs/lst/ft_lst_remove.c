@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_display.c                                   :+:      :+:    :+:   */
+/*   ft_lst_remove.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/03 15:52:01 by bviala           ###   ########.fr       */
+/*   Created: 2016/11/28 10:30:45 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/09/05 20:50:20 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-void		prompt_display(t_read *info)
+void	ft_lst_remove(t_list **alst, t_list *dl, void (*del)(void *, size_t))
 {
-	write(1, "\n\r", 2);
-	ft_putstr(PROMPT);
-	info->prompt = ft_strlen_utf8(PROMPT);
+	t_list		*cur;
+	t_list		**prev;
+
+	prev = alst;
+	cur = prev ? *prev : NULL;
+	while (cur)
+	{
+		if (cur == dl)
+		{
+			*prev = cur->next;
+			del(cur->content, cur->content_size);
+			free(cur);
+			break ;
+		}
+		else
+		{
+			cur = (*prev)->next;
+			prev = &(*prev)->next;
+		}
+	}
 }

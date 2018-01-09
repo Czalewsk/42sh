@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_display.c                                   :+:      :+:    :+:   */
+/*   ft_lst_pushend.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/03 15:52:01 by bviala           ###   ########.fr       */
+/*   Created: 2016/11/13 12:10:53 by czalewsk          #+#    #+#             */
+/*   Updated: 2016/11/14 19:45:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-void		prompt_display(t_read *info)
+void	ft_lst_pushend(t_list **alst, t_list *new)
 {
-	write(1, "\n\r", 2);
-	ft_putstr(PROMPT);
-	info->prompt = ft_strlen_utf8(PROMPT);
+	t_list		*addr;
+
+	if (!new || !alst)
+		return ;
+	else if (!(*alst))
+		*alst = new;
+	else
+	{
+		addr = *alst;
+		while (addr->next)
+			addr = addr->next;
+		addr->next = new;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/05 11:10:12 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/11/21 18:10:03 by bviala            #+#    #+#             */
+/*   Updated: 2018/01/09 14:48:34 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 
 # include "libft.h"
 # include <dirent.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 
-# define BUFF_SIZE 250
+# define BUFF_SIZE 50
+# define CT(Pointeur) ((t_str*)(Pointeur->content))
 
-typedef struct		s_fd
+typedef struct		s_str
 {
 	int				fd;
-	char			*save;
-	struct s_fd		*next;
-}					t_fd;
+	char			*buff;
+	int				size;
+}					t_str;
 
+int					ft_count_len(int nb);
 int					ft_islower(int c);
 int					ft_isalpha(int n);
 int					ft_isdigit(int n);
@@ -32,6 +36,9 @@ int					ft_isalnum(int n);
 int					ft_isascii(int n);
 int					ft_isprint(int n);
 int					ft_isspace(int c);
+int					ft_is_a_dir(const char *path);
+int					ft_is_a_file(const char *path);
+int					ft_is_a_reg_file(const char *path);
 int					ft_toupper(int n);
 int					ft_tolower(int n);
 int					ft_isupper(int nb);

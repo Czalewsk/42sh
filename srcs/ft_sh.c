@@ -6,13 +6,13 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/04 18:49:03 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/09 14:45:23 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int			g_edition_state = 0;
+t_sh		g_sh;
 
 inline void	info_init(t_read *info)
 {
@@ -23,6 +23,40 @@ inline void	info_init(t_read *info)
 	info->win_co = ws.ws_col;
 }
 
+static void	sh_quit_prog(t_buf *cmd)
+{
+	ft_ldl_clear(&g_sh.hist, &ft_strdel);
+	ft_ldl_clear(&g_sh.history, &ft_strdel);
+	ft_strdel(&(g_sh.hist_file));
+	free_tab2d(&(g_sh.env));
+	ft_strdel(&cmd->cmd);
+	termcaps_restore_tty();
+}
+
+static void	sh_init_prog(char **env)
+{
+	int i;
+	int j;
+
+	g_sh.edition_state = 0;
+	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
+	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
+	j = 0;
+	while (env && env[j])
+		j++;
+	g_sh.env = (char **)ft_memalloc(sizeof(char *) * (j + 1));
+	i = 0;
+	while (*env)
+	{
+		g_sh.env[i] = ft_strdup(*env);
+		i++;
+		env++;
+	}
+	g_sh.env[i] = NULL;
+	init_history();
+	termcaps_init(g_sh.env);
+}
+
 int			main(int ac, char **av, char **env)
 {
 	t_buf		cmd;
@@ -30,7 +64,7 @@ int			main(int ac, char **av, char **env)
 	char		ret;
 
 	ret = 0;
-	termcaps_init(env);
+	sh_init_prog(env);
 	while (ac || av)
 	{
 		info_init(&info);
@@ -42,7 +76,6 @@ int			main(int ac, char **av, char **env)
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}
-	ft_strdel(&cmd.cmd);
-	termcaps_restore_tty();
+	sh_quit_prog(&cmd);
 	return (ret);
 }

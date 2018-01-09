@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 14:27:42 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/02 18:45:50 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/09 15:48:41 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_list		*ft_list_files(char *path)
 	closedir(dir);
 	return (ret);
 }
+
 /*
 **int		main(int ac, char **av)
 **{

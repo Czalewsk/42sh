@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/05 11:10:55 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/09 14:50:07 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  lst/ft_lstsize.c lst/ft_lstiter.c lst/ft_lstclear.c			\
 			  lst/ft_lstprint.c	lst/ft_lstdelone.c lst/ft_lstaddback.c		\
 			  lst/ft_lstswap.c lst/ft_lstsort.c lst/ft_lstprint_name.c		\
+			  lst/ft_lst_pushend.c lst/ft_lst_remove.c						\
 			  lst/ldl/ft_ldl_addback.c lst/ldl/ft_ldl_addfront.c			\
 			  lst/ldl/ft_ldl_clear.c lst/ldl/ft_ldl_del.c					\
 			  lst/ldl/ft_ldl_del_id.c lst/ldl/ft_ldl_del_if.c				\
@@ -78,7 +79,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  output/ft_putstr_fd.c	output/ft_putendl_fd.c					\
 			  output/ft_putchar_fd.c output/ft_putnbr_base.c				\
 			  output/ft_print_wordtab.c	output/ft_putnstr.c 				\
-			  output/ft_putchar_termcap.c									\
+			  output/ft_putchar_termcap.c output/ft_putnchar.c				\
 			  str/ft_strcat.c str/ft_strchr.c str/ft_strclr.c				\
 			  str/ft_strcmp.c str/ft_strcpy.c str/ft_strdel.c				\
 			  str/ft_strdup.c str/ft_strequ.c str/ft_strlen.c				\
@@ -100,7 +101,8 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  utils/ft_rev_wordtab.c utils/debug.c utils/ft_error.c			\
 			  utils/ft_iswcntrl.c utils/ft_list_files.c	utils/ft_isint.c	\
 			  utils/ft_strisnumber.c utils/ft_find_end_nbr.c				\
-			  utils/ft_is_escape.c											\
+			  utils/ft_is_escape.c utils/ft_isfile.c						\
+			  utils/ft_count_len.c											\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
 			  printf/solve_c.c	printf/solve_d.c							\

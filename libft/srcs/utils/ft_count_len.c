@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_display.c                                   :+:      :+:    :+:   */
+/*   ft_count_len.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/03 15:52:01 by bviala           ###   ########.fr       */
+/*   Created: 2017/12/21 19:09:45 by bviala            #+#    #+#             */
+/*   Updated: 2017/12/21 19:11:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-void		prompt_display(t_read *info)
+int			ft_count_len(int nb)
 {
-	write(1, "\n\r", 2);
-	ft_putstr(PROMPT);
-	info->prompt = ft_strlen_utf8(PROMPT);
+	if (nb % 10 != nb)
+		return (ft_count_len(nb / 10) + 1);
+	else
+		return (1);
 }

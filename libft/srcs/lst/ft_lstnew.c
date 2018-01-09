@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:14:45 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/18 17:49:15 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/09 15:48:16 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_list		*ft_lstnew(void const *content, size_t content_size)
 }
 
 t_list		*ft_lstnew_str(char *str, size_t content_size)
-
 {
 	t_list	*maillon;
 

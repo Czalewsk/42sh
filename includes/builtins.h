@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_display.c                                   :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/03 15:52:01 by bviala           ###   ########.fr       */
+/*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
+/*   Updated: 2017/12/21 19:15:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#ifndef __BUILTINS_H
+# define __BUILTINS_H
 
-void		prompt_display(t_read *info)
-{
-	write(1, "\n\r", 2);
-	ft_putstr(PROMPT);
-	info->prompt = ft_strlen_utf8(PROMPT);
-}
+# include "ft_sh.h"
+
+char	builtin_history(void);
+#endif
