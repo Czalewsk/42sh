@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/09 16:43:06 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/11 00:33:45 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	sh_init_prog(char **env)
 		env++;
 	}
 	g_sh.env[i] = NULL;
+	g_sh.exitstatus = 0;
 	init_history();
 	termcaps_init(g_sh.env);
 }

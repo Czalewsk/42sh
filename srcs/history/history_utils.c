@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:26:34 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/20 17:56:06 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/11 02:31:54 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	init_history(void)
 			g_sh.history = ft_ldl_addfront(g_sh.history, ft_strdup(line));
 			ft_strdel(&line);
 		}
+		ft_strdel(&line);
 		close(fd);
 	}
 }
