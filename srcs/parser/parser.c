@@ -119,7 +119,10 @@ int		parser(char *cmd)
 		if (check_last_token(current) != 0)
 			ft_printf("\nError parsing near `\\n' LAST\n", current->token.str);
 		else
-			ft_affiche(head_tree);
+		{
+			ft_fill_for_jobs(head_tree);
+		}
+//			ft_affiche(head_tree);
 		return (ft_free_tree(head_tree));
 	}
 	return (0);

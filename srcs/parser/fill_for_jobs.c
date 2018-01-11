@@ -14,10 +14,31 @@
 
 extern	t_fill_job	g_fill_jobs[];
 
-t_tree	*fill_io(t_tree *clist, t_job *job)
+void	ft_affiche_procces(t_process *p)
 {
-	(void)job;
-	return (clist);
+	int	i;
+
+	while (p)
+	{
+		i = 0;
+		while (p->argv && p->argv[i])
+			ft_printf("\n%s\n", p->argv[i++]);
+		p = p->next;
+		if (p)
+			ft_printf("\n PIPED TO\n");
+	}
+}
+
+void	ft_affiche_jobs(t_job *fjob)
+{
+	ft_printf("\nFirst Job\n");
+	while (fjob)
+	{
+		ft_affiche_procces(fjob->first_process);
+		fjob = fjob->next;
+		if (fjob)
+			ft_printf("\nNew Job\n");
+	}
 }
 
 t_job	*fill_job_process(t_tree *list, t_job *job)
@@ -42,18 +63,16 @@ t_job	*fill_job_process(t_tree *list, t_job *job)
 
 t_job	*fill_job(t_job *fill, t_tree *chead)
 {
-	t_job	*new;
 	t_process *fp;
 	t_tree	*tmp;
 
-	new = NULL;
+	fp = NULL;
 	tmp = chead;
-	fill = init_job(fill);
+	fill->first_process = init_process(fill->first_process);
 	fp = fill->first_process;
-	fill = fill_job_process(tmp, init_job(fill));
+	fill = fill_job_process(tmp, fill);
 	fill->first_process = fp;
-	fill->next = new;
-	return (new);
+	return (fill);
 }
 
 int		ft_fill_for_jobs(t_tree *head)
@@ -64,11 +83,21 @@ int		ft_fill_for_jobs(t_tree *head)
 
 	tmp = head;
 	first_job = NULL;
-	n = first_job;
+	n = NULL;
+	n = init_job(n);
 	while (tmp)
 	{
+		if (first_job == NULL)
+			first_job = n;
 		n = fill_job(n, tmp);
 		tmp = tmp->left;
+		if (tmp)
+		{
+			n->next = init_job(n->next);
+			n = n->next;
+		}
 	}
+//	n = first_job;
+	ft_affiche_jobs(first_job);
 	return (0);
 }

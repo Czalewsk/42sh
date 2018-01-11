@@ -15,7 +15,7 @@
 
 t_tree	*pipe_process(t_tree *clist, t_job *job)
 {
-	init_process(job->first_process->next);
+	job->first_process->next = init_process(job->first_process->next);
 	job->first_process = job->first_process->next;
 	return (clist->right);
 }

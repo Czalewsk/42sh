@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-char	**realloc_argv(char **argv, int s)
+char	**realloc_argv(char **argv, char *to_add, int s)
 {
 	char	**new;
 	int		i;
@@ -20,16 +20,19 @@ char	**realloc_argv(char **argv, int s)
 	if ((new = (char **)malloc(sizeof(char *) * s)) == NULL)
 		return (NULL);
 	i = 0;
-	while (argv[i])
+	while (argv && argv[i])
 	{
-		new[i] = argv[i];
+		new[i] = ft_strdup(argv[i]);
+		free(argv[i]);
 		new[++i] = NULL;
 	}
+	new[i] = ft_strdup(to_add);
+	new[++i] = NULL;
 	free(argv);
 	return (new);
 }
 
-char	**get_new_argv(char **argv)
+char	**get_new_argv(char **argv, char *to_add)
 {
 	int		i;
 
@@ -38,19 +41,21 @@ char	**get_new_argv(char **argv)
 	{
 		if ((argv = (char **)malloc(sizeof(char *) * 1)) == NULL)
 			return (NULL);
+		argv[0] = ft_strdup(to_add);
+		argv[1] = NULL;
 		return (argv);
 	}
 	while (argv && argv[i++]);
-	return (argv = realloc_argv(argv, ++i));
+	return (argv = realloc_argv(argv, to_add, ++i));
 }
 
 t_tree	*add_in_arguments(t_tree *clist, t_job *job)
 {
 	int	i;
 
-	job->first_process->argv = get_new_argv(job->first_process->argv);
+	job->first_process->argv = get_new_argv(job->first_process->argv, clist->token.str);
 	i = 0;
-	while (job->first_process->argv && job->first_process->argv[i++]);
-	job->first_process->argv[i] = clist->token.str;
-	return (clist);
+	// while (job->first_process->argv && job->first_process->argv[i])
+	// 	ft_printf("\n%s\n", job->first_process->argv[i++]);
+	return (clist->right);
 }
