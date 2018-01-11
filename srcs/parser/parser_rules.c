@@ -11,10 +11,18 @@
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-#define D "'"
+
+const t_for_close	g_for_closes[] = {
+	{While, Done},
+	{Until, Done},
+	{Case, Esac},
+	{If, Fi}
+};
 
 const t_execpted	g_execpteds[] = {
 	{While, Do},
+	{While, While},
+	{If, If},
 	{Do, Done},
 	{If, Then},
 	{Then, Elif},
@@ -27,6 +35,19 @@ const t_execpted	g_execpteds[] = {
 	{DSEMI, Esac}
 };
 
+const t_fill_job	g_fill_jobs[] = {
+	{WORD, &add_in_arguments},
+	{PIPE, &pipe_process},
+	{IO_NUMBER, &modify_io},
+	{AND_IF, &set_end},
+	{OR_IF, &set_end},
+	{AND, &set_end},
+	{SEMI, &set_end},
+	// {While, &shellscript},
+	// {If, &shellscript},	
+//	{LPAR, &subshell_capability},
+};
+
 const t_valid_res g_valid_ress[] = {
 	{SEMI, While},
 	{SEMI, If},
@@ -35,14 +56,14 @@ const t_valid_res g_valid_ress[] = {
 	{If, While},
 	{SEMI, Case},
 	{If, If},
-	{0, 0}
+	{While, Case}
 };
 
 const t_classic g_classics[] = {
-	// {While, While, &go_to_current_right},// in progress for each reserved word;
-	// {While, If, &go_to_current_right},
-	// {While, WORD},
-	// {Do, WORD},
+// {While, While, &go_to_current_right},
+// {While, If, &go_to_current_right},
+// {While, WORD},
+// {Do, WORD},
 	{SEMI, WORD, &go_to_current_left},
 //	{Done, SEMI},
 //	{Do, SEMI},
@@ -81,14 +102,14 @@ const t_classic g_classics[] = {
 	{WORD, SEMI, &go_to_current_right},
 	{WORD, PIPE, &go_to_current_right},
 	{WORD, WORD, &go_to_current_right},
-	// {Case, WORD},
-	// {If, WORD},
-	// {Then, WORD},
-	// {Elif, WORD},
-	// {Else, WORD},
-	// {DSEMI, WORD},
-	// {Until, WORD},
-	// {Case, WORD},
-	// {WORD, Fi},
+// {Case, WORD},
+// {If, WORD},
+// {Then, WORD},
+// {Elif, WORD},
+// {Else, WORD},
+// {DSEMI, WORD},
+// {Until, WORD},
+// {Case, WORD},
+// {WORD, Fi},
 	{0, 0, NULL}
 };

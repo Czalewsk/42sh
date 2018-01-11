@@ -45,11 +45,13 @@ SRCS_FILES		= ft_sh \
 				  ast/rules ast/lexer ast/lexer_tokenize \
 				  parser/parser parser/compatibility parser/parser_rules \
 				  parser/fill_for_jobs parser/free_parser parser/add_in_tree \
-				  parser/reserved
+				  parser/reserved parser/tools_for_fill_jobs parser/init \
+				  parser/modify_io parser/add_in_arguments parser/pipe_process 
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h parser.h
+HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h \
+				  parser.h job_control.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#

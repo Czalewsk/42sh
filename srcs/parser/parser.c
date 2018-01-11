@@ -14,7 +14,7 @@
 
 extern t_valid_res	g_valid_ress[];
 
-void	ft_affiche(t_tree *c)
+void	ft_affiche(t_tree *c) // temporaire
 {
 	t_tree *r;
 
@@ -30,33 +30,7 @@ void	ft_affiche(t_tree *c)
 		ft_affiche(c->left);
 }
 
-t_tree	*init_node(t_token c, t_tree *n)
-{
-	if ((n = (t_tree *)malloc(sizeof(t_tree))) == NULL)
-		return (NULL);
-	n->previous = NULL;
-	n->father = NULL;
-	n->right = NULL;
-	n->left = NULL;
-	n->token = c;
-	return (n);
-}
-
-int		check_for_reserved(t_tree *c, char *cur, char *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (g_reserveds[i].res)
-	{
-		if (g_reserveds[i].one == c->token.id)
-			return ()
-		i++;
-	}
-	return (0);
-}
-
-int		place_token(t_token t, char *cur, char *cmd)
+int		place_token(t_token t)
 {
 	t_tree	*n;
 
@@ -82,16 +56,20 @@ int		check_last_token(t_tree *cur)// a modifier pour un rappel a promptadd
 	if (cur->token.id == GREAT || cur->token.id == LESS ||
 		cur->token.id == LESSAND || cur->token.id == GREATAND ||
 		cur->token.id == LESSGREAT || cur->token.id == DLESS ||
-		current->token.id == DGREAT || current->token.id == AND ||
-		current->token.id == OR_IF || current->token.id == AND_IF)
-			return (-1);
+		current->token.id == DGREAT)
+		return (-1);
+	else if (current->token.id == OR_IF || current->token.id == AND_IF)
+	{
+		// rappel a prompt add et add in queue;
+		return (-1);
+	}
 	return (0);
 }
 
 int		cur_is_new_res(t_tree *cur)
 {
 	int	i;
-
+ 
 	i = 0;
 	while (g_valid_ress[i].two)
 	{
@@ -118,7 +96,7 @@ int		parser(char *cmd)
 	{
 		if (ret < 0)
 			return (-1);
-		if (place_token(t, cur, cmd) < 0)
+		if (place_token(t) < 0)
 		{
 			ft_printf("\nError parsing near `%s' PLACE TOKEN\n", t.str);
 			free(t.str);

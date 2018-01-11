@@ -13,23 +13,25 @@
 #include "ft_sh.h"
 
 extern t_classic					g_classics[];
-extern t_reserved					g_reserveds[];
 
 void		set_new_id(t_tree *cur, t_tree *new)
 {
-	int		i;
+	t_token_id	o;
+	t_token_id	n;
 
-	i = 0;
-	while (g_reserveds[i].res)
+	o = cur->token.id;
+	n = new->token.id;
+	if (n == While || n == If || n == Case || n == Until)
 	{
-		if (new->token.id == g_reserveds[i].one)
-		{
-			if (cur->token.id != AND && cur->token.id != SEMI
-				&& cur->token.id != OR_IF && cur->token.id != AND_IF
-				&& cur->token.id != AND)
-				new->token.id = WORD;
-		}
-		i++;
+		if (o != AND && o != SEMI && o != OR_IF
+			&& o != AND_IF && o != AND)
+			new->token.id = WORD;
+	}
+	else if (o == IO_NUMBER) // check sur les operateur et non pas les IO_NUMBER
+	{
+		if (n != DLESS && n != DGREAT && n != LESSGREAT && n != GREATAND
+			&& n != DLESSDASH && n != CLOBBER && n != LESS && n != GREAT)
+			new->token.id = WORD;
 	}
 }
 

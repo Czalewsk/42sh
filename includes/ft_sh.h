@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 14:58:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2017/12/03 18:49:30 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "termcaps.h"
 # include "prompt.h"
 # include "ast.h"
+# include "job_control.h"
 # include "parser.h"
 
 /*

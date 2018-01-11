@@ -10,37 +10,65 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_sh.h"
 
+extern	t_fill_job	g_fill_jobs[];
 
-// t_job *get_new_job(t_job *old)
-// {
-// 	t_job *new;
-// 	if (new = (t_job *)malloc(sizeof(t_job)) == NULL)
-// 		return (NULL);
-// 	old->next = new;
-// 	return (new);
-// }
+t_tree	*fill_io(t_tree *clist, t_job *job)
+{
+	(void)job;
+	return (clist);
+}
+
+t_job	*fill_job_process(t_tree *list, t_job *job)
+{
+	int		i;
+
+	i = 0;
+	while (g_fill_jobs[i].fjob)
+	{
+		if (g_fill_jobs[i].one == list->token.id)
+		{
+			list = g_fill_jobs[i].fjob(list, job);
+			if (list)
+				return (job = fill_job_process(list, job));
+			return (job);
+		}
+		i++;
+	}
+	ft_printf("who came here > ?");
+	return (NULL);
+}
+
+t_job	*fill_job(t_job *fill, t_tree *chead)
+{
+	t_job	*new;
+	t_process *fp;
+	t_tree	*tmp;
+
+	new = NULL;
+	tmp = chead;
+	fill = init_job(fill);
+	fp = fill->first_process;
+	fill = fill_job_process(tmp, init_job(fill));
+	fill->first_process = fp;
+	fill->next = new;
+	return (new);
+}
 
 int		ft_fill_for_jobs(t_tree *head)
 {
-	// t_job	*n;
+	t_job	*first_job;
+	t_job	*n;
 	t_tree	*tmp;
 
-	// if (first_job = (t_job *)malloc(sizeof(t_job)) == NULL)
-	// 	return (-1);
 	tmp = head;
-	// n = first_job;
-	// n->stdin = 0;
-	// n->stdout = 1;
-	// n->stderr = 2;
-	// while (tmp)
-	// {
-	// 	// if (tmp->token.id == AND || tmp->token.id == AND_IF
-	// 	// 	|| tmp->token.id == OR_IF)
-	// 	// 	n = get_new_job(n);
-	// 	tmp = tmp->right;
-	// }
+	first_job = NULL;
+	n = first_job;
+	while (tmp)
+	{
+		n = fill_job(n, tmp);
+		tmp = tmp->left;
+	}
 	return (0);
 }

@@ -27,30 +27,29 @@ typedef struct				s_tree
 	struct s_token			token;
 }							t_tree;
 
+typedef struct s_fill_job
+{
+	t_token_id	one;
+	t_tree		*(*fjob)(t_tree *clist, t_job *job);
+}				t_fill_job;
+
 typedef struct s_valid_res
 {
 	t_token_id	one;
 	t_token_id	two;
 }				t_valid_res;
 
+typedef struct s_for_close
+{
+	t_token_id	one;
+	t_token_id	two;
+}				t_for_close;
+
 typedef struct s_execpted
 {
 	t_token_id	one;
 	t_token_id	two;
-}
-
-typedef struct s_reserved
-{
-	t_token_id	one;
-//	int			(*res)(t_tree *current, char *cur, char *cmd);
-}				t_reserved;
-
-typedef struct s_while
-{
-	t_token_id	one;
-	t_token_id	two;
-	t_tree		*(*cmp)(t_tree *current, t_tree *new);
-}				t_while;
+}				t_execpted;
 
 typedef struct s_classic
 {
@@ -59,10 +58,10 @@ typedef struct s_classic
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
 }				t_classic;
 
-int		parse_while(t_tree *curr, char *cur, char *cmd);
-int		parse_if(t_tree *curr, char *cur, char *cmd);
-int		parse_until(t_tree *curr, char *cur, char *cmd);
-int		parse_case(t_tree *curr, char *cur, char *cmd);
+void						set_new_id(t_tree *cur, t_tree *new);
+
+int							cur_is_new_res(t_tree *cur);
+int							read_for_reserved(t_tree *curr, char *cur, char *cmd);
 
 int							ft_free_token(t_tree *token);
 int							ft_free_tree(t_tree *c);
@@ -72,8 +71,15 @@ int							parser(char	*cmd);
 
 int							ft_fill_for_jobs(t_tree *head);
 
-t_tree						*init_node(t_token c, t_tree *n);
 
+t_tree						*init_node(t_token c, t_tree *n);
+t_job						*init_job(t_job *new);
+t_process					*init_process(t_process *p);
+
+t_tree						*pipe_process(t_tree *clist, t_job *job);
+t_tree						*modify_io(t_tree *clist, t_job *job);
+t_tree						*set_end(t_tree *clist, t_job *job);
+t_tree						*add_in_arguments(t_tree *clist, t_job *job);
 t_tree						*init_node(t_token c, t_tree *n);
 t_tree						*go_to_current_right(t_tree *cur, t_tree *new);
 t_tree						*go_to_current_left(t_tree *cur, t_tree *new);
