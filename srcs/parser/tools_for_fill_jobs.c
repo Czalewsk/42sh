@@ -12,6 +12,13 @@
 
 #include "ft_sh.h"
 
+t_tree	*pipe_process(t_tree *clist, t_job *job)
+{
+	job->first_process->next = init_process(job->first_process->next);
+	job->first_process = job->first_process->next;
+	return (clist->right);
+}
+
 t_tree	*set_end(t_tree *clist, t_job *job)
 {
 	if (clist->token.id == AND)

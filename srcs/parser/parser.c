@@ -51,7 +51,7 @@ int		place_token(t_token t)
 	return (add_in_classic_tree(current, n));
 }
 
-int		check_last_token(t_tree *cur)// a modifier pour un rappel a promptadd
+int		check_last_token(t_tree *cur)
 {
 	if (cur->token.id == GREAT || cur->token.id == LESS ||
 		cur->token.id == LESSAND || cur->token.id == GREATAND ||
@@ -60,7 +60,7 @@ int		check_last_token(t_tree *cur)// a modifier pour un rappel a promptadd
 		return (-1);
 	else if (current->token.id == OR_IF || current->token.id == AND_IF)
 	{
-		// rappel a prompt add et add in queue;
+		// prompt_add(char *prompt, char **line)
 		return (-1);
 	}
 	return (0);

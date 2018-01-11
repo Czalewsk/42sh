@@ -57,8 +57,12 @@ t_job	*fill_job_process(t_tree *list, t_job *job)
 		}
 		i++;
 	}
-	ft_printf("who came here > ?");
-	return (NULL);
+	i = 0;
+	ft_printf("\nWrong to come here, but for test it is ok\n");
+	list = g_fill_jobs[i].fjob(list, job);
+	if (list)
+		return (job = fill_job_process(list, job));
+	return (job);
 }
 
 t_job	*fill_job(t_job *fill, t_tree *chead)
@@ -99,5 +103,6 @@ int		ft_fill_for_jobs(t_tree *head)
 	}
 //	n = first_job;
 	ft_affiche_jobs(first_job);
+	ft_printf("\nready to launch\n");
 	return (0);
 }

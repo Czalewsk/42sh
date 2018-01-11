@@ -43,6 +43,7 @@ const t_fill_job	g_fill_jobs[] = {
 	{OR_IF, &set_end},
 	{AND, &set_end},
 	{SEMI, &set_end},
+	{0, NULL}
 	// {While, &shellscript},
 	// {If, &shellscript},	
 //	{LPAR, &subshell_capability},
