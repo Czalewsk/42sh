@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/11 00:44:23 by bviala           ###   ########.fr        #
+#    Updated: 2018/01/11 17:37:58 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,8 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  tree/btree_insert_data.c tree/btree_level_count.c				\
 			  tree/btree_search_item.c										\
 			  env/ft_getenv.c env/ft_setenv.c env/ft_env_cpy.c				\
-			  env/ft_addenv.c env/ft_printenv.c env/ft_unsetenv.c
+			  env/ft_addenv.c env/ft_printenv.c env/ft_unsetenv.c			\
+			  env/ft_getenv_status.c
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
