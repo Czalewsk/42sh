@@ -35,18 +35,27 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= ft_sh \
-				  termcaps/termcaps_init \
-				  prompt/prompt_display \
-				  edition/buff_handler edition/read edition/paste_handler \
-				  edition/key_manager edition/insert_char edition/key_manager \
-				  edition/cursor edition/unicode edition/print \
-				  prompt/prompt_add \
-				  ast/rules ast/lexer ast/lexer_tokenize
+SRCS_FILES		= ft_sh 													\
+				  termcaps/termcaps_init 									\
+				  prompt/prompt_display prompt/prompt_add					\
+				  prompt/prompt_git											\
+				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/key_manager edition/insert_char edition/cursor	\
+				  edition/unicode edition/print edition/curs_back			\
+				  utils/escape/escape_functions utils/escape/sh_escape		\
+				  utils/escape/escape_dquote								\
+				  glob/brace_expansion glob/brace_valide_type				\
+				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
+				  glob/glob_buff_handler									\
+				  builtins/builtin_history									\
+				  history/history_mode history/history_noaccess				\
+				  history/history_utils	history/history_search				\
+				  history/history_ctrlr	history/history_ctrlr_tools			\
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h
+HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
+				  utils.h sh_escape.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -54,7 +63,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ ast/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
+ utils/escape/ glob/ builtins/ history/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

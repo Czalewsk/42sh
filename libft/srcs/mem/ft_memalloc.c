@@ -3,27 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/18 14:44:27 by bviala            #+#    #+#             */
-/*   Updated: 2017/07/18 14:44:30 by bviala           ###   ########.fr       */
+/*   Created: 2016/11/09 12:17:37 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/09/19 14:48:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void				*ft_memalloc(size_t size)
+void	*ft_memalloc(size_t size)
 {
-	int				*tab;
-	size_t			i;
+	void *mem;
 
-	i = 0;
-	if (!(tab = (int*)malloc(sizeof(int) * size)))
-		return (NULL);
-	while (i < size)
+	if (!(mem = malloc(size)))
 	{
-		tab[i] = 0;
-		i++;
+		ft_putendl_fd("Fail to malloc\nHint : Buy a real pc :D", 2);
+		exit(EXIT_FAILURE);
 	}
-	return (tab);
+	ft_bzero(mem, size);
+	return (mem);
 }
