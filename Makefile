@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/30 14:36:16 by thugo            ###   ########.fr        #
+#    Updated: 2018/01/12 16:15:36 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,11 +51,12 @@ SRCS_FILES		= ft_sh 													\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
+				  ast/lexer ast/rules										\
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
-				  utils.h sh_escape.h
+				  utils.h sh_escape.h ast_types.h ast.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -64,7 +65,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/)
+ utils/escape/ glob/ builtins/ history/ ast/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

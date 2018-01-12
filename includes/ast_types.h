@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:26:31 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/11 15:18:10 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/12 18:00:19 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 typedef	enum		e_token_id
 {
 	WORD = 0, NEWLINE, AND_IF, OR_IF, DSEMI, DLESS, DGREAT, LESSAND,
-	GREATAND, LESSGREAT, DLESSDASH, IO_NUMBER, AND, LPAR, RPAR, PIPE, GREAT,
+	GREATAND, LESSGREAT, DLESSDASH, AND, LPAR, RPAR, PIPE, GREAT,
 	LESS, CLOBBER, SEMI, If, Then, Else, Elif, Fi, Do, Done, Case, Esac, While,
-	Until, For
+	Until, For, IO_NUMBER, ASSIGNMENT_WORD
 }					t_token_id;
 
 typedef enum		e_token_type

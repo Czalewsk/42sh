@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 10:04:08 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/12 14:19:48 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/12 16:45:45 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ const t_token_assign	g_token_operator[] = {
 	{")", RPAR},
 	{";;", DSEMI},
 	{";", SEMI},
-	{"\n", NEWLINE},
+	//{"\n", NEWLINE},
 	{"||", OR_IF},
 	{"|", PIPE},
 	{"<<", DLESS},
