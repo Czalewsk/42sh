@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/08 08:30:45 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/13 22:53:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ t_list			*sh_glob(char *to_glob)
 		*nl = '\0';
 	/* END */
 	path = sh_glob_init_path(to_glob);
+	glob_add_rules_to_path(path);
 	/* DEBUG */
 	t_list *tmp_path = path;
+	t_glob_process *elmt;
 	write(1, "\n", 1);
 	while (tmp_path)
 	{
-		ft_printf("|%s|\n", tmp_path->content);
+		elmt = tmp_path->content;
+		ft_printf("|%s|\n", elmt->path);
 		tmp_path = tmp_path->next;
 	}
 	/* END */
