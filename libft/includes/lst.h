@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/18 16:29:17 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/15 19:01:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ void				ft_lstsort(t_list **begin_list, int (*cmp)());
 t_list				*ft_lstnew_str(char *str, size_t content_size);
 size_t				ft_lstlen(t_list *lst);
 void				ft_lst_del_str(void *str, size_t size);
+void				ft_lst_add_index(t_list **alst, t_list *new, int index);
+void				ft_lstinsert_if_end(t_list **alst, t_list *new,
+		int (*f)(t_list *, t_list *));
+void				ft_lst_remove_index(t_list **alst, int index,
+		void (*del)(void *, size_t));
+void				ft_lst_remove_if(t_list **alst, int (*f)(t_list *elem),
+		void (*del)(void *, size_t));
 
 t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
 t_ldl_head			*ft_ldl_addfront(t_ldl_head *ldl_head, void *content);

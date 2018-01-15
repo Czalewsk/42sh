@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/13 22:52:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/15 23:06:00 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,15 @@ typedef struct	s_glob_process
 {
 	char		*path;
 	t_list		*rules;
+	t_list		*files;
 }				t_glob_process;
+
+typedef struct	s_glob_files
+{
+	char		*path;
+	int			deep;
+	char		is_relative;
+}				t_glob_files;
 
 void		glob_buff_handler(long nb_elem, t_glob_res *res);
 char			brace_valide_type(t_brace_check *brace, char **curs,
@@ -81,5 +89,6 @@ t_glob_rules	glob_rules_question(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_asterisk(char **curs, t_list **rules, char add);
 void			sh_glob_rules_init(char *str, t_list **rules);
 void			glob_add_rules_to_path(t_list *path);
+t_list			*glob_files_init(t_list *path, t_list **files);
 
 #endif

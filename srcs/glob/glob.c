@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/13 22:53:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/15 22:15:13 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,57 @@ t_list			*sh_glob_init(char *to_glob)
 }
 */
 
+/*
+** Fonction de debug des rules charset
+*/
+
+void			print_charset(char charset[255])
+{
+	int		i;
+
+	i = -1;
+	while (++i < 255)
+		ft_isprint(i) ? ft_printf("%3c ", i) : ft_printf("%3i ", i);
+	write(1, "\n", 1);
+	i = -1;
+	while (++i < 255)
+		ft_printf("%3i ", charset[i]);
+	write(1, "\n", 1);
+}
+
 t_list			*sh_glob(char *to_glob)
 {
 	t_list		*path;
+	t_list		*files;
 
 	/* Remove '\n' at the end of the line */
 	char *nl = ft_strrchr(to_glob, '\n');
 	if (nl)
 		*nl = '\0';
 	/* END */
+	files = NULL;
 	path = sh_glob_init_path(to_glob);
 	glob_add_rules_to_path(path);
+	glob_files_init(path, &files);
 	/* DEBUG */
 	t_list *tmp_path = path;
+	t_list *tmp_rules;
 	t_glob_process *elmt;
 	write(1, "\n", 1);
 	while (tmp_path)
 	{
 		elmt = tmp_path->content;
 		ft_printf("|%s|\n", elmt->path);
+		tmp_rules = elmt->rules;
+		while (tmp_rules)
+		{
+			ft_printf("\tIN\n");
+			print_charset(((t_glob_rules *)tmp_rules->content)->in);
+			ft_printf("\tOUT\n");
+			print_charset(((t_glob_rules *)tmp_rules->content)->out);
+			tmp_rules = tmp_rules->next;
+		}
+		write(1, "\n", 1);
 		tmp_path = tmp_path->next;
 	}
 	/* END */

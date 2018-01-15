@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/05 11:10:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/15 22:29:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include <dirent.h>
+# include <sys/stat.h>
 
 # define BUFF_SIZE 250
 
@@ -47,5 +48,6 @@ int					ft_strisnumber(char *str);
 int					ft_find_end_nbr(char *str);
 int					ft_isint(char *nb);
 char				ft_is_escape(char *esc, char *str);
+t_list				*ft_list_folders(char *path);
 
 #endif

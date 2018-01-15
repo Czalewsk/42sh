@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/05 11:10:55 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/15 18:59:10 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  lst/ft_lstsize.c lst/ft_lstiter.c lst/ft_lstclear.c			\
 			  lst/ft_lstprint.c	lst/ft_lstdelone.c lst/ft_lstaddback.c		\
 			  lst/ft_lstswap.c lst/ft_lstsort.c lst/ft_lstprint_name.c		\
+			  lst/ft_lst_add_index.c lst/ft_lst_remove_if.c					\
+			  lst/ft_lst_remove_index.c lst/ft_lstinsert_if_end.c			\
 			  lst/ldl/ft_ldl_addback.c lst/ldl/ft_ldl_addfront.c			\
 			  lst/ldl/ft_ldl_clear.c lst/ldl/ft_ldl_del.c					\
 			  lst/ldl/ft_ldl_del_id.c lst/ldl/ft_ldl_del_if.c				\
