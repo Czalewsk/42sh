@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/15 19:01:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/17 09:37:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void				ft_lst_remove_index(t_list **alst, int index,
 		void (*del)(void *, size_t));
 void				ft_lst_remove_if(t_list **alst, int (*f)(t_list *elem),
 		void (*del)(void *, size_t));
+void				ft_lst_remove(t_list **alst, t_list *dl,
+		void (*del)());
 
 t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
 t_ldl_head			*ft_ldl_addfront(t_ldl_head *ldl_head, void *content);

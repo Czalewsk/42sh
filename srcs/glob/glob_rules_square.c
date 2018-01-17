@@ -6,15 +6,15 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 07:12:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/13 19:28:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/17 12:49:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_glob.h"
 
-const char	g_special_char[] = "|&;<>()$`\\\"' \t\n";
+const char		g_special_char[] = "|&;<>()$`\\\"' \t\n";
 
-char	*square_find_end(char *curs)
+char			*square_find_end(char *curs)
 {
 	char	*end;
 
@@ -31,6 +31,7 @@ char	*square_find_end(char *curs)
 			end = curs;
 		else if (ft_strchr(g_special_char, *curs))
 			return (NULL);
+		curs++;
 	}
 	return (end);
 }
@@ -55,6 +56,7 @@ static	char	rules_square_range(char **curs, char *end,
 		else
 			return (0);
 	}
+	++(*curs);
 	end_pttrn = **curs;
 	if (start_pttrn > end_pttrn)
 		return (0);
@@ -95,13 +97,13 @@ t_glob_rules	glob_rules_square(char **curs, t_list **rules, char add)
 	rule.single = 1;
 	end = square_find_end(*curs);
 	check_first_char(curs, &rule, &matching, end);
-	while (*curs < end)
-	{
+	while (++(*curs) < end)
 		if (!rules_square_range(curs, end, matching))
 			rules_square_char(curs, end, matching);
-		(*curs)++;
-	}
+	if (rule.in['.'])
+		rule.out['.'] = 0;
 	if (add)
 		ft_lstaddback(rules, ft_lstnew(&rule, sizeof(t_glob_rules)));
+	++(*curs);
 	return (rule);
 }
