@@ -35,3 +35,44 @@ int	ft_free_tree(t_tree *c)
 	}
 	return (0);
 }
+
+int	ft_free_array(char **array)
+{
+	int		i;
+
+	i = 0;
+	while (array && array[i])
+	{
+		i++;
+		free(array[i - 1]);
+	}
+	return (0);
+}
+
+int	ft_free_process(t_process *p)
+{
+	t_process *t;
+
+	while (p)
+	{
+		ft_free_array(p->argv);
+		t = p;
+		p = p->next;
+		free(t);
+	}
+	return (0);
+}
+
+int	ft_free_job(t_job *j)
+{
+	t_job *t;
+
+
+	while (j)
+	{
+		t = j;
+		ft_free_process(j->first_process);
+		j = j->next;
+	}
+	return (0);
+}

@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_process.c                                     :+:      :+:    :+:   */
+/*   ft_striter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: xesnault <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/11 16:31:53 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/11 16:31:54 by maastie          ###   ########.fr       */
+/*   Created: 2016/11/03 11:30:46 by xesnault          #+#    #+#             */
+/*   Updated: 2017/05/22 21:25:39 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-
-t_tree	*pipe_process(t_tree *clist, t_job *job)
+int				ft_strisnumber(char *str)
 {
-	job->first_process->next = init_process(job->first_process->next);
-	job->first_process = job->first_process->next;
-	return (clist->right);
+	if (!str || !(*str))
+		return (0);
+	if ((*str == '-' || *str == '+') && *(str + 1))
+		++str;
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		++str;
+	}
+	return (1);
 }

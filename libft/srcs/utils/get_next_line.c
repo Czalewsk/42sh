@@ -3,118 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/28 20:01:22 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/28 20:11:19 by bviala           ###   ########.fr       */
+/*   Created: 2016/11/28 11:58:10 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/11/21 18:13:46 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	create_line(t_fd *current, char **line, char *tmp)
+void	rm_content(void *curs, size_t size)
 {
-	char	*end;
+	(void)size;
+	free(((t_str*)curs)->buff);
+	free(curs);
+}
 
-	if ((end = ft_strchr(tmp, '\n')))
-	{
-		*end = '\0';
-		if (current->save)
+int		fill_buffer(int fd, t_str *curs, char **line)
+{
+	int		t;
+	int		i;
+	int		ret;
+
+	i = 0;
+	t = curs->size;
+	if (!ft_memchr(curs->buff, 10, curs->size))
+		while ((curs->size = read(fd, curs->buff, BUFF_SIZE)) > 0)
 		{
-			*line = ft_strjoin_free(current->save, tmp, 0);
-			current->save = NULL;
+			ret = curs->size;
+			*line = ft_memrealloc(*line, t, t + curs->size + 1);
+			ft_memmove(*line + t, curs->buff, curs->size);
+			t += curs->size;
+			if (ft_memchr(curs->buff, 10, curs->size))
+				break ;
+			if (ret < BUFF_SIZE)
+				break ;
 		}
-		else
-			*line = ft_strdup(tmp);
-		if (*end + 1)
-			current->save = ft_strdup(end + 1);
-		return (1);
-	}
-	return (0);
+	ret = (curs->size == 0) ? t : curs->size;
+	while (i < t && (*line)[i] != 10)
+		i++;
+	(*line)[i] = '\0';
+	ft_memmove(curs->buff, *line + i + 1, t - i);
+	curs->size = (t - i - 1) >= 0 ? (t - i - 1) : 0;
+	return (ret);
 }
 
-static int	get_full_line(t_fd *current, char **line, int i)
+t_list	*init_struct(t_list **start, int fd)
 {
-	char	tmp[BUFF_SIZE + 1];
+	t_str	*strct;
+	t_list	*new;
 
-	while ((i = read(current->fd, tmp, BUFF_SIZE)) > 0)
-	{
-		tmp[i] = '\0';
-		if (create_line(current, line, tmp))
-			break ;
-		else
-		{
-			if (current->save == NULL)
-				current->save = ft_strdup(tmp);
-			else
-				current->save = ft_strjoin_free(current->save, tmp, 0);
-		}
-	}
-	if (i == 0 && current->save != NULL && ((ft_strchr(current->save, '\n'))
-				== NULL) && current->save[0] != '\0')
-	{
-		*line = ft_strdup(current->save);
-		ft_strdel(&current->save);
-		return (1);
-	}
-	ft_strdel(&current->save);
-	return (i > 0 ? 1 : i);
-}
-
-static int	check_save(t_fd *current, char **line)
-{
-	char	*end;
-
-	if ((end = ft_strchr(current->save, '\n')))
-	{
-		*end = '\0';
-		*line = ft_strdup(current->save);
-		if (*end + 1)
-			current->save = ft_strdup(end + 1);
-		if (!current->save)
-			return (0);
-		return (1);
-	}
-	else
-		return (get_full_line(current, line, 0));
-}
-
-static t_fd	*new_fd(const int fd)
-{
-	t_fd	*new;
-
-	if (!(new = (t_fd*)malloc(sizeof(t_fd))))
-		return (NULL);
-	new->next = NULL;
-	new->fd = fd;
-	new->save = NULL;
+	strct = (t_str*)ft_memalloc(sizeof(t_str));
+	strct->fd = fd;
+	strct->buff = (char*)ft_memalloc(BUFF_SIZE);
+	strct->size = 0;
+	new = ft_lstnew(strct, sizeof(t_str));
+	ft_lst_pushend(start, new);
+	free(strct);
 	return (new);
 }
 
-int			get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	static t_fd	*begin_list = NULL;
-	t_fd		*current;
+	static	t_list	*start;
+	t_list			*curs;
+	int				ret;
 
-	current = begin_list;
-	if (fd < 0)
+	if (fd == -2 && start && !line)
+		ft_lstdel(&start, &rm_content);
+	if (fd < 0 || !line)
 		return (-1);
-	if (begin_list == NULL)
+	curs = start;
+	while (curs && CT(curs)->fd != fd)
+		curs = curs->next;
+	curs = (curs == NULL) ? init_struct(&start, fd) : curs;
+	if (CT(curs)->buff && CT(curs)->size >= 0)
 	{
-		current = new_fd(fd);
-		begin_list = current;
+		*line = ft_memalloc(CT(curs)->size + 1);
+		ft_memmove(*line, CT(curs)->buff, CT(curs)->size);
 	}
-	else
+	ret = fill_buffer(fd, CT(curs), line);
+	if (ret <= 0)
 	{
-		while (current->next && fd != current->fd)
-			current = current->next;
-		if (fd != current->fd)
-		{
-			current->next = new_fd(fd);
-			current = current->next;
-		}
+		ft_lst_remove(&start, curs, &rm_content);
+		return ((ret < 0) ? -1 : 0);
 	}
-	if (current->save != NULL)
-		return (check_save(current, line));
-	return (get_full_line(current, line, 0));
+	return (1);
 }

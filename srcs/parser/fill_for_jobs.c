@@ -101,8 +101,10 @@ int		ft_fill_for_jobs(t_tree *head)
 			n = n->next;
 		}
 	}
-//	n = first_job;
+	n = first_job;
 	ft_affiche_jobs(first_job);
 	ft_printf("\nready to launch\n");
+	ft_free_job(n);
+	ft_printf("\nJob freed\n");
 	return (0);
 }

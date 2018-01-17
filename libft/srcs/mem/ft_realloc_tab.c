@@ -6,16 +6,16 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/23 16:42:56 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/28 19:20:56 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 17:38:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_realloc_tab(int size, char **tab)
+char	**ft_realloc_tab(size_t size, char **tab)
 {
 	char	**new_tab;
-	int		i;
+	size_t	i;
 
 	if (!(new_tab = (char **)ft_memalloc(sizeof(char *) * (size + 1))))
 		return (NULL);

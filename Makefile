@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/30 14:36:16 by thugo            ###   ########.fr        #
+#    Updated: 2018/01/09 15:39:02 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,23 +35,31 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= ft_sh \
-				  termcaps/termcaps_init \
-				  prompt/prompt_display \
-				  edition/buff_handler edition/read edition/paste_handler \
-				  edition/key_manager edition/insert_char edition/key_manager \
-				  edition/cursor edition/unicode edition/print \
-				  prompt/prompt_add \
-				  ast/rules ast/lexer ast/lexer_tokenize \
-				  parser/parser parser/compatibility parser/parser_rules \
-				  parser/fill_for_jobs parser/free_parser parser/add_in_tree \
-				  parser/reserved parser/tools_for_fill_jobs parser/init \
-				  parser/modify_io parser/add_in_arguments 
+SRCS_FILES		= ft_sh 													\
+				  termcaps/termcaps_init 									\
+				  prompt/prompt_display prompt/prompt_add					\
+				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/key_manager edition/insert_char edition/cursor	\
+				  edition/unicode edition/print edition/curs_back			\
+				  utils/escape/escape_functions utils/escape/sh_escape		\
+				  utils/escape/escape_dquote								\
+				  glob/brace_expansion glob/brace_valide_type				\
+				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
+				  glob/glob_buff_handler									\
+				  builtins/builtin_history									\
+				  history/history_mode history/history_noaccess				\
+				  history/history_utils	history/history_search				\
+				  history/history_ctrlr										\
+				  ast/rules ast/lexer ast/lexer_tokenize 					\
+				  parser/parser parser/compatibility parser/parser_rules	\
+				  parser/fill_for_jobs parser/free_parser parser/add_in_tree\
+				  parser/reserved parser/tools_for_fill_jobs parser/init	\
+				  parser/modify_io parser/add_in_arguments
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h ast.h ast_types.h \
-				  parser.h job_control.h
+HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
+				  utils.h sh_escape.h ast.h ast_types.h parser.h job_control.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -59,7 +67,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ ast/ parser/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
+					 utils/escape/ glob/ builtins/ history/ ast/ parser/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

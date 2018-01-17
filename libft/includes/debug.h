@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/06 16:00:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/22 10:21:50 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/12/06 16:05:00 by bviala            #+#    #+#             */
+/*   Updated: 2017/12/28 16:13:30 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include <fcntl.h>
 
-# define DEBUG_WINDOW ("/dev/ttys000")
+# define DEBUG_WINDOW ("/dev/ttys004")
 # define DEBUG(x...) (debug(x));
 
 int		debug(char *format, ...);

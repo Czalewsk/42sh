@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 18:27:58 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/09 14:51:04 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 ** GLOBAL MACHINE A ETAT
 */
 
-extern int			g_edition_state;
-
 typedef enum		e_edition_state
 {
 	NORMAL, COMPLETION, HISTORY, EDITION_MAX_STATE
@@ -44,7 +42,8 @@ typedef enum		e_edition_state
 typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
-	SHIFT_DO, HOME, END, PASTE_KEYBOARD, CTRL_T, CTRL_C, MAX_KEY
+	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, PASTE_KEYBOARD, CTRL_C, CTRL_R,
+	MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -90,11 +89,14 @@ char				delete_char(t_buf *cmd, t_read *info, t_key *entry);
 char				suppr_char(t_buf *cmd, t_read *info, t_key *entry);
 char				curs_move_vt(t_buf *cmd, t_read *info, t_key *entry);
 char				edition_home_end(t_buf *cmd, t_read *info, t_key *entry);
+void				display_str(t_buf *cmd, t_read *info,
+		char *str, size_t pos_cur);
 void				cursor_back_home(t_read *info);
 int					sh_curs_unicode(char *str, int index, int end);
 void				add_str(t_buf *cmd, t_read *info, char *str);
 char				test_print(t_buf *cmd, t_read *info, t_key *entry);
 void				info_init(t_read *info);
 char				test_prompt_add(t_buf *cmd, t_read *info, t_key *entry);
+void				cursor_back_begin(t_read *info);
 
 #endif

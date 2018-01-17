@@ -61,10 +61,13 @@ typedef struct s_classic
 void						set_new_id(t_tree *cur, t_tree *new);
 
 int							cur_is_new_res(t_tree *cur);
+
 int							read_for_reserved(t_tree *curr, char *cur, char *cmd);
 
 int							ft_free_token(t_tree *token);
 int							ft_free_tree(t_tree *c);
+int							ft_free_job(t_job *j);
+
 int							add_in_classic_tree(t_tree *cur, t_tree *new);
 
 int							parser(char	*cmd);
