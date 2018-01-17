@@ -27,12 +27,12 @@ void		set_new_id(t_tree *cur, t_tree *new)
 			&& o != AND_IF && o != AND)
 			new->token.id = WORD;
 	}
-	else if (o == IO_NUMBER) // check sur les operateur et non pas les IO_NUMBER
-	{
-		if (n != DLESS && n != DGREAT && n != LESSGREAT && n != GREATAND
-			&& n != DLESSDASH && n != CLOBBER && n != LESS && n != GREAT)
-			new->token.id = WORD;
-	}
+	// else if (o == IO_NUMBER) // check sur les operateur et non pas les IO_NUMBER
+	// {
+	// 	if (n != DLESS && n != DGREAT && n != LESSGREAT && n != GREATAND
+	// 		&& n != DLESSDASH && n != CLOBBER && n != LESS && n != GREAT)
+	// 		new->token.id = WORD;
+	// }
 }
 
 int			add_in_classic_tree(t_tree *cur, t_tree *new)

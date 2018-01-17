@@ -6,34 +6,15 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 15:51:28 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/03 18:19:10 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/10 17:02:06 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	ft_clear_prompt(t_read *info , int first, size_t pos, char *new)
+static void	ft_search_prompt(t_read *info, size_t pos, char *to_find, char *new)
 {
-	/*
-	if (first)
-	{
-		cursor_back_home(info);
-		ft_putnchar('\b', info->prompt - 1);
-	}
-	else
-		ft_putnchar('\b', 22 + pos + ft_strlen(new));
-		*/
-	(void)info;
-	(void)first;
-	(void)pos;
-	(void)new;
-	tputs(tparm(g_termcaps_cap[COL], 0), 0, &ft_putchar_termcap);
-	tputs(g_termcaps_cap[CLEAR], 0, &ft_putchar_termcap);
-}
-
-static void	ft_search_prompt(t_read *info, char *to_find, char *new, size_t pos)
-{
-	ft_clear_prompt(info, 0, pos, new);
+	ft_clear_prompt(info, 1, pos, new);
 	if (to_find)
 	{
 		ft_printf("(reverse-i-search)`%s': ", to_find);
@@ -46,13 +27,12 @@ static void	ft_search_prompt(t_read *info, char *to_find, char *new, size_t pos)
 
 static void	search_history(char **new, char **to_find, size_t *pos, int ret)
 {
-	char 	tmp[2];
+	char	tmp[2];
 	t_ldl	*ldl;
 
-	ft_clear_prompt(NULL, 0, *pos, *new);
+	(*pos)++;
 	tmp[0] = (char)ret;
 	tmp[1] = '\0';
-	++(*pos);
 	if (!(*to_find))
 		*to_find = ft_strdup(tmp);
 	else
@@ -67,12 +47,12 @@ static void	search_history(char **new, char **to_find, size_t *pos, int ret)
 		*new = ft_strdup(ldl->content);
 }
 
-static void	ft_delone_ctrlr(char **new, char **to_find, size_t *pos)
-{	
+static void	ft_delone_ctrlr(char **new, char **to_find,
+		size_t *pos)
+{
 	t_ldl	*ldl;
-	char	*new_find;	
+	char	*new_find;
 
-	ft_clear_prompt(NULL, 0, *pos, *new);
 	(*pos)--;
 	if (*pos)
 	{
@@ -93,6 +73,25 @@ static void	ft_delone_ctrlr(char **new, char **to_find, size_t *pos)
 		*new = ft_strdup(ldl->content);
 }
 
+static int	ctrlr_solve(t_read *info, size_t *pos, char **new, char **to_find)
+{
+	int	ret;
+
+	while (42)
+	{
+		ft_search_prompt(info, *pos, *to_find, *new);
+		ret = 0;
+		read(0, &ret, sizeof(int));
+		if (ft_isprint(ret))
+			search_history(new, to_find, pos, ret);
+		else if (ret == 127 && *pos)
+			ft_delone_ctrlr(new, to_find, pos);
+		else if (ret != 127 && !ft_isprint(ret))
+			break ;
+	}
+	return (ret);
+}
+
 char		history_ctrlr(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char	*new;
@@ -100,32 +99,17 @@ char		history_ctrlr(t_buf *cmd, t_read *info, t_key *entry)
 	int		ret;
 	size_t	pos;
 
-	DEBUG("OUI |%s|, prompt |%zu| win co |%zu| total char |%zu| curs |%zu| nread |%d|\n", cmd->cmd, info->prompt, info->win_co, info->total_char, info->curs_char, entry->nread);
-
 	new = NULL;
 	to_find = NULL;
 	pos = 0;
 	(void)entry;
-	ft_clear_prompt(info, 1, 0, NULL);
-	while (42)
-	{
-		ft_search_prompt(info, to_find, new, pos);
-		ret = 0;
-		read(0, &ret, sizeof(int));
-		if (ft_isprint(ret))
-			search_history(&new, &to_find, &pos, ret);
-		else if (ret == 127 && pos)
-		{
-			ft_delone_ctrlr(&new, &to_find, &pos);
-			tputs(g_termcaps_cap[LEFT], 0, &ft_putchar_termcap);
-		}
-		else if (ret != 127 && !ft_isprint(ret))
-			break ;
-	}
-	ft_clear_prompt(info, 0, pos, new);
-	prompt_display(info);
-//	if (new)
-//		display_str(cmd, info, new, ft_strlen(new));
+	ft_clear_prompt(info, 0, 0, NULL);
+	ret = ctrlr_solve(info, &pos, &new, &to_find);
+	ft_clear_prompt(info, 1, pos, new);
+	info->curs_char = 0;
+	prompt_display(info, 0);
+	if (new && ret == 13)
+		display_str(cmd, info, new, ft_strlen(new));
 	ft_strdel(&to_find);
 	ft_strdel(&new);
 	return (0);

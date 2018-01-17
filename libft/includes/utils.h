@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 18:10:03 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/09 14:48:34 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/11 00:43:58 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct		s_str
 }					t_str;
 
 int					ft_count_len(int nb);
+int					ft_howmany(char *line, char c);
 int					ft_islower(int c);
 int					ft_isalpha(int n);
 int					ft_isdigit(int n);

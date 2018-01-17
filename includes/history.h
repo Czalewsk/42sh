@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/29 16:20:47 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/10 16:55:43 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ void	history_search_nb_neg(t_buf *cmd, t_read *info, int nb);
 void	history_search_contain_name(t_buf *cmd, t_read *info, char *str);
 void	history_search_begin_name(t_buf *cmd, t_read *info, char *str);
 char	history_ctrlr(t_buf *cmd, t_read *info, t_key *entry);
+void	ft_clear_prompt(t_read *info, int first, size_t pos, char *new);
 #endif

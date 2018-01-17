@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   history_ctrlr_tools.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/11 00:38:24 by bviala           ###   ########.fr       */
+/*   Created: 2018/01/10 16:54:00 by bviala            #+#    #+#             */
+/*   Updated: 2018/01/10 16:54:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PROMPT_H
-# define __PROMPT_H
+#include "ft_sh.h"
 
-# include "ft_sh.h"
-
-void		prompt_display(t_read *info, int new);
-char		prompt_add(char *prompt, char **line);
-int			sh_prompt_git(void);
-#endif
+void	ft_clear_prompt(t_read *info, int first, size_t pos, char *new)
+{
+	cursor_back_begin(info);
+	if (first)
+	{
+		info->prompt = 22 + pos;
+		info->curs_char = new ? ft_strlen_utf8(new) : 0;
+	}
+}

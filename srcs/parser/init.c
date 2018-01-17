@@ -32,7 +32,6 @@ t_job		*init_job(t_job *new)
 	new->next = NULL;
 	new->command = NULL;
 	new->first_process = NULL;
-	new->first_process = init_process(new->first_process);
 	new->pgid = -1;
 //	new->notified = 47;
 //	new->tmodes = NULL;

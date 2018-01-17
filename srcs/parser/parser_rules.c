@@ -45,7 +45,7 @@ const t_fill_job	g_fill_jobs[] = {
 	{SEMI, &set_end},
 	{0, NULL}
 	// {While, &shellscript},
-	// {If, &shellscript},	
+	// {If, &shellscript},
 //	{LPAR, &subshell_capability},
 };
 

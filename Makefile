@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/09 15:39:02 by bviala           ###   ########.fr        #
+#    Updated: 2018/01/12 16:15:36 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ LIBFT_PATH		= libft/includes/
 SRCS_FILES		= ft_sh 													\
 				  termcaps/termcaps_init 									\
 				  prompt/prompt_display prompt/prompt_add					\
+				  prompt/prompt_git											\
 				  edition/buff_handler edition/read edition/paste_handler 	\
 				  edition/key_manager edition/insert_char edition/cursor	\
 				  edition/unicode edition/print edition/curs_back			\
@@ -50,7 +51,8 @@ SRCS_FILES		= ft_sh 													\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr										\
-				  ast/rules ast/lexer ast/lexer_tokenize 					\
+				  history/history_ctrlr_tools								\
+				  ast/rules ast/lexer										\
 				  parser/parser parser/compatibility parser/parser_rules	\
 				  parser/fill_for_jobs parser/free_parser parser/add_in_tree\
 				  parser/reserved parser/tools_for_fill_jobs parser/init	\

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/21 19:28:46 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/11 02:39:08 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,10 @@ static void	history_init(t_buf *cmd, t_read *info)
 	size_t	len;
 	char	*line;
 
-	line = NULL;
 	len = (info->curs_char) ? info->curs_char : ft_strlen(cmd->cmd);
 	if (!g_sh.hist)
 		g_sh.hist = ft_ldl_new_list();
-	if (check_history_access(g_sh.hist_file))
+	if (check_history_access(g_sh.hist_file) && !(line = NULL))
 	{
 		if ((fd = open(g_sh.hist_file, O_RDWR)) == -1)
 			return ;
@@ -110,6 +109,7 @@ static void	history_init(t_buf *cmd, t_read *info)
 			}
 			ft_strdel(&line);
 		}
+		ft_strdel(&line);
 		close(fd);
 	}
 }

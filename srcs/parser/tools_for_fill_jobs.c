@@ -33,5 +33,3 @@ t_tree	*set_end(t_tree *clist, t_job *job)
 	}
 	return (clist->right);
 }
-
-

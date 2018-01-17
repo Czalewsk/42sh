@@ -14,7 +14,7 @@
 
 extern	t_fill_job	g_fill_jobs[];
 
-void	ft_affiche_procces(t_process *p)
+void	ft_affiche_procces(t_process *p)// tmp
 {
 	int	i;
 
@@ -29,7 +29,7 @@ void	ft_affiche_procces(t_process *p)
 	}
 }
 
-void	ft_affiche_jobs(t_job *fjob)
+void	ft_affiche_jobs(t_job *fjob)// tmp
 {
 	ft_printf("\nFirst Job\n");
 	while (fjob)
@@ -62,21 +62,22 @@ t_job	*fill_job_process(t_tree *list, t_job *job)
 	list = g_fill_jobs[i].fjob(list, job);
 	if (list)
 		return (job = fill_job_process(list, job));
+			free(job->first_process->next);
 	return (job);
 }
 
-t_job	*fill_job(t_job *fill, t_tree *chead)
+t_job	*fill_job(t_job *job, t_tree *chead)
 {
-	t_process *fp;
-	t_tree	*tmp;
+	t_process	*fp;
+	t_tree		*tmp;
 
 	fp = NULL;
 	tmp = chead;
-	fill->first_process = init_process(fill->first_process);
-	fp = fill->first_process;
-	fill = fill_job_process(tmp, fill);
-	fill->first_process = fp;
-	return (fill);
+	job->first_process = init_process(job->first_process);
+	fp = job->first_process;
+	job = fill_job_process(tmp, job);
+	job->first_process = fp;
+	return (job);
 }
 
 int		ft_fill_for_jobs(t_tree *head)
@@ -103,7 +104,7 @@ int		ft_fill_for_jobs(t_tree *head)
 	}
 	n = first_job;
 	ft_affiche_jobs(first_job);
-	ft_printf("\nready to launch\n");
+	ft_printf("\nReady to launch\n");
 	ft_free_job(n);
 	ft_printf("\nJob freed\n");
 	return (0);

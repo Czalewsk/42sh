@@ -53,8 +53,9 @@ t_tree	*add_in_arguments(t_tree *clist, t_job *job)
 {
 	int	i;
 
-	job->first_process->argv = get_new_argv(job->first_process->argv, clist->token.str);
 	i = 0;
+	job->first_process->argv = get_new_argv(job->first_process->argv, clist->token.str);
+
 	// while (job->first_process->argv && job->first_process->argv[i])
 	// 	ft_printf("\n%s\n", job->first_process->argv[i++]);
 	return (clist->right);

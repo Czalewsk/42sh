@@ -36,16 +36,18 @@ int	ft_free_tree(t_tree *c)
 	return (0);
 }
 
-int	ft_free_array(char **array)
+int	ft_free_array(char **argv)
 {
 	int		i;
+	char	*t;
 
 	i = 0;
-	while (array && array[i])
+	while (argv && argv[i])
 	{
-		i++;
-		free(array[i - 1]);
+		t = argv[i++];
+		free(t);
 	}
+	free(argv);
 	return (0);
 }
 
@@ -55,8 +57,8 @@ int	ft_free_process(t_process *p)
 
 	while (p)
 	{
-		ft_free_array(p->argv);
 		t = p;
+		ft_free_array(p->argv);
 		p = p->next;
 		free(t);
 	}
@@ -67,12 +69,13 @@ int	ft_free_job(t_job *j)
 {
 	t_job *t;
 
-
 	while (j)
 	{
 		t = j;
 		ft_free_process(j->first_process);
+		free(j->command);
 		j = j->next;
+		free(t);
 	}
 	return (0);
 }

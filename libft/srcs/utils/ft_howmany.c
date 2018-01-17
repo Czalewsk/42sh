@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   ft_howmany.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/11 00:38:24 by bviala           ###   ########.fr       */
+/*   Created: 2017/02/05 17:08:31 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/02/05 17:10:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PROMPT_H
-# define __PROMPT_H
+#include "libft.h"
 
-# include "ft_sh.h"
+int		ft_howmany(char *line, char c)
+{
+	int		i;
+	int		n;
 
-void		prompt_display(t_read *info, int new);
-char		prompt_add(char *prompt, char **line);
-int			sh_prompt_git(void);
-#endif
+	i = 0;
+	n = 0;
+	if (!line)
+		return (0);
+	while (line[i])
+		if (line[i++] == c)
+			n++;
+	return (n);
+}
