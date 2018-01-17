@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 15:12:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/17 13:08:00 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/17 18:46:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_glob_rules			glob_rules_asterisk(char **curs, t_list **rules,
 
 	(void)add;
 	ft_bzero(&rule, sizeof(t_glob_rules));
+	rule.out[0] = 0;
 	if (**curs == '\\')
 		(*curs)++;
 	while ((i = glob_check_char(**curs)) == 1)
@@ -92,6 +93,7 @@ void					sh_glob_rules_init(char *str, t_list **rules)
 		ft_bzero(&rule, sizeof(t_glob_rules));
 		rule.out['.'] = 1;
 		rule.single = 1;
+		rule.dot = 1;
 		ft_memset(&rule.in, 1, 255);
 		rule.in['.'] = 0;
 		ft_lstadd(rules, ft_lstnew(&rule, sizeof(t_glob_rules)), 0);

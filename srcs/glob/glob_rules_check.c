@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 08:39:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/17 11:44:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/17 19:18:44 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,17 @@ char			rules_check_asterisk(char *str, t_list *rules,
 	while (42)
 	{
 		ret = rules_check(*str, &rule->in, &rule->out);
-		if (ret == 1 && ft_printf("1[%s]\n", str))
+		if (ret == 1)
 			if (!rules->next || glob_rules_check(str + 1, rules->next))
 			{
-				ft_printf("RET1[%s]\n", str);
 				return (1);
 			}
-		if (ret < 0 && ft_printf("2[%s]\n", str))
+		if (ret < 0)
 			return (0);
-		if (!*str && ft_printf("3[%s]\n", str))
-			return (0);
+		if (!*str)
+			return (rules ? 0 : 1);
 		str++;
 	}
-	ft_printf("4[%s]\n", str);
 	return (0);
 }
 
@@ -58,11 +56,9 @@ char			glob_rules_check(char *str, t_list *rules)
 		}
 		else
 			return (rules_check_asterisk(str, rules, rule));
-		if (!str)
+		if (!rule->dot && !*(str++))
 			return (1);
-		str++;
 		rules = rules->next;
 	}
-	ft_printf("5[%s]\n", str);
-	return (*str ? 0 : 1);
+	return (rules ? 0 : 1);
 }
