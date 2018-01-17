@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_types.h                                        :+:      :+:    :+:   */
+/*   lexer_types.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/29 10:26:31 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/12 18:00:19 by thugo            ###   ########.fr       */
+/*   Created: 2018/01/17 17:40:22 by thugo             #+#    #+#             */
+/*   Updated: 2018/01/17 17:40:48 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_TYPES_H
-# define AST_TYPES_H
+#ifndef LEXER_TYPES_H
+# define LEXER_TYPES_H
 
 # include <sys/types.h>
 
@@ -22,11 +22,6 @@ typedef	enum		e_token_id
 	LESS, CLOBBER, SEMI, If, Then, Else, Elif, Fi, Do, Done, Case, Esac, While,
 	Until, For, IO_NUMBER, ASSIGNMENT_WORD
 }					t_token_id;
-
-typedef enum		e_token_type
-{
-	OPERATOR = 0, RESERVED = 1
-}					t_token_type;
 
 typedef struct		s_token_assign
 {
