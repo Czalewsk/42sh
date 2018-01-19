@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:16 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/17 17:48:53 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/19 19:04:52 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 extern t_token_assign	g_token_operator[];
 extern t_token_assign	g_token_reserved[];
 
-int		rules_comment(t_token *tk, char **cur)
+int		rules_comment(t_token *tk, char **cur, char *escape)
 {
-	if (**cur == '#' && !tk->size)
+	if (**cur == '#' && !tk->size && !*escape)
 	{
 		while (*++*cur)
 			;
@@ -27,11 +27,13 @@ int		rules_comment(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_operator(t_token *tk, char **cur)
+int		rules_operator(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 	size_t	size;
 
+	if (*escape)
+		return (0);
 	i = 0;
 	while (g_token_operator[i].op)
 	{
@@ -51,12 +53,12 @@ int		rules_operator(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_reserved(t_token *tk, char **cur)
+int		rules_reserved(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 	size_t	size;
 
-	if (tk->size)
+	if (tk->size || *escape)
 		return (0);
 	i = 0;
 	while (g_token_reserved[i].op)
@@ -75,11 +77,11 @@ int		rules_reserved(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_io_number(t_token *tk, char **cur)
+int		rules_io_number(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 
-	if (tk->size)
+	if (tk->size || *escape)
 		return (0);
 	i = 0;
 	while (ft_isdigit(*(*cur + i)))
@@ -95,12 +97,12 @@ int		rules_io_number(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_assignment_word(t_token *tk, char **cur)
+int		rules_assignment_word(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 
 	i = 0;
-	if (!tk->size)
+	if (!tk->size || *escape)
 		return (0);
 	if (**cur == '=')
 	{

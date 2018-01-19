@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:40:22 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/17 17:40:48 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/18 20:07:52 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,5 @@ typedef struct		s_token
 	size_t		size;
 	t_token_id	id;
 }					t_token;
-
-typedef struct		s_lexer
-{
-	char	**cur;
-	char	**cmd;
-	t_token	*tk;
-}					t_lexer;
 
 #endif
