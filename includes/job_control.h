@@ -30,6 +30,9 @@ typedef struct	s_process
 	char				completed;  /* true if process has completed */
 	char				stopped;    /* true if process has stopped */
 	int					status;     /* reported status value */
+	int					stdin;  		/* standard i/o channels */
+	int					stdout;
+	int					stderr;
 }				t_process;
 
 /* A job is a pipeline of processes.  */
