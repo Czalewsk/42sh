@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/03 18:49:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/01/20 17:07:30 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,29 @@
 # include "termcaps.h"
 # include "prompt.h"
 # include "job_control.h"
+# include "utils.h"
+# include "history.h"
+# include "builtins.h"
 
 /*
 ** Define :D
 */
+typedef struct			s_sh
+{
+	int				edition_state;
+	t_ldl_head		*hist;
+	t_ldl			*hist_current;
+	t_ldl_head		*history;
+	t_ldl			*h_current;
+	char			*h_save;
+	char			*hist_file;
+	int				h_first;
+	char			**env;
+	unsigned char	exitstatus;
+}						t_sh;
+
+extern t_sh				g_sh;
 
 # define SIZE_BUF_CMD (128)
-# define PROMPT ("Cedychou_sh : ")
-// (canard) <U+1F986> A remettre dans le prompt
-
+# define PROMPT ("✗ ")
 #endif

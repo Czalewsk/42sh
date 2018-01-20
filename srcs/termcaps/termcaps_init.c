@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/17 15:47:37 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/04 19:18:52 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void		termcaps_set_tty(void)
 	termcaps_restore_tty();
 	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-	s_termios.c_oflag &= ~(OPOST);
 	s_termios.c_cflag |= (CS8);
 	s_termios.c_cc[VMIN] = 1;
 	s_termios.c_cc[VTIME] = 0;

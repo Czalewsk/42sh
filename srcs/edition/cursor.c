@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cursor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/24 09:19:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/09 14:46:29 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int		calcul_line(t_read *info, int write)
 	if (write)
 	{
 		g_move = 1;
-		line = ((info->curs_char + info->prompt) / (info->win_co));
-		line_max = ((info->total_char + info->prompt - 1) / (info->win_co));
+		line = (info->curs_char + info->prompt) / info->win_co;
+		line_max = (info->total_char + info->prompt - 1) / info->win_co;
 		ret = line - line_max;
 	}
 	else
 	{
-		line_max = ((info->curs_char + info->prompt) / (info->win_co));
+		line_max = (info->curs_char + info->prompt) / info->win_co;
 		ret = line_max - line;
 		line = line_max;
 	}
@@ -39,20 +39,20 @@ static int		calcul_line(t_read *info, int write)
 
 void			cursor_display_update(t_read *info, int write)
 {
-	int		forbidden_co;
 	int		line;
 	int		col;
 
-	line = (info->curs_char + info->prompt + 1) / info->win_co;
-	forbidden_co = ((size_t)line == info->win_co) ? 1 : 0;
-	col = forbidden_co ? 0 : (info->curs_char + info->prompt) % info->win_co;
-	tputs(tparm(g_termcaps_cap[COL], col), 0, &ft_putchar_termcap);
+	if (((info->curs_char + info->prompt + 1) / info->win_co == info->win_co))
+		col = 0;
+	else
+		col = (info->curs_char + info->prompt) % info->win_co;
 	line = calcul_line(info, write);
 	if (line == 1)
 		tputs(g_termcaps_cap[DOWN], 0, &ft_putchar_termcap);
 	else if (line)
 		tputs(tparm(g_termcaps_cap[line < 0 ? NUP : NDO], ABS(line)), 1,
 			&ft_putchar_termcap);
+	tputs(tparm(g_termcaps_cap[COL], col), 0, &ft_putchar_termcap);
 }
 
 char			curs_move_hz(t_buf *cmd, t_read *info, t_key *entry)

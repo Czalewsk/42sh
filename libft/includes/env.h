@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/07 15:24:01 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/28 17:32:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/11 17:37:24 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void	ft_env_cpy(char ***env);
 void	ft_addenv(char *key, char *value, char ***env);
 void	ft_printenv(char **env);
 void	ft_unsetenv(char *key, char **env);
-
+int		ft_getenv_status(char **env, char *name, char *var, char **save);
 #endif

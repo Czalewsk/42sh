@@ -6,7 +6,7 @@
 /*   By: gavizet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/01 14:21:31 by gavizet           #+#    #+#             */
-/*   Updated: 2017/08/17 10:21:13 by bviala           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:23:45 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,7 @@ char				*ft_litoa(long int nbr);
 char				*ft_ulitoa(unsigned long int nbr);
 char				*ft_llitoa(long long int nbr);
 char				*ft_ullitoa(unsigned long long int nbr);
+long int			ft_atol(const char *str);
+void				ft_itoa_nm(ssize_t nbr, char *nb);
+
 #endif

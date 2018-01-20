@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2017/11/28 08:49:22 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/17 17:48:14 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ ORANGE			= \033[38;5;202m
 #------------------------------------------------------------------------------#
 
 #--------------------------------| LIBRARY |-----------------------------------#
-NAME 			= 42sh 
+NAME 			= 42sh
 #------------------------------------------------------------------------------#
 
 #-------------------------------| COMPILATION |--------------------------------#
@@ -35,17 +35,29 @@ LIBFT_PATH		= libft/includes/
 #------------------------------------------------------------------------------#
 
 #------------------------------| SOURCE FILES |--------------------------------#
-SRCS_FILES		= ft_sh \
-				  termcaps/termcaps_init \
-				  prompt/prompt_display \
-				  edition/buff_handler edition/read edition/paste_handler \
-				  edition/key_manager edition/insert_char edition/key_manager \
-				  edition/cursor edition/unicode edition/print \
-				  prompt/prompt_add
+SRCS_FILES		= ft_sh 													\
+				  termcaps/termcaps_init 									\
+				  prompt/prompt_display prompt/prompt_add					\
+				  prompt/prompt_git											\
+				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/key_manager edition/insert_char edition/cursor	\
+				  edition/unicode edition/print edition/curs_back			\
+				  utils/escape/escape_functions utils/escape/sh_escape		\
+				  utils/escape/escape_dquote								\
+				  glob/brace_expansion glob/brace_valide_type				\
+				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
+				  glob/glob_buff_handler									\
+				  builtins/builtin_history									\
+				  history/history_mode history/history_noaccess				\
+				  history/history_utils	history/history_search				\
+				  history/history_ctrlr	history/history_ctrlr_tools			\
+				  lexer/tokenize lexer/rules lexer/rules_fn1				\
+				  lexer/rules_fn2											\
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
-HEAD_FILES		= ft_sh.h edition.h prompt.h termcaps.h
+HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
+				  utils.h sh_escape.h lexer_types.h lexer.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -53,7 +65,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE OBJECTS |------------------------------#
-OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/)
+OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
+ utils/escape/ glob/ builtins/ history/ lexer/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
@@ -64,7 +77,7 @@ HEADERS_LIBFT 	= $(addprefix $(LIBFT_PATH), libft.h)
 #------------------------------------------------------------------------------#
 
 #--------------------------------| INCLUDES |----------------------------------#
-INCLUDES		= -I $(INCLUDES_PATH) 
+INCLUDES		= -I $(INCLUDES_PATH)
 HEADERS			= $(addprefix $(INCLUDES_PATH), $(HEAD_FILES))
 #------------------------------------------------------------------------------#
 .PHONY	:	all clean fclean re
