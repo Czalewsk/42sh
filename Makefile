@@ -56,7 +56,8 @@ SRCS_FILES		= ft_sh 													\
 				  parser/parser parser/compatibility parser/parser_rules	\
 				  parser/fill_for_jobs parser/free_parser parser/add_in_tree\
 				  parser/reserved parser/tools_for_fill_jobs parser/init	\
-				  parser/modify_io parser/add_in_arguments
+				  parser/modify_io parser/add_in_arguments					\
+				  parser/read_from_prompt
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

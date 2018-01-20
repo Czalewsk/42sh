@@ -19,9 +19,12 @@ t_process	*init_process(t_process *p)
 	p->next = NULL;
 	p->argv = NULL;
 	p->pid = -1;
-	// p->completed = 47;
-	// p->stopped = 47;
+	p->completed = 48;
+	p->stopped = 48;
 	p->status = -1;
+	p->stdin = STDIN_FILENO;
+	p->stdout = STDOUT_FILENO;
+	p->stderr = STDERR_FILENO;
 	return (p);
 }
 
@@ -33,11 +36,9 @@ t_job		*init_job(t_job *new)
 	new->command = NULL;
 	new->first_process = NULL;
 	new->pgid = -1;
-//	new->notified = 47;
+	new->andor = NULL;
+	new->notified = 48;
 //	new->tmodes = NULL;
-	new->stdin = STDIN_FILENO;
-	new->stdout = STDOUT_FILENO;
-	new->stderr = STDERR_FILENO;
 	return (new);
 }
 

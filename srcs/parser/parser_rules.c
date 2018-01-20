@@ -43,6 +43,10 @@ const t_fill_job	g_fill_jobs[] = {
 	{OR_IF, &set_end},
 	{AND, &set_end},
 	{SEMI, &set_end},
+	{GREAT, &modify_io},
+	{LESS, &modify_io},
+	{DLESS, &modify_io}, // ajouter dans la list des args
+	{DGREAT, &modify_io},
 	{0, NULL}
 	// {While, &shellscript},
 	// {If, &shellscript},
@@ -71,12 +75,14 @@ const t_classic g_classics[] = {
 //	{SEMI, Do},
 //	{SEMI, Done},
 	{AND, WORD, &go_to_current_left},
-	{AND_IF, WORD, &go_to_current_left},
-	{OR_IF, WORD, &go_to_current_left},
+	{AND_IF, WORD, &go_to_current_right},//left
+	{OR_IF, WORD, &go_to_current_right},//left
 	{PIPE, WORD, &go_to_current_right},
 	{AND, While, &go_to_current_right},
-	{AND_IF, While, &go_to_current_left},
-	{OR_IF, While, &go_to_current_left},
+	{AND_IF, While, &go_to_current_right},//left
+	{OR_IF, While, &go_to_current_right},//left
+	{IO_NUMBER, GREATAND, &go_to_current_right},
+	{IO_NUMBER, LESSAND, &go_to_current_right},
 //	{PIPE, While},
 //	{SEMI, While},
 	{DLESS, WORD, &go_to_current_right},
@@ -88,6 +94,12 @@ const t_classic g_classics[] = {
 	{CLOBBER, WORD, &go_to_current_right},
 	{LESS, WORD, &go_to_current_right},
 	{GREAT, WORD, &go_to_current_right},
+	{AND, IO_NUMBER, &go_to_current_left},
+	{AND_IF, IO_NUMBER, &go_to_current_right},//left
+	{OR_IF, IO_NUMBER, &go_to_current_right},//left
+	{PIPE, IO_NUMBER, &go_to_current_right},
+	{SEMI, IO_NUMBER, &go_to_current_left},
+	{WORD, IO_NUMBER, &go_to_current_right},
 	{WORD, DLESS, &go_to_current_right},
 	{WORD, DGREAT, &go_to_current_right},
 	{WORD, LESSAND, &go_to_current_right},

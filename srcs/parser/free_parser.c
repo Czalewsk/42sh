@@ -14,7 +14,8 @@
 
 int	ft_free_token(t_tree *token)
 {
-	free(token);
+	if (token && token != NULL)
+		free(token);
 	return (-1);
 }
 
@@ -23,6 +24,8 @@ int	ft_free_tree(t_tree *c)
 	t_tree *r;
 	t_tree *tmp;
 
+	if (!c)
+		return (0);
 	if (c->left)
 		ft_free_tree(c->left);
 	r = c;
@@ -47,7 +50,9 @@ int	ft_free_array(char **argv)
 		t = argv[i++];
 		free(t);
 	}
-	free(argv);
+//	free(argv[i]);
+	if (argv)
+		free(argv);
 	return (0);
 }
 

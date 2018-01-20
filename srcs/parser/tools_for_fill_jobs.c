@@ -23,13 +23,13 @@ t_tree	*set_end(t_tree *clist, t_job *job)
 {
 	if (clist->token.id == AND)
 		job->notified = 1;
-	else if (clist->token.id == OR_IF)
-	{
-		ft_printf("\nWhere i put this stephane ?\n-->>||<--\n");
-	}
-	else if (clist->token.id == AND_IF)
-	{
-		ft_printf("\nWhere i put this stephane ?\n-->>&&<--\n");
-	}
+	// else if (clist->token.id == OR_IF)
+	// {
+	// 	ft_printf("\nWhere i put this stephane ?\n-->>||<--\n");
+	// }
+	// else if (clist->token.id == AND_IF)
+	// {
+	// 	ft_printf("\nWhere i put this stephane ?\n-->>&&<--\n");
+	// }
 	return (clist->right);
 }

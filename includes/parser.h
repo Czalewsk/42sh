@@ -60,8 +60,12 @@ typedef struct s_classic
 
 void						set_new_id(t_tree *cur, t_tree *new);
 
-int							cur_is_new_res(t_tree *cur);
+int							ft_leave_parse(t_token t);
+int							read_parser(char **cmd, char *cur);
+int							cnewline(t_token t, char **cmd, char *cur);
+int							read_from_prompt(char **cmd, char *cur);
 
+int							cur_is_new_res(t_tree *cur);
 int							read_for_reserved(t_tree *curr, char *cur, char *cmd);
 
 int							ft_free_token(t_tree *token);
@@ -69,8 +73,7 @@ int							ft_free_tree(t_tree *c);
 int							ft_free_job(t_job *j);
 
 int							add_in_classic_tree(t_tree *cur, t_tree *new);
-
-int							parser(char	*cmd);
+int							parser(char	**cmd);
 
 int							ft_fill_for_jobs(t_tree *head);
 

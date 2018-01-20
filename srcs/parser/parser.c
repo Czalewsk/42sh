@@ -14,33 +14,18 @@
 
 extern t_valid_res	g_valid_ress[];
 
-void	ft_affiche(t_tree *c) // temporaire
-{
-	t_tree *r;
-
-	r = c;
-	ft_printf("\nHead of branch = %s", c->token.str);
-	while (r)
-	{
-		r = r->right;
-		if (r)
-			ft_printf("\n%s", r->token.str);
-	}
-	if (c->left)
-		ft_affiche(c->left);
-}
-
 int		place_token(t_token t)
 {
 	t_tree	*n;
 
 	n = NULL;
+	// ft_printf("\nTimes\n");
 	if (!head_tree)
 	{
 		if (t.id == NEWLINE)
 			return (0);
 		if (t.id != WORD && t.id != LPAR && t.id != If && t.id != While
-			&& t.id != Until && t.id != Case)
+			&& t.id != Until && t.id != Case && t.id != IO_NUMBER)
 			return (-1);
 		else if ((head_tree = init_node(t, head_tree)) == NULL)
 			return (-3);
@@ -49,21 +34,6 @@ int		place_token(t_token t)
 	}
 	n = init_node(t, n);
 	return (add_in_classic_tree(current, n));
-}
-
-int		check_last_token(t_tree *cur)
-{
-	if (cur->token.id == GREAT || cur->token.id == LESS ||
-		cur->token.id == LESSAND || cur->token.id == GREATAND ||
-		cur->token.id == LESSGREAT || cur->token.id == DLESS ||
-		current->token.id == DGREAT)
-		return (-1);
-	else if (current->token.id == OR_IF || current->token.id == AND_IF)
-	{
-		// prompt_add(char *prompt, char **line)
-		return (-1);
-	}
-	return (0);
 }
 
 int		cur_is_new_res(t_tree *cur)
@@ -84,46 +54,52 @@ int		cur_is_new_res(t_tree *cur)
 	return (1);
 }
 
-int		parser(char *cmd)
+int		ft_leave_parse(t_token t)
 {
-	int	ret;
-	char *cur;
+	if (t.id == NEWLINE)
+		ft_printf("\nError parsing near `\\n'\n", t.str);
+	else
+		ft_printf("\nError parsing near `%s'\n", t.str);
+	if (t.str && t.str != NULL)
+		free(t.str);
+	return (-1);
+}
+
+int			read_parser(char **cmd, char *cur)
+{
+	int		ret;
 	t_token	t;
 
-	cur = cmd;
-	head_tree = NULL;
-	while ((ret = lexer_getnexttoken(&t, &cmd, &cur)) != 0)
+	ret = 0;
+	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) != 0)
 	{
-		if (ret < 0)
-			return (-1);
-		if (place_token(t) < 0)
-		{
-			ft_printf("\nError parsing near `%s' PLACE TOKEN\n", t.str);
-			free(t.str);
-			if (head_tree)
-				ft_affiche(head_tree);
-			if (head_tree)
-				return (ft_free_tree(head_tree));
-			return (-1);
+		if (t.id == NEWLINE)
+	{
+			 if (cnewline(t, cmd, cur) == -1)
+				return (ft_leave_parse(t));
 		}
-		if (cur_is_new_res(current) == 0)
-		 	if (read_for_reserved(current, cur, cmd) == -1)
-		 	{
-		 		// dont forget to free and send error message
-		 		return (-1);
-		 	}
+		else if (place_token(t) < 0)
+			return (ft_leave_parse(t));
+										//reserved word
+								// if (cur_is_new_res(current) == 0)
+								//  	if (read_for_reserved(current, cur, cmd) == -1)
+								//  	{
+								//  		// dont forget to free and send error message
+								//  		return (-1);
+								//  	}
+	}
+	return (ret);
+}
 
-	}
-	if (head_tree)
-	{
-		if (check_last_token(current) != 0)
-			ft_printf("\nError parsing near `\\n' LAST\n", current->token.str);
-		else
-		{
-			ft_fill_for_jobs(head_tree);
-		}
-//			ft_affiche(head_tree);
+int		parser(char **cmd)
+{
+	head_tree = NULL;
+	char	*cur;
+
+	cur = *cmd;
+	if (read_parser(cmd, cur) == -1)
 		return (ft_free_tree(head_tree));
-	}
+	if (head_tree)
+		return (ft_fill_for_jobs(head_tree));
 	return (0);
 }
