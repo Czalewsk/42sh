@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:41:53 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/19 20:08:29 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/20 20:26:24 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static	int (*g_rules[])(t_token *, char **, char *) = {
 	rules_reserved,
 	rules_io_number,
 	rules_assignment_word,
+	rules_subsh,
 	rules_word,
 	NULL
 };
@@ -50,8 +51,8 @@ static int	quote_finish(t_token *token, char *escape, char **cmd,
 		return (1);
 	if (*escape & 8)
 		*(*cur - 2) = '\0';
-	ft_strcpy(prompt, *escape & 1 ? "quote> " : "dquote> ");
-	if ((ret = prompt_add(*escape & 8 ? "> " : prompt, &new)) == -2)
+	ft_strcpy(prompt, *escape & 1 ? "quote> " : "> ");
+	if ((ret = prompt_add(*escape & 2 ? "dquote> " : prompt, &new)) == -2)
 	{
 		if (!(new = ft_strjoin_free(*cur - token->size, new, 1)))
 			exit(EXIT_FAILURE);
