@@ -6,13 +6,13 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 17:50:04 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:09:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/22 07:57:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_glob.h"
 
-t_list		*glob_folders_get(char *path, unsigned deep,
+t_list		*glob_folders_get(char *path, char is_relative, unsigned deep,
 		t_list *rules)
 {
 	t_list			*folders;
@@ -31,6 +31,7 @@ t_list		*glob_folders_get(char *path, unsigned deep,
 		{
 			folder = ft_memalloc(sizeof(t_glob_files));
 			folder->path = ft_strxjoin(3, path, tmp->content, "/");
+			folder->is_relative = is_relative;
 			folder->deep = deep;
 			ft_strdel((char**)&tmp->content);
 			tmp->content = folder;
@@ -52,21 +53,20 @@ t_list		*glob_folders_get(char *path, unsigned deep,
 	return (folders);
 }
 
-char		*glob_is_relative(t_list **path)
+char		glob_is_relative(t_list **path, char **first_path)
 {
-	char	*ret;
 	t_glob_process	*elmt;
 
 	elmt = (*path)->content;
 	if (*elmt->path == '/' || (*elmt->path == '.'
 				&& *(elmt->path + 1) == '/'))
 	{
-		ret = ft_strdup(elmt->path);
+		*first_path = ft_strdup(elmt->path);
 		ft_lst_remove_index(path, 0, NULL);
+		return (0);
 	}
-	else
-		ret = ft_strdup("./");
-	return (ret);
+	*first_path = ft_strdup("./");
+	return (1);
 }
 
 void		glob_folders_add(t_list **folders, t_glob_process *elmt,
@@ -83,7 +83,8 @@ void		glob_folders_add(t_list **folders, t_glob_process *elmt,
 		file = tmp->content;
 		if (deep == file->deep + 1)
 			ft_lstaddback(folders,
-					glob_folders_get(file->path, deep, elmt->rules));
+					glob_folders_get(file->path, file->is_relative,
+						deep, elmt->rules));
 		if (file->deep != deep)
 			ft_lst_remove(folders, tmp, NULL);
 		tmp = next;
@@ -93,13 +94,20 @@ void		glob_folders_add(t_list **folders, t_glob_process *elmt,
 t_list		*glob_folders_init(t_list **path)
 {
 	t_list		*folders;
+	char		*first_path;
+	char		is_relative;
+	unsigned	deep;
+	unsigned	deep_max;
 
-	folders = glob_folders_get(glob_is_relative(path), 0,
+	is_relative = glob_is_relative(path, &first_path);
+	folders = glob_folders_get(first_path, is_relative, 0,
 			((t_glob_process*)((*path)->content))->rules);
 	ft_lst_remove_index(path, 0, NULL);
-	while ((*path)->next)
+	deep = 1;
+	deep_max = ft_lstlen(*path);
+	while (deep < deep_max)
 	{
-		glob_folders_add(&folders, (*path)->content, 1);
+		glob_folders_add(&folders, (*path)->content, deep++);
 		ft_lst_remove_index(path, 0, NULL);
 	}
 	/* DEBUG */

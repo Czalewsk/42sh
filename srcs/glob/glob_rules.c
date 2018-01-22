@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 15:12:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 05:26:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/22 07:48:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void					sh_glob_rules_init(char *str, t_list **rules)
 {
 	char			*end;
 
-	sh_glob_add_exp_dot(rules);
 	end = str;
 	while (*end)
 		end++;

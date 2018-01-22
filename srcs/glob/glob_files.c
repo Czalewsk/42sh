@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 05:32:48 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:14:30 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/22 07:37:47 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int			glob_files_sort(t_list *old, t_list *new)
 {
-	if (ft_strcmp(((t_glob_files*)old->content)->path,
-				((t_glob_files*)new->content)->path) > 0)
-		return (1);
-	return (0);
+	if (ft_strcmp(old->content, new->content) > 0)
+		return (0);
+	return (1);
 }
 
-void		glob_files_add(t_list **files, char *path, t_list *rules)
+void		glob_files_add(t_list **files, char *path, char is_relative,
+		t_list *rules)
 {
 	t_list			*all_files;
 	t_list			*tmp;
-	t_glob_files	*file;
+	char			*file;
 	t_list			*next;
 
 	all_files = ft_list_files(path);
@@ -37,10 +37,10 @@ void		glob_files_add(t_list **files, char *path, t_list *rules)
 		{
 			DEBUG("IN\n");
 			file = ft_memalloc(sizeof(t_glob_files));
-			file->path = ft_strjoin(path, tmp->content);
+			file = ft_strjoin(path + (is_relative ? 2 : 0), tmp->content);
 			ft_strdel((char**)&tmp->content);
 			ft_lstinsert_if_end(files,
-					ft_lstnew(file, sizeof(t_glob_files*)), &glob_files_sort);
+					ft_lstnew_str(file, ft_strlen(file) + 1), &glob_files_sort);
 		}
 		else
 			DEBUG("OUT\n");
@@ -49,17 +49,18 @@ void		glob_files_add(t_list **files, char *path, t_list *rules)
 	}
 }
 
-t_list		*glob_files(t_list *folders, t_glob_process *path)
+t_list		*glob_files(t_list *folders, t_list *rules)
 {
-	t_list	*files;
-	t_list	*next;
+	t_list			*files;
+	t_list			*next;
+	t_glob_files	*elmt;
 
 	files = NULL;
 	while (folders)
 	{
 		next = folders->next;
-		glob_files_add(&files,
-				((t_glob_process*)folders->content)->path, path->rules);
+		elmt = folders->content;
+		glob_files_add(&files, elmt->path, elmt->is_relative, rules);
 		ft_lst_remove(&folders, folders, NULL);
 		folders = next;
 	}
@@ -68,7 +69,7 @@ t_list		*glob_files(t_list *folders, t_glob_process *path)
 	tmp = files;
 	while (tmp)
 	{
-		DEBUG("[%s]\n", ((t_glob_files*)tmp->content)->path);
+		DEBUG("[%s]\n", tmp->content);
 		tmp = tmp->next;
 	}
 	/* END DEBUG */
