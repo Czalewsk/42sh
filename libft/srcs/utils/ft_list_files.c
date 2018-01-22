@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 14:27:42 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/15 22:53:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/20 15:31:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,16 @@ t_list		*ft_list_folders(char *path)
 
 	ret = NULL;
 	if (!path || !(dir = opendir(path)) || (stat(path, &stat_data)))
+	{
+		ft_printf("\t list file error(1) with path:%s|\n", path);
 		return (NULL);
+	}
 	if (!S_ISDIR(stat_data.st_mode) || !(stat_data.st_mode & (S_IXUSR
 					| S_IXGRP | S_IXOTH)))
+	{
+		ft_printf("\t list file error(2) with path:%s|\n", path);
 		return (NULL);
+	}
 	while ((dirent = readdir(dir)))
 	{
 		if (!ft_is_not_root(dirent->d_name))

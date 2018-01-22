@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 07:12:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/17 12:49:03 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/22 04:29:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,71 +37,78 @@ char			*square_find_end(char *curs)
 }
 
 static	char	rules_square_range(char **curs, char *end,
-		char (*matching)[255])
+		char (*matching)[255], char assign)
 {
 	char	start_pttrn;
-	char	end_pttrn;
+	char	*check;
 
-	if ((end - *curs) < 3)
+	if (end - *curs < 2)
 		return (0);
-	if (**curs == '\\')
-		(*curs)++;
-	start_pttrn = **curs;
-	if (**curs != '-')
+	check = *curs;
+	if (*check == '\\')
+		check++;
+	if (check >= end)
 		return (0);
-	if (**curs == '\\')
-	{
-		if ((*curs) + 1 < end)
-			(*curs)++;
-		else
-			return (0);
-	}
-	++(*curs);
-	end_pttrn = **curs;
-	if (start_pttrn > end_pttrn)
+	start_pttrn = *check;
+	check++;
+	if (check >= end || *check != '-')
 		return (0);
-	while (start_pttrn <= end_pttrn)
-		(*matching)[(int)start_pttrn++] = 1;
+	check++;
+	if (*check == '\\')
+		check++;
+	if (check >= end || start_pttrn > *check)
+		return (0);
+	while (start_pttrn <= *check)
+		(*matching)[(int)start_pttrn++] = assign;
+	(*curs) = check;
 	return (1);
 }
 
 static	void	rules_square_char(char **curs, char *end,
-		char (*matching)[255])
+		char (*matching)[255], char assign)
 {
 	if (**curs == '\\' && (*curs) + 1 < end)
 		(*curs)++;
-	(*matching)[(int)**curs] = 1;
+	(*matching)[(int)**curs] = assign;
 }
 
-static	void	check_first_char(char **curs, t_glob_rules *rule,
-		char (**matching)[255], char *end)
+static	void	check_first_char(char **curs, char (*matching)[255],
+		char *assign, char *end)
 {
+	++(*curs);
 	if (**curs == '^' && (*curs)++)
-		*matching = &rule->out;
+	{
+		ft_memset(matching, 1, 255);
+		(*matching)['.'] = 0;
+		*assign = 0;
+	}
 	else
-		*matching = &rule->in;
+		*assign = 1;
 	if (**curs == ']' && *curs < end)
 	{
 		(*curs)++;
-		(**matching)[']'] = 1;
+		(*matching)[']'] = *assign;
 	}
 }
 
 t_glob_rules	glob_rules_square(char **curs, t_list **rules, char add)
 {
+	char			assign;
 	char			*end;
 	t_glob_rules	rule;
-	char			(*matching)[255];
 
 	ft_bzero(&rule, sizeof(t_glob_rules));
 	rule.single = 1;
 	end = square_find_end(*curs);
-	check_first_char(curs, &rule, &matching, end);
-	while (++(*curs) < end)
-		if (!rules_square_range(curs, end, matching))
-			rules_square_char(curs, end, matching);
-	if (rule.in['.'])
-		rule.out['.'] = 0;
+	check_first_char(curs, &rule.in, &assign, end);
+	while (*curs < end)
+	{
+		if (!rules_square_range(curs, end, &rule.in, assign))
+			rules_square_char(curs, end, &rule.in, assign);
+		++(*curs);
+	}
+	if (!*rules && rule.in['.'] != assign)
+		sh_glob_add_exp_dot(rules);
 	if (add)
 		ft_lstaddback(rules, ft_lstnew(&rule, sizeof(t_glob_rules)));
 	++(*curs);
