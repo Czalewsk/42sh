@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/17 09:35:36 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/23 03:17:39 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  mem/ft_memcmp.c mem/ft_memdel.c mem/ft_memset.c				\
 			  mem/ft_memccpy.c mem/ft_memmove.c	mem/free_tab2d.c			\
 			  mem/ft_memalloc.c mem/ft_realloc_tab.c mem/ft_memrealloc.c	\
+			  mem/ft_memdup.c												\
 			  output/ft_putnbr.c output/ft_putstr.c output/ft_putchar.c		\
 			  output/ft_putendl.c output/ft_putwchar.c						\
 			  output/ft_putnwstr.c output/ft_putnbr_fd.c					\

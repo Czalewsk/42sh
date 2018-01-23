@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 05:32:48 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:37:47 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 04:25:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		glob_files_add(t_list **files, char *path, char is_relative,
 	t_list			*next;
 
 	all_files = ft_list_files(path);
-	tmp = all_files ;
+	tmp = all_files;
 	while (tmp)
 	{
 		next = tmp->next;
@@ -47,6 +47,26 @@ void		glob_files_add(t_list **files, char *path, char is_relative,
 		ft_lst_remove(&all_files, tmp, free);
 		tmp = next;
 	}
+}
+
+char		glob_is_relative(t_list **path, t_list **folders)
+{
+	t_glob_process	*elmt;
+	t_glob_files	new;
+
+	elmt = (*path)->content;
+	if (*elmt->path == '/' || (*elmt->path == '.'
+				&& *(elmt->path + 1) == '/'))
+	{
+		new.path = ft_strdup(elmt->path);
+		ft_lstadd(folders, ft_lstnew(&new, sizeof(t_glob_files)), 0);
+		ft_lst_remove_index(path, 0, NULL);
+		return (0);
+	}
+	new.path = ft_strdup("./");
+	new.is_relative = 1;
+	ft_lstadd(folders, ft_lstnew(&new, sizeof(t_glob_files)), 0);
+	return (1);
 }
 
 t_list		*glob_files(t_list *folders, t_list *rules)
@@ -76,5 +96,18 @@ t_list		*glob_files(t_list *folders, t_list *rules)
 	return (files);
 }
 
+t_list		*glob_files_init(t_list **path)
+{
+	unsigned	deep_max;
+	char		is_relative;
+	t_list		*files;
+	t_list		*folders;
 
-
+	folders = NULL;
+	deep_max = ft_lstlen(*path);
+	is_relative = glob_is_relative(path, &folders);
+	if (deep_max > 2)
+		glob_folders_init(path, deep_max, &folders);
+	files = glob_files(folders, ((t_glob_process*)(*path)->content)->rules);
+	return (files);
+}

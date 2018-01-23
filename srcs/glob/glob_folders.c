@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 17:50:04 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:57:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 04:25:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,7 @@ t_list		*glob_folders_get(char *path, char is_relative, unsigned deep,
 		}
 		tmp = next;
 	}
-	/* TEST */
-	/*
-	tmp = folders;
-//	DEBUG("\nFolders in [%s]:\n", path);
-	while (tmp)
-	{
-		folder = tmp->content;
-//		DEBUG("[%s]\n", folder->path);
-		tmp = tmp->next;
-	}
-	*/
-	/* END TEST */
 	return (folders);
-}
-
-char		glob_is_relative(t_list **path, char **first_path)
-{
-	t_glob_process	*elmt;
-
-	elmt = (*path)->content;
-	if (*elmt->path == '/' || (*elmt->path == '.'
-				&& *(elmt->path + 1) == '/'))
-	{
-		*first_path = ft_strdup(elmt->path);
-		ft_lst_remove_index(path, 0, NULL);
-		return (0);
-	}
-	*first_path = ft_strdup("./");
-	return (1);
 }
 
 void		glob_folders_add(t_list **folders, t_glob_process *elmt,
@@ -91,77 +63,24 @@ void		glob_folders_add(t_list **folders, t_glob_process *elmt,
 	}
 }
 
-t_list		*glob_folders_init(t_list **path)
+void		glob_folders_init(t_list **path, unsigned deep_max,
+		t_list **folders)
 {
-	t_list		*folders;
-	char		*first_path;
-	char		is_relative;
 	unsigned	deep;
-	unsigned	deep_max;
 
-	is_relative = glob_is_relative(path, &first_path);
-	folders = glob_folders_get(first_path, is_relative, 0,
-			((t_glob_process*)((*path)->content))->rules);
-	ft_lst_remove_index(path, 0, NULL);
 	deep = 1;
-	deep_max = ft_lstlen(*path);
-	while (deep < deep_max)
+	while (deep < deep_max - 1)
 	{
-		glob_folders_add(&folders, (*path)->content, deep++);
+		glob_folders_add(folders, (*path)->content, deep++);
 		ft_lst_remove_index(path, 0, NULL);
 	}
-	/* DEBUG */
-	/*
-	t_list *tmp;
-	tmp = folders;
+	/*DEBUG*/
+	t_list	*tmp;
+	tmp = *folders;
 	while (tmp)
 	{
-		DEBUG("[%s]\n", ((t_glob_files*)tmp->content)->path);
+		DEBUG("folders[%s]\n", ((t_glob_files*)tmp->content)->path);
 		tmp = tmp->next;
 	}
-	*/
-	/* END DEBUG */
-	return (folders);
+	/* END */
 }
-
-/*
-t_list		*glob_folders_init(t_list *path)
-{
-	t_list			*folders;
-	t_list			*next;
-	t_list			*tmp;
-	unsigned		deep;
-	size_t			i;
-
-	if (!path || !path->next)
-		return (NULL);
-	deep = 1;
-	folders = glob_folders_get(glob_is_relative(&path), 0,
-			((t_glob_process*)(path->content))->rules);
-	i = ft_lstlen(path);
-	ft_printf("I=%d|\n", i);
-	while (deep < i)
-	{
-		tmp = folders;
-		while (tmp)
-		{
-			DEBUG("deep=%d | current deep=%d Path to search=%s|\n", deep, ((t_glob_files*)tmp->content)->deep, ((t_glob_files*)tmp->content)->path);
-			if (deep - 1 == ((t_glob_files*)tmp->content)->deep)
-			{
-				DEBUG("path=%s|\n", ((t_glob_files*)tmp->content)->path);
-				ft_lstaddback(&folders, glob_folders_get(((t_glob_files*)tmp->content)->path, deep, ((t_glob_process*)path->content)->rules));
-				tmp = tmp->next;
-			}
-			else
-			{
-				next = tmp->next;
-				ft_lst_remove(&folders, tmp, NULL);
-				tmp = next;
-			}
-		}
-		path = path->next;
-		deep++;
-	}
-	return (NULL);
-}
-*/

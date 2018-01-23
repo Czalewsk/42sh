@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 14:27:42 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/20 15:31:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 04:27:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ inline int	ft_is_not_root(char *name)
 		return (1);
 	else if (len == 1 && *name == '.')
 		return (0);
-	else if (len == 2 && *name == '.' && *(name + 1) == '.')
-		return (0);
+//	else if (len == 2 && *name == '.' && *(name + 1) == '.')
+//		return (0);
 	else
 		return (1);
 }
@@ -37,7 +37,10 @@ t_list		*ft_list_files(char *path)
 
 	ret = NULL;
 	if (!path || !(dir = opendir(path)))
+	{
+		ft_printf("\t list file error(1) with path:%s|\n", path);
 		return (NULL);
+	}
 	while ((dirent = readdir(dir)))
 		if (ft_is_not_root(dirent->d_name))
 			ft_lstadd(&ret,

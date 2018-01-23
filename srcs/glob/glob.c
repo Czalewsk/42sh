@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:47:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 04:29:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,44 +76,8 @@ t_list			*sh_glob(char *to_glob)
 	if (nl)
 		*nl = '\0';
 	/* END */
-	files = NULL;
 	path = sh_glob_init_path(to_glob);
-	/* DEBUG */
-	t_list *tmp_path = path;
-	write(1, "\n", 1);
-	while (tmp_path)
-	{
-		ft_printf("|%s|\n", tmp_path->content);
-		write(1, "\n", 1);
-		tmp_path = tmp_path->next;
-	}
-	/* END */
 	glob_add_rules_to_path(path);
-	files = glob_folders_init(&path);
-	files = glob_files(files, ((t_glob_process*)path->content)->rules);
-	/* DEBUG */
-	/*
-	t_list *tmp_path = path;
-	t_list *tmp_rules;
-	t_glob_process *elmt;
-	write(1, "\n", 1);
-	while (tmp_path)
-	{
-		elmt = tmp_path->content;
-		ft_printf("|%s|\n", elmt->path);
-		tmp_rules = elmt->rules;
-		while (tmp_rules)
-		{
-			ft_printf("\tIN\n");
-			print_charset(((t_glob_rules *)tmp_rules->content)->in);
-			ft_printf("\tOUT\n");
-			print_charset(((t_glob_rules *)tmp_rules->content)->out);
-			tmp_rules = tmp_rules->next;
-		}
-		write(1, "\n", 1);
-		tmp_path = tmp_path->next;
-	}
-	*/
-	/* END */
-	return (NULL);
+	files = glob_files_init(&path);
+	return (files);
 }
