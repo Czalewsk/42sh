@@ -74,7 +74,7 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
-		parser(cmd.cmd);
+		parser(&cmd.cmd); // parser &cmd.cmd
 //		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}

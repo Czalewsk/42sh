@@ -27,8 +27,9 @@ int				place_execpted_token(t_token t, t_tree *curent)
 {
 	t_tree	*n;
 
-	n = NULL;
-	return (add_in_reserved_tree(curent, init_node(t, n)));
+	n = (t_tree *)ft_memalloc(sizeof(t_tree));
+	n->token = t;
+	return (add_in_reserved_tree(curent, n));
 }
 
 t_token_id		closing(t_tree *ref)

@@ -78,9 +78,27 @@ int	ft_free_job(t_job *j)
 	{
 		t = j;
 		ft_free_process(j->first_process);
-		free(j->command);
+//		free(j->command);
 		j = j->next;
 		free(t);
 	}
 	return (0);
 }
+
+int	ft_free_runs(t_run *r)
+{
+	t_run *tr;
+
+	while (r)
+	{
+		tr = r;
+		free(tr->command);
+		ft_free_job(tr->job);
+		r = r->next;
+		free(tr);
+	}
+	return (0);
+}
+
+
+

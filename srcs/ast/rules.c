@@ -24,7 +24,7 @@ const t_token_assign	g_token_operator[] = {
 	{")", RPAR},
 	{";;", DSEMI},
 	{";", SEMI},
-	// {"\n", NEWLINE},
+	{"\n", NEWLINE},
 	{"||", OR_IF},
 	{"|", PIPE},
 	{"<<", DLESS},

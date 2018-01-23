@@ -38,19 +38,21 @@ const t_execpted	g_execpteds[] = {
 const t_fill_job	g_fill_jobs[] = {
 	{WORD, &add_in_arguments},
 	{PIPE, &pipe_process},
-	{IO_NUMBER, &modify_io},
 	{AND_IF, &set_end},
 	{OR_IF, &set_end},
 	{AND, &set_end},
 	{SEMI, &set_end},
-	{GREAT, &modify_io},
-	{LESS, &modify_io},
-	{DLESS, &modify_io}, // ajouter dans la list des args
-	{DGREAT, &modify_io},
+	{NEWLINE, &set_end},
+	{IO_NUMBER, &modify_io},
+	{GREAT, &ft_great},
+	{LESS, &ft_less},
+//	{DLESS, &here_doc},
+	{DGREAT, &ft_dgreat},
 	{0, NULL}
 	// {While, &shellscript},
 	// {If, &shellscript},
-//	{LPAR, &subshell_capability},
+	// {LPAR, &subshell_capability},
+	// {BTITE, &subshell_capability},
 };
 
 const t_valid_res g_valid_ress[] = {

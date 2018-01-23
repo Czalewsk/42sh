@@ -27,11 +27,14 @@ int		place_token(t_token t)
 		if (t.id != WORD && t.id != LPAR && t.id != If && t.id != While
 			&& t.id != Until && t.id != Case && t.id != IO_NUMBER)
 			return (-1);
+//		head_tree = (t_tree *)ft_memalloc(sizeof(t_tree));
 		else if ((head_tree = init_node(t, head_tree)) == NULL)
 			return (-3);
 		current = head_tree;
 		return (0);
 	}
+	// n = (t_tree *)ft_memalloc(sizeof(t_tree));
+	// n->token = t;
 	n = init_node(t, n);
 	return (add_in_classic_tree(current, n));
 }

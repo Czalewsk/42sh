@@ -49,8 +49,8 @@ char	**get_new_argv(char **argv, char *to_add)
 	return (argv = realloc_argv(argv, to_add, ++i));
 }
 
-t_tree	*add_in_arguments(t_tree *clist, t_job *job)
+t_tree	*add_in_arguments(t_run *run, t_tree *clist)
 {
-	job->first_process->argv = get_new_argv(job->first_process->argv, clist->token.str);
+	run->job->first_process->argv = get_new_argv(run->job->first_process->argv, clist->token.str);
 	return (clist->right);
 }
