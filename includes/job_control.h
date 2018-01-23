@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 17:18:56 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/01/20 18:36:42 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 /* A process is a single process.  */
 typedef struct	s_process
 {
-	struct s_process	*next;      /* next process in pipeline */
+	//struct s_process	*next;      /* next process in pipeline */
 	char				**argv;		/* for exec */
 	pid_t				pid;        /* process ID */
 	char				completed;  /* true if process has completed */
@@ -38,15 +38,14 @@ typedef struct	s_process
 /* A job is a pipeline of processes.  */
 typedef struct	s_job
 {
-	struct s_job	*next;			/* next active job */
+	//struct s_job	*next;			/* next active job */
 	char			*command;		/* command line, used for messages */
-	t_process		*first_process;	/* list of processes in this job */
+	t_list			*first_process;	/* list of processes in this job */
 	pid_t			pgid;			/* process group ID */
-	char			notified;		/* true if user told about stopped job */
-	struct termios	tmodes;			/* saved terminal modes */
-	int				stdin;  		/* standard i/o channels */
-	int				stdout;
-	int				stderr;
+	int				notified;		/* true if user told about stopped job */
+	int				is_and;
+	int				is_or;
+	t_job			*truc;
 }				t_job;
 
 extern t_job *first_job;

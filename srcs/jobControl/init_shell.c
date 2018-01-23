@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:22:18 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 18:35:40 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/01/20 17:37:16 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,4 @@ void  init_shell (void)
       /* Save default terminal attributes for shell.  */
       tcgetattr (shell_terminal, &shell_tmodes);
     }
-}
-
-int main (void)
-{
-  return (0);
 }
