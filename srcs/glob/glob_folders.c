@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 17:50:04 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/23 06:55:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 09:29:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,21 @@ void		glob_folders_add(t_list **folders, t_glob_process *elmt,
 					glob_folders_get(file->path, file->is_relative,
 						deep, elmt->rules));
 		if (file->deep != deep)
-			ft_lst_remove(folders, tmp, NULL);
+			ft_lst_remove(folders, tmp, &glob_free_files);
 		tmp = next;
 	}
 }
 
 void		glob_add_root(char *root, t_list *folders)
 {
-	t_glob_files	*last;
+	t_glob_files	*tmp;
 
-	while (folders->next)
+	while (folders)
+	{
+		tmp = folders->content;
+		tmp->path = ft_strjoin_free(tmp->path, root, 0);
 		folders = folders->next;
-	last = folders->content;
-	last->path = ft_strjoin_free(last->path, root, 0);
+	}
 }
 
 void		glob_folders_init(t_list **path, unsigned deep_max,
@@ -87,6 +89,6 @@ void		glob_folders_init(t_list **path, unsigned deep_max,
 			glob_add_root(tmp->path, *folders);
 		else
 			glob_folders_add(folders, tmp, deep);
-		ft_lst_remove_index(path, 0, NULL);
+		ft_lst_remove_index(path, 0, &glob_free_process);
 	}
 }

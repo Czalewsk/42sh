@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/22 05:32:48 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/23 06:55:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 08:29:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void		glob_files_add(t_list **files, char *path, char is_relative,
 		next = tmp->next;
 		if (glob_rules_check(tmp->content, rules))
 		{
-			file = ft_memalloc(sizeof(t_glob_files));
 			file = ft_strjoin(path + (is_relative ? 2 : 0), tmp->content);
 			ft_strdel((char**)&tmp->content);
 			ft_lstinsert_if_end(files,
@@ -50,13 +49,14 @@ char		glob_is_relative(t_list **path, t_list **folders)
 	t_glob_process	*elmt;
 	t_glob_files	new;
 
+	ft_bzero(&new, sizeof(t_glob_files));
 	elmt = (*path)->content;
 	if (*elmt->path == '/' || (*elmt->path == '.'
 				&& *(elmt->path + 1) == '/'))
 	{
 		new.path = ft_strdup(elmt->path);
 		ft_lstadd(folders, ft_lstnew(&new, sizeof(t_glob_files)), 0);
-		ft_lst_remove_index(path, 0, NULL);
+		ft_lst_remove_index(path, 0, &glob_free_process);
 		return (0);
 	}
 	new.path = ft_strdup("./");
@@ -65,18 +65,16 @@ char		glob_is_relative(t_list **path, t_list **folders)
 	return (1);
 }
 
-t_list		*glob_files(t_list *folders, t_glob_process *path)
+t_list		*glob_files(t_list **folders, t_glob_process *path)
 {
 	t_list			*files;
-	t_list			*next;
 	t_glob_files	*elmt;
 	char			*file;
 
 	files = NULL;
-	while (folders)
+	while (*folders)
 	{
-		next = folders->next;
-		elmt = folders->content;
+		elmt = (*folders)->content;
 		if (path->is_root)
 		{
 			file = ft_strjoin(elmt->path + (elmt->is_relative ? 2 : 0),
@@ -86,8 +84,7 @@ t_list		*glob_files(t_list *folders, t_glob_process *path)
 		}
 		else
 			glob_files_add(&files, elmt->path, elmt->is_relative, path->rules);
-		ft_lst_remove(&folders, folders, NULL);
-		folders = next;
+		ft_lst_remove_index(folders, 0, &glob_free_files);
 	}
 	return (files);
 }
@@ -100,10 +97,11 @@ t_list		*glob_files_init(t_list **path)
 	t_list		*folders;
 
 	folders = NULL;
-	deep_max = ft_lstlen(*path);
 	is_relative = glob_is_relative(path, &folders);
-	if (deep_max > (is_relative ? 1 : 2))
+	deep_max = ft_lstlen(*path);
+	if (deep_max > 1)
 		glob_folders_init(path, deep_max, &folders);
-	files = glob_files(folders, (*path)->content);
+	files = glob_files(&folders, (*path)->content);
+	ft_lstdel(path, &glob_free_process);
 	return (files);
 }

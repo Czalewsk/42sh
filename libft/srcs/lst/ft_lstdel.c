@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:13:43 by bviala            #+#    #+#             */
-/*   Updated: 2017/07/18 13:13:45 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/23 07:03:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_lstdel(t_list **alst, void (*del) (void *, size_t))
 	while (elem)
 	{
 		next = elem->next;
-		del(elem->content, elem->content_size);
+		if (del)
+			del(elem->content, elem->content_size);
 		free(elem);
 		elem = next;
 	}

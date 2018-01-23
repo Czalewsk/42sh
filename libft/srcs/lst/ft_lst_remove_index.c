@@ -6,14 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 05:41:12 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/09/05 16:51:20 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 07:55:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 void	ft_lst_remove_index(t_list **alst, int index,
-		void (*del)(void *, size_t))
+		void (*del)())
 {
 	t_list		*cur;
 	t_list		**prev;
@@ -34,7 +34,7 @@ void	ft_lst_remove_index(t_list **alst, int index,
 	{
 		*prev = cur->next;
 		if (del)
-			del(cur->content, cur->content_size);
+			del(cur->content);
 		free(cur);
 	}
 }

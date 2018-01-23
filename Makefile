@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/22 06:05:45 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/23 07:25:47 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS			= -Wall -Wextra -Werror -g
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -49,7 +49,8 @@ SRCS_FILES		= ft_sh \
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand \
 				  glob/glob_buff_handler glob/glob_path glob/glob \
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square \
-				  glob/glob_folders glob/glob_rules_check glob/glob_files
+				  glob/glob_folders glob/glob_rules_check glob/glob_files \
+				  glob/glob_free_function
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

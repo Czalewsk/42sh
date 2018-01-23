@@ -6,11 +6,17 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/08 08:22:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 08:00:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+void		glob_free_str(void *elmt, size_t size)
+{
+	(void)size;
+	free(elmt);
+}
 
 int			g_edition_state = 0;
 
@@ -41,8 +47,17 @@ int			main(int ac, char **av, char **env)
 			continue ;
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 	/* TEST GLOB	*/
-		sh_glob(cmd.cmd);
-	/* FIN DU TEST*/
+		t_list *tmp;
+		t_list *files;
+		files = sh_glob(cmd.cmd);
+		tmp = files;
+		while (tmp)
+		{
+			DEBUG("%s\n", tmp->content);
+			tmp = tmp->next;
+		}
+		ft_lstdel(&files, &glob_free_str);
+		/* FIN DU TEST*/
 		ft_strdel(&cmd.cmd);
 	}
 	ft_strdel(&cmd.cmd);

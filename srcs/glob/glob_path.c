@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 07:51:35 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:49:46 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 07:34:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,3 @@ t_list		*sh_glob_init_path(char *to_glob)
 		}
 	return (path);
 }
-
-/*
-	if (!path ||
-			(*((char*)path->content) != '/' && !ft_strequ(path->content, "./")))
-		ft_lstadd(&path, ft_lstnew("./", 3), 0);
-*/

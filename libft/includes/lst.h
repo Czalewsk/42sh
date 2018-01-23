@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/17 09:37:15 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 07:16:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void				ft_lst_add_index(t_list **alst, t_list *new, int index);
 void				ft_lstinsert_if_end(t_list **alst, t_list *new,
 		int (*f)(t_list *, t_list *));
 void				ft_lst_remove_index(t_list **alst, int index,
-		void (*del)(void *, size_t));
+		void (*del)());
 void				ft_lst_remove_if(t_list **alst, int (*f)(t_list *elem),
 		void (*del)(void *, size_t));
 void				ft_lst_remove(t_list **alst, t_list *dl,
