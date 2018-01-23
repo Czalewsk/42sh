@@ -6,15 +6,13 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:26:09 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 18:03:23 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/01/23 15:44:51 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "../../includes/job_control.h"
 
-void launch_process (t_process *p, pid_t pgid,
-                int infile, int outfile, int errfile,
-                int foreground)
+void launch_process (t_process *p, pid_t pgid, int foreground, char **env)
 {
   pid_t pid;
 
@@ -29,8 +27,13 @@ void launch_process (t_process *p, pid_t pgid,
         pgid = pid;
       setpgid (pid, pgid);
       if (foreground)
-        tcsetpgrp (shell_terminal, pgid);
-
+      {
+        if (tcsetpgrp (shell_terminal, pgid) == -1)
+        {
+          perror("tcsetgprp");
+          exit(1);
+        }
+      }
       /* Set the handling for job control signals back to the default.  */
       signal (SIGINT, SIG_DFL);
       signal (SIGQUIT, SIG_DFL);
@@ -39,26 +42,25 @@ void launch_process (t_process *p, pid_t pgid,
       signal (SIGTTOU, SIG_DFL);
       signal (SIGCHLD, SIG_DFL);
     }
-
   /* Set the standard input/output channels of the new process.  */
-  if (infile != STDIN_FILENO)
+  if (p->stdin != STDIN_FILENO)
     {
-      dup2 (infile, STDIN_FILENO);
-      close (infile);
+      dup2 (p->stdin, STDIN_FILENO);
+      close (p->stdin);
     }
-  if (outfile != STDOUT_FILENO)
+  if (p->stdout != STDOUT_FILENO)
     {
-      dup2 (outfile, STDOUT_FILENO);
-      close (outfile);
+      dup2 (p->stdout, STDOUT_FILENO);
+      close (p->stdout);
     }
-  if (errfile != STDERR_FILENO)
+  if (p->stderr != STDERR_FILENO)
     {
-      dup2 (errfile, STDERR_FILENO);
-      close (errfile);
+      dup2 (p->stderr, STDERR_FILENO);
+      close (p->stderr);
     }
 
   /* Exec the new process.  Make sure we exit.  */
-  execvp (p->argv[0], p->argv);
-  perror ("execvp");
+  execve (p->argv[0], p->argv, env);
+  perror ("execve");
   exit (1);
 }
