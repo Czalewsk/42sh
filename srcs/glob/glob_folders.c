@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 17:50:04 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/23 04:25:55 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 06:55:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,30 @@ void		glob_folders_add(t_list **folders, t_glob_process *elmt,
 	}
 }
 
+void		glob_add_root(char *root, t_list *folders)
+{
+	t_glob_files	*last;
+
+	while (folders->next)
+		folders = folders->next;
+	last = folders->content;
+	last->path = ft_strjoin_free(last->path, root, 0);
+}
+
 void		glob_folders_init(t_list **path, unsigned deep_max,
 		t_list **folders)
 {
-	unsigned	deep;
+	unsigned		deep;
+	t_glob_process	*tmp;
 
-	deep = 1;
-	while (deep < deep_max - 1)
+	deep = 0;
+	while (++deep < deep_max)
 	{
-		glob_folders_add(folders, (*path)->content, deep++);
+		tmp = (*path)->content;
+		if (tmp->is_root)
+			glob_add_root(tmp->path, *folders);
+		else
+			glob_folders_add(folders, tmp, deep);
 		ft_lst_remove_index(path, 0, NULL);
 	}
-	/*DEBUG*/
-	t_list	*tmp;
-	tmp = *folders;
-	while (tmp)
-	{
-		DEBUG("folders[%s]\n", ((t_glob_files*)tmp->content)->path);
-		tmp = tmp->next;
-	}
-	/* END */
 }

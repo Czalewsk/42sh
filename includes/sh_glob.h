@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/23 03:34:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/23 06:25:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct	s_glob_rules
 
 typedef struct	s_glob_process
 {
+	char		is_root;
 	char		*path;
 	t_list		*rules;
 }				t_glob_process;
