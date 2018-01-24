@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/23 08:09:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/24 02:43:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct	s_glob_rules
 typedef struct	s_glob_process
 {
 	char		is_root;
+	char		is_directory;
 	char		*path;
 	t_list		*rules;
 }				t_glob_process;
@@ -99,5 +100,6 @@ t_list			*glob_files_init(t_list **path);
 void			glob_free_files(void *content, size_t size);
 void			glob_free_process(void *content, size_t size);
 void			glob_free_str(void *elmt, size_t size);
+char			glob_is_relative(t_list **path, t_list **folders);
 
 #endif

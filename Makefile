@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/23 07:25:47 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/24 02:42:47 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRCS_FILES		= ft_sh \
 				  glob/glob_buff_handler glob/glob_path glob/glob \
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square \
 				  glob/glob_folders glob/glob_rules_check glob/glob_files \
-				  glob/glob_free_function
+				  glob/glob_free_function glob/glob_is_relative
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
