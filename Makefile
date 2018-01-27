@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/17 17:48:14 by thugo            ###   ########.fr        #
+#    Updated: 2018/01/27 16:42:24 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,11 +53,12 @@ SRCS_FILES		= ft_sh 													\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
+				  expansions/expand expansions/parameters
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
-				  utils.h sh_escape.h lexer_types.h lexer.h
+				  utils.h sh_escape.h lexer_types.h lexer.h expansions.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -66,7 +67,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/)
+ utils/escape/ glob/ builtins/ history/ lexer/ expansions/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
