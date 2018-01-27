@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:57 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/29 10:21:37 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/27 16:53:01 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char				*ft_strchr(const char *str, int n);
 char				*ft_strrchr(const char *str, int n);
 char				**ft_strsplit(char const *s, char c);
 char				**ft_strsplit_whitespaces(char const *str);
+char				**ft_strsplits(char const *s, char *c);
 void				ft_striter(char *s, void (*f) (char *));
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strcat(char *dest, const char *src);

@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/11 17:37:58 by bviala           ###   ########.fr        #
+#    Updated: 2018/01/27 16:53:28 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  str/ft_strsplit.c str/ft_str_isdigit.c str/ft_strnew_c.c		\
 			  str/ft_calc_wstrlen.c str/ft_strjoin_free.c					\
 			  str/ft_strndup.c	str/ft_strsplit_whitespaces.c				\
-			  str/ft_strlen_utf8.c str/ft_strxjoin.c						\
+			  str/ft_strlen_utf8.c str/ft_strxjoin.c str/ft_strsplits.c		\
 			  utils/ft_swap.c utils/ft_isalnum.c utils/ft_isalpha.c			\
 			  utils/ft_isascii.c utils/ft_isdigit.c							\
 			  utils/ft_islower.c utils/ft_isprint.c utils/ft_isupper.c		\
