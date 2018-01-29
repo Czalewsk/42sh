@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/24 02:42:47 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/01/29 15:13:58 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS_FILES		= ft_sh \
 				  edition/curs_back \
 				  prompt/prompt_add \
 				  utils/escape/escape_functions utils/escape/sh_escape \
-				  utils/escape/escape_dquote \
+				  utils/escape/escape_dquote utils/escape/escape_it \
 				  glob/brace_expansion glob/brace_valide_type \
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand \
 				  glob/glob_buff_handler glob/glob_path glob/glob \

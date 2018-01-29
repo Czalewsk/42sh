@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 15:12:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 07:48:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/24 23:22:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_glob_rules			glob_rules_question(char **curs, t_list **rules,
 	t_glob_rules	rule;
 
 	ft_bzero(&rule, sizeof(t_glob_rules));
+	if (!*rules)
+		sh_glob_add_exp_dot(rules);
 	rule.single = 1;
 	ft_memset(&rule.in, 1, 255);
 	rule.in[0] = 0;
