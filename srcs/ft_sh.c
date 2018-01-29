@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/29 15:48:17 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/29 16:01:19 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,6 @@ int			main(int ac, char **av, char **env)
 		if (ret == -3)
 			continue ;
 		DEBUG("\r\nCMD=|%s|", cmd.cmd);
-		/*TEST IS_ESCAPE */
-		cmd.cmd = escape_it(cmd.cmd);
-		/* FIN DU TEST*/
-	/* TEST GLOB	*/
-		/*
-		t_list *tmp;
-		t_list *files;
-		files = sh_glob(cmd.cmd);
-		tmp = files;
-		while (tmp)
-		{
-			DEBUG("%s\n", tmp->content);
-			tmp = tmp->next;
-		}
-		ft_lstdel(&files, &glob_free_str);
-		*/
-		/* FIN DU TEST*/
 		ft_strdel(&cmd.cmd);
 	}
 	ft_strdel(&cmd.cmd);
