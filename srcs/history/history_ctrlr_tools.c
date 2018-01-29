@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   history_ctrlr_tools.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduval <lduval@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/28 04:17:08 by lduval            #+#    #+#             */
-/*   Updated: 2017/11/21 11:36:12 by bviala           ###   ########.fr       */
+/*   Created: 2018/01/10 16:54:00 by bviala            #+#    #+#             */
+/*   Updated: 2018/01/10 16:54:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_sh.h"
 
-void	ft_error(char *str, void (*f)(void))
+void	ft_clear_prompt(t_read *info, int first, size_t pos, char *new)
 {
-	if (f)
-		(*f)();
-	ft_putstr("ERROR: ");
-	if (str)
-		ft_putendl(str);
-	exit(0);
+	cursor_back_begin(info);
+	if (first)
+	{
+		info->prompt = 22 + pos;
+		info->curs_char = new ? ft_strlen_utf8(new) : 0;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/24 03:03:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/29 16:15:49 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,6 @@ t_list			*sh_glob(char *to_glob)
 	t_list		*path;
 	t_list		*files;
 
-	/* Remove '\n' at the end of the line */
-	char *nl = ft_strrchr(to_glob, '\n');
-	if (nl)
-		*nl = '\0';
-	/* END */
 	if (!(path = sh_glob_init_path(to_glob)))
 		return (ft_lstnew_str(to_glob, ft_strlen(to_glob)));
 	glob_add_rules_to_path(path);

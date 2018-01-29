@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduval <lduval@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/28 04:17:08 by lduval            #+#    #+#             */
-/*   Updated: 2017/11/21 11:36:12 by bviala           ###   ########.fr       */
+/*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
+/*   Updated: 2017/12/21 19:15:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef __BUILTINS_H
+# define __BUILTINS_H
 
-void	ft_error(char *str, void (*f)(void))
-{
-	if (f)
-		(*f)();
-	ft_putstr("ERROR: ");
-	if (str)
-		ft_putendl(str);
-	exit(0);
-}
+# include "ft_sh.h"
+
+char	builtin_history(void);
+#endif

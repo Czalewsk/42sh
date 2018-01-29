@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_howmany.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduval <lduval@student.42.fr>              +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/28 04:17:08 by lduval            #+#    #+#             */
-/*   Updated: 2017/11/21 11:36:12 by bviala           ###   ########.fr       */
+/*   Created: 2017/02/05 17:08:31 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/02/05 17:10:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_error(char *str, void (*f)(void))
+int		ft_howmany(char *line, char c)
 {
-	if (f)
-		(*f)();
-	ft_putstr("ERROR: ");
-	if (str)
-		ft_putendl(str);
-	exit(0);
+	int		i;
+	int		n;
+
+	i = 0;
+	n = 0;
+	if (!line)
+		return (0);
+	while (line[i])
+		if (line[i++] == c)
+			n++;
+	return (n);
 }

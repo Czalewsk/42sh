@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 13:47:43 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/29 15:56:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/29 16:16:39 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ char				*escape_it(char *str)
 	char	*new;
 	int		i;
 
-	/* Remove '\n' at the end of the line */
-	char *nl = ft_strrchr(str, '\n');
-	if (nl)
-		*nl = '\0';
-	/* END */
 	i = -1;
 	is_escape = ft_memalloc((ft_strlen(str) / 8) + 1);
 	while (*(str + ++i))
