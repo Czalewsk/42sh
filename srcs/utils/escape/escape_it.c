@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 13:47:43 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/29 16:16:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/30 14:13:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ char				*escape_it(char *str)
 			*new++ = '\\';
 		*new++ = *(str + i);
 	}
+	free(is_escape);
 	return (res);
 }
