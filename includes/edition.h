@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/09 14:51:04 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/24 18:22:54 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
 	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, PASTE_KEYBOARD, CTRL_C, CTRL_R,
-	MAX_KEY
+	TAB, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -59,6 +59,7 @@ typedef struct		s_read
 {
 	size_t			prompt;
 	size_t			win_co;
+	size_t			win_height;
 	size_t			total_char;
 	long			curs_char;
 }					t_read;

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/11 00:33:45 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/30 05:44:30 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ inline void	info_init(t_read *info)
 	ft_bzero(info, sizeof(t_read));
 	ioctl(1, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
 	info->win_co = ws.ws_col;
+	info->win_height = ws.ws_row - 1;
 }
 
 static void	sh_quit_prog(t_buf *cmd)
@@ -54,6 +55,8 @@ static void	sh_init_prog(char **env)
 	}
 	g_sh.env[i] = NULL;
 	g_sh.exitstatus = 0;
+	g_sh.comp = NULL;
+	g_sh.comp_status = 0;
 	init_history();
 	termcaps_init(g_sh.env);
 }

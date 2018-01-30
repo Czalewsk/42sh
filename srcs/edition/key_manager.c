@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/09 14:45:50 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/30 03:07:55 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,40 @@ char					sh_stop_line(t_buf *cmd, t_read *info, t_key *entry)
 */
 const t_key_map			g_key_map[] =
 {
-	{0, ARROW_L, 3, {27, 91, 68}, {&curs_move_hz, NULL, &curs_move_hz}},
-	{1, ARROW_R, 3, {27, 91, 67}, {&curs_move_hz, NULL, &curs_move_hz}},
-	{2, ARROW_U, 3, {27, 91, 65}, {&history_mode, NULL, &history_up}},
-	{3, ARROW_D, 3, {27, 91, 66}, {NULL, NULL, &history_do}},
-	{4, QUIT, 1, {CTRL_KEY('D')}, {&sh_quit, NULL, &sh_quit}},
-	{5, ENTER, 1, {13}, {&sh_validate_line, NULL, &sh_validate_line}},
-	{6, DELETE, 1, {127}, {&delete_char, NULL, &delete_char}},
-	{7, SUPPR, 4, {27, 91, 51, 126}, {&suppr_char, NULL, &suppr_char}},
+	{0, ARROW_L, 3, {27, 91, 68},
+		{&curs_move_hz, &completion_to_normal, &curs_move_hz}},
+	{1, ARROW_R, 3, {27, 91, 67},
+		{&curs_move_hz, &completion_to_normal, &curs_move_hz}},
+	{2, ARROW_U, 3, {27, 91, 65},
+		{&history_mode, &completion_to_normal, &history_up}},
+	{3, ARROW_D, 3, {27, 91, 66},
+		{NULL, &completion_to_normal, &history_do}},
+	{4, QUIT, 1, {CTRL_KEY('D')},
+		{&sh_quit, &completion_to_normal, &sh_quit}},
+	{5, ENTER, 1, {13},
+		{&sh_validate_line, &completion_to_normal, &sh_validate_line}},
+	{6, DELETE, 1, {127}, {&delete_char, &completion_to_normal, &delete_char}},
+	{7, SUPPR, 4, {27, 91, 51, 126},
+		{&suppr_char, &completion_to_normal, &suppr_char}},
 	{8, SHIFT_UP, 6, {27, 91, 49, 59, 50, 65},
-		{&curs_move_vt, NULL, &curs_move_vt}},
+		{&curs_move_vt, &completion_to_normal, &curs_move_vt}},
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66},
-		{&curs_move_vt, NULL, &curs_move_vt}},
-	{10, HOME, 3, {27, 91, 72}, {&edition_home_end, NULL, &edition_home_end}},
-	{11, END, 3, {27, 91, 70}, {&edition_home_end, NULL, &edition_home_end}},
-	{12, PAGE_UP, 4, {27, 91, 53, 126}, {&history_mode, NULL, &history_up}},
-	{13, PAGE_DO, 4, {27, 91, 54, 126}, {NULL, NULL, &history_do}},
+		{&curs_move_vt, &completion_to_normal, &curs_move_vt}},
+	{10, HOME, 3, {27, 91, 72},
+		{&edition_home_end, &completion_to_normal, &edition_home_end}},
+	{11, END, 3, {27, 91, 70},
+		{&edition_home_end, &completion_to_normal, &edition_home_end}},
+	{12, PAGE_UP, 4, {27, 91, 53, 126},
+		{&history_mode, &completion_to_normal, &history_up}},
+	{13, PAGE_DO, 4, {27, 91, 54, 126},
+		{NULL, &completion_to_normal, &history_do}},
 	{14, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126},
-		{&paste_handler, NULL, &paste_handler}},
-	{15, CTRL_C, 1, {CTRL_KEY('C')}, {&sh_stop_line, NULL, &sh_stop_line}},
-	{16, CTRL_R, 1, {CTRL_KEY('R')}, {&history_ctrlr, NULL, &history_ctrlr}}
+		{&paste_handler, &completion_to_normal, &paste_handler}},
+	{15, CTRL_C, 1, {CTRL_KEY('C')},
+		{&sh_stop_line, &completion_to_normal, &sh_stop_line}},
+	{16, CTRL_R, 1, {CTRL_KEY('R')},
+		{&history_ctrlr, &completion_to_normal, &history_ctrlr}},
+	{17, TAB, 1, {9}, {&sh_comp, &sh_comp, &history_to_completion}}
 };
 
 static void				*key_token(t_key *entry)
