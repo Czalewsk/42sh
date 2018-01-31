@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_remove.c                                    :+:      :+:    :+:   */
+/*   ft_lstinsert_if_end.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 10:30:45 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/29 16:08:45 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/02/20 08:54:34 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/02/20 09:20:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-void	ft_lst_remove(t_list **alst, t_list *dl, void (*del)())
+void	ft_lstinsert_if_end(t_list **alst, t_list *new, int (*f)(t_list *,
+			t_list *))
 {
-	t_list		*cur;
+	t_list		*curs;
 	t_list		**prev;
 
-	prev = alst;
-	cur = prev ? *prev : NULL;
-	while (cur)
+	if (!alst || !new || !f)
+		return ;
+	prev = &(*alst);
+	curs = *prev;
+	while (curs && f(curs, new))
 	{
-		if (cur == dl)
-		{
-			*prev = cur->next;
-			if (del)
-				del(cur->content, cur->content_size);
-			free(cur);
-			break ;
-		}
-		else
-		{
-			cur = (*prev)->next;
-			prev = &(*prev)->next;
-		}
+		curs = (*prev)->next;
+		prev = &(*prev)->next;
 	}
+	new->next = curs;
+	*prev = new;
 }

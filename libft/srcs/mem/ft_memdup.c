@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdel.c                                        :+:      :+:    :+:   */
+/*   ft_memdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/18 13:13:43 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/23 07:03:17 by czalewsk         ###   ########.fr       */
+/*   Created: 2016/11/14 19:51:03 by czalewsk          #+#    #+#             */
+/*   Updated: 2016/11/14 19:54:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstdel(t_list **alst, void (*del) (void *, size_t))
+void	*ft_memdup(const void *mem, size_t size)
 {
-	t_list	*elem;
-	t_list	*next;
-
-	elem = *alst;
-	while (elem)
-	{
-		next = elem->next;
-		if (del)
-			del(elem->content, elem->content_size);
-		free(elem);
-		elem = next;
-	}
-	*alst = NULL;
+	if (!mem || !size)
+		return (NULL);
+	return (ft_memmove(ft_memalloc(size), mem, size));
 }

@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_remove.c                                    :+:      :+:    :+:   */
+/*   ft_lst_remove_index.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 10:30:45 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/29 16:08:45 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/02/10 05:41:12 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/09/02 14:08:36 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lst_remove(t_list **alst, t_list *dl, void (*del)())
+void	ft_lst_add_index(t_list **alst, t_list *new, int index)
 {
 	t_list		*cur;
 	t_list		**prev;
+	int			i;
 
+	i = 0;
+	if (!alst || index < 0)
+		return ;
 	prev = alst;
-	cur = prev ? *prev : NULL;
-	while (cur)
+	cur = *alst;
+	while (cur && i < index)
 	{
-		if (cur == dl)
-		{
-			*prev = cur->next;
-			if (del)
-				del(cur->content, cur->content_size);
-			free(cur);
-			break ;
-		}
-		else
-		{
-			cur = (*prev)->next;
-			prev = &(*prev)->next;
-		}
+		cur = (*prev)->next;
+		prev = &(*prev)->next;
+		i++;
 	}
+	*prev = new;
+	new->next = cur;
 }

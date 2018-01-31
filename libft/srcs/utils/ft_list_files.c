@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 14:27:42 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/09 15:48:41 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/29 16:08:09 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,39 @@ t_list		*ft_list_files(char *path)
 	struct dirent	*dirent;
 
 	ret = NULL;
-	if (!path)
-		return (NULL);
-	if (!(dir = opendir(path)))
+	if (!path || !(dir = opendir(path)))
 		return (NULL);
 	while ((dirent = readdir(dir)))
-	{
 		if (ft_is_not_root(dirent->d_name))
 			ft_lstadd(&ret,
 				ft_lstnew(dirent->d_name, ft_strlen(dirent->d_name) + 1), 0);
+	closedir(dir);
+	return (ret);
+}
+
+t_list		*ft_list_folders(char *path)
+{
+	char			*tmp;
+	t_list			*ret;
+	DIR				*dir;
+	struct dirent	*dirent;
+	struct stat		stat_data;
+
+	ret = NULL;
+	if (!path || !(dir = opendir(path)) || (stat(path, &stat_data)))
+		return (NULL);
+	if (!S_ISDIR(stat_data.st_mode) || !(stat_data.st_mode & (S_IXUSR
+					| S_IXGRP | S_IXOTH)))
+		return (NULL);
+	while ((dirent = readdir(dir)))
+	{
+		if (!ft_is_not_root(dirent->d_name))
+			continue ;
+		tmp = ft_strjoin(path, dirent->d_name);
+		if (!stat(tmp, &stat_data) && (stat_data.st_mode & S_IFMT) == S_IFDIR)
+			ft_lstadd(&ret,
+				ft_lstnew(dirent->d_name, ft_strlen(dirent->d_name) + 1), 0);
+		ft_strdel(&tmp);
 	}
 	closedir(dir);
 	return (ret);

@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/01/27 16:42:24 by thugo            ###   ########.fr        #
+#    Updated: 2018/01/31 19:57:35 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,18 +42,21 @@ SRCS_FILES		= ft_sh 													\
 				  edition/buff_handler edition/read edition/paste_handler 	\
 				  edition/key_manager edition/insert_char edition/cursor	\
 				  edition/unicode edition/print edition/curs_back			\
-				  utils/escape/escape_functions utils/escape/sh_escape		\
-				  utils/escape/escape_dquote								\
-				  glob/brace_expansion glob/brace_valide_type				\
-				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
-				  glob/glob_buff_handler									\
 				  builtins/builtin_history									\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
-				  expansions/expand expansions/parameters
+				  expansions/expand expansions/parameters					\
+				  utils/escape/escape_functions utils/escape/sh_escape		\
+				  utils/escape/escape_dquote utils/escape/escape_it			\
+				  glob/brace_expansion glob/brace_valide_type				\
+				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
+				  glob/glob_buff_handler glob/glob_path glob/glob			\
+				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square\
+				  glob/glob_folders glob/glob_rules_check glob/glob_files	\
+				  glob/glob_free_function glob/glob_is_relative
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

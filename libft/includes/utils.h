@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/21 18:10:03 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/11 00:43:58 by bviala           ###   ########.fr       */
+/*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
+/*   Updated: 2018/01/29 16:09:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int					ft_strisnumber(char *str);
 int					ft_find_end_nbr(char *str);
 int					ft_isint(char *nb);
 char				ft_is_escape(char *esc, char *str);
+t_list				*ft_list_folders(char *path);
 
 #endif
