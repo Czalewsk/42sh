@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 15:12:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/24 23:22:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/30 19:24:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,13 @@ void					sh_glob_add_exp_dot(t_list **rules)
 	ft_lstadd(rules, ft_lstnew(&rule, sizeof(t_glob_rules)), 0);
 }
 
-void					sh_glob_rules_init(char *str, t_list **rules)
+char					sh_glob_rules_init(char *str, t_list **rules)
 {
 	char			*end;
+	int				ret;
+	int				valide_glob;
 
+	valide_glob = 0;
 	end = str;
 	while (*end)
 		end++;
@@ -102,6 +105,9 @@ void					sh_glob_rules_init(char *str, t_list **rules)
 	{
 		if (*str == '\\')
 			str++;
-		g_f[(int)glob_check_char(*str)](&str, rules, 1);
+		g_f[(ret = glob_check_char(*str))](&str, rules, 1);
+		if (ret > 0)
+			valide_glob = 1;
 	}
+	return (valide_glob);
 }
