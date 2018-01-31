@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 19:24:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/30 05:17:24 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/30 16:27:22 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char		history_to_completion(t_buf *cmd, t_read *info, t_key *entry)
 static void	del_select(t_select *select)
 {
 	ft_strdel(&select->name);
+	ft_strdel(&select->escaped);
 	free(select);
 	select = NULL;
 }
@@ -39,4 +40,10 @@ char		completion_to_normal(t_buf *cmd, t_read *info, t_key *entry)
 		g_sh.comp = NULL;
 	}
 	return (key_manager(cmd, info, entry));
+}
+
+char		validate_completion(t_buf *cmd, t_read *info, t_key *entry)
+{
+	// display new string;
+	return (completion_to_normal(cmd, info, entry));
 }
