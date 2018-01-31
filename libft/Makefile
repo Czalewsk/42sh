@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/11 17:37:58 by bviala           ###   ########.fr        #
+#    Updated: 2018/01/29 16:10:21 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  lst/ft_lstsize.c lst/ft_lstiter.c lst/ft_lstclear.c			\
 			  lst/ft_lstprint.c	lst/ft_lstdelone.c lst/ft_lstaddback.c		\
 			  lst/ft_lstswap.c lst/ft_lstsort.c lst/ft_lstprint_name.c		\
+			  lst/ft_lst_add_index.c lst/ft_lst_remove_if.c					\
+			  lst/ft_lst_remove_index.c lst/ft_lstinsert_if_end.c			\
 			  lst/ft_lst_pushend.c lst/ft_lst_remove.c						\
 			  lst/ldl/ft_ldl_addback.c lst/ldl/ft_ldl_addfront.c			\
 			  lst/ldl/ft_ldl_clear.c lst/ldl/ft_ldl_del.c					\
@@ -73,6 +75,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  mem/ft_memcmp.c mem/ft_memdel.c mem/ft_memset.c				\
 			  mem/ft_memccpy.c mem/ft_memmove.c	mem/free_tab2d.c			\
 			  mem/ft_memalloc.c mem/ft_realloc_tab.c mem/ft_memrealloc.c	\
+			  mem/ft_memdup.c												\
 			  output/ft_putnbr.c output/ft_putstr.c output/ft_putchar.c		\
 			  output/ft_putendl.c output/ft_putwchar.c						\
 			  output/ft_putnwstr.c output/ft_putnbr_fd.c					\
