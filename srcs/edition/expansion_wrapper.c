@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 13:59:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/01 16:19:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,40 @@ char		*expansion_get_word(t_buf *cmd, t_read *info)
 			end = start;
 		}
 	}
-	g_sh->comp_start = start;
-	g_sh->comp->end = end;
+	g_sh.comp_start = start;
+	g_sh.comp_end = end;
 	return (ft_strsub(start, 0, end - start));
 }
 
-char	expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
+void		expansion_replace(t_buf *cmd, t_read *info, t_list *res)
+{
+	size_t		len_replace;
+	char		*new_cmd;
+	t_list		*tmp;
+	char		*curs;
+
+	tmp = res;
+	len_replace = 0;
+	while (tmp)
+	{
+		len_replace += (ft_strlen(tmp->content) + 1);
+		tmp = tmp->next;
+	}
+	new_cmd = ft_strnew(ft_strlen(cmd->cmd) - (g_sh.comp_end - g_sh.comp_start)
+			+ len_replace);
+	curs = ft_strncat(new_cmd, cmd->cmd, g_sh.comp_start - cmd->cmd);
+	tmp = res;
+	while (tmp)
+	{
+		curs = ft_strcat(curs, tmp->content);
+		curs = ft_strcat(curs, " ");
+		tmp = tmp->next;
+	}
+	ft_strcat(curs, g_sh.comp_end);
+	display_str(cmd, info, new_cmd, (g_sh.comp_start - cmd->cmd) + len_replace);
+}
+
+char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char		auto_completion;
 	t_list		*res;
@@ -84,29 +112,21 @@ char	expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 
 	auto_completion = 1;
 	tkkn = expansion_get_word(cmd, info);
+	DEBUG("tkkn=%s|\n", tkkn);
 	if (sh_brace_exp(tkkn, &res))
 		auto_completion = 0;
 	if (get_globbing(tkkn, &res))
 		auto_completion = 0;
 	if (auto_completion)
 	{
-		(void)entry; // Pour lautocompletion
-		ft_strdel(&tkkn);
+		(void)entry; // Pour lautocompletion attention tkkn est free a la fin
 		DEBUG("AUTO_COMPLETION\n");
 	}
 	else
-		expansion_replace(cmd, info, res);
-	/* DEBUG */
-	t_list	*tmp;
-	if (res)
 	{
-		tmp = res;
-		while (tmp)
-		{
-			DEBUG("%s|\n", tmp->content);
-			tmp = tmp->next;
-		}
+		expansion_replace(cmd, info, res);
+		ft_lstdel(&res, ft_lst_del_str);
 	}
-	/* TEST */
+	ft_strdel(&tkkn);
 	return (0);
 }
