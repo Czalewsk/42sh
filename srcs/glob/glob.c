@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/30 16:31:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/01 04:44:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ char			sh_glob(char *to_glob, t_list **files)
 {
 	t_list		*path;
 
+	*files = NULL;
 	if (!(path = sh_glob_init_path(to_glob)))
 		return (0);
 	glob_add_rules_to_path(path);
-	*files = glob_files_init(&path);
-	return (1);
+	return ((*files = glob_files_init(&path)) ? 1 : 0);
 }

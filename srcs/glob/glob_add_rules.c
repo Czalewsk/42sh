@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 22:47:15 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/24 02:37:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/01 00:48:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ char		glob_rules_directory(char *str)
 	return (0);
 }
 
-void		glob_add_rules_to_path(t_list *path)
+char		glob_add_rules_to_path(t_list *path)
 {
 	t_glob_process		*elmt;
+	char				valide;
 
+	valide = 0;
 	while (path)
 	{
 		elmt = ft_memalloc(sizeof(t_glob_process));
@@ -48,9 +50,10 @@ void		glob_add_rules_to_path(t_list *path)
 			elmt->is_directory = 1;
 		if (glob_rules_check_root(path->content))
 			elmt->is_root = 1;
-		else
-			sh_glob_rules_init(path->content, &elmt->rules);
+		else if (sh_glob_rules_init(path->content, &elmt->rules))
+			valide = 1;
 		path->content = elmt;
 		path = path->next;
 	}
+	return (valide);
 }
