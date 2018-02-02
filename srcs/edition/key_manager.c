@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/30 15:49:40 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/01 19:43:38 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ const t_key_map			g_key_map[] =
 	{4, QUIT, 1, {CTRL_KEY('D')},
 		{&sh_quit, &completion_to_normal, &sh_quit}},
 	{5, ENTER, 1, {13},
-		{&sh_validate_line, &validate_completion, &sh_validate_line}},
+		{&sh_validate_line, &completion_to_normal, &sh_validate_line}},
 	{6, DELETE, 1, {127}, {&delete_char, &completion_to_normal, &delete_char}},
 	{7, SUPPR, 4, {27, 91, 51, 126},
 		{&suppr_char, &completion_to_normal, &suppr_char}},
@@ -91,7 +91,7 @@ const t_key_map			g_key_map[] =
 		{&sh_stop_line, &completion_to_normal, &sh_stop_line}},
 	{16, CTRL_R, 1, {CTRL_KEY('R')},
 		{&history_ctrlr, &completion_to_normal, &history_ctrlr}},
-	{17, TAB, 1, {9}, {&sh_comp, &sh_comp, &history_to_completion}}
+	{17, TAB, 1, {9}, {&first_comp, &sh_comp, &history_to_completion}}
 };
 
 static void				*key_token(t_key *entry)

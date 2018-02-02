@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/31 23:15:06 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/01 19:43:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define BIN_C 1
 # define DIR_C 2
+# define WRI_C 4
 
 typedef struct	s_comp
 {
@@ -44,14 +45,15 @@ typedef struct	s_select
 **	Algo et display de l'autocompletion
 */
 char	sh_comp(t_buf *cmd, t_read *info, t_key *entry);
+char	first_comp(t_buf *cmd, t_read *info, t_key *entry, char *to_search);
 void	print_comp(t_comp *comp, t_read *info);
+void	display_new_comp(t_buf *cmd, t_read *info, t_select *select);
 /*
 ** Change_mode :
 ** close mode history ou mode auto_completion
 */
 char	history_to_completion(t_buf *cmd, t_read *info, t_key *entry);
 char	completion_to_normal(t_buf *cmd, t_read *info, t_key *entry);
-char	validate_completion(t_buf *cmd, t_read *info, t_key *entry);
 
 /*
 **	Add_select :

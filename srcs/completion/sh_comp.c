@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/31 22:30:54 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/02 15:04:05 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	get_len_max(t_ldl_head *head)
 			max = len;
 		ldl = ldl->next;
 	}
-	return (max);
+	return (max + 1);
 }
 
 static void	calcul_display(t_comp *comp, t_read *info)
@@ -48,31 +48,45 @@ static void	calcul_display(t_comp *comp, t_read *info)
 		comp->nb_visible = comp->nb_row;
 }
 
-static void	init_comp(t_buf *cmd)
-{
-	g_sh.edition_state = COMPLETION;
-	if (!g_sh.comp)
-	{
-		g_sh.comp = ft_memalloc(sizeof(t_comp));
-		g_sh.comp->search = ft_strdup(cmd->cmd);
-		g_sh.comp->head = ft_ldl_new_list();
-	}
-}
-
 char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 {
-	(void)entry;
+	t_ldl 	*ldl;
+	int		i;
 
-	init_comp(cmd);
-	DEBUG("COMP entree comp->index |%d|\n", g_sh.comp->index);
+	(void)entry;
+//	DEBUG("COMP entree comp->index |%d|\n", g_sh.comp->index);
 //	if (!comp_status)
 //	{
 //		search_lala ; binaire et var ENV;
 //	}
 	add_ls(g_sh.comp, g_sh.comp->head, NULL);
 	calcul_display(g_sh.comp, info);
-	g_sh.comp->index++;
-	DEBUG("COMP sortie comp->index |%d|\n", g_sh.comp->index);
+	if (g_sh.comp->index < g_sh.comp->nb_item)
+		g_sh.comp->index++;
+	DEBUG("COMP sortie comp->index |%d| item |%d|\n", g_sh.comp->index, g_sh.comp->nb_item);
+	ft_putchar('\n');
 	print_comp(g_sh.comp, info);
+	prompt_display(info, 0);
+	ldl = g_sh.comp->head->head;
+	i = 0;
+	while (ldl && ++i != g_sh.comp->index)
+		ldl = ldl->next;
+	if (ldl && ((t_select *)ldl->content)->is_current)
+		display_new_comp(cmd, info, ((t_select *)ldl->content));
 	return (0);
+}
+
+char	first_comp(t_buf *cmd, t_read *info, t_key *entry, char *to_search)
+{
+	g_sh.edition_state = COMPLETION;
+	g_sh.comp = ft_memalloc(sizeof(t_comp));
+//	if (to_search)										// a changer avec tokken
+//		g_sh.comp->search = ft_strdup(to_search);
+//	else
+	(void)to_search;
+		g_sh.comp->search = ft_strdup(cmd->cmd);
+	DEBUG("comp->search |%s| escape |%s|\n", g_sh.comp->search, escape_it(g_sh.comp->search));
+	g_sh.comp->head = ft_ldl_new_list();
+//	add_ls(g_sh.comp, g_sh.comp->head, NULL);
+	return (sh_comp(cmd, info, entry));
 }
