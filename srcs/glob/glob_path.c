@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 07:51:35 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 07:52:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/03 14:27:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_list		*sh_glob_init_path(char *to_glob)
 			ft_lstaddback(&path,
 				ft_lstnew_str(ft_strsub(last_slash, 0,
 					(to_glob - last_slash) + 1), 0));
-			if (!*(last_slash = to_glob + 1) || !*to_glob)
+			if (!*to_glob || !*(last_slash = to_glob + 1))
 				break ;
 		}
 	return (path);
