@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:57 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/27 16:53:01 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/03 03:20:57 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ char				*ft_strnstr(const char *str, const char *to_find, size_t n);
 int					ft_calc_wstrlen(wchar_t *str, int precision, int i);
 int					ft_strlen_utf8(char *str);
 char				*ft_strxjoin(int nb_elemt, ...);
+char                *ft_strcnt(const char *s, const char *sfind);
 
 #endif
