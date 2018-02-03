@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:48 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/26 18:51:40 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/29 21:16:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,13 @@ int		rules_subsh(t_token *tk, char **cur, char *escape)
 	return (0);
 }
 
+/* OLD VERSION */
+/*
 int		rules_param_exp(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 
-	if (*escape || **cur != '$')
+	if (*escape & ~(char)2 || **cur != '$')
 		return (0);
 	i = 1;
 	while (*cur + i && (ft_isalnum(*(*cur + i)) || *(*cur + i) == '_'))
@@ -100,4 +102,5 @@ int		rules_param_exp(t_token *tk, char **cur, char *escape)
 		return (1);
 	}
 	return (0);
-}
+}*/
+

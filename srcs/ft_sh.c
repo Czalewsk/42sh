@@ -6,11 +6,13 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/29 16:07:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/01 09:19:03 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+#include "lexer.h"
+#include "expansions.h"
 
 t_sh		g_sh;
 
@@ -74,7 +76,28 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
-		DEBUG("\r\nCMD=|%s|", cmd.cmd);
+		//DEBUG("\r\nCMD=|%s|", cmd.cmd);
+		/* PARSER CALL START */
+		t_token tk;
+		char *cur = cmd.cmd;
+		while (lexer_getnexttoken(&tk, &cur, &cmd.cmd) > 0)
+		{
+			ft_printf("\nToken: %s | Size: %zu | Class: %i", tk.str, tk.size, tk.id);
+			t_list  *cur = expansions_expand(&tk);
+			t_list  *next;
+			while (cur)
+			{
+				t_token *etk = (t_token*)cur->content;
+				ft_printf("\n\tExpand: %s | Size: %zu | Class: %i", etk->str, etk->size, etk->id);
+				next = cur->next;
+				free(etk->str);
+				free(etk);
+				free(cur);
+				cur = next;
+			}
+			free(tk.str);
+		}
+		/* PARSER CALL END */
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);
