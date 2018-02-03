@@ -6,11 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/03 17:48:32 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/03 20:03:44 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static const char	g_separator[] = " <>;$|&`";
 
 static void	get_address_end(t_list ***tmp)
 {
@@ -60,12 +62,12 @@ char		*expansion_get_word(t_buf *cmd, t_read *info)
 	end = tmp;
 	while (*tmp++)
 	{
-		if (tmp >= cursor && (*tmp == ' ' || !*tmp))
+		if (tmp >= cursor && (ft_strchr(g_separator, *tmp) || !*tmp))
 		{
 			end = tmp;
 			break ;
 		}
-		else if (*tmp == ' ' && tmp <= cursor)
+		else if (ft_strchr(g_separator, *tmp) && tmp <= cursor)
 		{
 			start = tmp + 1;
 			end = start;
