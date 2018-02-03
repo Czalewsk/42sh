@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 16:19:03 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/03 12:24:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ char		get_globbing(char *tkkn, t_list **res)
 		if (sh_glob(tmp->content, &glob))
 			*to_add = glob;
 		else
-			*to_add = ft_lstnew_str(tmp->content, ft_strlen(tmp->content));
+			*to_add = ft_lstnew(tmp->content, ft_strlen(tmp->content) + 1);
 		tmp = tmp->next;
 	}
-	ft_lstdel(res, NULL);
+	ft_lstdel(res, &ft_lst_del_str);
 	*res = final;
 	return (1);
 }
@@ -102,6 +102,7 @@ void		expansion_replace(t_buf *cmd, t_read *info, t_list *res)
 	}
 	ft_strcat(curs, g_sh.comp_end);
 	display_str(cmd, info, new_cmd, (g_sh.comp_start - cmd->cmd) + len_replace);
+	free(new_cmd);
 }
 
 char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
