@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 14:57:50 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/03 16:31:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ void				info_init(t_read *info);
 char				test_prompt_add(t_buf *cmd, t_read *info, t_key *entry);
 void				cursor_back_begin(t_read *info);
 char				expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry);
+char				wrapper_is_arg(t_buf *cmd);
 
 #endif

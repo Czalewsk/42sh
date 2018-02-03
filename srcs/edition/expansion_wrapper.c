@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/03 12:24:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/03 17:48:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 
 	auto_completion = 1;
 	tkkn = expansion_get_word(cmd, info);
-	DEBUG("tkkn=%s|\n", tkkn);
+	g_sh.comp_status = wrapper_is_arg(cmd);
+	DEBUG("tkkn=%s| is %s\n", tkkn, g_sh.comp_status ? "arg" : "bin");
 	if (sh_brace_exp(tkkn, &res))
 		auto_completion = 0;
 	if (get_globbing(tkkn, &res))
@@ -129,5 +130,7 @@ char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 		ft_lstdel(&res, ft_lst_del_str);
 	}
 	ft_strdel(&tkkn);
+	g_sh.comp_start = NULL;
+	g_sh.comp_end = NULL;
 	return (0);
 }
