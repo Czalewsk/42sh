@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/03 19:40:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/05 18:09:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 	cmd->size_actual += entry->nread;
 	if (info->curs_char == (long)info->total_char)
 	{
-		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
+		ft_strncat(cmd->cmd, entry->entry, entry->nread);
 		write(1, entry->entry, entry->nread);
 	}
 	else
