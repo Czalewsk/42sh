@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/06 15:54:30 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/06 17:10:28 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,21 +116,22 @@ static void	save_token(t_list **lst, char *str, size_t size, size_t *tlen)
 	*tlen += size;
 }
 
-static char	*join_tokens(t_list **lst, size_t tlen)
+static void	push_token(t_list **mainlst, t_list **lst, t_token *tk,
+	size_t *tlen)
 {
 	int		i;
-	char	*join;
 	t_list	*cur;
 	t_list	*next;
+	t_token	newtk;
 
 	if (!lst || !tlen)
-		return (NULL);
+		return ;
 	cur = *lst;
-	join = ft_memalloc(tlen + 1);
+	newtk.str = ft_memalloc(*tlen + 1);
 	i = 0;
 	while (cur)
 	{
-		ft_memcpy(join + i, cur->content, cur->content_size);
+		ft_memcpy(newtk.str + i, cur->content, cur->content_size);
 		i += cur->content_size;
 		next = cur->next;
 		free(cur->content);
@@ -138,7 +139,10 @@ static char	*join_tokens(t_list **lst, size_t tlen)
 		cur = next;
 	}
 	*lst = NULL;
-	return (join);
+	newtk.id = tk->id;
+	newtk.size = *tlen;
+	*tlen = 0;
+	ft_lst_pushend(mainlst, ft_lstnew(&newtk, sizeof(t_token)));
 }
 
 /*static int	next_expand(t_token *tk, t_token *newtk,  char **cur)
@@ -239,7 +243,6 @@ t_list			*expand_parameters(t_token *tk)
 		return (NULL);
 	lst = NULL;
 	mainlst = NULL;
-	newtk.str = NULL;
 	newtk.id = tk->id;
 	cur = tk->str;
 	ifs = ft_getenv(g_sh.env, "IFS");
@@ -270,25 +273,13 @@ t_list			*expand_parameters(t_token *tk)
 							if (ft_strchr(ifs ? ifs : " \t\n", val[x]))
 							{
 								if (tlen && !x)
-								{
-									newtk.str = join_tokens(&lst, tlen);
-									newtk.size = tlen;
-									ft_lst_pushend(&mainlst, ft_lstnew(&newtk,
-										sizeof(t_token)));
-									newtk.str = NULL;
-									tlen = 0;
-								}
+									push_token(&mainlst, &lst, tk, &tlen);
 								else if (!x)
 									++val;
 								else
 								{
 									save_token(&lst, val, x, &tlen);
-									newtk.str = join_tokens(&lst, tlen);
-									newtk.size = tlen;
-									ft_lst_pushend(&mainlst, ft_lstnew(&newtk,
-										sizeof(t_token)));
-									newtk.str = NULL;
-									tlen = 0;
+									push_token(&mainlst, &lst, tk, &tlen);
 									val += x + 1;
 								}
 								x = -1;
@@ -311,16 +302,12 @@ t_list			*expand_parameters(t_token *tk)
 	if (i && found)
 		save_token(&lst, cur, i, &tlen);
 	if (found && lst)
-	{
-		newtk.str = join_tokens(&lst, tlen);
-		newtk.size = tlen;
-	}
+		push_token(&mainlst, &lst, tk, &tlen);
 	else if (found && !mainlst)
 	{
 		newtk.str = ft_strdup("");
 		newtk.size = 0;
-	}
-	if (newtk.str)
 		ft_lst_pushend(&mainlst, ft_lstnew(&newtk, sizeof(t_token)));
+	}
 	return (mainlst);
 }
