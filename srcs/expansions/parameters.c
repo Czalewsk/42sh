@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/03 04:51:31 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/06 15:54:30 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,6 @@ t_list			*expand_parameters(t_token *tk)
 {
 	t_list	*lst;
 	t_list	*mainlst;
-	t_list	*el;
 	t_token newtk;
 	int		i;
 	int		u;
@@ -249,19 +248,18 @@ t_list			*expand_parameters(t_token *tk)
 	tlen = 0;
 	while (cur[i])
 	{
-		if (cur[i] == '$' && ((esc = ft_is_escape(cur + i, tk->str)) == '"' || !esc))
+		if (cur[i] == '$' && ((esc = ft_is_escape(cur + i, tk->str)) == '"' ||
+			!esc))
 		{
 			u = 1;
-			while (cur[i + u] && (ft_isalnum(cur[i + u]) ||
-					cur[i + u] == '_'))
+			while (cur[i + u] && (ft_isalnum(cur[i + u]) || cur[i + u] == '_'))
 				++u;
 			if (u > 1)
 			{
 				++found;
 				if (i)
 					save_token(&lst, cur, i, &tlen);
-				if (!(name = ft_strndup(cur + i + 1, u - 1)))
-					exit(EXIT_FAILURE);
+				name = ft_strndup(cur + i + 1, u - 1);
 				if ((val = ft_getenv(g_sh.env, name)))
 				{
 					if (tk->id == WORD && ft_strcnt(val, ifs ? ifs : " \t\n"))
@@ -275,9 +273,8 @@ t_list			*expand_parameters(t_token *tk)
 								{
 									newtk.str = join_tokens(&lst, tlen);
 									newtk.size = tlen;
-									if (!(el = ft_lstnew(&newtk, sizeof(t_token))))
-										exit(EXIT_FAILURE);
-									ft_lst_pushend(&mainlst, el);
+									ft_lst_pushend(&mainlst, ft_lstnew(&newtk,
+										sizeof(t_token)));
 									newtk.str = NULL;
 									tlen = 0;
 								}
@@ -288,9 +285,8 @@ t_list			*expand_parameters(t_token *tk)
 									save_token(&lst, val, x, &tlen);
 									newtk.str = join_tokens(&lst, tlen);
 									newtk.size = tlen;
-									if (!(el = ft_lstnew(&newtk, sizeof(t_token))))
-										exit(EXIT_FAILURE);
-									ft_lst_pushend(&mainlst, el);
+									ft_lst_pushend(&mainlst, ft_lstnew(&newtk,
+										sizeof(t_token)));
 									newtk.str = NULL;
 									tlen = 0;
 									val += x + 1;
@@ -314,7 +310,7 @@ t_list			*expand_parameters(t_token *tk)
 	}
 	if (i && found)
 		save_token(&lst, cur, i, &tlen);
-	if (found)
+	if (found && lst)
 	{
 		newtk.str = join_tokens(&lst, tlen);
 		newtk.size = tlen;
@@ -325,10 +321,6 @@ t_list			*expand_parameters(t_token *tk)
 		newtk.size = 0;
 	}
 	if (newtk.str)
-	{
-		if (!(el = ft_lstnew(&newtk, sizeof(t_token))))
-			exit(EXIT_FAILURE);
-		ft_lst_pushend(&mainlst, el);
-	}
+		ft_lst_pushend(&mainlst, ft_lstnew(&newtk, sizeof(t_token)));
 	return (mainlst);
 }
