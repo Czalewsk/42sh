@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/02 15:04:08 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 18:08:06 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ void		display_new_comp(t_buf *cmd, t_read *info, t_select *select)
 
 	new_cmd = ft_strnew(ft_strlen_utf8(cmd->cmd) -
 			(g_sh.comp_end - g_sh.comp_start) + select->len);
-	curs = ft_strncat(new_cmd, cmd->cmd, g_sh.comp_start - cmd->cmd);
+	if (g_sh.comp_start)
+		curs = ft_strncat(new_cmd, cmd->cmd, g_sh.comp_start - cmd->cmd);
+	else
+		curs = new_cmd;
 	curs = ft_strcat(curs, select->escaped);
 	if (g_sh.comp_end)
 		curs = ft_strcat(curs, g_sh.comp_end);
 	display_str(cmd, info, new_cmd, (g_sh.comp_start - cmd->cmd) + select->len);
+	ft_strdel(&new_cmd);
 }
 
 static void	print_item(t_select *select, int len_max, int i)
@@ -52,6 +56,13 @@ static void	print_item(t_select *select, int len_max, int i)
 	ft_putstr(C_DEFAULT);
 	while (i++ < len_max)
 		ft_putchar(' ');
+}
+
+static void part_display_comp(t_comp *comp, t_read *info)
+{
+	(void)comp;
+	(void)info;
+	return ;
 }
 
 static void	full_display_comp(t_comp *comp)
@@ -89,7 +100,7 @@ void	print_comp(t_comp *comp, t_read *info)
 		if (comp->nb_row > comp->nb_visible)
 		{
 			DEBUG("OUIIIIIIIIIIIIIII\n");
-//			part_display_comp(comp, info);
+			part_display_comp(comp, info);
 		}
 		else
 			full_display_comp(comp);

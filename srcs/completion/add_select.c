@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 17:08:42 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/01 16:55:47 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 15:59:07 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
 	}
 	while ((dir = readdir(dir_stream)) != NULL)
 	{
-		if ((dir->d_name[0] != '.') && (comp->search && !(ft_strncmp(comp->search, dir->d_name, ft_strlen_utf8(comp->search)))))
+		if ((dir->d_name[0] != '.') &&
+				(comp->search && !(ft_strncmp(comp->search, dir->d_name,
+										ft_strlen_utf8(comp->search)))))
 		{
 			DEBUG("nb fichiers trouves|%d|\n", ++n);
 			ft_ldl_new_node(&ldl, new_select(dir->d_name));

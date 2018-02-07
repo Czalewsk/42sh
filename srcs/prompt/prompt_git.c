@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 00:33:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/01 19:58:34 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 13:44:52 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int			sh_prompt_git(void)
 	int		depth;
 	int		ret;
 
+	ret = -1;
 	path = NULL;
 	if (!(path = getcwd(path, 0)))
 		return (0);

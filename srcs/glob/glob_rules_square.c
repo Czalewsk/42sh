@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 07:12:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/22 04:29:24 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/03 14:06:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static	void	check_first_char(char **curs, char (*matching)[255],
 	{
 		ft_memset(matching, 1, 255);
 		(*matching)['.'] = 0;
+		(*matching)[0] = 0;
 		*assign = 0;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 17:50:04 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/23 09:29:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/01 16:17:35 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		glob_folders_add(t_list **folders, t_glob_process *elmt,
 	}
 }
 
-void		glob_add_root(char *root, t_list *folders)
+void		glob_add_root(char *root, t_list *folders, unsigned deep)
 {
 	t_glob_files	*tmp;
 
@@ -71,6 +71,7 @@ void		glob_add_root(char *root, t_list *folders)
 	{
 		tmp = folders->content;
 		tmp->path = ft_strjoin_free(tmp->path, root, 0);
+		tmp->deep = deep;
 		folders = folders->next;
 	}
 }
@@ -86,7 +87,7 @@ void		glob_folders_init(t_list **path, unsigned deep_max,
 	{
 		tmp = (*path)->content;
 		if (tmp->is_root)
-			glob_add_root(tmp->path, *folders);
+			glob_add_root(tmp->path, *folders, deep);
 		else
 			glob_folders_add(folders, tmp, deep);
 		ft_lst_remove_index(path, 0, &glob_free_process);

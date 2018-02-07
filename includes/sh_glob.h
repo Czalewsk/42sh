@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/24 02:43:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/01 00:48:22 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ t_glob_rules	glob_rules_square(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_char(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_question(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_asterisk(char **curs, t_list **rules, char add);
-void			sh_glob_rules_init(char *str, t_list **rules);
-void			glob_add_rules_to_path(t_list *path);
+char			sh_glob_rules_init(char *str, t_list **rules);
+char			glob_add_rules_to_path(t_list *path);
 void			glob_folders_init(t_list **path, unsigned deep_max,
 		t_list **folders);
 char			glob_rules_check(char *str, t_list *rules);

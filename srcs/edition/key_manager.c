@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 19:43:38 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 13:50:31 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ const t_key_map			g_key_map[] =
 		{&sh_stop_line, &completion_to_normal, &sh_stop_line}},
 	{16, CTRL_R, 1, {CTRL_KEY('R')},
 		{&history_ctrlr, &completion_to_normal, &history_ctrlr}},
-	{17, TAB, 1, {9}, {&first_comp, &sh_comp, &history_to_completion}}
+	{17, TAB, 1, {9}, {&expansion_wrapper, &sh_comp, &history_to_completion}}
 };
 
 static void				*key_token(t_key *entry)

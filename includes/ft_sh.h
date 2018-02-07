@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 19:28:23 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 13:48:50 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct			s_sh
 	char			**env;
 	unsigned char	exitstatus;
 	t_comp			*comp;
-	int				comp_status;
+	char			comp_status;
 	char			*comp_start;
 	char			*comp_end;
 }						t_sh;
