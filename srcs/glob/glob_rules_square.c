@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 07:12:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/03 14:06:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 20:05:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	char	rules_square_range(char **curs, char *end,
 	if (check >= end || start_pttrn > *check)
 		return (0);
 	while (start_pttrn <= *check)
-		(*matching)[(int)start_pttrn++] = assign;
+		(*matching)[(unsigned int)(unsigned char)start_pttrn++] = assign;
 	(*curs) = check;
 	return (1);
 }
@@ -69,7 +69,7 @@ static	void	rules_square_char(char **curs, char *end,
 {
 	if (**curs == '\\' && (*curs) + 1 < end)
 		(*curs)++;
-	(*matching)[(int)**curs] = assign;
+	(*matching)[(unsigned int)(unsigned char)**curs] = assign;
 }
 
 static	void	check_first_char(char **curs, char (*matching)[255],

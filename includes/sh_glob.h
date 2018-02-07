@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 00:48:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:51:48 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void			brace_expand_deq_num(char *tkkn, t_list *res,
 		t_brace_exp *find);
 void			brace_expand_deq_alpha(char *tkkn, t_list *res,
 		t_brace_exp *find);
-char			glob_check_char(int c);
+char			glob_check_char(unsigned char c);
 t_list			*sh_glob_init_path(char *to_glob);
 t_glob_rules	glob_rules_square(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_char(char **curs, t_list **rules, char add);
