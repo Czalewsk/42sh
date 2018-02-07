@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 07:44:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 22:11:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char					sh_stop_line(t_buf *cmd, t_read *info, t_key *entry)
 ** 4 -> Tableau de char representant la touche
 ** 5 -> Tableau de pointeurs sur fonctions correspondants
 **			aux differents etats de la machine a etat
+** /!\ Ne pas oublier de rajouter un bzero de t_key entry dans les fonctions
+** /!\ indexee par key_map et appelee par le key_manager
 */
 const t_key_map			g_key_map[] =
 {
@@ -78,8 +80,20 @@ const t_key_map			g_key_map[] =
 		{&paste_handler, NULL, &paste_handler}},
 	{15, CTRL_C, 1, {CTRL_KEY('C')}, {&sh_stop_line, NULL, &sh_stop_line}},
 	{16, CTRL_R, 1, {CTRL_KEY('R')}, {&history_ctrlr, NULL, &history_ctrlr}},
-	{17, TAB, 1, {9}, {&expansion_wrapper}}
+	{17, TAB, 1, {9}, {&expansion_wrapper}},
+	{18, SHIFT_ARROW_L, 6, {27, 91, 49, 59, 50, 68}, {&sh_curs_move_word}},
+	{19, SHIFT_ARROW_R, 6, {27, 91, 49, 59, 50, 67}, {&sh_curs_move_word}}
 };
+
+void			debug_key(t_key *entry)
+{
+	int		i;
+
+	i = 0;
+	DEBUG("READ=%i\r\n", entry->nread);
+	while (i < entry->nread)
+		DEBUG("%hhi\r\n", entry->entry[i++]);
+}
 
 static void				*key_token(t_key *entry)
 {
@@ -107,6 +121,7 @@ char					key_manager(t_buf *cmd, t_read *info, t_key *entry)
 	char		ret;
 
 	ret = 0;
+//	debug_key(entry);
 	if ((f = key_token(entry)))
 		ret = f(cmd, info, entry);
 	if (!ret)

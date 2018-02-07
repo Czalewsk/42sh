@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/03 16:31:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 22:03:07 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
 	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, PASTE_KEYBOARD, CTRL_C, CTRL_R,
-	TAB, MAX_KEY
+	TAB, SHIFT_ARROW_L, SHIFT_ARROW_R, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -100,5 +100,6 @@ char				test_prompt_add(t_buf *cmd, t_read *info, t_key *entry);
 void				cursor_back_begin(t_read *info);
 char				expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry);
 char				wrapper_is_arg(t_buf *cmd);
+char				sh_curs_move_word(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif

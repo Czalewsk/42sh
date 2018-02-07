@@ -6,21 +6,11 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/29 10:28:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 21:50:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-void			debug_key(t_key *entry)
-{
-	int		i;
-
-	i = 0;
-	DEBUG("READ=%i\r\n", entry->nread);
-	while (i < entry->nread)
-		DEBUG("%hhi\r\n", entry->entry[i++]);
-}
 
 void			read_key(t_key *entry)
 {
@@ -58,10 +48,8 @@ char			read_line(t_buf *cmd, t_read *info)
 	{
 		read_key(&entry);
 		ret = key_wrapper(cmd, info, &entry);
-//			continue ;
 		if (ret < 0)
 			break ;
-//		debug_key(&entry);
 	}
 	return (ret);
 }
