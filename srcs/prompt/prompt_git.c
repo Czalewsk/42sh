@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 00:33:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/03 12:29:19 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 17:28:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static char	sh_print_git(int fd)
 		ft_strdel(&line);
 	}
 	close(fd);
+	get_next_line(-2, NULL);
 	return (ret_length);
 }
 
