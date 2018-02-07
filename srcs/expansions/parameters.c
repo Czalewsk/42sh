@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/06 17:10:28 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/07 23:02:06 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,10 +246,10 @@ t_list			*expand_parameters(t_token *tk)
 	newtk.id = tk->id;
 	cur = tk->str;
 	ifs = ft_getenv(g_sh.env, "IFS");
-	i = 0;
+	i = -1;
 	found = 0;
 	tlen = 0;
-	while (cur[i])
+	while (cur[++i])
 	{
 		if (cur[i] == '$' && ((esc = ft_is_escape(cur + i, tk->str)) == '"' ||
 			!esc))
@@ -297,7 +297,6 @@ t_list			*expand_parameters(t_token *tk)
 				i = -1;
 			}
 		}
-		++i;
 	}
 	if (i && found)
 		save_token(&lst, cur, i, &tlen);
