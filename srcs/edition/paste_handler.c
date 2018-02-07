@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:36:06 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:41:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		insert_chars_pasted_in(t_buf *cmd, t_read *info, t_buf *pasted)
 
 	len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
 	curs = cmd->cmd + len;
-	ft_memmove(curs + pasted->size_actual, curs, len);
+	ft_memmove(curs + pasted->size_actual, curs, pasted->size_actual);
 	ft_memcpy(curs, pasted->cmd, pasted->size_actual);
 	cursor_back_home(info);
 	write(g_sh.fd_tty, cmd->cmd, len);
