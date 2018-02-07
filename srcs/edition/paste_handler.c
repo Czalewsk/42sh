@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/05 21:56:46 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 18:10:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void		insert_chars_pasted_in(t_buf *cmd, t_read *info, t_buf *pasted)
 
 	len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
 	curs = cmd->cmd + len;
-	ft_memmove(curs + pasted->size_actual, curs, sh_curs_unicode(cmd->cmd,
-				ft_strlen(curs), 1));
+	ft_memmove(curs + pasted->size_actual, curs, len);
 	ft_memcpy(curs, pasted->cmd, pasted->size_actual);
 	cursor_back_home(info);
 	write(1, cmd->cmd, len);
@@ -66,7 +65,6 @@ void		insert_chars_pasted_in(t_buf *cmd, t_read *info, t_buf *pasted)
 
 void		insert_chars_pasted(t_buf *cmd, t_read *info, t_buf *pasted)
 {
-	int		len_visu;
 	int		i;
 
 	buff_handler(cmd, NULL, pasted->cmd);
@@ -84,9 +82,8 @@ void		insert_chars_pasted(t_buf *cmd, t_read *info, t_buf *pasted)
 	}
 	else
 		insert_chars_pasted_in(cmd, info, pasted);
-	len_visu = ft_strlen_utf8(pasted->cmd);
-	info->curs_char += len_visu;
-	info->total_char += len_visu;
+	info->curs_char += ft_strlen_utf8(pasted->cmd);
+	info->total_char = ft_strlen_utf8(cmd->cmd);
 	cursor_display_update(info, 1);
 }
 
