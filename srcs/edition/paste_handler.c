@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:10:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 18:36:06 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void		insert_chars_pasted_in(t_buf *cmd, t_read *info, t_buf *pasted)
 	ft_memmove(curs + pasted->size_actual, curs, len);
 	ft_memcpy(curs, pasted->cmd, pasted->size_actual);
 	cursor_back_home(info);
-	write(1, cmd->cmd, len);
+	write(g_sh.fd_tty, cmd->cmd, len);
 	tputs(g_termcaps_cap[HIGH_START], 0, &ft_putchar_termcap);
-	write(1, curs, pasted->size_actual);
+	write(g_sh.fd_tty, curs, pasted->size_actual);
 	tputs(g_termcaps_cap[HIGH_STOP], 0, &ft_putchar_termcap);
-	write(1, curs + pasted->size_actual, cmd->size_actual - len
+	write(g_sh.fd_tty, curs + pasted->size_actual, cmd->size_actual - len
 			- pasted->size_actual);
 }
 
@@ -77,7 +77,7 @@ void		insert_chars_pasted(t_buf *cmd, t_read *info, t_buf *pasted)
 	{
 		ft_strncat(cmd->cmd, pasted->cmd, pasted->size_actual);
 		tputs(g_termcaps_cap[HIGH_START], 0, &ft_putchar_termcap);
-		write(1, pasted->cmd, pasted->size_actual);
+		write(g_sh.fd_tty, pasted->cmd, pasted->size_actual);
 		tputs(g_termcaps_cap[HIGH_STOP], 0, &ft_putchar_termcap);
 	}
 	else

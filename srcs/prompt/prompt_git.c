@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 00:33:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/03 12:29:19 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 18:46:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static char	sh_print_git(int fd)
 	{
 		if ((actual_head = ft_strrchr(line, '/')))
 		{
-			ft_putstr(BLUE " git:(" RED);
-			ft_putstr(actual_head + 1);
-			ft_putstr(BLUE ")" C_DEFAULT);
+			ft_putstr_fd(BLUE " git:(" RED, g_sh.fd_tty);
+			ft_putstr_fd(actual_head + 1, g_sh.fd_tty);
+			ft_putstr_fd(BLUE ")" C_DEFAULT, g_sh.fd_tty);
 			ret_length = ft_strlen(actual_head + 1) + 7;
 		}
 		ft_strdel(&line);

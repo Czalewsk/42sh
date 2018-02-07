@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/05 17:11:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:13:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ inline void	info_init(t_read *info)
 	struct winsize	ws;
 
 	ft_bzero(info, sizeof(t_read));
-	ioctl(1, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
+	ioctl(g_sh.fd_tty, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
 	info->win_co = ws.ws_col;
 }
 
@@ -39,6 +39,8 @@ static void	sh_init_prog(char **env)
 	int j;
 
 	g_sh.edition_state = 0;
+	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
+	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
 	j = 0;

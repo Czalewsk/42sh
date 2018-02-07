@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/20 17:54:37 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 18:36:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	add_str(t_buf *cmd, t_read *info, char *str)
 				ft_strlen(curs) + 1, 1));
 	ft_memcpy(curs, str, len);
 	cursor_back_home(info);
-	write(1, cmd->cmd, cmd->size_actual);
+	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	len = ft_strlen_utf8(str);
 	info->curs_char += len;
 	info->total_char += len;
@@ -42,7 +42,7 @@ void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 	ft_strcpy(cmd->cmd, str);
 	cmd->size_actual = ft_strlen(cmd->cmd);
 	cursor_back_home(info);
-	write(1, cmd->cmd, cmd->size_actual);
+	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	len = ft_strlen_utf8(str);
 	info->curs_char = (pos_curs > len) ? len : pos_curs;
 	info->total_char = len;
