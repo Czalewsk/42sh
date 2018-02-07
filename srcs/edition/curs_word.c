@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 21:51:12 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 23:40:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 23:55:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ static int		curs_find_word_l(char *str, int curs_pos, int total_char)
 
 	i = sh_curs_unicode(str, curs_pos, 0);
 	while (curs_pos < total_char && !ft_isspace(*(str + i)))
-		i = sh_curs_unicode(str, ++curs_pos, 0);
-	while (curs_pos < total_char && ft_isspace(*(str + i)))
-		i = sh_curs_unicode(str, ++curs_pos, 0);
+	{
+		++curs_pos;
+		i = *(str + i) < 0 ? sh_curs_unicode(str, curs_pos, 0) : i + 1;
+	}
+	while (curs_pos < total_char - 1 && ft_isspace(*(str + i)))
+	{
+		++curs_pos;
+		i = *(str + i) < 0 ? sh_curs_unicode(str, curs_pos, 0) : i + 1;
+	}
 	return (curs_pos);
 }
 
@@ -30,9 +36,15 @@ static int		curs_find_word_r(char *str, int curs_pos)
 
 	i = sh_curs_unicode(str, --curs_pos, 0);
 	while (curs_pos >= 0 && ft_isspace(*(str + i)))
-		i = sh_curs_unicode(str, --curs_pos, 0);
+	{
+		--curs_pos;
+		i = *(str + i) < 0 ? sh_curs_unicode(str, curs_pos, 0) : i - 1;
+	}
 	while (curs_pos >= 0 && !ft_isspace(*(str + i)))
-		i = sh_curs_unicode(str, --curs_pos, 0);
+	{
+		--curs_pos;
+		i = *(str + i) < 0 ? sh_curs_unicode(str, curs_pos, 0) : i - 1;
+	}
 	return (curs_pos + 1);
 }
 
