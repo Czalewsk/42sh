@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 17:09:57 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:26:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 typedef struct			s_sh
 {
 	int				edition_state;
+	int				fd_tty;
 	t_ldl_head		*hist;
 	t_ldl			*hist_current;
 	t_ldl_head		*history;
@@ -58,6 +59,11 @@ typedef struct			s_sh
 }						t_sh;
 
 extern t_sh				g_sh;
+
+/*
+** Variable permettant decrire les term sur le bon fd (ft_putchar_termcap)
+*/
+extern int	g_termcps_fd;
 
 # define SIZE_BUF_CMD (128)
 # define PROMPT ("✗ ")

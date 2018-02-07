@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 16:18:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 18:36:45 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void			print_charset(char charset[255])
 	i = -1;
 	while (++i < 255)
 		ft_isprint(i) ? ft_printf("%3c ", i) : ft_printf("%3i ", i);
-	write(1, "\n", 1);
+	write(g_sh.fd_tty, "\n", 1);
 	i = -1;
 	while (++i < 255)
 		ft_printf("%3i ", charset[i]);
-	write(1, "\n", 1);
+	write(g_sh.fd_tty, "\n", 1);
 }
 
 char			sh_glob(char *to_glob, t_list **files)
