@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/07 18:07:41 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/08 17:53:21 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,30 @@ static int	get_len_max(t_ldl_head *head)
 
 static void	calcul_display(t_comp *comp, t_read *info)
 {
+	int prompt;
+
+	prompt = info->prompt / info->win_height + 1;
 	if (!info->win_height)
 		return ;
 	comp->nb_item = comp->head->length;
+	if (comp->nb_item > 2147483647)
+		comp->nb_item = 2147483647;
 	comp->len_max = get_len_max(comp->head);
 	comp->nb_col = info->win_co / comp->len_max;
 	if (!comp->nb_col)
 		comp->nb_col = 1;
-	comp->nb_row = comp->nb_item / comp->nb_col;
+	comp->nb_row = comp->nb_item / comp->nb_col + 1;
 	if (comp->nb_row == 0)
-
 		comp->nb_row = 1;
-	if (comp->nb_row > (int)info->win_height)
+	if (comp->nb_row > ((int)info->win_height - prompt))
 		comp->nb_visible =
-			(comp->nb_row / (info->win_height - 1)) * comp->nb_col;
+		((comp->nb_row / (info->win_height - prompt)) - 1) * comp->nb_col;
 	else
 		comp->nb_visible = comp->nb_row;
+	DEBUG("prompt |%d|", info->prompt);
+	DEBUG("info co |%d|, info li |%d|\n", info->win_co, info->win_height);
+	DEBUG("comp co |%d|, comp li |%d|\n", comp->nb_col, comp->nb_row);
+	DEBUG("len_max |%d|, nb_items |%d|, nb_visible |%d|\n", comp->len_max, comp->nb_item, comp->nb_visible);
 }
 
 char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
@@ -85,7 +93,6 @@ char	first_comp(t_buf *cmd, t_read *info, t_key *entry, char *to_search)
 	g_sh.edition_state = COMPLETION;
 	g_sh.comp = ft_memalloc(sizeof(t_comp));
 	g_sh.comp->search = ft_strdup(to_search);
-//	DEBUG("comp->search |%s| escape |%s|\n", g_sh.comp->search, escape_it(g_sh.comp->search));
 	g_sh.comp->head = ft_ldl_new_list();
 	add_ls(g_sh.comp, g_sh.comp->head, NULL);
 	return (sh_comp(cmd, info, entry));
