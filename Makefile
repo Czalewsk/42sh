@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/07 13:51:48 by bviala           ###   ########.fr        #
+#    Updated: 2018/02/08 22:27:19 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRCS_FILES		= ft_sh 													\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
 				  completion/sh_comp completion/change_mode					\
 				  completion/print_comp completion/add_select				\
+				  completion/add_dir										\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
