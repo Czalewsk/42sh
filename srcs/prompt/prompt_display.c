@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:45:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/09 02:48:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ static int	sh_current_dir(int ret, char *path, char *home)
 	{
 		ft_putstr_fd(tmp + 1, g_sh.fd_tty);
 		ret = ft_strlen(tmp + 1);
-		ft_strdel(&path);
 	}
+	ft_strdel(&path);
 	return (ret);
 }
 
