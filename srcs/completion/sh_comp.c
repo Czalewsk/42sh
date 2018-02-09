@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/08 22:47:12 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/09 18:48:55 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 	t_ldl 	*ldl;
 	int		i;
 
-	(void)entry;
 	calcul_display(g_sh.comp, info);
 	if (g_sh.comp->index < g_sh.comp->nb_item)
 		g_sh.comp->index++;
@@ -77,6 +76,8 @@ char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 		ft_putchar('\n');
 		print_comp(g_sh.comp, info);
 		prompt_display(info, 0);
+		if (g_sh.comp->head->length == 1)
+			return (quit_completion(cmd, info, entry));
 	}
 	i = 0;
 	while (ldl && ++i != g_sh.comp->index)
@@ -84,52 +85,4 @@ char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 	if (ldl && ((t_select *)ldl->content)->is_current)
 		display_new_comp(cmd, info, ((t_select *)ldl->content));
 	return (0);
-}
-
-char	first_comp(t_buf *cmd, t_read *info, t_key *entry, char *to_search)
-{
-	char	*search;
-	char	*tmp;
-	size_t	len;
-
-	search = NULL;
-	g_sh.edition_state = COMPLETION;
-	g_sh.comp = ft_memalloc(sizeof(t_comp));
-	g_sh.comp->head = ft_ldl_new_list();
-	g_sh.comp->path = NULL;
-	if (!*to_search)
-		g_sh.comp->search = NULL;
-	else if (ft_is_a_dir(to_search))
-	{
-		len = ft_strlen(to_search);
-		if (to_search[len - 1] == '/')
-			g_sh.comp->path = ft_strdup(to_search);
-		else
-			g_sh.comp->path = ft_strjoin(to_search, "/\0");
-		g_sh.comp->search = NULL;
-	}
-	else
-	{
-		tmp = to_search;
-		if (ft_strchr(tmp, '/'))
-		{
-			tmp = to_search;
-			while (tmp && ft_strchr(tmp, '/'))
-				tmp = ft_strchr(tmp, '/') + 1;
-			g_sh.comp->path =
-				ft_strndup(to_search, ft_strlen_utf8(to_search) - ft_strlen_utf8(tmp));
-		}
-		g_sh.comp->search = ft_strdup(tmp);
-	}
-	DEBUG("to_search |%s| path |%s| cmd |%s|\n", g_sh.comp->search, g_sh.comp->path, cmd->cmd);
-	if (!g_sh.comp_status)
-	{
-	//	add_bin(g_sh.comp, g_sh.comp->head, NULL);
-	//	add_env(g_sh.comp, g_sh.comp->head, NULL);
-	//	add_dir(g_sh.comp, g_sh.comp->head, NULL);
-//		search_lala ; binaire et var ENV;
-	}
-	else
-		add_ls(g_sh.comp, g_sh.comp->head, g_sh.comp->path);
-	return (sh_comp(cmd, info, entry));
 }

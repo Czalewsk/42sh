@@ -6,11 +6,21 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:05:03 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/21 12:10:44 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/09 16:04:47 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int	ft_is_a_bin(const char *path)
+{
+	struct stat buf;
+
+	stat(path, &buf);
+	if (S_ISREG(buf.st_mode))
+		return (S_IXUSR & buf.st_mode);
+	return (0);
+}
 
 int	ft_is_a_reg_file(const char *path)
 {

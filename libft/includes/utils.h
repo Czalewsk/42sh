@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/29 16:09:10 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/09 16:05:23 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int					ft_isalnum(int n);
 int					ft_isascii(int n);
 int					ft_isprint(int n);
 int					ft_isspace(int c);
+int					ft_is_a_bin(const char *path);
 int					ft_is_a_dir(const char *path);
 int					ft_is_a_file(const char *path);
 int					ft_is_a_reg_file(const char *path);

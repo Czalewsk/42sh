@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/08 22:24:20 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/09 18:36:00 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,39 +59,6 @@ static void	print_item(t_select *select, int len_max, int i)
 		ft_putchar_fd(' ', g_sh.fd_tty);
 }
 
-static void part_display_comp(t_comp *comp)
-{
-	int			row;
-	int			col;
-	t_ldl		*ldl;
-	int			i;
-
-	DEBUG("part display\n");
-	if (!comp->head || !comp->head->head)
-		return ;
-	ldl = comp->head->head;
-	i = comp->index - comp->nb_visible;
-	i = (i < 0) ? -i : 0;
-	while (ldl && i--)
-		ldl = ldl->next;
-	row = 0;
-	i = 1;
-	while (ldl && (row++ < (comp->nb_visible / comp->nb_col)))
-	{
-		col = 0;
-		while (ldl && (col++ < comp->nb_col))
-		{
-			((t_select *)ldl->content)->is_current = (i == comp->index) ? 1 : 0;
-			print_item(ldl->content, comp->len_max,
-					(int)((t_select *)ldl->content)->len);
-			ldl = ldl->next;
-			i++;
-		}
-		ft_putchar_fd('\n', g_sh.fd_tty);
-	}
-	ft_putendl_fd("--- More ---", g_sh.fd_tty);
-}
-
 static void	full_display_comp(t_comp *comp)
 {
 	int			row;
@@ -120,8 +87,45 @@ static void	full_display_comp(t_comp *comp)
 	}
 }
 
+static void part_display_comp(t_comp *comp)
+{
+	int			row;
+	int			col;
+	t_ldl		*ldl;
+	int			i;
+
+	DEBUG("part display\n");
+	full_display_comp(comp);
+	return ;
+	if (!comp->head || !comp->head->head)
+		return ;
+	ldl = comp->head->head;
+	i = comp->index - comp->nb_visible;
+	i = (i < 0) ? -i : 0;
+	while (ldl && i--)
+		ldl = ldl->next;
+	row = 0;
+	i = 1;
+	while (ldl && (row++ < (comp->nb_visible / comp->nb_col)))
+	{
+		col = 0;
+		while (ldl && (col++ < comp->nb_col))
+		{
+			((t_select *)ldl->content)->is_current = (i == comp->index) ? 1 : 0;
+			print_item(ldl->content, comp->len_max,
+					(int)((t_select *)ldl->content)->len);
+			ldl = ldl->next;
+			i++;
+		}
+		ft_putchar_fd('\n', g_sh.fd_tty);
+	}
+	ft_putendl_fd("--- More ---", g_sh.fd_tty);
+}
+
 void	print_comp(t_comp *comp, t_read *info)
 {
+	if (comp->head && comp->head->length == 1)
+		return ;
 	if (info->win_height > 1 && (int)info->win_co > comp->len_max - 1)
 	{
 		if (comp->nb_row > comp->nb_visible)
