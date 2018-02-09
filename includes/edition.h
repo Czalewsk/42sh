@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 22:03:07 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/09 02:22:41 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 typedef enum		e_edition_state
 {
-	NORMAL, COMPLETION, HISTORY, EDITION_MAX_STATE
+	NORMAL, COMPLETION, HISTORY, PASTED, EDITION_MAX_STATE
 }					t_edition_state;
 
 /*
@@ -59,6 +59,7 @@ typedef struct		s_read
 {
 	size_t			prompt;
 	size_t			win_co;
+	size_t			win_height;
 	size_t			total_char;
 	long			curs_char;
 }					t_read;
@@ -101,5 +102,9 @@ void				cursor_back_begin(t_read *info);
 char				expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry);
 char				wrapper_is_arg(t_buf *cmd);
 char				sh_curs_move_word(t_buf *cmd, t_read *info, t_key *entry);
+char				pasted_remove_highlight(t_buf *cmd, t_read *info,
+		t_key *entry);
+char				pasted_remove_highlight_char(t_buf *cmd, t_read *info,
+		t_key *entry);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 17:23:37 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/08 14:14:13 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 	if (auto_completion)
 	{
 		g_sh.comp_status = wrapper_is_arg(cmd);
-		(void)entry; // Pour lautocompletion attention tkkn est free a la fin
+		first_comp(cmd, info, entry, tkkn);
 	}
 	else
 	{

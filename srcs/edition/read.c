@@ -6,11 +6,16 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 21:50:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/09 02:23:06 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+char			(*const g_special_case[EDITION_MAX_STATE])
+		(t_buf *cmd, t_read *info, t_key *entry) = {
+	NULL, &completion_to_normal, NULL, &pasted_remove_highlight_char
+};
 
 void			read_key(t_key *entry)
 {
@@ -34,7 +39,11 @@ char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
 	else
+	{
+		if (g_special_case[g_sh.edition_state])
+			g_special_case[g_sh.edition_state](cmd, info, entry);
 		return (insert_char(cmd, info, entry));
+	}
 }
 
 char			read_line(t_buf *cmd, t_read *info)
