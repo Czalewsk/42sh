@@ -18,20 +18,17 @@ extern	int	returned;
 
 void	init_closefd(int pdes[3])
 {
-	pdes[0] = -1;
-	pdes[1] = -1;
-	pdes[2] = -1;
+	pdes[0] = STDIN_FILENO;
+	pdes[1] = STDOUT_FILENO;
+	pdes[2] = STDERR_FILENO;
 	// test 
 }
 
 void	reset_fd(int pdes[3], t_process *p)
 {
-	if (pdes[0] != -1)
-		dup2(p->stdin, pdes[0]);
-	if (pdes[1] != -1)
-		dup2(p->stdout, pdes[1]);
-	if (pdes[2] != -1)
-		dup2(p->stderr, pdes[2]);
+	dup2(p->stdin, closefd[0]);
+	dup2(p->stdout, pdes[1]);
+	dup2(p->stderr, pdes[2]);
 }
 
 int			ft_pipe(t_tree *first, t_tree *second)
@@ -53,7 +50,8 @@ int			ft_pipe(t_tree *first, t_tree *second)
 			waitpid(f, &returned, WUNTRACED | WCONTINUED | WNOHANG);
 			dup2(closefd[0], STDIN_FILENO);
 			close(closefd[1]);
-			return (returned = (set_for_pipe(second->right)));
+			returned = (set_for_pipe(second->right));
+			return (returned);
 		}
 	}
 	return (0);
@@ -63,15 +61,20 @@ int		set_for_pipe(t_tree *c)
 {
 	t_tree 		*tmp;
 	t_tree 		*first_cmd;
+	int			savefd;
 
 	first_cmd = c;
 	tmp = c;
+	savefd = STDIN_FILENO;
+
 	while (tmp)
 	{
 		if (tmp->token.id == PIPE)
 		{
 			if (ft_pipe(first_cmd, tmp) == -1)
 				return (-1);
+
+				dup2(STDIN_FILENO, savefd);
 			return (0);
 		}
 		tmp = tmp->right;

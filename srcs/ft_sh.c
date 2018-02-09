@@ -40,6 +40,7 @@ static void	sh_init_prog(char **env)
 
 	g_sh.edition_state = 0;
 	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
+	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);

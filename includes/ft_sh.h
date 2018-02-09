@@ -60,6 +60,7 @@ typedef struct			s_sh
 	char			comp_status;
 	int			comp_start;
 	int			comp_end;
+	int 		test_fd;
 }						t_sh;
 
 extern t_sh				g_sh;

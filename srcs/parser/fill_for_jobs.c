@@ -146,9 +146,7 @@ t_tree	*check_run(t_tree *c)
 			if (execute_run(tmp, stop) == 0)
 				tmp = get_new_process_from_valid_or_if(stop->right);
 			else
-			{
 				tmp = stop->right;
-			}
 			stop = tmp;
 		}
 		else if (stop->token.id == PIPE)
@@ -175,5 +173,9 @@ int		ft_fill_for_jobs(t_tree *head)
 	init_closefd(closefd);
 	while (tmp)
 		tmp = check_run(tmp);
+//	ft_printf("\nSTDIN == %d g_sh == %d\n", STDIN_FILENO, g_sh.fd_tty);
+	// if (STDIN_FILENO != g_sh.fd_tty)
+	// 	dup2(g_sh.fd_tty, STDIN_FILENO);
+	//g_sh.test_fd = dup2(STDIN_FILENO, 0);
 	return (ft_free_tree(head));
 }
