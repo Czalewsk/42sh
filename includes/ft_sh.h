@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/11 01:08:47 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/07 19:26:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,26 @@
 # include "edition.h"
 # include "termcaps.h"
 # include "prompt.h"
-# include "ast.h"
 # include "job_control.h"
+# include "lexer.h"
+# include "lexer_types.h"
 # include "parser.h"
 # include "utils.h"
 # include "history.h"
 # include "builtins.h"
+# include "completion.h"
 
 /*
-** Define :D
+** Structure globale, comprenant les informations relatives a :
+** - l'etat de l'edition de ligne (normal, auto-completion ou historique)
+** - l'historique des arguments en ligne de commande
+** - l'autocompletion
+** - le statut de sortie de la commande precedente (SUCCESS ou Code d'erreur)
 */
 typedef struct			s_sh
 {
 	int				edition_state;
+	int				fd_tty;
 	t_ldl_head		*hist;
 	t_ldl			*hist_current;
 	t_ldl_head		*history;
@@ -49,9 +56,18 @@ typedef struct			s_sh
 	int				h_first;
 	char			**env;
 	unsigned char	exitstatus;
+	t_comp			*comp;
+	char			comp_status;
+	int			comp_start;
+	int			comp_end;
 }						t_sh;
 
 extern t_sh				g_sh;
+
+/*
+** Variable permettant decrire les term sur le bon fd (ft_putchar_termcap)
+*/
+extern int	g_termcps_fd;
 
 # define SIZE_BUF_CMD (128)
 # define PROMPT ("✗ ")

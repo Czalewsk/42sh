@@ -1,21 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_termcap.c                               :+:      :+:    :+:   */
+/*   ft_lst_remove_if.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/31 19:37:12 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:29:14 by czalewsk         ###   ########.fr       */
+/*   Created: 2016/11/27 12:36:57 by czalewsk          #+#    #+#             */
+/*   Updated: 2016/11/30 10:42:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		g_termcps_fd = 0;
-
-int	ft_putchar_termcap(int c)
+void		ft_lst_remove_if(t_list **alst, int (*f)(t_list *elem),
+		void (*del)(void *, size_t))
 {
-	write(g_termcps_fd, &c, 1);
-	return (1);
+	t_list		*cur;
+	t_list		**prev;
+
+	prev = &(*alst);
+	cur = *prev;
+	while (cur)
+	{
+		if (f(cur) == 1)
+		{
+			*prev = cur->next;
+			cur->next = NULL;
+			del ? del(cur->content, cur->content_size) : NULL;
+			free(cur);
+			cur = *prev;
+		}
+		else
+		{
+			cur = (*prev)->next;
+			prev = &(*prev)->next;
+		}
+	}
 }

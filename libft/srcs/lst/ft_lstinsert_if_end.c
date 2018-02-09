@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_termcap.c                               :+:      :+:    :+:   */
+/*   ft_lstinsert_if_end.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/31 19:37:12 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:29:14 by czalewsk         ###   ########.fr       */
+/*   Created: 2017/02/20 08:54:34 by czalewsk          #+#    #+#             */
+/*   Updated: 2017/02/20 09:20:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-int		g_termcps_fd = 0;
-
-int	ft_putchar_termcap(int c)
+void	ft_lstinsert_if_end(t_list **alst, t_list *new, int (*f)(t_list *,
+			t_list *))
 {
-	write(g_termcps_fd, &c, 1);
-	return (1);
+	t_list		*curs;
+	t_list		**prev;
+
+	if (!alst || !new || !f)
+		return ;
+	prev = &(*alst);
+	curs = *prev;
+	while (curs && f(curs, new))
+	{
+		curs = (*prev)->next;
+		prev = &(*prev)->next;
+	}
+	new->next = curs;
+	*prev = new;
 }

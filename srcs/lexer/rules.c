@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/29 10:04:08 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/12 16:45:45 by thugo            ###   ########.fr       */
+/*   Created: 2018/01/17 17:52:15 by thugo             #+#    #+#             */
+/*   Updated: 2018/01/19 19:13:56 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ast_types.h"
+#include "lexer_types.h"
 
 /*
 **	string (char *); Token id (t_token_id);

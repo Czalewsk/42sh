@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   rules_fn1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thugo <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/16 18:06:56 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/12 19:33:43 by thugo            ###   ########.fr       */
+/*   Created: 2018/01/17 17:44:16 by thugo             #+#    #+#             */
+/*   Updated: 2018/01/19 19:04:52 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "ast.h"
+#include "lexer.h"
 #include "libft.h"
 
 extern t_token_assign	g_token_operator[];
 extern t_token_assign	g_token_reserved[];
 
-int		rules_comment(t_token *tk, char **cur)
+int		rules_comment(t_token *tk, char **cur, char *escape)
 {
-	if (**cur == '#' && !tk->size)
+	if (**cur == '#' && !tk->size && !*escape)
 	{
 		while (*++*cur)
 			;
@@ -28,11 +27,13 @@ int		rules_comment(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_operator(t_token *tk, char **cur)
+int		rules_operator(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 	size_t	size;
 
+	if (*escape)
+		return (0);
 	i = 0;
 	while (g_token_operator[i].op)
 	{
@@ -52,12 +53,12 @@ int		rules_operator(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_reserved(t_token *tk, char **cur)
+int		rules_reserved(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 	size_t	size;
 
-	if (tk->size)
+	if (tk->size || *escape)
 		return (0);
 	i = 0;
 	while (g_token_reserved[i].op)
@@ -76,11 +77,11 @@ int		rules_reserved(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_io_number(t_token *tk, char **cur)
+int		rules_io_number(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 
-	if (tk->size)
+	if (tk->size || *escape)
 		return (0);
 	i = 0;
 	while (ft_isdigit(*(*cur + i)))
@@ -96,12 +97,12 @@ int		rules_io_number(t_token *tk, char **cur)
 	return (0);
 }
 
-int		rules_assignment_word(t_token *tk, char **cur)
+int		rules_assignment_word(t_token *tk, char **cur, char *escape)
 {
 	int		i;
 
 	i = 0;
-	if (!tk->size)
+	if (!tk->size || *escape)
 		return (0);
 	if (**cur == '=')
 	{
@@ -111,60 +112,6 @@ int		rules_assignment_word(t_token *tk, char **cur)
 			if (!ft_isalnum(*(tk->str + i)) && *(tk->str + i) != '_')
 				return (0);
 		tk->id = ASSIGNMENT_WORD;
-	}
-	return (0);
-}
-
-int		rules_word(t_token *tk, char **cur)
-{
-	if (**cur == ' ' || **cur == '\t' || **cur == '\n')
-	{
-		++*cur;
-		if (tk->size)
-			return (1);
-	}
-	else
-	{
-		if (!tk->size)
-		{
-			tk->id = WORD;
-			tk->str = *cur;
-		}
-		++tk->size;
-		++*cur;
-	}
-	return (0);
-}
-
-static	int (*g_rules[])(t_token *, char **) = {
-	rules_comment,
-	rules_operator,
-	rules_reserved,
-	rules_io_number,
-	rules_assignment_word,
-	rules_word,
-	NULL
-};
-
-int			lexer_getnexttoken(t_token *tk, char **cur, char **cmd)
-{
-	int	i;
-
-	ft_bzero(tk, sizeof(t_token));
-	(void)cmd;
-	while (**cur)
-	{
-		i = 0;
-		while (g_rules[i])
-		{
-			if (g_rules[i](tk, cur) && tk->size)
-			{
-				if (!(tk->str = ft_strndup(tk->str, tk->size)))
-					exit(EXIT_FAILURE);
-				return (1);
-			}
-			++i;
-		}
 	}
 	return (0);
 }
