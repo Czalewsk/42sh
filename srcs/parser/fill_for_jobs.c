@@ -32,6 +32,11 @@ t_process 		*fill_for_exec(t_tree *c, t_tree *stop)
 		if (c && g_fill_jobs[i].one == c->token.id)
 		{
 			c = g_fill_jobs[i].fjob(p, c);
+			if (c == (void *)1)
+			{
+				ft_free_process(p);
+				return (NULL);
+			}
 			i = -1;
 		}
 		i++;
@@ -50,7 +55,6 @@ int		exec_acces(char *tmp, char **argv)
 	else
 	{
 		waitpid(father, &returned, WUNTRACED | WCONTINUED);
-		return (returned);
 	}
 	return (returned);
 }
@@ -63,9 +67,10 @@ int		execute_run(t_tree *c, t_tree *stop)
 	t_process 	*p;
 
 	i = 0;
-	// built in;
 	p = NULL;
 	p = fill_for_exec(c, stop);
+	if (p == NULL)
+		return (-1);
 	path = ft_strsplit("/Users/maastie/.brew/bin:/Users/maastie/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/VMware", ':');
 	while (path && path[i])
 	{
@@ -119,31 +124,25 @@ t_tree *get_new_process_from_pipe(t_tree *c)
 	return (c);
 }
 
-t_tree	*check_run(t_tree *c)
+t_tree	*check_run_v2(t_tree *c)
 {
-	t_tree *tmp;
-	t_tree *stop;
+	t_tree	*stop;
+	t_tree	*tmp;
 
-	tmp = c;
-	while (tmp->right)
-		tmp = tmp->right;
-	if (tmp->token.id == AND)
-		return (c->left);
-
-	//decouper
 	tmp = c;
 	stop = c;
 	while (stop)
 	{
 		if (stop->token.id == AND_IF)
 		{
-			if (execute_run(tmp, stop) == -1)
+			if ((returned = execute_run(tmp, stop)) != 0)
 				return (NULL);
 			tmp = stop->right;
+			stop = tmp;
 		}
 		else if (stop->token.id == OR_IF)
 		{
-			if (execute_run(tmp, stop) == 0)
+			if ((returned = execute_run(tmp, stop)) == 0)
 				tmp = get_new_process_from_valid_or_if(stop->right);
 			else
 				tmp = stop->right;
@@ -156,13 +155,28 @@ t_tree	*check_run(t_tree *c)
 				tmp = get_new_process_from_pipe(stop);
 				stop = tmp;
 			}
+			else
+				return (NULL);
 		}
 		if (stop && stop->right == NULL)
-			execute_run(tmp, stop->right);
+			returned = execute_run(tmp, stop->right);
 		if (stop)
 			stop = stop->right;
+		returned = -1;
 	}
-	return (c->left);
+	return (c->left);	
+}
+
+t_tree	*check_run(t_tree *c)
+{
+	t_tree *tmp;
+
+	tmp = c;
+	while (tmp->right)
+		tmp = tmp->right;
+	if (tmp->token.id == AND)
+		return (c->left);
+	return (check_run_v2(c));
 }
 
 int		ft_fill_for_jobs(t_tree *head)
@@ -173,9 +187,5 @@ int		ft_fill_for_jobs(t_tree *head)
 	init_closefd(closefd);
 	while (tmp)
 		tmp = check_run(tmp);
-//	ft_printf("\nSTDIN == %d g_sh == %d\n", STDIN_FILENO, g_sh.fd_tty);
-	// if (STDIN_FILENO != g_sh.fd_tty)
-	// 	dup2(g_sh.fd_tty, STDIN_FILENO);
-	//g_sh.test_fd = dup2(STDIN_FILENO, 0);
 	return (ft_free_tree(head));
 }

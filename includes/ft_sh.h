@@ -58,9 +58,9 @@ typedef struct			s_sh
 	unsigned char	exitstatus;
 	t_comp			*comp;
 	char			comp_status;
-	int			comp_start;
-	int			comp_end;
-	int 		test_fd;
+	int				comp_start;
+	int				comp_end;
+	int 			test_fd;
 }						t_sh;
 
 extern t_sh				g_sh;

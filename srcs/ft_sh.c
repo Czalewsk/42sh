@@ -30,6 +30,8 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_strdel(&(g_sh.hist_file));
 	free_tab2d(&(g_sh.env));
 	ft_strdel(&cmd->cmd);
+	// close(g_sh.test_fd);
+	// close(g_sh.fd_tty);
 	termcaps_restore_tty();
 }
 
@@ -66,6 +68,7 @@ int			main(int ac, char **av, char **env)
 	t_buf		cmd;
 	t_read		info;
 	char		ret;
+	int			savefds[3];
 
 	ret = 0;
 	sh_init_prog(env);
@@ -77,7 +80,13 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
+		savefds[0] = dup(STDIN_FILENO);
+		savefds[1] = dup(STDOUT_FILENO);
+		savefds[2] = dup(STDERR_FILENO);
 		parser(&cmd.cmd); // parser &cmd.cmd
+		dup2(savefds[0], STDIN_FILENO);
+		dup2(savefds[1], STDOUT_FILENO);
+		dup2(savefds[2], STDERR_FILENO);
 //		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}

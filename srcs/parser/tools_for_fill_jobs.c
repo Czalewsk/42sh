@@ -21,12 +21,11 @@ void	init_closefd(int pdes[3])
 	pdes[0] = STDIN_FILENO;
 	pdes[1] = STDOUT_FILENO;
 	pdes[2] = STDERR_FILENO;
-	// test 
 }
 
 void	reset_fd(int pdes[3], t_process *p)
 {
-	dup2(p->stdin, closefd[0]);
+	dup2(p->stdin, pdes[0]);
 	dup2(p->stdout, pdes[1]);
 	dup2(p->stderr, pdes[2]);
 }
@@ -61,43 +60,21 @@ int		set_for_pipe(t_tree *c)
 {
 	t_tree 		*tmp;
 	t_tree 		*first_cmd;
-	int			savefd;
 
 	first_cmd = c;
 	tmp = c;
-	savefd = STDIN_FILENO;
-
 	while (tmp)
 	{
 		if (tmp->token.id == PIPE)
 		{
 			if (ft_pipe(first_cmd, tmp) == -1)
 				return (-1);
-
-				dup2(STDIN_FILENO, savefd);
 			return (0);
 		}
 		tmp = tmp->right;
 	}
 	return (returned = execute_run(first_cmd, tmp));
 }
-
-// t_tree *set_end(t_process *p, t_tree *clist)
-// {
-// 	int	ret;
-
-// 	ft_printf("\n");
-// 	ret = execute_run(p);
-// 	reset_fd(closefd, p);
-// 	ft_free_process(p);
-// 	if (clist && clist->token.id == AND_IF && ret != 0)
-// 		return (NULL);
-// 	else if (clist && clist->token.id == OR_IF && ret == 0)
-// 		clist = get_new_process(clist);
-// 	else if (clist)
-// 		return (clist = set_data_for_fill(clist->right, p = init_process(p)));
-// 	return (NULL);
-// }
 
 char	*get_command(char *ret, t_tree *chead)
 {

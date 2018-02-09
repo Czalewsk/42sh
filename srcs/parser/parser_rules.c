@@ -42,6 +42,8 @@ const t_fill_job	g_fill_jobs[] = {
 	// {OR_IF, &set_end},
 	// {AND, &set_end},
 	// {SEMI, &set_end},
+	{GREATAND, &gand},
+	{LESSAND, &land},
 	{IO_NUMBER, &modify_io},
 	{GREAT, &ft_great},
 	{LESS, &ft_less},

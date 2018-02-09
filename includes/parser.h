@@ -59,6 +59,7 @@ typedef struct s_classic
 }				t_classic;
 
 
+
 void						reset_fd(int pdes[2], t_process *p);
 int							set_for_pipe(t_tree *c);
 int							ft_leave_parse(t_token t);
@@ -89,5 +90,7 @@ t_tree						*go_to_current_left(t_tree *cur, t_tree *new);
 t_tree						*ft_dgreat(t_process *p, t_tree *c);
 t_tree						*ft_great(t_process *p, t_tree *c);
 t_tree						*ft_less(t_process *p, t_tree *c);
+t_tree						*land(t_process *p, t_tree *c);
+t_tree						*gand(t_process *p, t_tree *c);
 
 #endif
