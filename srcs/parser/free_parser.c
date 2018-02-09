@@ -50,7 +50,6 @@ int	ft_free_array(char **argv)
 		t = argv[i++];
 		free(t);
 	}
-//	free(argv[i]);
 	if (argv)
 		free(argv);
 	return (0);
@@ -58,47 +57,7 @@ int	ft_free_array(char **argv)
 
 int	ft_free_process(t_process *p)
 {
-	t_process *t;
-
-	while (p)
-	{
-		t = p;
-		ft_free_array(p->argv);
-		p = p->next;
-		free(t);
-	}
+	ft_free_array(p->argv);
+	free(p);
 	return (0);
 }
-
-int	ft_free_job(t_job *j)
-{
-	t_job *t;
-
-	while (j)
-	{
-		t = j;
-		ft_free_process(j->first_process);
-//		free(j->command);
-		j = j->next;
-		free(t);
-	}
-	return (0);
-}
-
-int	ft_free_runs(t_run *r)
-{
-	t_run *tr;
-
-	while (r)
-	{
-		tr = r;
-		free(tr->command);
-		ft_free_job(tr->job);
-		r = r->next;
-		free(tr);
-	}
-	return (0);
-}
-
-
-

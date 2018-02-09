@@ -17,7 +17,7 @@ char	**realloc_argv(char **argv, char *to_add, int s)
 	char	**new;
 	int		i;
 
-	if ((new = (char **)malloc(sizeof(char *) * s)) == NULL)
+	if ((new = (char **)malloc(sizeof(char *) * (s + 1))) == NULL)
 		return (NULL);
 	i = 0;
 	while (argv && argv[i])
@@ -49,8 +49,8 @@ char	**get_new_argv(char **argv, char *to_add)
 	return (argv = realloc_argv(argv, to_add, ++i));
 }
 
-t_tree	*add_in_arguments(t_run *run, t_tree *clist)
+t_tree	*add_in_arguments(t_process *p, t_tree *clist)
 {
-	run->job->first_process->argv = get_new_argv(run->job->first_process->argv, clist->token.str);
+	p->argv = get_new_argv(p->argv, clist->token.str);
 	return (clist->right);
 }

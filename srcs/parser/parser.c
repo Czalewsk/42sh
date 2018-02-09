@@ -19,7 +19,6 @@ int		place_token(t_token t)
 	t_tree	*n;
 
 	n = NULL;
-	// ft_printf("\nTimes\n");
 	if (!head_tree)
 	{
 		if (t.id == NEWLINE)
@@ -39,30 +38,30 @@ int		place_token(t_token t)
 	return (add_in_classic_tree(current, n));
 }
 
-int		cur_is_new_res(t_tree *cur)
-{
-	int	i;
+// int		cur_is_new_res(t_tree *cur)
+// {
+// 	int	i;
  
-	i = 0;
-	while (g_valid_ress[i].two)
-	{
-		if (g_valid_ress[i].two == cur->token.id)
-		{
-			if (!cur->previous ||
-				(cur->previous && cur->previous->token.id == g_valid_ress[i].one))
-				return (0);
-		}
-		i++;
-	}
-	return (1);
-}
+// 	i = 0;
+// 	while (g_valid_ress[i].two)
+// 	{
+// 		if (g_valid_ress[i].two == cur->token.id)
+// 		{
+// 			if (!cur->previous ||
+// 				(cur->previous && cur->previous->token.id == g_valid_ress[i].one))
+// 				return (0);
+// 		}
+// 		i++;
+// 	}
+// 	return (1);
+// }
 
 int		ft_leave_parse(t_token t)
 {
 	if (t.id == NEWLINE)
-		ft_printf("\nError parsing near `\\n'\n", t.str);
+		ft_printf("\nError parsing near `\\n'\n", t.str); //
 	else
-		ft_printf("\nError parsing near `%s'\n", t.str);
+		ft_printf("\nError parsing near `%s'\n", t.str); // 
 	if (t.str && t.str != NULL)
 		free(t.str);
 	return (-1);
@@ -77,19 +76,12 @@ int			read_parser(char **cmd, char *cur)
 	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) != 0)
 	{
 		if (t.id == NEWLINE)
-	{
+		{
 			 if (cnewline(t, cmd, cur) == -1)
 				return (ft_leave_parse(t));
 		}
 		else if (place_token(t) < 0)
 			return (ft_leave_parse(t));
-										//reserved word
-								// if (cur_is_new_res(current) == 0)
-								//  	if (read_for_reserved(current, cur, cmd) == -1)
-								//  	{
-								//  		// dont forget to free and send error message
-								//  		return (-1);
-								//  	}
 	}
 	return (ret);
 }

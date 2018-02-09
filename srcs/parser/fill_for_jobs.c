@@ -14,184 +14,166 @@
 
 extern	t_fill_job	g_fill_jobs[];
 
-// void	ft_affiche_procces(t_process *p)// tmp
-// {
-// 	t_process *tp;
-// 	int	i;
+int	returned;
+int closefd[3];
 
-// 	ft_printf("\nNew_process\n");
-// 	tp = p;
-// 	while (tp)
-// 	{
-// 		i = 0;
-// 		while (tp->argv && tp->argv[i])
-// 			ft_printf("\n%s\n", tp->argv[i++]);
-// 		tp = tp->next;
-// 		if (tp)
-// 			ft_printf("\n PIPED TO\n");
-// 	}
-// }
-
-// void	ft_affiche_job(t_job *job)
-// {
-// 	t_job	*tjob;
-
-// 	tjob = job;
-// 	ft_printf("New_job\n");
-// 	while (tjob)
-// 	{
-// 		ft_affiche_procces(tjob->first_process);
-// 		if (tjob->next)
-// 			ft_printf(" \"1 &&\" \"2 ||\" 0 rien --->%d\nNew Job\n", tjob->next->andor);
-// 		tjob = tjob->next;
-// 	}
-// }
-
-// void	ft_affiche_run(t_run *run)// tmp
-// {
-// 	t_run *trun;
-
-// 	ft_printf("\nFirst run\n");
-// 	trun = run;
-// 	while (trun)
-// 	{
-// 		ft_affiche_job(trun->job);
-// 		trun = trun->next;
-// 		if (trun)
-// 			ft_printf("New Run\n");
-// 	}
-// }
-
-t_run	*fill_run(t_run *run, t_tree *clist)
+t_process 		*fill_for_exec(t_tree *c, t_tree *stop)
 {
-	t_job		*fj;
-	t_process	*fp;
-	t_tree		*tmp;
-	int			i;
+	int	i;
+	t_process 	*p;
 
 	i = 0;
-	tmp = clist;
-	// ft_printf("\nTEST\n");
-	// while (clist)
-	// {
-	// 	ft_printf("\n%s\n", clist->token.str);
-	// 	clist = clist->right;
-	// }
-	// ft_printf("\nEND TEST\n");
-	// return (run);
-	run->command = get_command(run->command, tmp);
-	run->job = (t_job *)ft_memalloc(sizeof(t_job));
-	run->job->first_process = init_process(run->job->first_process);
-	fp = run->job->first_process;
-	fj = run->job;
-	while (tmp && g_fill_jobs[i].fjob)
+	p = NULL;
+	p = init_process(p);
+	if (!stop)
+		c  = g_fill_jobs[0].fjob(p, c);
+	while (c && g_fill_jobs[i].fjob && c != stop)
 	{
-		if (tmp && g_fill_jobs[i].one == tmp->token.id)
+		if (c && g_fill_jobs[i].one == c->token.id)
 		{
-			tmp = g_fill_jobs[i].fjob(run, tmp);
+			c = g_fill_jobs[i].fjob(p, c);
 			i = -1;
 		}
 		i++;
 	}
-	run->job = fj;
-	run->job->first_process = fp;
-	return (run);
+	return (p);
 }
 
-int		exec_acces(char *tmp, int ret, char **argv)
+int		exec_acces(char *tmp, char **argv)
 {
 	pid_t	father;
 
-	if (access(tmp, X_OK) != -1)
+	if ((father = fork()) == -1)
+		exit(-1);
+	if (father == 0)
+		exit(returned = execve(tmp, argv, g_sh.env));
+	else
 	{
-		if ((father = fork()) == -1)
-			exit(-1);
-		if (father == 0)
-			exit(ret = execve(tmp, argv, g_sh.env));
-		else
-		{
-			waitpid(father, &ret, WUNTRACED | WCONTINUED);
-			return (ret);
-		}
+		waitpid(father, &returned, WUNTRACED | WCONTINUED);
+		return (returned);
 	}
-	return (-1);
+	return (returned);
 }
 
-int		execute_run(t_run *run)
+int		execute_run(t_tree *c, t_tree *stop)
 {
-	char	**path;
-	char	*exec_line;
-	int		i;
-	int		ret;
+	char		**path;
+	char		*exec_line;
+	int			i;
+	t_process 	*p;
 
 	i = 0;
+	// built in;
+	p = NULL;
+	p = fill_for_exec(c, stop);
 	path = ft_strsplit("/Users/maastie/.brew/bin:/Users/maastie/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/VMware", ':');
 	while (path && path[i])
 	{
 		exec_line = ft_strjoin(path[i], "/");
-		exec_line = ft_strjoin_free(exec_line, run->job->first_process->argv[0], 0);
-		ret = exec_acces(exec_line, ret, run->job->first_process->argv);
-		if (ret == 0)
+		exec_line = ft_strjoin_free(exec_line, p->argv[0], 0);
+		if (access(exec_line, X_OK) != -1)
 		{
-			// termcaps_set_tty();
-			// dup2(STDOUT_FILENO, 1);
-			// dup2(STDERR_FILENO, 2);
-			// dup2(STDIN_FILENO, 0);
+			ft_printf("\n");
+			returned = exec_acces(exec_line, p->argv);
 			ft_strdel(&exec_line);
-			ft_free_array(path);
-			return (ret);
+			break ;
 		}
 		ft_strdel(&exec_line);
 		i++;
 	}
-
 	ft_free_array(path);
-//	ft_printf("\nerreur command not found %s\n", run->job->first_process->argv[0]);
-	return (-1);
+	reset_fd(closefd, p);
+	ft_free_process(p);
+	return (returned);
+}
+
+t_tree *get_new_process_from_valid_or_if(t_tree *c)
+{
+	while (c)
+	{
+		c = c->right;
+		if (c && c->token.id == AND_IF)
+			return (c->right);
+	}
+	return (c);
+}
+
+t_tree *get_new_process_from_pipe(t_tree *c)
+{
+	while (c)
+	{
+		c = c->right;
+		if (c && c->token.id == AND_IF)
+		{
+			if (returned == -1)
+				return (NULL);
+			return (c->right);
+		}
+		else if (c && c->token.id == OR_IF)
+		{
+			if (returned == 0)
+				return(c = get_new_process_from_valid_or_if(c));
+			return (c->right);
+		}
+	}
+	return (c);
+}
+
+t_tree	*check_run(t_tree *c)
+{
+	t_tree *tmp;
+	t_tree *stop;
+
+	tmp = c;
+	while (tmp->right)
+		tmp = tmp->right;
+	if (tmp->token.id == AND)
+		return (c->left);
+
+	//decouper
+	tmp = c;
+	stop = c;
+	while (stop)
+	{
+		if (stop->token.id == AND_IF)
+		{
+			if (execute_run(tmp, stop) == -1)
+				return (NULL);
+			tmp = stop->right;
+		}
+		else if (stop->token.id == OR_IF)
+		{
+			if (execute_run(tmp, stop) == 0)
+				tmp = get_new_process_from_valid_or_if(stop->right);
+			else
+			{
+				tmp = stop->right;
+			}
+			stop = tmp;
+		}
+		else if (stop->token.id == PIPE)
+		{
+			if (set_for_pipe(tmp) == 0)
+			{
+				tmp = get_new_process_from_pipe(stop);
+				stop = tmp;
+			}
+		}
+		if (stop && stop->right == NULL)
+			execute_run(tmp, stop->right);
+		if (stop)
+			stop = stop->right;
+	}
+	return (c->left);
 }
 
 int		ft_fill_for_jobs(t_tree *head)
 {
-	t_run	*first_run;
-	t_run	*n;
-	t_tree	*tmp;
-	int		ret_exec;
+	t_tree		*tmp;
 
 	tmp = head;
-	ret_exec = 0;
-	n = (t_run *)ft_memalloc(sizeof(t_run));
-	first_run = n;
+	init_closefd(closefd);
 	while (tmp)
-	{
-		n = fill_run(n, tmp);
-		tmp = tmp->left;
-		ft_printf("\n");
-		ret_exec = execute_run(n);
-		if (ret_exec != 0)
-		{
-			if (ret_exec == -1)
-			{
-				if (n->job->andor == 2)
-					break ;
-				else if (n->job->andor == 1)
-				{
-					ft_free_runs(first_run);
-					return (ft_free_tree(head));
-					return (-1);
-				}
-			}
-		}
-		dup2(1, STDOUT_FILENO);
-		dup2(2, STDERR_FILENO);
-		dup2(0, STDIN_FILENO);
-		if (tmp)
-		{
-			n->next = (t_run *)ft_memalloc(sizeof(t_run));
-			n = n->next;
-		}
-	}
-	n = first_run;
-//	ft_affiche_run(n);
-	ft_free_runs(first_run);
+		tmp = check_run(tmp);
 	return (ft_free_tree(head));
 }

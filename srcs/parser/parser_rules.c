@@ -12,37 +12,36 @@
 
 #include "ft_sh.h"
 
-const t_for_close	g_for_closes[] = {
-	{While, Done},
-	{Until, Done},
-	{Case, Esac},
-	{If, Fi}
-};
+// const t_for_close	g_for_closes[] = {
+// 	{While, Done},
+// 	{Until, Done},
+// 	{Case, Esac},
+// 	{If, Fi}
+// };
 
-const t_execpted	g_execpteds[] = {
-	{While, Do},
-	{While, While},
-	{If, If},
-	{Do, Done},
-	{If, Then},
-	{Then, Elif},
-	{Elif, Then},
-	{Elif, Fi},
-	{Else, Fi},
-	{Until, Do},
-	{Case, DSEMI},
-	{DSEMI, DSEMI},
-	{DSEMI, Esac}
-};
+// const t_execpted	g_execpteds[] = {
+// 	{While, Do},
+// 	{While, While},
+// 	{If, If},
+// 	{Do, Done},
+// 	{If, Then},
+// 	{Then, Elif},
+// 	{Elif, Then},
+// 	{Elif, Fi},
+// 	{Else, Fi},
+// 	{Until, Do},
+// 	{Case, DSEMI},
+// 	{DSEMI, DSEMI},
+// 	{DSEMI, Esac}
+// };
 
 const t_fill_job	g_fill_jobs[] = {
 	{WORD, &add_in_arguments},
-	{PIPE, &pipe_process},
-	{AND_IF, &set_end},
-	{OR_IF, &set_end},
-	{AND, &set_end},
-	{SEMI, &set_end},
-	{NEWLINE, &set_end},
+//	{PIPE, &pipe_process},
+	// {AND_IF, &set_end},
+	// {OR_IF, &set_end},
+	// {AND, &set_end},
+	// {SEMI, &set_end},
 	{IO_NUMBER, &modify_io},
 	{GREAT, &ft_great},
 	{LESS, &ft_less},
@@ -55,16 +54,16 @@ const t_fill_job	g_fill_jobs[] = {
 	// {BTITE, &subshell_capability},
 };
 
-const t_valid_res g_valid_ress[] = {
-	{SEMI, While},
-	{SEMI, If},
-	{While, While},
-	{While, If},
-	{If, While},
-	{SEMI, Case},
-	{If, If},
-	{While, Case}
-};
+// const t_valid_res g_valid_ress[] = {
+// 	{SEMI, While},
+// 	{SEMI, If},
+// 	{While, While},
+// 	{While, If},
+// 	{If, While},
+// 	{SEMI, Case},
+// 	{If, If},
+// 	{While, Case}
+// };
 
 const t_classic g_classics[] = {
 // {While, While, &go_to_current_right},
@@ -80,13 +79,11 @@ const t_classic g_classics[] = {
 	{AND_IF, WORD, &go_to_current_right},//left
 	{OR_IF, WORD, &go_to_current_right},//left
 	{PIPE, WORD, &go_to_current_right},
-	{AND, While, &go_to_current_right},
-	{AND_IF, While, &go_to_current_right},//left
-	{OR_IF, While, &go_to_current_right},//left
+	//	{AND, While, &go_to_current_right},
+	// {AND_IF, While, &go_to_current_right},//left
+	// {OR_IF, While, &go_to_current_right},//left
 	{IO_NUMBER, GREATAND, &go_to_current_right},
 	{IO_NUMBER, LESSAND, &go_to_current_right},
-//	{PIPE, While},
-//	{SEMI, While},
 	{DLESS, WORD, &go_to_current_right},
 	{DGREAT, WORD, &go_to_current_right},
 	{LESSAND, WORD, &go_to_current_right},

@@ -12,42 +12,89 @@
 
 #include "ft_sh.h"
 
-t_tree	*pipe_process(t_run *run, t_tree *clist)
+extern	int closefd[3];
+extern	int	returned;
+
+
+void	init_closefd(int pdes[3])
 {
-	run->job->first_process->next = init_process(run->job->first_process->next);
-	run->job->first_process = run->job->first_process->next;
-	return (clist->right);
+	pdes[0] = -1;
+	pdes[1] = -1;
+	pdes[2] = -1;
+	// test 
 }
 
-t_tree	*set_end(t_run *run, t_tree *clist)
+void	reset_fd(int pdes[3], t_process *p)
 {
-	if (clist->token.id == AND)
-	{
-		run->num = 1;
-		run->job->andor = 0;
-	}
-	else if (clist->token.id == OR_IF)
-	{
-		run->job->next = (t_job *)ft_memalloc(sizeof(t_job));
-		run->job->andor = 1;
-		run->job = run->job->next;
-		run->job->first_process = (t_process *)ft_memalloc(sizeof(t_process));
-
-	}
-	else if (clist->token.id == AND_IF)
-	{
-		run->job->next = (t_job *)ft_memalloc(sizeof(t_job));
-		run->job->andor = 2;
-		run->job = run->job->next;
-		run->job->first_process = (t_process *)ft_memalloc(sizeof(t_process));
-	}
-	else if (clist->token.id == SEMI)
-	{
-		run->job->andor = 0;
-		run->num = 0;
-	}
-	return (clist->right);
+	if (pdes[0] != -1)
+		dup2(p->stdin, pdes[0]);
+	if (pdes[1] != -1)
+		dup2(p->stdout, pdes[1]);
+	if (pdes[2] != -1)
+		dup2(p->stderr, pdes[2]);
 }
+
+int			ft_pipe(t_tree *first, t_tree *second)
+{
+	pid_t	f;
+
+	if (pipe(closefd) == -1 || (f = fork()) == -1)
+		return (-1);
+	else
+	{
+		if (f == 0)
+		{
+			dup2(closefd[1], STDOUT_FILENO);
+			close(closefd[0]);
+			exit(returned = execute_run(first, second));
+		}
+		else
+		{
+			waitpid(f, &returned, WUNTRACED | WCONTINUED | WNOHANG);
+			dup2(closefd[0], STDIN_FILENO);
+			close(closefd[1]);
+			return (returned = (set_for_pipe(second->right)));
+		}
+	}
+	return (0);
+}
+
+int		set_for_pipe(t_tree *c)
+{
+	t_tree 		*tmp;
+	t_tree 		*first_cmd;
+
+	first_cmd = c;
+	tmp = c;
+	while (tmp)
+	{
+		if (tmp->token.id == PIPE)
+		{
+			if (ft_pipe(first_cmd, tmp) == -1)
+				return (-1);
+			return (0);
+		}
+		tmp = tmp->right;
+	}
+	return (returned = execute_run(first_cmd, tmp));
+}
+
+// t_tree *set_end(t_process *p, t_tree *clist)
+// {
+// 	int	ret;
+
+// 	ft_printf("\n");
+// 	ret = execute_run(p);
+// 	reset_fd(closefd, p);
+// 	ft_free_process(p);
+// 	if (clist && clist->token.id == AND_IF && ret != 0)
+// 		return (NULL);
+// 	else if (clist && clist->token.id == OR_IF && ret == 0)
+// 		clist = get_new_process(clist);
+// 	else if (clist)
+// 		return (clist = set_data_for_fill(clist->right, p = init_process(p)));
+// 	return (NULL);
+// }
 
 char	*get_command(char *ret, t_tree *chead)
 {

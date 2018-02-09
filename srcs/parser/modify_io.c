@@ -12,6 +12,8 @@
 
 #include "ft_sh.h"
 
+extern int closefd[2];
+
 int	greatand(int fd, t_tree *c, t_process *p)
 {
 	int	ofd;
@@ -74,51 +76,37 @@ int	lessand(int fd, t_tree *c, t_process *p)
 	return (0);
 }
 
-t_tree	*ft_great(t_run *run, t_tree *c)
+t_tree	*ft_great(t_process *p, t_tree *c)
 {
-	int	fd;
-
-	(void)run;
-//	close(STDOUT_FILENO);
-	close(run->job->first_process->stdout);
-//	close(STDOUT_FILENO);
-	ft_printf("\n%d.     .%d\n", run->job->first_process->stdout, STDOUT_FILENO);
-
-	if (((fd = open(c->right->token.str, O_CREAT | O_TRUNC | O_WRONLY | O_CLOEXEC, 0755))) == -1)
+	(void)p;
+	close(STDOUT_FILENO);
+	if ((closefd[1] = open(c->right->token.str, O_CREAT | O_TRUNC | O_WRONLY, 0755)) == -1)
 		return (NULL);
-	// dup(fd)
-	dup2(STDOUT_FILENO, fd);
-//	dup2(run->job->first_process->stdout, fd);
-
-
-
-//	dup2(run->job->first_process->stdout, fd);
-	return (c->right->right);
+	dup2(STDOUT_FILENO, closefd[1]);
+	c = c->right->right;
+	return (c);
 }
 
-t_tree	*ft_dgreat(t_run *run, t_tree *c)
+t_tree	*ft_dgreat(t_process *p, t_tree *c)
 {
-	int	fd;
-
-//	(void)run;
-	close(run->job->first_process->stdout);
-//	close(STDIN_FILENO);
-	if ((fd = (open(c->right->token.str, O_CLOEXEC | O_WRONLY | O_APPEND | O_TRUNC, 0755))) == -1)
+	(void)p;
+	close(STDOUT_FILENO);
+	if ((closefd[1] = (open(c->right->token.str, O_APPEND | O_CREAT | O_WRONLY, 0755))) == -1)
 		return (NULL);
-//	dup2(fd, STDIN_FILENO);
-//	dup2(run->job->first_process->stdout);
-	return (c->right->right);
+	dup2(STDOUT_FILENO, closefd[1]);
+	c = c->right->right;
+	return (c);
 }
 
-t_tree	*ft_less(t_run *run, t_tree *c)
+t_tree	*ft_less(t_process *p, t_tree *c)
 {
-	int	fd;
-
-	close(run->job->first_process->stdin);
-	if ((fd = (open(c->right->token.str, O_CLOEXEC | O_WRONLY | O_CREAT))) == -1)
+	(void)p;
+	close(STDIN_FILENO);
+	if ((closefd[0] = (open(c->right->token.str, O_RDONLY))) == -1)
 		return (NULL);
-	dup2(run->job->first_process->stdout, fd);
-	return (c->right->right);
+	dup2(STDIN_FILENO, closefd[0]);
+	c = c->right->right;
+	return (c);
 }
 
 int	modify_fd(int fd, t_tree *c, t_process *p)
@@ -138,10 +126,11 @@ int	modify_fd(int fd, t_tree *c, t_process *p)
 	return (0);
 }
 
-t_tree	*modify_io(t_run *run, t_tree *clist)
+t_tree	*modify_io(t_process *p, t_tree *clist)
 {
 	int	fd;
 
+	(void)p;
 	fd = ft_atoi(clist->token.str);
 	if (fcntl(fd, F_GETFD) == -1)
 	{
@@ -150,7 +139,7 @@ t_tree	*modify_io(t_run *run, t_tree *clist)
 	}
 	else
 	{
-		if (modify_fd(fd, clist->right, run->job->first_process) == -1)
+		if (modify_fd(fd, clist->right, p) == -1)
 			return (NULL);
 	}
 	// // if (ft_strcmp(clist->token.str, "0") == 0)
