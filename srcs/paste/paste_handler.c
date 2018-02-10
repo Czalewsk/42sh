@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/09 02:15:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/10 15:48:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void		insert_chars_pasted(t_buf *cmd, t_read *info, t_buf *pasted)
 	while (*(pasted->cmd + (++i)))
 		if (ft_isspace(*(pasted->cmd + i)))
 			*(pasted->cmd + i) = ' ';
+	buff_handler(cmd, NULL, pasted->cmd);
 	cmd->size_actual += pasted->size_actual;
 	if (info->curs_char == (long)info->total_char)
 	{

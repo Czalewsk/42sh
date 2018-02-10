@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:36:26 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/10 15:12:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,17 @@ void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 {
 	size_t		len;
 
-	if (!cmd || !info || !str)
+	if (!cmd || !info)
 		return ;
-	buff_handler(cmd, NULL, str);
-	ft_strcpy(cmd->cmd, str);
+	if (str)
+	{
+		buff_handler(cmd, NULL, str);
+		ft_strcpy(cmd->cmd, str);
+	}
 	cmd->size_actual = ft_strlen(cmd->cmd);
 	cursor_back_home(info);
 	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
-	len = ft_strlen_utf8(str);
+	len = ft_strlen_utf8(str ? str : cmd->cmd);
 	info->curs_char = (pos_curs > len) ? len : pos_curs;
 	info->total_char = len;
 	cursor_display_update(info, 1);

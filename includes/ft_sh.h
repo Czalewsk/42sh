@@ -55,6 +55,7 @@ typedef struct			s_sh
 	char			comp_status;
 	int				comp_start;
 	int				comp_end;
+	char			*pasted;
 }						t_sh;
 
 extern t_sh				g_sh;

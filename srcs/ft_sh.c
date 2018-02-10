@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/08 23:15:46 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/10 15:58:23 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_ldl_clear(&g_sh.hist, &ft_strdel);
 	ft_ldl_clear(&g_sh.history, &ft_strdel);
 	ft_strdel(&(g_sh.hist_file));
+	ft_strdel(&(g_sh.h_save));
 	free_tab2d(&(g_sh.env));
 	ft_strdel(&cmd->cmd);
+	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
 }
 

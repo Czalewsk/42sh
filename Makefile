@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/08 23:57:00 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/02/10 14:28:42 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,11 +39,11 @@ SRCS_FILES		= ft_sh 													\
 				  termcaps/termcaps_init 									\
 				  prompt/prompt_display prompt/prompt_add					\
 				  prompt/prompt_git											\
-				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/buff_handler edition/read							\
 				  edition/key_manager edition/insert_char edition/cursor	\
 				  edition/unicode edition/print edition/curs_back			\
 				  edition/expansion_wrapper edition/wrapper_is_arg			\
-				  edition/curs_word edition/pasted_remove_highlight			\
+				  edition/curs_word											\
 				  builtins/builtin_history									\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
@@ -60,7 +60,9 @@ SRCS_FILES		= ft_sh 													\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square\
 				  glob/glob_folders glob/glob_rules_check glob/glob_files	\
-				  glob/glob_free_function glob/glob_is_relative
+				  glob/glob_free_function glob/glob_is_relative				\
+				  paste/paste_handler paste/pasted_remove_highlight			\
+				  paste/cpy_pste_intern
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
@@ -74,7 +76,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/ completion/)
+ utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

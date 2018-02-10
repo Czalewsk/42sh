@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/09 02:23:06 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/10 17:01:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 char			(*const g_special_case[EDITION_MAX_STATE])
 		(t_buf *cmd, t_read *info, t_key *entry) = {
-	NULL, &completion_to_normal, NULL, &pasted_remove_highlight_char
+	NULL, &completion_to_normal, NULL, &pasted_remove_highlight_char,
+	&pasted_remove_highlight_char
 };
 
 void			read_key(t_key *entry)
@@ -27,6 +28,16 @@ void			read_key(t_key *entry)
 	entry->nread += ret;
 }
 
+void			debug_key(t_key *entry)
+{
+	int		i;
+
+	i = 0;
+	DEBUG("READ=%i\r\n", entry->nread);
+	while (i < entry->nread)
+		DEBUG("%hhi\r\n", entry->entry[i++]);
+}
+
 /*
 ** Retourne un char dans read_line
 ** 0 -> copier coller donc la ligne nest pas finie
@@ -36,6 +47,7 @@ void			read_key(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
+//	debug_key(entry);
 	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
 	else

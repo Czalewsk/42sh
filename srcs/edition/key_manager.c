@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/09 00:12:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/10 17:05:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,66 +62,70 @@ const t_key_map			g_key_map[] =
 {
 	{0, ARROW_L, 3, {27, 91, 68},
 		{&curs_move_hz, &completion_to_normal, &curs_move_hz,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{1, ARROW_R, 3, {27, 91, 67},
 		{&curs_move_hz, &completion_to_normal, &curs_move_hz,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{2, ARROW_U, 3, {27, 91, 65},
-		{&history_mode, &completion_to_normal, &history_up, &history_up}},
+		{&history_mode, &completion_to_normal, &history_up, &history_up,
+			&cpy_pst_mvt}},
 	{3, ARROW_D, 3, {27, 91, 66},
-		{NULL, &completion_to_normal, &history_do, &history_do}},
+		{NULL, &completion_to_normal, &history_do, &history_do, &cpy_pst_mvt}},
 	{4, QUIT, 1, {CTRL_KEY('D')},
-		{&sh_quit, &completion_to_normal, &sh_quit, &sh_quit}},
+		{&sh_quit, &completion_to_normal, &sh_quit, &sh_quit, &sh_quit}},
 	{5, ENTER, 1, {13},
 		{&sh_validate_line, &validate_completion, &sh_validate_line,
-			&sh_validate_line}},
+			&sh_validate_line, &cpy_cut_validate}},
 	{6, DELETE, 1, {127}, {&delete_char, &completion_to_normal, &delete_char,
-							&delete_char}},
+			&delete_char, &pasted_remove_highlight}},
 	{7, SUPPR, 4, {27, 91, 51, 126},
-		{&suppr_char, &completion_to_normal, &suppr_char, &suppr_char}},
+		{&suppr_char, &completion_to_normal, &suppr_char, &suppr_char,
+			&pasted_remove_highlight}},
 	{8, SHIFT_UP, 6, {27, 91, 49, 59, 50, 65},
 		{&curs_move_vt, &completion_to_normal, &curs_move_vt,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{9, SHIFT_DO, 6, {27, 91, 49, 59, 50, 66},
 		{&curs_move_vt, &completion_to_normal, &curs_move_vt,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{10, HOME, 3, {27, 91, 72},
 		{&edition_home_end, &completion_to_normal, &edition_home_end,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{11, END, 3, {27, 91, 70},
 		{&edition_home_end, &completion_to_normal, &edition_home_end,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{12, PAGE_UP, 4, {27, 91, 53, 126},
-		{&history_mode, &completion_to_normal, &history_up, &history_up}},
+		{&history_mode, &completion_to_normal, &history_up, &history_up,
+			&pasted_remove_highlight}},
 	{13, PAGE_DO, 4, {27, 91, 54, 126},
-		{NULL, &completion_to_normal, &history_do, &history_do}},
+		{NULL, &completion_to_normal, &history_do, &history_do,
+			&pasted_remove_highlight}},
 	{14, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126},
 		{&paste_handler, &completion_to_normal, &paste_handler,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &pasted_remove_highlight}},
 	{15, CTRL_C, 1, {CTRL_KEY('C')},
-		{&sh_stop_line, &completion_to_normal, &sh_stop_line, &sh_stop_line}},
+		{&sh_stop_line, &completion_to_normal, &sh_stop_line, &sh_stop_line,
+			&sh_stop_line}},
 	{16, CTRL_R, 1, {CTRL_KEY('R')},
 		{&history_ctrlr, &completion_to_normal, &history_ctrlr,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &pasted_remove_highlight}},
 	{17, TAB, 1, {9}, {&expansion_wrapper, &sh_comp, &history_to_completion,
-					  &pasted_remove_highlight}},
+			&pasted_remove_highlight, &pasted_remove_highlight}},
 	{18, SHIFT_ARROW_L, 6, {27, 91, 49, 59, 50, 68},
 		{&sh_curs_move_word, &completion_to_normal, &sh_curs_move_word,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{19, SHIFT_ARROW_R, 6, {27, 91, 49, 59, 50, 67},
 		{&sh_curs_move_word, &completion_to_normal, &sh_curs_move_word,
-		&pasted_remove_highlight}},
+			&pasted_remove_highlight, &cpy_pst_mvt}},
+	{20, F13, 6, {27, 91, 49, 59, 50, 80}, {&cpy_cut_intern,
+			&completion_to_normal, &cpy_cut_intern, &pasted_remove_highlight,
+			&cpy_cut_validate}},
+	{21, F14, 6, {27, 91, 49, 59, 50, 81}, {&cpy_cut_intern,
+			&completion_to_normal, &cpy_cut_intern, &pasted_remove_highlight,
+			&cpy_cut_validate}},
+	{22, F15, 6, {27, 91, 49, 59, 50, 82}, {&paste_intern,
+			&completion_to_normal, &paste_intern, &pasted_remove_highlight,
+			&pasted_remove_highlight}},
 };
-
-void			debug_key(t_key *entry)
-{
-	int		i;
-
-	i = 0;
-	DEBUG("READ=%i\r\n", entry->nread);
-	while (i < entry->nread)
-		DEBUG("%hhi\r\n", entry->entry[i++]);
-}
 
 static void				*key_token(t_key *entry)
 {
@@ -149,7 +153,6 @@ char					key_manager(t_buf *cmd, t_read *info, t_key *entry)
 	char		ret;
 
 	ret = 0;
-//	debug_key(entry);
 	if ((f = key_token(entry)))
 		ret = f(cmd, info, entry);
 	if (!ret)
