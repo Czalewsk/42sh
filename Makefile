@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/10 14:28:42 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/02/11 17:09:30 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS_FILES		= ft_sh 													\
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square\
 				  glob/glob_folders glob/glob_rules_check glob/glob_files	\
 				  glob/glob_free_function glob/glob_is_relative				\
+				  glob/globbing												\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern
 #------------------------------------------------------------------------------#

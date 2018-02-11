@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 19:51:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/11 17:08:29 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,7 @@ void			glob_free_files(void *content, size_t size);
 void			glob_free_process(void *content, size_t size);
 void			glob_free_str(void *elmt, size_t size);
 char			glob_is_relative(t_list **path, t_list **folders);
+char			sh_brace_exp(char *tkkn, t_list **res);
+char			sh_glob(char *to_glob, t_list **files);
 
 #endif
