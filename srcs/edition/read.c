@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/10 17:01:51 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/12 23:09:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			debug_key(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
-//	debug_key(entry);
+	debug_key(entry);
 	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
 	else

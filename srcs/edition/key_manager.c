@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/10 17:05:10 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/12 23:14:22 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ const t_key_map			g_key_map[] =
 			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{2, ARROW_U, 3, {27, 91, 65},
 		{&history_mode, &completion_to_normal, &history_up, &history_up,
-			&cpy_pst_mvt}},
+			&pasted_remove_highlight}},
 	{3, ARROW_D, 3, {27, 91, 66},
-		{NULL, &completion_to_normal, &history_do, &history_do, &cpy_pst_mvt}},
+		{NULL, &completion_to_normal, &history_do, &history_do,
+			&pasted_remove_highlight}},
 	{4, QUIT, 1, {CTRL_KEY('D')},
 		{&sh_quit, &completion_to_normal, &sh_quit, &sh_quit, &sh_quit}},
 	{5, ENTER, 1, {13},
@@ -124,6 +125,8 @@ const t_key_map			g_key_map[] =
 			&cpy_cut_validate}},
 	{22, F15, 6, {27, 91, 49, 59, 50, 82}, {&paste_intern,
 			&completion_to_normal, &paste_intern, &pasted_remove_highlight,
+			&pasted_remove_highlight}},
+	{23, ESC, 1, {27}, {NULL, NULL, NULL, &pasted_remove_highlight,
 			&pasted_remove_highlight}},
 };
 

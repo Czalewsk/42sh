@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/10 15:42:10 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/12 23:12:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
 	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, PASTE_KEYBOARD, CTRL_C, CTRL_R,
-	TAB, SHIFT_ARROW_L, SHIFT_ARROW_R, F13, F14, F15, MAX_KEY
+	TAB, SHIFT_ARROW_L, SHIFT_ARROW_R, F13, F14, F15, ESC, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
