@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:35:44 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:24:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 		ft_memmove(curs + entry->nread, curs, sh_curs_unicode(cmd->cmd,
 					ft_strlen(curs) + 1, 1));
 		ft_memcpy(curs, entry->entry, entry->nread);
-		cursor_back_home(info);
+		cursor_back_home(info, 1);
 		write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	}
 	info->curs_char++;
@@ -51,7 +51,7 @@ char		delete_char(t_buf *cmd, t_read *info, t_key *entry)
 	curs = cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char, 1);
 	ft_memmove(cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char - 1, 0),
 			curs, ft_strlen(curs) + 1);
-	cursor_back_home(info);
+	cursor_back_home(info, 1);
 	cmd->size_actual = ft_strlen(cmd->cmd);
 	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	info->curs_char--;
@@ -72,7 +72,7 @@ char		suppr_char(t_buf *cmd, t_read *info, t_key *entry)
 	ft_memmove(curs, cmd->cmd + sh_curs_unicode(cmd->cmd,
 				info->curs_char + 1, 1), ft_strlen(curs) + 1);
 	cmd->size_actual = ft_strlen(cmd->cmd);
-	cursor_back_home(info);
+	cursor_back_home(info, 1);
 	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	info->total_char--;
 	cursor_display_update(info, 1);

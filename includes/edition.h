@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/12 23:12:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:20:35 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char				curs_move_vt(t_buf *cmd, t_read *info, t_key *entry);
 char				edition_home_end(t_buf *cmd, t_read *info, t_key *entry);
 void				display_str(t_buf *cmd, t_read *info,
 		char *str, size_t pos_cur);
-void				cursor_back_home(t_read *info);
+void				cursor_back_home(t_read *info, char after_prompt);
 int					sh_curs_unicode(char *str, int index, int end);
 void				add_str(t_buf *cmd, t_read *info, char *str);
 char				test_print(t_buf *cmd, t_read *info, t_key *entry);

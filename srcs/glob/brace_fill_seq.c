@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 07:08:35 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 11:25:52 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:28:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	brace_error_not_int(char *old, int len, int new)
 	char	nbr[13];
 
 	str = ft_strjoin_free("Number ", ft_strsub(old, 0, len), 1);
-	str = ft_strjoin_free(str, " too large, being truncated to ", 0);
+	str = ft_strjoin_free(str, " does not fit in integer, change to ", 0);
 	ft_itoa_nm(new, nbr);
-	DEBUG("Nbr=%s|\n", nbr);
 	str = ft_strjoin_free(str, nbr, 0);
 	sh_error(str, 0, NULL);
 }

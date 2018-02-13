@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 08:22:30 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:36:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # define BRACE_DEFAULT_SIZE (4)
 
-# define BRACE_MAX_EXPANSION_NB (1000)
+# define BRACE_MAX_EXPANSION_NB (1000l)
 
 # define GLOB_CHECK_CLOSE(str, x) ((int)((*(str + x) == x)))
 # define GLOB_SET_CLOSE(str, x) (*str = x)

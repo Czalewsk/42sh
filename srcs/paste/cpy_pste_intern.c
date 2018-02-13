@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/10 16:52:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:25:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char		cpy_pst_mvt(t_buf *cmd, t_read *info, t_key *entry)
 		g_cpy_paste_cursor[0] : g_cpy_paste_cursor[1];
 	end = start == g_cpy_paste_cursor[0] ?
 		g_cpy_paste_cursor[1] : g_cpy_paste_cursor[0];
-	cursor_back_home(info);
+	cursor_back_home(info, 1);
 	write(g_sh.fd_tty, cmd->cmd, start);
 	tputs(g_termcaps_cap[HIGH_START], 0, &ft_putchar_termcap);
 	write(g_sh.fd_tty, cmd->cmd + start, end - start);
@@ -57,7 +57,7 @@ char		paste_intern(t_buf *cmd, t_read *info, t_key *entry)
 	curs = cmd->cmd + len;
 	ft_memmove(curs + size_paste, curs, ft_strlen(curs));
 	ft_memcpy(curs, g_sh.pasted, size_paste);
-	cursor_back_home(info);
+	cursor_back_home(info, 1);
 	write(g_sh.fd_tty, cmd->cmd, len);
 	tputs(g_termcaps_cap[HIGH_START], 0, &ft_putchar_termcap);
 	write(g_sh.fd_tty, curs, size_paste);

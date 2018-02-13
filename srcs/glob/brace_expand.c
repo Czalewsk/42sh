@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:29:52 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 11:21:17 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:36:30 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ inline static void		brace_check_value_deq(int inc, long nb[2])
 	char	n[14];
 	char	str[50];
 
-	if ((inc < 0 ? (nb[0] - nb[1] + 1) :
-			(nb[1] - nb[0] + 1)) > BRACE_MAX_EXPANSION_NB)
+	if ((inc < 0 ? (nb[0] - nb[1] + 1l) :
+			(nb[1] - nb[0] + 1l)) > BRACE_MAX_EXPANSION_NB)
 	{
 		nb[1] = nb[0] + (inc * BRACE_MAX_EXPANSION_NB);
 		ft_itoa_nm(nb[1], n);
