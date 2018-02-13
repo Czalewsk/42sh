@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:29:52 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/04 15:35:16 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 11:21:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,25 @@ inline static void		brace_pre_expand(char **str[2], char *tkkn,
 {
 	*(str[0]) = ft_strsub(tkkn, 0, find->start);
 	*(str[1]) = ft_strsub(find->end, 1, ft_strlen(find->end + 1));
+}
+
+inline static void		brace_check_value_deq(int inc, long nb[2])
+{
+	char	n[14];
+	char	str[50];
+
+	if ((inc < 0 ? (nb[0] - nb[1] + 1) :
+			(nb[1] - nb[0] + 1)) > BRACE_MAX_EXPANSION_NB)
+	{
+		nb[1] = nb[0] + (inc * BRACE_MAX_EXPANSION_NB);
+		ft_itoa_nm(nb[1], n);
+		ft_bzero(str, 50);
+		ft_strcat(str,
+				"Numbers expansion is too large, last number truncated to ");
+		ft_strcat(str, n);
+		ft_strcat(str, "\n");
+		sh_error(str, 0, NULL);
+	}
 }
 
 void					brace_expand_deq_num(char *tkkn, t_list *tmp,
@@ -30,9 +49,7 @@ void					brace_expand_deq_num(char *tkkn, t_list *tmp,
 
 	ft_bzero(&nb, 12);
 	inc = find->nb[0] > find->nb[1] ? -1 : 1;
-	if ((inc < 0 ? (find->nb[0] - find->nb[1] + 1) :
-			(find->nb[1] - find->nb[0] + 1)) > 1000000)
-		find->nb[1] = find->nb[0] + (inc * 10000000);
+	brace_check_value_deq(inc, find->nb);
 	brace_pre_expand((char**[2]){&pre, &post}, tkkn, find);
 	i = find->nb[0];
 	ft_itoa_nm(i, nb);
