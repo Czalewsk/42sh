@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:58:59 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/31 23:25:11 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 01:31:41 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char		ft_is_escape(char *esc, char *str)
 			is_escape = 0;
 		else if (is_escape != '\'' && *str == '\\')
 			backslash = 1;
-		else if (*str == '"' || *str == '\'')
+		else if (!is_escape && (*str == '"' || *str == '\''))
 			change = 1;
 	}
 	return ((is_escape && change) ? 0 : is_escape);
