@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 19:24:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 19:41:13 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 17:33:56 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ static void	del_select(t_select **select)
 	ft_strdel(&(*select)->escaped);
 	free(*select);
 	select = NULL;
+}
+
+char		completion_to_normal_char(t_buf *cmd, t_read *info, t_key *entry)
+{
+	(void)entry;
+	(void)cmd;
+	(void)info;
+	g_sh.edition_state = NORMAL;
+	if (g_sh.comp)
+	{
+		ft_ldl_clear(&g_sh.comp->head, &del_select);
+		ft_strdel(&g_sh.comp->search);
+		ft_strdel(&g_sh.comp->path);
+		free(g_sh.comp);
+		g_sh.comp = NULL;
+	}
+	return (1);
 }
 
 char		completion_to_normal(t_buf *cmd, t_read *info, t_key *entry)
