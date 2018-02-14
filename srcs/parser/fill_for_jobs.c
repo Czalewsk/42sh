@@ -25,8 +25,8 @@ t_process 		*fill_for_exec(t_tree *c, t_tree *stop)
 	i = 0;
 	p = NULL;
 	p = init_process(p);
-	if (!stop)
-		c  = g_fill_jobs[0].fjob(p, c);
+	// if (!stop)
+	// 	c  = g_fill_jobs[0].fjob(p, c); enlever pour la redirection 2>&1 
 	while (c && g_fill_jobs[i].fjob && c != stop)
 	{
 		if (c && g_fill_jobs[i].one == c->token.id)
@@ -35,7 +35,7 @@ t_process 		*fill_for_exec(t_tree *c, t_tree *stop)
 			if (c == (void *)1)
 			{
 				ft_free_process(p);
-				return (NULL);
+				return ((void *)1);
 			}
 			i = -1;
 		}
@@ -53,9 +53,7 @@ int		exec_acces(char *tmp, char **argv)
 	if (father == 0)
 		exit(returned = execve(tmp, argv, g_sh.env));
 	else
-	{
 		waitpid(father, &returned, WUNTRACED | WCONTINUED);
-	}
 	return (returned);
 }
 
@@ -69,7 +67,7 @@ int		execute_run(t_tree *c, t_tree *stop)
 	i = 0;
 	p = NULL;
 	p = fill_for_exec(c, stop);
-	if (p == NULL)
+	if (p == (void *)1)
 		return (-1);
 	path = ft_strsplit("/Users/maastie/.brew/bin:/Users/maastie/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/VMware", ':');
 	while (path && path[i])
@@ -175,7 +173,10 @@ t_tree	*check_run(t_tree *c)
 	while (tmp->right)
 		tmp = tmp->right;
 	if (tmp->token.id == AND)
+	{
+		ft_printf("\nJOb for stephane\n");
 		return (c->left);
+	}
 	return (check_run_v2(c));
 }
 
@@ -183,6 +184,13 @@ int		ft_fill_for_jobs(t_tree *head)
 {
 	t_tree		*tmp;
 
+//	tmp = head;
+	// while (tmp)
+	// {
+	// 	if (tmp->token.id == IO_NUMBER)
+	// 		ft_printf("\nA:AZING IO_NUMBER = %s\n", tmp->token.str);
+	// 	tmp = tmp->right;
+	// }
 	tmp = head;
 	init_closefd(closefd);
 	while (tmp)

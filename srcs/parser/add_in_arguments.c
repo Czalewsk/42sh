@@ -12,12 +12,14 @@
 
 #include "ft_sh.h"
 
+
+/// a modifier pour opti malloc de ****
 char	**realloc_argv(char **argv, char *to_add, int s)
 {
 	char	**new;
 	int		i;
 
-	if ((new = (char **)malloc(sizeof(char *) * s)) == NULL)
+	if ((new = (char **)malloc(sizeof(char *) * (s + 1))) == NULL)
 		return (NULL);
 	i = 0;
 	while (argv && argv[i])
@@ -45,12 +47,14 @@ char	**get_new_argv(char **argv, char *to_add)
 		argv[1] = NULL;
 		return (argv);
 	}
-	while (argv && argv[i++]);
+	while (argv && argv[i])
+		i++;
 	return (argv = realloc_argv(argv, to_add, ++i));
 }
 
 t_tree	*add_in_arguments(t_process *p, t_tree *clist)
 {
+//	ft_printf("\n%s\n", clist->token.str);
 	p->argv = get_new_argv(p->argv, clist->token.str);
 	return (clist->right);
 }

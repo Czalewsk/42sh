@@ -12,10 +12,10 @@
 
 #include "ft_sh.h"
 
-int	ft_free_token(t_tree *token)
+int	ft_free_token(t_tree *t)
 {
-	if (token && token != NULL)
-		free(token);
+	if (t && t != NULL)
+		free(t);
 	return (-1);
 }
 

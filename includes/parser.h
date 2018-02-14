@@ -75,6 +75,7 @@ int							parser(char	**cmd);
 int							execute_run(t_tree *c, t_tree *stop);
 int							ft_fill_for_jobs(t_tree *head);
 char						*get_command(char *ret, t_tree *chead);
+char						**get_new_argv(char **argv, char *to_add);
 void						set_new_id(t_tree *cur, t_tree *new);
 void						init_closefd(int pdes[2]);
 
@@ -87,10 +88,13 @@ t_tree						*set_end(t_process *p, t_tree *clist);
 t_tree						*add_in_arguments(t_process *p, t_tree *clist);
 t_tree						*go_to_current_right(t_tree *cur, t_tree *new);
 t_tree						*go_to_current_left(t_tree *cur, t_tree *new);
+t_tree						*here_doc(t_process *p, t_tree *c);
 t_tree						*ft_dgreat(t_process *p, t_tree *c);
 t_tree						*ft_great(t_process *p, t_tree *c);
 t_tree						*ft_less(t_process *p, t_tree *c);
 t_tree						*land(t_process *p, t_tree *c);
 t_tree						*gand(t_process *p, t_tree *c);
+t_tree						*lessgreat(t_process *p, t_tree *c);
+t_tree						*clobber(t_process *p, t_tree *c);
 
 #endif

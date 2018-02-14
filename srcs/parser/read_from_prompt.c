@@ -13,32 +13,31 @@
 #include "ft_sh.h"
 
 
-char	*new_cmd_line(char *ref, char *new)
-{
-	char	*n;
-	int		i;
-	int		a;
+// char	*new_cmd_line(char *ref, char *new)
+// {
+// 	char	*n;
+// 	int		i;
+// 	int		a;
 
-	n = NULL;
-	if ((n = (char *)malloc(sizeof(char) *
-		(ft_strlen(ref) + ft_strlen(new)))) == NULL)
-		return (NULL);
-	i = 0;
-	a = 0;
-	while (ref && ref[i])
-	{
-		n[a] = ref[i++];
-		n[++a] = '\0';
-	}
-	i = 0;
-	while (new && new[i])
-	{
-		n[a] = new[i++];
-		n[++a] = '\0';
-	}
-//	free(ref);
-	return (n);
-}
+// 	n = NULL;
+// 	if ((n = (char *)malloc(sizeof(char) *
+// 		(ft_strlen(ref) + ft_strlen(new)))) == NULL)
+// 		return (NULL);
+// 	i = 0;
+// 	a = 0;
+// 	while (ref && ref[i])
+// 	{
+// 		n[a] = ref[i++];
+// 		n[++a] = '\0';
+// 	}
+// 	i = 0;
+// 	while (new && new[i])
+// 	{
+// 		n[a] = new[i++];
+// 		n[++a] = '\0';
+// 	}
+// 	return (n);
+// }
 
 int			read_from_prompt(char **cmd, char *cur)
 {

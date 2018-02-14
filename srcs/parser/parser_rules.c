@@ -12,78 +12,26 @@
 
 #include "ft_sh.h"
 
-// const t_for_close	g_for_closes[] = {
-// 	{While, Done},
-// 	{Until, Done},
-// 	{Case, Esac},
-// 	{If, Fi}
-// };
-
-// const t_execpted	g_execpteds[] = {
-// 	{While, Do},
-// 	{While, While},
-// 	{If, If},
-// 	{Do, Done},
-// 	{If, Then},
-// 	{Then, Elif},
-// 	{Elif, Then},
-// 	{Elif, Fi},
-// 	{Else, Fi},
-// 	{Until, Do},
-// 	{Case, DSEMI},
-// 	{DSEMI, DSEMI},
-// 	{DSEMI, Esac}
-// };
-
 const t_fill_job	g_fill_jobs[] = {
 	{WORD, &add_in_arguments},
-//	{PIPE, &pipe_process},
-	// {AND_IF, &set_end},
-	// {OR_IF, &set_end},
-	// {AND, &set_end},
-	// {SEMI, &set_end},
 	{GREATAND, &gand},
 	{LESSAND, &land},
 	{IO_NUMBER, &modify_io},
 	{GREAT, &ft_great},
 	{LESS, &ft_less},
-//	{DLESS, &here_doc},
+	{DLESS, &here_doc},
 	{DGREAT, &ft_dgreat},
+	{LESSGREAT, &lessgreat},
+	//ASSIGNMENT_WORD, SUBSH
 	{0, NULL}
-	// {While, &shellscript},
-	// {If, &shellscript},
-	// {LPAR, &subshell_capability},
-	// {BTITE, &subshell_capability},
 };
 
-// const t_valid_res g_valid_ress[] = {
-// 	{SEMI, While},
-// 	{SEMI, If},
-// 	{While, While},
-// 	{While, If},
-// 	{If, While},
-// 	{SEMI, Case},
-// 	{If, If},
-// 	{While, Case}
-// };
-
 const t_classic g_classics[] = {
-// {While, While, &go_to_current_right},
-// {While, If, &go_to_current_right},
-// {While, WORD},
-// {Do, WORD},
 	{SEMI, WORD, &go_to_current_left},
-//	{Done, SEMI},
-//	{Do, SEMI},
-//	{SEMI, Do},
-//	{SEMI, Done},
 	{AND, WORD, &go_to_current_left},
-	{AND_IF, WORD, &go_to_current_right},//left
-	{OR_IF, WORD, &go_to_current_right},//left
+	{AND_IF, WORD, &go_to_current_right},
+	{OR_IF, WORD, &go_to_current_right},
 	{PIPE, WORD, &go_to_current_right},
-	//	{AND, While, &go_to_current_right},
-	// {AND_IF, While, &go_to_current_right},//left
-	// {OR_IF, While, &go_to_current_right},//left
 	{IO_NUMBER, GREATAND, &go_to_current_right},
 	{IO_NUMBER, LESSAND, &go_to_current_right},
 	{DLESS, WORD, &go_to_current_right},
@@ -96,8 +44,8 @@ const t_classic g_classics[] = {
 	{LESS, WORD, &go_to_current_right},
 	{GREAT, WORD, &go_to_current_right},
 	{AND, IO_NUMBER, &go_to_current_left},
-	{AND_IF, IO_NUMBER, &go_to_current_right},//left
-	{OR_IF, IO_NUMBER, &go_to_current_right},//left
+	{AND_IF, IO_NUMBER, &go_to_current_right},
+	{OR_IF, IO_NUMBER, &go_to_current_right},
 	{PIPE, IO_NUMBER, &go_to_current_right},
 	{SEMI, IO_NUMBER, &go_to_current_left},
 	{WORD, IO_NUMBER, &go_to_current_right},
@@ -116,14 +64,5 @@ const t_classic g_classics[] = {
 	{WORD, SEMI, &go_to_current_right},
 	{WORD, PIPE, &go_to_current_right},
 	{WORD, WORD, &go_to_current_right},
-// {Case, WORD},
-// {If, WORD},
-// {Then, WORD},
-// {Elif, WORD},
-// {Else, WORD},
-// {DSEMI, WORD},
-// {Until, WORD},
-// {Case, WORD},
-// {WORD, Fi},
 	{0, 0, NULL}
 };
