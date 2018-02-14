@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 13:50:33 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/13 18:20:35 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 typedef enum		e_edition_state
 {
-	NORMAL, COMPLETION, HISTORY, EDITION_MAX_STATE
+	NORMAL, COMPLETION, HISTORY, PASTED, COPY_PASTE, EDITION_MAX_STATE
 }					t_edition_state;
 
 /*
@@ -43,7 +43,7 @@ typedef enum		e_key_name
 {
 	ARROW_L, ARROW_R, ARROW_U, ARROW_D, QUIT, ENTER, DELETE, SUPPR, SHIFT_UP,
 	SHIFT_DO, HOME, END, PAGE_UP, PAGE_DO, PASTE_KEYBOARD, CTRL_C, CTRL_R,
-	TAB, MAX_KEY
+	TAB, SHIFT_ARROW_L, SHIFT_ARROW_R, F13, F14, F15, ESC, MAX_KEY
 }					t_key_name;
 
 typedef struct		s_key_map
@@ -92,7 +92,7 @@ char				curs_move_vt(t_buf *cmd, t_read *info, t_key *entry);
 char				edition_home_end(t_buf *cmd, t_read *info, t_key *entry);
 void				display_str(t_buf *cmd, t_read *info,
 		char *str, size_t pos_cur);
-void				cursor_back_home(t_read *info);
+void				cursor_back_home(t_read *info, char after_prompt);
 int					sh_curs_unicode(char *str, int index, int end);
 void				add_str(t_buf *cmd, t_read *info, char *str);
 char				test_print(t_buf *cmd, t_read *info, t_key *entry);
@@ -101,5 +101,14 @@ char				test_prompt_add(t_buf *cmd, t_read *info, t_key *entry);
 void				cursor_back_begin(t_read *info);
 char				expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry);
 char				wrapper_is_arg(t_buf *cmd);
+char				sh_curs_move_word(t_buf *cmd, t_read *info, t_key *entry);
+char				pasted_remove_highlight(t_buf *cmd, t_read *info,
+		t_key *entry);
+char				pasted_remove_highlight_char(t_buf *cmd, t_read *info,
+		t_key *entry);
+char				cpy_cut_intern(t_buf *cmd, t_read *info, t_key *entry);
+char				cpy_pst_mvt(t_buf *cmd, t_read *info, t_key *entry);
+char				cpy_cut_validate(t_buf *cmd, t_read *info, t_key *entry);
+char				paste_intern(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif

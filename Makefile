@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/14 14:01:32 by bviala           ###   ########.fr        #
+#    Updated: 2018/02/14 17:12:18 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,11 @@ SRCS_FILES		= ft_sh 													\
 				  termcaps/termcaps_init 									\
 				  prompt/prompt_display prompt/prompt_add					\
 				  prompt/prompt_git											\
-				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/buff_handler edition/read							\
 				  edition/key_manager edition/insert_char edition/cursor	\
 				  edition/unicode edition/print edition/curs_back			\
 				  edition/expansion_wrapper edition/wrapper_is_arg			\
+				  edition/curs_word											\
 				  builtins/builtin_history									\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
@@ -55,12 +56,16 @@ SRCS_FILES		= ft_sh 													\
 				  lexer/rules_fn2											\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
+				  utils/sh_error											\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square\
 				  glob/glob_folders glob/glob_rules_check glob/glob_files	\
-				  glob/glob_free_function glob/glob_is_relative
+				  glob/glob_free_function glob/glob_is_relative				\
+				  glob/globbing												\
+				  paste/paste_handler paste/pasted_remove_highlight			\
+				  paste/cpy_pste_intern
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
@@ -74,7 +79,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/ completion/)
+ utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

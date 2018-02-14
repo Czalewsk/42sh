@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 00:48:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:36:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "libft.h"
 
 # define BRACE_DEFAULT_SIZE (4)
+
+# define BRACE_MAX_EXPANSION_NB (1000l)
 
 # define GLOB_CHECK_CLOSE(str, x) ((int)((*(str + x) == x)))
 # define GLOB_SET_CLOSE(str, x) (*str = x)
@@ -84,7 +86,7 @@ void			brace_expand_deq_num(char *tkkn, t_list *res,
 		t_brace_exp *find);
 void			brace_expand_deq_alpha(char *tkkn, t_list *res,
 		t_brace_exp *find);
-char			glob_check_char(int c);
+char			glob_check_char(unsigned char c);
 t_list			*sh_glob_init_path(char *to_glob);
 t_glob_rules	glob_rules_square(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_char(char **curs, t_list **rules, char add);
@@ -101,5 +103,7 @@ void			glob_free_files(void *content, size_t size);
 void			glob_free_process(void *content, size_t size);
 void			glob_free_str(void *elmt, size_t size);
 char			glob_is_relative(t_list **path, t_list **folders);
+char			sh_brace_exp(char *tkkn, t_list **res);
+char			sh_glob(char *to_glob, t_list **files);
 
 #endif

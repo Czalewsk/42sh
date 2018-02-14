@@ -6,48 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/08 14:14:13 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/11 17:08:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
 static const char	g_separator[] = " <>;$|&`";
-
-static void	get_address_end(t_list ***tmp)
-{
-	if (!**tmp)
-		return ;
-	while (**tmp)
-		*tmp = &(**tmp)->next;
-	return ;
-}
-
-char		get_globbing(char *tkkn, t_list **res)
-{
-	t_list	*tmp;
-	t_list	*final;
-	t_list	*glob;
-	t_list	**to_add;
-
-	if (!*res)
-		return (sh_glob(tkkn, res));
-	final = NULL;
-	to_add = &final;
-	tmp = *res;
-	while (tmp)
-	{
-		get_address_end(&to_add);
-		if (sh_glob(tmp->content, &glob))
-			*to_add = glob;
-		else
-			*to_add = ft_lstnew(tmp->content, ft_strlen(tmp->content) + 1);
-		tmp = tmp->next;
-	}
-	ft_lstdel(res, &ft_lst_del_str);
-	*res = final;
-	return (1);
-}
 
 char		*expansion_get_word(t_buf *cmd, t_read *info)
 {
@@ -115,9 +80,7 @@ char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 
 	auto_completion = 1;
 	tkkn = expansion_get_word(cmd, info);
-	if (sh_brace_exp(tkkn, &res))
-		auto_completion = 0;
-	if (get_globbing(tkkn, &res))
+	if (sh_globbing(tkkn, &res))
 		auto_completion = 0;
 	if (auto_completion)
 	{

@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 15:12:09 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 00:48:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:52:40 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ t_glob_rules			glob_rules_char(char **curs, t_list **rules, char add)
 		rule.directory = 1;
 		++(*curs);
 	}
-	rule.in[(unsigned int)**curs] = 1;
+	rule.in[(unsigned char)**curs] = 1;
 	if (add)
 	{
 		ft_memset(&rule.out, 1, 255);
-		rule.out[(unsigned int)**curs] = 0;
+		rule.out[(unsigned char)**curs] = 0;
 		ft_lstaddback(rules, ft_lstnew(&rule, sizeof(t_glob_rules)));
 	}
 	++(*curs);

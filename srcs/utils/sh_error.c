@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   sh_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/05 21:58:39 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 08:28:48 by czalewsk         ###   ########.fr       */
+/*   Created: 2018/02/13 08:05:01 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/02/13 18:27:00 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __UTILS_H
-# define __UTILS_H
+#include "ft_sh.h"
 
-# include "libft.h"
-
-/* DEFINE ESCAPE */
-# define	SH_IS_ESC(str, i) (*(str + i) & 1)
-# define	SH_IS_END_DQ(str, i) (*(str + i) & 2)
-
-char		sh_escape(char *str, char **escaped);
-char		sh_globbing(char *tkkn, t_list **result);
-char		*escape_it(char *str);
-char		sh_error(char *msg, char ret, void *f_callback());
-
-#endif
+char		sh_error(char *msg, char ret, void *f_callback())
+{
+	if (msg)
+	{
+		g_sh.prompt_display = 0;
+		write(2, "\n", 1);
+		ft_putstr_fd("42sh: ", 2);
+		ft_putstr_fd(msg, 2);
+	}
+	if (f_callback)
+		f_callback();
+	return (ret);
+}
