@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 17:08:42 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 16:56:55 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 14:38:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	new_select_color(t_select *select, char *name)
 
 t_select	*new_select(char *name, char *path)
 {
-	t_select 	*select;
+	t_select	*select;
 
 	select = ft_memalloc(sizeof(t_select));
 	select->name = ft_strdup(name);
@@ -63,8 +63,6 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
 	t_ldl			*ldl;
 	char			*path;
 
-	int n;
-	n = 0;
 	path = search ? search : ".\0";
 	if (!(dir_stream = opendir(path)))
 	{
@@ -78,7 +76,6 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
 				(comp->search && !(ft_strncmp(comp->search, dir->d_name,
 										ft_strlen_utf8(comp->search))))))
 		{
-			DEBUG("nb fichiers trouves|%d|, name |%s|\n", ++n, dir->d_name);
 			ft_ldl_new_node(&ldl, new_select(ft_strdup(dir->d_name), search));
 			head = ft_ldl_insert_sort(head, ldl, &fcmp_select);
 		}

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 15:59:01 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 18:08:36 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 14:36:09 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	add_bin_from_dir(t_comp *comp, t_ldl_head *head, int n, char *path)
 			(comp->search && !(ft_strncmp(comp->search, dir->d_name,
 				ft_strlen_utf8(comp->search))))) && ++n)
 		{
-			ft_ldl_new_node(&ldl, new_select(ft_strdup(dir->d_name), NULL));
+			ft_ldl_new_node(&ldl, new_select(ft_strdup(dir->d_name), path));
 			head = ft_ldl_insert_sort(head, ldl, &fcmp_select);
 		}
 		ft_strdel(&full_path);

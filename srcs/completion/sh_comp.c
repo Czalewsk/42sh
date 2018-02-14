@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 18:48:55 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 14:42:11 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	get_len_max(t_ldl_head *head)
 {
 	int		len;
-	int 	max;
+	int		max;
 	t_ldl	*ldl;
 
 	len = 0;
@@ -34,7 +34,7 @@ static int	get_len_max(t_ldl_head *head)
 static void	calcul_display(t_comp *comp, t_read *info)
 {
 	int prompt;
-	
+
 	prompt = info->prompt / info->win_height + 1;
 	if (!info->win_height)
 		return ;
@@ -61,7 +61,7 @@ static void	calcul_display(t_comp *comp, t_read *info)
 
 char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 {
-	t_ldl 	*ldl;
+	t_ldl	*ldl;
 	int		i;
 
 	calcul_display(g_sh.comp, info);
@@ -69,7 +69,6 @@ char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 		g_sh.comp->index++;
 	else
 		g_sh.comp->index = 1;
-//	DEBUG("COMP sortie comp->index |%d| item |%d|\n", g_sh.comp->index, g_sh.comp->nb_item);
 	ldl = g_sh.comp->head->head;
 	if (ldl)
 	{

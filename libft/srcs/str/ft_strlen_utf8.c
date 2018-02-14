@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 11:47:16 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/08 14:28:30 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/09 19:45:10 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int					ft_strlen_utf8(char *str)
 	int		nbyte;
 
 	len = 0;
+	if (!str)
+		return (0);
 	while (*str)
 	{
 		nbyte = 1;

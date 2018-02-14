@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/09 15:58:51 by bviala           ###   ########.fr        #
+#    Updated: 2018/02/14 14:01:32 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRCS_FILES		= ft_sh 													\
 				  completion/sh_comp completion/change_mode					\
 				  completion/print_comp completion/add_select				\
 				  completion/add_dir completion/sh_first_comp				\
-				  completion/add_bin										\
+				  completion/add_bin completion/add_env						\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  utils/escape/escape_functions utils/escape/sh_escape		\

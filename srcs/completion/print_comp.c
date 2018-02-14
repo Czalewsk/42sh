@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 18:36:00 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 14:42:16 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ void		display_new_comp(t_buf *cmd, t_read *info, t_select *select)
 	char	*new_cmd;
 	int		len_path;
 
-	len_path = ft_strlen(g_sh.comp->path);
+	len_path = ft_strlen_utf8(g_sh.comp->path);
 	new_cmd = ft_strnew(ft_strlen_utf8(cmd->cmd) -
 			(g_sh.comp_end - g_sh.comp_start) + len_path + select->len);
 	curs = ft_strncat(new_cmd, cmd->cmd, g_sh.comp_start);
 	if (g_sh.comp->path)
 		curs = ft_strcat(curs, g_sh.comp->path);
 	curs = ft_strcat(curs, select->escaped);
+	DEBUG("on t/a vu");
 	curs = ft_strcat(curs, cmd->cmd + g_sh.comp_end);
-	display_str(cmd, info, new_cmd, ft_strlen_utf8(new_cmd));
 	g_sh.comp_end = g_sh.comp_start + len_path + select->len;
+	display_str(cmd, info, new_cmd, g_sh.comp_end);
 	ft_strdel(&new_cmd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 16:20:48 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 14:22:38 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ t_select	*new_select(char *name, char *path);
 void		add_ls(t_comp *comp, t_ldl_head *head, char *search);
 int			add_dir(t_comp *comp, t_ldl_head *head);
 int			add_bin(t_comp *comp, t_ldl_head *head);
+int			add_env(t_comp *comp, t_ldl_head *head, char **env);
 #endif
