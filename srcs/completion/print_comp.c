@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 16:49:53 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 17:19:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	part_display_comp(t_comp *comp, int row, int col)
 
 	ldl = comp->head->head;
 	i = comp->index;
-	while (ldl && i--)
+	while (ldl && --i)
 		ldl = ldl->next;
 	i = comp->index;
 	while (ldl && (row++ < (comp->nb_visible / comp->nb_col)))
