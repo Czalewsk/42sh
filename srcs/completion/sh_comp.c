@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 14:42:11 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 16:49:17 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	calcul_display(t_comp *comp, t_read *info)
 {
 	int prompt;
 
-	prompt = info->prompt / info->win_height + 1;
+	prompt = info->prompt / info->win_co + 1;
 	if (!info->win_height)
 		return ;
 	comp->nb_item = comp->head->length;
@@ -48,18 +48,11 @@ static void	calcul_display(t_comp *comp, t_read *info)
 	comp->nb_row = comp->nb_item / comp->nb_col + 1;
 	if (comp->nb_row == 0)
 		comp->nb_row = 1;
-	if (comp->nb_row > ((int)info->win_height - prompt))
-		comp->nb_visible =
-		((comp->nb_row / (info->win_height - prompt)) - 1) * comp->nb_col;
-	else
-		comp->nb_visible = comp->nb_row;
-//	DEBUG("prompt |%d|", info->prompt);
-//	DEBUG("info co |%d|, info li |%d|\n", info->win_co, info->win_height);
-//	DEBUG("comp co |%d|, comp li |%d|\n", comp->nb_col, comp->nb_row);
-//	DEBUG("len_max |%d|, nb_items |%d|, nb_visible |%d|\n", comp->len_max, comp->nb_item, comp->nb_visible);
+	comp->nb_visible =
+		((info->win_height - prompt) - 1) * comp->nb_col;
 }
 
-char	sh_comp(t_buf *cmd, t_read *info, t_key *entry)
+char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 {
 	t_ldl	*ldl;
 	int		i;

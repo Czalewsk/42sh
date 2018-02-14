@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 14:42:16 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 16:49:53 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void		display_new_comp(t_buf *cmd, t_read *info, t_select *select)
 	if (g_sh.comp->path)
 		curs = ft_strcat(curs, g_sh.comp->path);
 	curs = ft_strcat(curs, select->escaped);
-	DEBUG("on t/a vu");
 	curs = ft_strcat(curs, cmd->cmd + g_sh.comp_end);
 	g_sh.comp_end = g_sh.comp_start + len_path + select->len;
 	display_str(cmd, info, new_cmd, g_sh.comp_end);
@@ -68,7 +67,6 @@ static void	full_display_comp(t_comp *comp)
 	int			i;
 
 	i = 1;
-	DEBUG("full display\n");
 	if (!comp->head || !comp->head->head)
 		return ;
 	ldl = comp->head->head;
@@ -88,25 +86,16 @@ static void	full_display_comp(t_comp *comp)
 	}
 }
 
-static void part_display_comp(t_comp *comp)
+static void	part_display_comp(t_comp *comp, int row, int col)
 {
-	int			row;
-	int			col;
 	t_ldl		*ldl;
 	int			i;
 
-	DEBUG("part display\n");
-	full_display_comp(comp);
-	return ;
-	if (!comp->head || !comp->head->head)
-		return ;
 	ldl = comp->head->head;
-	i = comp->index - comp->nb_visible;
-	i = (i < 0) ? -i : 0;
+	i = comp->index;
 	while (ldl && i--)
 		ldl = ldl->next;
-	row = 0;
-	i = 1;
+	i = comp->index;
 	while (ldl && (row++ < (comp->nb_visible / comp->nb_col)))
 	{
 		col = 0;
@@ -123,14 +112,15 @@ static void part_display_comp(t_comp *comp)
 	ft_putendl_fd("--- More ---", g_sh.fd_tty);
 }
 
-void	print_comp(t_comp *comp, t_read *info)
+void		print_comp(t_comp *comp, t_read *info)
 {
-	if (comp->head && comp->head->length == 1)
+	if (!comp->head || !comp->head->head ||
+			(comp->head && comp->head->length == 1))
 		return ;
 	if (info->win_height > 1 && (int)info->win_co > comp->len_max - 1)
 	{
-		if (comp->nb_row > comp->nb_visible)
-			part_display_comp(comp);
+		if (comp->nb_item > comp->nb_visible)
+			part_display_comp(comp, 0, 0);
 		else
 			full_display_comp(comp);
 	}
@@ -140,6 +130,5 @@ void	print_comp(t_comp *comp, t_read *info)
 		ft_putendl_fd(RED, 2);
 		ft_putendl_fd("Too Small", 2);
 		ft_putendl_fd(C_DEFAULT, 2);
-	//	g_sh.exitstatus = code FAILURE correspondant
 	}
 }

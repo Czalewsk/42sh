@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 16:05:23 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 14:47:40 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 
-# define BUFF_SIZE 50
+# define BUFF_SIZE 10000
 # define CT(Pointeur) ((t_str*)(Pointeur->content))
 
 typedef struct		s_str
