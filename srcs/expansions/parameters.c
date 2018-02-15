@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parameters.c                                       :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/07 23:02:06 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/15 03:02:08 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_list		*expand_parameters(t_token *tk)
 	return (lst);
 }*/
 
-static void	save_token(t_list **lst, char *str, size_t size, size_t *tlen)
+/*static void	save_token(t_list **lst, char *str, size_t size, size_t *tlen)
 {
 	t_list	*el;
 	setbuf(stdout, NULL);
@@ -143,7 +143,7 @@ static void	push_token(t_list **mainlst, t_list **lst, t_token *tk,
 	newtk.size = *tlen;
 	*tlen = 0;
 	ft_lst_pushend(mainlst, ft_lstnew(&newtk, sizeof(t_token)));
-}
+}*/
 
 /*static int	next_expand(t_token *tk, t_token *newtk,  char **cur)
 {
@@ -223,7 +223,7 @@ static void	push_token(t_list **mainlst, t_list **lst, t_token *tk,
 	return (lst);
 }*/
 
-t_list			*expand_parameters(t_token *tk)
+/*t_list			*expand_parameters(t_token *tk)
 {
 	t_list	*lst;
 	t_list	*mainlst;
@@ -309,4 +309,121 @@ t_list			*expand_parameters(t_token *tk)
 		ft_lst_pushend(&mainlst, ft_lstnew(&newtk, sizeof(t_token)));
 	}
 	return (mainlst);
+}*/
+
+static size_t		lst_contentsize(t_list *lst)
+{
+	t_list	*cur;
+	size_t	size;
+
+	if (!lst)
+		return (0);
+	cur = lst;
+	size = 0;
+	while (cur)
+	{
+		size += cur->content_size;
+		cur = cur->next;
+	}
+	return (size);
+}
+
+static char			*substr_join(t_list **substr)
+{
+	char		*str;
+	int			i;
+	t_list		*cur;
+	t_list		*prev;
+
+	i = 0;
+	str = ft_memalloc(lst_contentsize(*substr));
+	cur = *substr;
+	while (cur)
+	{
+		ft_memcpy(str + i, cur->content, cur->content_size);
+		i += cur->content_size;
+		prev = cur;
+		cur = cur->next;
+		free(prev->content);
+		free(prev);
+	}
+	*substr = NULL;
+	return (str);
+}
+
+
+/*void			expand_parameters(t_token *tk, t_list **lst)
+{
+	t_list	*substr;
+	char	*cur;
+	char	*found;
+
+	substr = NULL;
+	cur = tk->str;
+	while ((found = ft_strchr(cur, '$')))
+	{
+		if (!(ft_is_escape(found, tk->str) & 221))
+			expand_variable(lst, &cur, &found, &substr);
+		else if (found - cur)
+			ft_lst_pushend(&substr, ft_lstnew(cur, (found + 1) - cur));
+		cur = found + 1;
+	}
+	if (*cur && cur != tk->str)
+		ft_lst_pushend(&substr, ft_lstnew(cur, ft_strlen(cur)));
+	if (substr)
+		expansions_addtoken(lst, substr_join(&substr), tk->id);
+}*/
+
+
+
+static int		expand_variable(t_list **lst, char **cur, char *found,
+		t_list **substr)
+{
+	int		i;
+	char	*name;
+	char	*value;
+
+	(void)lst;
+	i = 1;
+	while (found[i] && (ft_isalnum(found[i]) || found[i] == '_'))
+		++i;
+	if (i > 1)
+	{
+		if (found - *cur)
+			ft_lst_pushend(substr, ft_lstnew(*cur, found - *cur));
+		name = ft_strndup(found + 1, i - 1);
+		value = ft_getenv(g_sh.env, name);
+		if (value)
+			ft_lst_pushend(substr, ft_lstnew(value, ft_strlen(value)));
+		*cur += i - 1;
+		free(name);
+		return (1);
+	}
+	return (0);
+}
+
+void		expand_parameters(t_token *tk, t_list **lst)
+{
+	t_list	*substr;
+	char	*cur;
+	int		i;
+	int		found;
+
+	i = -1;
+	found = 0;
+	cur = tk->str;
+	substr = NULL;
+	while (*cur && cur[++i])
+		if (cur[i] == '$' && !(ft_is_escape(cur + i, tk->str) & 221))
+			if (expand_variable(lst, &cur, cur + i, &substr))
+			{
+				found = 1;
+				cur += i + 1;
+				i = 0;
+			}
+	if (found && i)
+		ft_lst_pushend(&substr, ft_lstnew(cur, i));
+	if (substr)
+		expansions_addtoken(lst, substr_join(&substr), tk->id);
+	ft_printf("\n\tFound: %i", found);
 }
