@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:36:10 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:33:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 
 # define GLOB_CHECK_CLOSE(str, x) ((int)((*(str + x) == x)))
 # define GLOB_SET_CLOSE(str, x) (*str = x)
+
+# define BRACE_ERR_1_2 " last number truncated to "
+# define BRACE_ERR_1 "Numbers expansion is too large,"
+# define BRACE_ERR_2_2 " does not fit in integer, change to "
+# define BRACE_ERR_2 "Number "
 
 typedef struct	s_brace_exp
 {

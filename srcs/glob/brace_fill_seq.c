@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 07:08:35 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:28:16 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:53:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	brace_error_not_int(char *old, int len, int new)
 	char	*str;
 	char	nbr[13];
 
-	str = ft_strjoin_free("Number ", ft_strsub(old, 0, len), 1);
-	str = ft_strjoin_free(str, " does not fit in integer, change to ", 0);
+	str = ft_strsub(old, 0, len);
 	ft_itoa_nm(new, nbr);
-	str = ft_strjoin_free(str, nbr, 0);
-	sh_error(str, 0, NULL);
+	sh_error(0, 1, NULL, 5, BRACE_ERR_2, str,
+			BRACE_ERR_2_2, nbr);
+	ft_strdel(&str);
 }
 
 void	brace_fill_seq_choice(char *str, char *end, t_brace_exp *valide,

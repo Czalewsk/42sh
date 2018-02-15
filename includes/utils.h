@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 21:58:39 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 08:28:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:24:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@
 char		sh_escape(char *str, char **escaped);
 char		sh_globbing(char *tkkn, t_list **result);
 char		*escape_it(char *str);
-char		sh_error(char *msg, char ret, void *f_callback());
+char		sh_error(char ret, char new_line, void *f_callback(), int nb, ...);
 
 #endif
