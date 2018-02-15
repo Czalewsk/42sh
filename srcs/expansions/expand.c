@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/26 19:24:14 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/13 15:14:55 by thugo            ###   ########.fr       */
+/*   Created: 2018/02/15 06:48:15 by thugo             #+#    #+#             */
+/*   Updated: 2018/02/15 06:52:01 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_expands_rules	g_expands[] = {
 	{expand_parameters, 2, {WORD, ASSIGNMENT_WORD}},
-	{NULL, 0, {}},
+	{NULL, 0, {0}},
 };
 
 void	expansions_addtoken(t_list **lst, char *str, t_token_id id)
@@ -31,24 +31,27 @@ void	expansions_addtoken(t_list **lst, char *str, t_token_id id)
 
 /*
 **	Realise l'expansion de chaque token.
+**
 **	Retourne:
-**		Une liste de token si expansion faite, sinon NULL.
+**		1: Si une expansion a ete realise (Utiliser le contenu de la liste. Si
+**			liste est NULL, supprimer le token).
+**		0: Si aucune expansion a ete realise. (Utiliser le token original)
 */
 
-t_list	*expansions_expand(t_token *tk)
+char	expansions_expand(t_list **lst, t_token *tk)
 {
 	int		i;
 	int		u;
-	t_list	*lst;
 
 	i = -1;
-	lst = NULL;
-	while (g_expands[++i].fn && !lst)
+	*lst = NULL;
+	while (g_expands[++i].fn)
 	{
 		u = -1;
 		while (++u < g_expands[i].sizeallowed)
 			if (g_expands[i].allowed[u] == tk->id)
-				g_expands[i].fn(tk, &lst);
+				if (g_expands[i].fn(tk, lst))
+					return (1);
 	}
-	return (lst);
+	return (0);
 }
