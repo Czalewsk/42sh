@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/15 06:40:43 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/15 19:06:07 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char		*substr_join(t_list **substr)
 	t_list		*prev;
 
 	i = 0;
-	str = ft_memalloc(lst_contentsize(*substr));
+	str = ft_memalloc(lst_contentsize(*substr) + 1);
 	cur = *substr;
 	while (cur)
 	{
