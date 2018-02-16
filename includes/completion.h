@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 17:32:55 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 18:18:10 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char		completion_to_normal(t_buf *cmd, t_read *info, t_key *entry);
 char		validate_completion(t_buf *cmd, t_read *info, t_key *entry);
 char		quit_completion(t_buf *cmd, t_read *info, t_key *entry);
 char		completion_to_normal_char(t_buf *cmd, t_read *info, t_key *entry);
+char		history_to_normal_char(t_buf *cmd, t_read *info, t_key *entry);
 
 /*
 **	Add_select :

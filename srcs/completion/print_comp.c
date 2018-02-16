@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 17:19:27 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 18:06:54 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@ void		display_new_comp(t_buf *cmd, t_read *info, t_select *select)
 	char	*curs;
 	char	*new_cmd;
 	int		len_path;
+	int		len;
 
-	len_path = ft_strlen_utf8(g_sh.comp->path);
-	new_cmd = ft_strnew(ft_strlen_utf8(cmd->cmd) -
-			(g_sh.comp_end - g_sh.comp_start) + len_path + select->len);
+	len = ft_strlen(select->escaped);
+	len_path = ft_strlen(g_sh.comp->path);
+	new_cmd = ft_strnew(ft_strlen(cmd->cmd) -
+			(g_sh.comp_end - g_sh.comp_start) + len_path + len);
 	curs = ft_strncat(new_cmd, cmd->cmd, g_sh.comp_start);
 	if (g_sh.comp->path)
 		curs = ft_strcat(curs, g_sh.comp->path);
 	curs = ft_strcat(curs, select->escaped);
 	curs = ft_strcat(curs, cmd->cmd + g_sh.comp_end);
-	g_sh.comp_end = g_sh.comp_start + len_path + select->len;
-	display_str(cmd, info, new_cmd, g_sh.comp_end);
+	g_sh.comp_end = g_sh.comp_start + len_path + len;
+	display_str(cmd, info, new_cmd, ft_strnlen_utf8(new_cmd, g_sh.comp_end));
 	ft_strdel(&new_cmd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 17:17:23 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/14 18:51:44 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 	int		i;
 
 	calcul_display(g_sh.comp, info);
-	if (g_sh.comp->index < g_sh.comp->nb_item)
-		g_sh.comp->index++;
-	else
-		g_sh.comp->index = 1;
+	g_sh.comp->index = (g_sh.comp->index < g_sh.comp->nb_item) ?
+		(g_sh.comp->index + 1) : 1;
 	ldl = g_sh.comp->head->head;
 	if (ldl)
 	{
-		ft_putchar('\n');
+		info->curs_char = info->total_char;
+		cursor_display_update(info, 0);
+		info->curs_char = 0;
+		ft_putchar_fd('\n', g_sh.fd_tty);
 		print_comp(g_sh.comp, info);
 		prompt_display(info, 0);
 		if (g_sh.comp->head->length == 1)
