@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/14 17:12:18 by bviala           ###   ########.fr        #
+#    Updated: 2018/02/16 14:08:54 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS_FILES		= ft_sh 													\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
+				  history/change_mode										\
 				  completion/sh_comp completion/change_mode					\
 				  completion/print_comp completion/add_select				\
 				  completion/add_dir completion/sh_first_comp				\

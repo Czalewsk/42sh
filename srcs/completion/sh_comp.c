@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 18:51:44 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 14:45:38 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,18 @@ static int	get_len_max(t_ldl_head *head)
 	return (max + 1);
 }
 
-static void	calcul_display(t_comp *comp, t_read *info)
+static void	calcul_display(t_comp *comp, t_read *info, t_buf *cmd)
 {
 	int prompt;
 
-	prompt = info->prompt / info->win_co + 1;
 	if (!info->win_height)
 		return ;
 	comp->nb_item = comp->head->length;
 	if (comp->nb_item > 2147483647)
 		comp->nb_item = 2147483647;
 	comp->len_max = get_len_max(comp->head);
+	prompt = (info->prompt + ft_strlen_utf8(cmd->cmd) + comp->len_max)
+		/ info->win_co + 1;
 	comp->nb_col = info->win_co / comp->len_max;
 	if (!comp->nb_col)
 		comp->nb_col = 1;
@@ -49,7 +50,7 @@ static void	calcul_display(t_comp *comp, t_read *info)
 	if (comp->nb_row == 0)
 		comp->nb_row = 1;
 	comp->nb_visible =
-		((info->win_height - prompt) - 1) * comp->nb_col;
+		((info->win_height - prompt)) * comp->nb_col;
 }
 
 char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
@@ -57,7 +58,7 @@ char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 	t_ldl	*ldl;
 	int		i;
 
-	calcul_display(g_sh.comp, info);
+	calcul_display(g_sh.comp, info, cmd);
 	g_sh.comp->index = (g_sh.comp->index < g_sh.comp->nb_item) ?
 		(g_sh.comp->index + 1) : 1;
 	ldl = g_sh.comp->head->head;

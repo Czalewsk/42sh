@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/10 16:55:43 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 14:10:35 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,10 @@ void	history_search_contain_name(t_buf *cmd, t_read *info, char *str);
 void	history_search_begin_name(t_buf *cmd, t_read *info, char *str);
 char	history_ctrlr(t_buf *cmd, t_read *info, t_key *entry);
 void	ft_clear_prompt(t_read *info, int first, size_t pos, char *new);
+
+/*
+**		CHANGE MODE IN STATE MACHINE
+*/
+char	history_to_completion(t_buf *cmd, t_read *info, t_key *entry);
+char	history_to_normal_char(t_buf *cmd, t_read *info, t_key *entry);
 #endif
