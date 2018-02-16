@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 17:08:42 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 14:38:09 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 15:19:10 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static void	new_select_color(t_select *select, char *name)
 
 	if (stat(name, &buf) == -1)
 	{
-	//	exit_status(error) recoder erreur stat
+		sh_error(0, 1, NULL, 3, "Function stat error : ", name, "\n");
 		select->color = 0;
+		return ;
 	}
 	if (S_ISDIR(buf.st_mode))
 	{
@@ -66,7 +67,7 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
 	path = search ? search : ".\0";
 	if (!(dir_stream = opendir(path)))
 	{
-	//	exit_status(error) recoder erreur opendir
+		sh_error(0, 1, NULL, 3, "Fail opendir : ", path, "\n");
 		return ;
 	}
 	while ((dir = readdir(dir_stream)) != NULL)

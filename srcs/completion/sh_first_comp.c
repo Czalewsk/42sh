@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 12:27:23 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 15:36:53 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 15:19:02 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	comp_all(char *to_search)
 	int ret;
 
 	ret = 0;
-	DEBUG("to search |%s|\n", to_search);
 	if (!*to_search)
 		g_sh.comp->search = NULL;
 	else

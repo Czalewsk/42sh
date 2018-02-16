@@ -6,22 +6,28 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 08:05:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:27:00 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:55:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char		sh_error(char *msg, char ret, void *f_callback())
+char		sh_error(char ret, char new_line, void *f_callback(), int nb, ...)
 {
-	if (msg)
-	{
-		g_sh.prompt_display = 0;
-		write(2, "\n", 1);
-		ft_putstr_fd("42sh: ", 2);
-		ft_putstr_fd(msg, 2);
-	}
+	va_list	ap;
+	char	*str;
+
 	if (f_callback)
 		f_callback();
+	if (new_line)
+		write(2, "\n", 1);
+	if (nb)
+	{
+		va_start(ap, nb);
+		ft_putstr_fd("42sh: ", 2);
+		g_sh.prompt_display = 0;
+	}
+	while (nb-- && (str = va_arg(ap, char *)))
+		ft_putstr_fd(str, 2);
 	return (ret);
 }

@@ -37,6 +37,7 @@
 ** - l'historique des arguments en ligne de commande
 ** - l'autocompletion
 ** - le statut de sortie de la commande precedente (SUCCESS ou Code d'erreur)
+** - le copycolle
 */
 typedef struct			s_sh
 {

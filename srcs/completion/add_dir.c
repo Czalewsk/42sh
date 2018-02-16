@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 22:24:41 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 14:36:17 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 15:06:34 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int		add_dir(t_comp *comp, t_ldl_head *head)
 
 	n = 0;
 	if (!(dir_stream = opendir(".\0")))
-	{
-	//	exit_status(error) recoder erreur opendir
-		return (0);
-	}
+		return (sh_error(0, 1, NULL, 1, "Fail opendir\n"));
 	while ((dir = readdir(dir_stream)) != NULL)
 	{
 		if ((dir->d_name[0] != '.') && ft_is_a_dir(dir->d_name) &&

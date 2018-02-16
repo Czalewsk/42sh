@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:29:52 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:36:30 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:49:47 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,14 @@ inline static void		brace_pre_expand(char **str[2], char *tkkn,
 inline static void		brace_check_value_deq(int inc, long nb[2])
 {
 	char	n[14];
-	char	str[50];
 
 	if ((inc < 0 ? (nb[0] - nb[1] + 1l) :
 			(nb[1] - nb[0] + 1l)) > BRACE_MAX_EXPANSION_NB)
 	{
 		nb[1] = nb[0] + (inc * BRACE_MAX_EXPANSION_NB);
 		ft_itoa_nm(nb[1], n);
-		ft_bzero(str, 50);
-		ft_strcat(str,
-				"Numbers expansion is too large, last number truncated to ");
-		ft_strcat(str, n);
-		ft_strcat(str, "\n");
-		sh_error(str, 0, NULL);
+		sh_error(0, !g_sh.prompt_display, NULL, 4, BRACE_ERR_1, BRACE_ERR_1_2,
+				n, "\n");
 	}
 }
 
