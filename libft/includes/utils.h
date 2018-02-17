@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/21 18:10:03 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/11 00:43:58 by bviala           ###   ########.fr       */
+/*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
+/*   Updated: 2018/02/14 14:47:40 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 
-# define BUFF_SIZE 50
+# define BUFF_SIZE 10000
 # define CT(Pointeur) ((t_str*)(Pointeur->content))
 
 typedef struct		s_str
@@ -37,6 +37,7 @@ int					ft_isalnum(int n);
 int					ft_isascii(int n);
 int					ft_isprint(int n);
 int					ft_isspace(int c);
+int					ft_is_a_bin(const char *path);
 int					ft_is_a_dir(const char *path);
 int					ft_is_a_file(const char *path);
 int					ft_is_a_reg_file(const char *path);
@@ -55,5 +56,6 @@ int					ft_strisnumber(char *str);
 int					ft_find_end_nbr(char *str);
 int					ft_isint(char *nb);
 char				ft_is_escape(char *esc, char *str);
+t_list				*ft_list_folders(char *path);
 
 #endif

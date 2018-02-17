@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/09 15:46:43 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/09 16:15:19 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,15 @@ void				ft_lstsort(t_list **begin_list, int (*cmp)());
 t_list				*ft_lstnew_str(char *str, size_t content_size);
 size_t				ft_lstlen(t_list *lst);
 void				ft_lst_del_str(void *str, size_t size);
-void				ft_lst_remove(t_list **alst, t_list *dl,
+void				ft_lst_add_index(t_list **alst, t_list *new, int index);
+void				ft_lstinsert_if_end(t_list **alst, t_list *new,
+		int (*f)(t_list *, t_list *));
+void				ft_lst_remove_index(t_list **alst, int index,
+		void (*del)());
+void				ft_lst_remove_if(t_list **alst, int (*f)(t_list *elem),
 		void (*del)(void *, size_t));
+void				ft_lst_remove(t_list **alst, t_list *dl,
+		void (*del)());
 void				ft_lst_pushend(t_list **alst, t_list *new);
 
 t_ldl_head			*ft_ldl_addback(t_ldl_head *ldl_head, void *content);
@@ -71,6 +78,8 @@ void				ft_ldl_del_if(t_ldl_head *ldl, int (*fcmp)(),
 t_ldl_head			*ft_ldl_find(t_ldl_head *ldl_head,
 		int (*fcmp)(), size_t size, void *content);
 t_ldl				*ft_ldl_head(t_ldl_head *ldl);
+int					ft_ldl_if_exist(t_ldl_head *ldl, int (*fcmp)(),
+		void *content);
 t_ldl_head			*ft_ldl_insert(t_ldl_head *ldl, void *content, size_t pos);
 t_ldl_head			*ft_ldl_insert_sort(t_ldl_head *ldl,
 		t_ldl *new, int (*fcmp)());

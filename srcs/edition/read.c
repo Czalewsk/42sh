@@ -6,21 +6,17 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/29 10:28:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/14 18:21:12 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void			debug_key(t_key *entry)
-{
-	int		i;
-
-	i = 0;
-	DEBUG("READ=%i\r\n", entry->nread);
-	while (i < entry->nread)
-		DEBUG("%hhi\r\n", entry->entry[i++]);
-}
+char			(*const g_special_case[EDITION_MAX_STATE])
+		(t_buf *cmd, t_read *info, t_key *entry) = {
+	NULL, &completion_to_normal_char, &history_to_normal_char,
+	&pasted_remove_highlight_char, &pasted_remove_highlight_char
+};
 
 void			read_key(t_key *entry)
 {
@@ -32,6 +28,16 @@ void			read_key(t_key *entry)
 	entry->nread += ret;
 }
 
+void			debug_key(t_key *entry)
+{
+	int		i;
+
+	i = 0;
+	DEBUG("READ=%i\r\n", entry->nread);
+	while (i < entry->nread)
+		DEBUG("%hhi\r\n", entry->entry[i++]);
+}
+
 /*
 ** Retourne un char dans read_line
 ** 0 -> copier coller donc la ligne nest pas finie
@@ -41,10 +47,15 @@ void			read_key(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
+//	debug_key(entry);
 	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
 	else
+	{
+		if (g_special_case[g_sh.edition_state])
+			g_special_case[g_sh.edition_state](cmd, info, entry);
 		return (insert_char(cmd, info, entry));
+	}
 }
 
 char			read_line(t_buf *cmd, t_read *info)
@@ -58,10 +69,8 @@ char			read_line(t_buf *cmd, t_read *info)
 	{
 		read_key(&entry);
 		ret = key_wrapper(cmd, info, &entry);
-//			continue ;
 		if (ret < 0)
 			break ;
-//		debug_key(&entry);
 	}
 	return (ret);
 }

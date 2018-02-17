@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/17 16:50:24 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/02/17 17:58:52 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ int bt_bg(char *arg)
     
     tmp = get_job(arg);
     if (tmp == NULL)
+    {
+        if (arg == NULL)
+            //42sh: bg: current: no such job
+        else
+            //42sh: bg: arg: no such job
         return (1);
+    }
     continue_job(tmp, 0);
     return (0);
 }

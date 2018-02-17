@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/11 02:39:08 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 16:02:32 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void		close_history(t_buf *cmd)
 				ft_strndup(cmd->cmd, cmd->size_actual));
 	if ((access = check_history_access(g_sh.hist_file)))
 	{
-		if (ft_strcmp(cmd->cmd, "\n") &&
+		if (*cmd->cmd && ft_strcmp(cmd->cmd, "\n") &&
 		(fd = open(g_sh.hist_file, O_RDWR | O_APPEND | O_CREAT, 0600)) != -1)
 		{
+			ft_putstr_fd("#", fd);
 			ft_putstr_fd(cmd->cmd, fd);
 			close(fd);
 		}
@@ -98,14 +99,14 @@ static void	history_init(t_buf *cmd, t_read *info)
 	{
 		if ((fd = open(g_sh.hist_file, O_RDWR)) == -1)
 			return ;
-		while (get_next_line(fd, &line) > 0)
+		while ((get_next_line(fd, &line) > 0) && line && line[0] == '#')
 		{
 			if (!info->curs_char)
-				g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line));
+				g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line + 1));
 			else
 			{
 				if (!ft_strncmp(line, cmd->cmd, len))
-					g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line));
+					g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line + 1));
 			}
 			ft_strdel(&line);
 		}

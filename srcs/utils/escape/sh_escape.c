@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:23:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/06 17:06:02 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/01/29 14:05:38 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ extern inline void	set_remove(char *str, unsigned int index)
 	*(str + index / 8) |= (1 << (index % 8));
 }
 
-static inline char	esc_remove(char *str, unsigned int index)
+extern inline char	esc_remove(char *str, unsigned int index)
 {
 	return (*(str + index / 8) & (1 << (index % 8)));
 }

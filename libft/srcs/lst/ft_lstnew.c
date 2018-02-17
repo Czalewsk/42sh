@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:14:45 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/09 15:48:16 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/01 00:32:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ t_list		*ft_lstnew_str(char *str, size_t content_size)
 void		ft_lst_del_str(void *str, size_t size)
 {
 	(void)size;
-	free(str);
+	if (str)
+		free(str);
 }

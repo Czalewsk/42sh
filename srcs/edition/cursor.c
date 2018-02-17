@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/11 20:48:25 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/09 14:46:29 by bviala           ###   ########.fr       */
+/*   Updated: 2018/01/29 19:27:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void			cursor_display_update(t_read *info, int write)
 	int		line;
 	int		col;
 
+	if (!info->win_co)
+		return ;
 	if (((info->curs_char + info->prompt + 1) / info->win_co == info->win_co))
 		col = 0;
 	else

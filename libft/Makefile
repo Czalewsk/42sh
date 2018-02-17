@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/01/11 17:37:58 by bviala           ###   ########.fr        #
+#    Updated: 2018/02/09 16:16:35 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,15 +56,18 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  lst/ft_lstsize.c lst/ft_lstiter.c lst/ft_lstclear.c			\
 			  lst/ft_lstprint.c	lst/ft_lstdelone.c lst/ft_lstaddback.c		\
 			  lst/ft_lstswap.c lst/ft_lstsort.c lst/ft_lstprint_name.c		\
+			  lst/ft_lst_add_index.c lst/ft_lst_remove_if.c					\
+			  lst/ft_lst_remove_index.c lst/ft_lstinsert_if_end.c			\
 			  lst/ft_lst_pushend.c lst/ft_lst_remove.c						\
 			  lst/ldl/ft_ldl_addback.c lst/ldl/ft_ldl_addfront.c			\
 			  lst/ldl/ft_ldl_clear.c lst/ldl/ft_ldl_del.c					\
 			  lst/ldl/ft_ldl_del_id.c lst/ldl/ft_ldl_del_if.c				\
 			  lst/ldl/ft_ldl_find.c lst/ldl/ft_ldl_head.c					\
-			  lst/ldl/ft_ldl_insert.c lst/ldl/ft_ldl_insert_sort.c			\
-			  lst/ldl/ft_ldl_new_list.c	lst/ldl/ft_ldl_new_node.c 			\
-			  lst/ldl/ft_ldl_rev.c	lst/ldl/ft_ldl_size.c					\
-			  lst/ldl/ft_ldl_tail.c	lst/ldl/ft_ldl_to_tab.c					\
+			  lst/ldl/ft_ldl_if_exist.c lst/ldl/ft_ldl_insert.c 			\
+			  lst/ldl/ft_ldl_insert_sort.c lst/ldl/ft_ldl_new_list.c		\
+			  lst/ldl/ft_ldl_new_node.c lst/ldl/ft_ldl_rev.c				\
+			  lst/ldl/ft_ldl_size.c	lst/ldl/ft_ldl_tail.c					\
+			  lst/ldl/ft_ldl_to_tab.c										\
 			  maths/ft_abs.c maths/ft_pow.c	maths/ft_atoi.c maths/ft_itoa.c	\
 			  maths/ft_sqrt.c maths/ft_rec_fac.c maths/reverse_octet.c		\
 			  maths/ft_itoa_base_uns.c maths/ft_itoa_base_signed.c			\
@@ -73,6 +76,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  mem/ft_memcmp.c mem/ft_memdel.c mem/ft_memset.c				\
 			  mem/ft_memccpy.c mem/ft_memmove.c	mem/free_tab2d.c			\
 			  mem/ft_memalloc.c mem/ft_realloc_tab.c mem/ft_memrealloc.c	\
+			  mem/ft_memdup.c												\
 			  output/ft_putnbr.c output/ft_putstr.c output/ft_putchar.c		\
 			  output/ft_putendl.c output/ft_putwchar.c						\
 			  output/ft_putnwstr.c output/ft_putnbr_fd.c					\
