@@ -12,6 +12,13 @@
 
 #include "ft_sh.h"
 
+const t_check_proc g_check_procs[] = {
+	{AND_IF, &check_and_if},
+	{OR_IF, &check_or_if},
+	{PIPE, &check_pipe},
+	{0, NULL}
+};
+
 const t_fill_job	g_fill_jobs[] = {
 	{WORD, &add_in_arguments},
 	{GREATAND, &gand},

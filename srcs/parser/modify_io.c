@@ -65,34 +65,6 @@ int	lessand(int fd, t_tree *c, t_process *p)
 	return (0);
 }
 
-// int		here_doc_read(t_process *p, t_tree *c)
-// {
-// 	(void)p;
-// 	(void)c;
-// 	// pid_t	f;
-
-// 	// if (pipe(closefd) == -1 || (f = fork()) == -1)
-// 	// 	return (-1);
-// 	// else
-// 	// {
-// 	// 	if (f == 0)
-// 	// 	{
-// 	// 		dup2(closefd[1], STDOUT_FILENO);
-// 	// 		close(closefd[0]);
-// 	// 		exit(returned = execute_run(first, second));
-// 	// 	}
-// 	// 	else
-// 	// 	{
-// 	// 		waitpid(f, &returned, WUNTRACED | WCONTINUED | WNOHANG);
-// 	// 		dup2(closefd[0], STDIN_FILENO);
-// 	// 		close(closefd[1]);
-// 	// 		returned = (set_for_pipe(second->right));
-// 	// 		return (returned);
-// 	// 	}
-// 	// }
-// 	// return (0);
-// }
-
 int		read_hr(char *hr, char *ref)
 {
 	if (ft_strlen(hr) -1 == 0)
@@ -105,17 +77,15 @@ int		read_hr(char *hr, char *ref)
 t_tree	*here_doc(t_process *p, t_tree *c)
 {
 	char	*hr;
-//	char	t[128];
 	int		asd[2];
 
+	(void)p;
 	if (pipe(asd) == -1)
  		return ((void *)1);// return (sh_error)
  	hr = NULL;
-	(void)p;
 	prompt_add("> ", &hr);
  	while (read_hr(hr, c->right->token.str) != 0)
  	{
-// 		close(asd[0]);
  		ft_putstr_fd(hr, asd[1]);
 		ft_strdel(&hr);
 	 	prompt_add("> ", &hr);
@@ -149,7 +119,6 @@ t_tree	*land(t_process *p, t_tree *c)
 		fd = ft_atoi(c->right->token.str);
 		if (fcntl(fd, F_GETFD) == -1)
 		{
-//			return ((void *)sh_error(1,))
 			ft_printf("\nError, %s is not set as file descriptor\n", c->right->token.str);
 			return ((void *)1);
 		}

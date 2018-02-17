@@ -42,7 +42,7 @@ int			ft_pipe(t_tree *first, t_tree *second)
 		{
 			dup2(closefd[1], STDOUT_FILENO);
 			close(closefd[0]);
-			exit(returned = execute_run(first, second));
+			exit(returned = execute_run(first, second, NULL));
 		}
 		else
 		{
@@ -73,7 +73,7 @@ int		set_for_pipe(t_tree *c)
 		}
 		tmp = tmp->right;
 	}
-	return (returned = execute_run(first_cmd, tmp));
+	return (returned = execute_run(first_cmd, tmp, NULL));
 }
 
 char	*get_command(char *ret, t_tree *chead)

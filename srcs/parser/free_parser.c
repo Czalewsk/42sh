@@ -61,3 +61,26 @@ int	ft_free_process(t_process *p)
 	free(p);
 	return (0);
 }
+
+int ft_free_jobs(t_job *j)
+{
+	free(j->command);
+	free(j);
+	return (0);
+}
+
+int	ft_free_order(t_list *lst)
+{
+	t_list	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		lst = tmp;
+		ft_free_jobs(lst->content);
+		tmp = tmp->next;
+		if (lst)
+			free(lst);
+	}
+	return (0);
+}

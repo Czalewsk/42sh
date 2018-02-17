@@ -27,6 +27,12 @@ typedef struct				s_tree
 	struct s_token			token;
 }							t_tree;
 
+typedef struct s_check_proc
+{
+	t_token_id	one;
+	t_tree		*(*cproc)(t_tree *c, t_tree *s);
+}				t_check_proc;
+
 typedef struct s_fill_job
 {
 	t_token_id	one;
@@ -59,6 +65,8 @@ typedef struct s_classic
 }				t_classic;
 
 
+int							ft_free_order(t_list *lst);
+
 
 void						reset_fd(int pdes[2], t_process *p);
 int							set_for_pipe(t_tree *c);
@@ -72,7 +80,7 @@ int							ft_free_tree(t_tree *c);
 int							ft_free_process(t_process *p);
 int							add_in_classic_tree(t_tree *cur, t_tree *new);
 int							parser(char	**cmd);
-int							execute_run(t_tree *c, t_tree *stop);
+int							execute_run(t_tree *c, t_tree *stop, t_job *job);
 int							ft_fill_for_jobs(t_tree *head);
 char						*get_command(char *ret, t_tree *chead);
 char						**get_new_argv(char **argv, char *to_add);
@@ -96,5 +104,8 @@ t_tree						*land(t_process *p, t_tree *c);
 t_tree						*gand(t_process *p, t_tree *c);
 t_tree						*lessgreat(t_process *p, t_tree *c);
 t_tree						*clobber(t_process *p, t_tree *c);
+t_tree						*check_and_if(t_tree *tmp, t_tree *stop);
+t_tree						*check_or_if(t_tree *tmp, t_tree *stop);
+t_tree						*check_pipe(t_tree *tmp, t_tree *stop);
 
 #endif
