@@ -6,7 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2018/01/23 13:44:33 by scorbion         ###   ########.fr       */
+=======
+/*   Updated: 2018/02/17 12:51:21 by scorbion         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +48,17 @@ typedef struct	s_job
 	t_process		*first_process;	/* list of processes in this job */
 }				t_job;
 
-/* A run is a piepline of multiples pricesses */
-typedef struct	s_run
-{
-	struct s_run	*next;// ls -l & pwd
-	struct s_job	*job;
-	int				num;
-	char			*command;		/* command line, used for messages */
-	char			notified;		/* true if user told about stopped job */
-	pid_t			pgid;			/* process group ID */
-	struct termios	tmodes;			/* saved terminal modes */
-}				t_run;
+// /* A job is a pipeline of processes.  */
+// typedef struct	s_job
+// {
+//	int				num;
+// 	char			*command;		/* command line, used for messages */
+// 	char			notified;		/* true if user told about stopped job */
+// 	pid_t			pgid;			/* process group ID */
+// 	struct termios	tmodes;			/* saved terminal modes */
+// 	t_process		*first_process;	/* list of processes in this job */
+// }				t_job;
+
 
 extern t_job *first_job;
 extern pid_t shell_pgid;
