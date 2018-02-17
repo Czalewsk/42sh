@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   continue_job.c                                     :+:      :+:    :+:   */
+/*   bt_bg.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/03 16:40:25 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/17 16:08:06 by scorbion         ###   ########.fr       */
+/*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
+/*   Updated: 2018/02/17 16:50:24 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/job_control.h"
 
-void  continue_job (t_job *j, int foreground)
+int bt_bg(char *arg)
 {
-  mark_job_as_running (j);
-  if (foreground)
-    put_job_in_foreground (j, 1);
-  else
-    put_job_in_background (j, 1);
+    t_job   *tmp;
+    
+    tmp = get_job(arg);
+    if (tmp == NULL)
+        return (1);
+    continue_job(tmp, 0);
+    return (0);
 }
-
