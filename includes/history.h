@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 14:10:35 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/19 13:46:29 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	close_history_noaccess(t_buf *cmd);
 char	history_do(t_buf *cmd, t_read *info, t_key *entry);
 char	history_mode(t_buf *cmd, t_read *info, t_key *entry);
 char	history_up(t_buf *cmd, t_read *info, t_key *entry);
+char	history_well_formated(char *line);
 void	init_history(void);
 char	no_history_do(t_buf *cmd, t_read *info, int first);
 char	no_history_up(t_buf *cmd, t_read *info, int last);

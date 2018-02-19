@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 16:02:32 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/19 13:47:59 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	history_init(t_buf *cmd, t_read *info)
 	{
 		if ((fd = open(g_sh.hist_file, O_RDWR)) == -1)
 			return ;
-		while ((get_next_line(fd, &line) > 0) && line && line[0] == '#')
+		while ((get_next_line(fd, &line) > 0) && history_well_formated(line))
 		{
 			if (!info->curs_char)
 				g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line + 1));
