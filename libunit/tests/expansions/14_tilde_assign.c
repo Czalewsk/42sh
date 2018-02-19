@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 03:37:24 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/19 05:29:03 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/19 08:21:01 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int		expansions_tilde_assign(void)
 			return (expansions_utils_free(&g_sh.env, &lst, -1));
 		if (tokens_valid_ret[i])
 		{
+			if (!lst)
+				return (expansions_utils_free(&g_sh.env, &lst, -1));
 			newtk = (t_token *)lst->content;
 			if (strcmp(newtk->str, tokens_valid_str[i]) || newtk->size !=
 					strlen(tokens_valid_str[i]))

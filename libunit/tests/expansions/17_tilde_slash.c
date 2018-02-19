@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 05:39:51 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/19 05:42:54 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/19 08:44:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,15 @@ int		expansions_tilde_slash(void)
 	{
 		tk.str = strdup(tokens[i]);
 		tk.size = strlen(tk.str);
-		tk.id = ASSIGNMENT_WORD;
+		tk.id = WORD;
 		ret = expansions_expand(&lst, &tk);
 		free(tk.str);
 		if (ret != tokens_valid_ret[i] || (!tokens_valid_ret[i] && lst))
 			return (expansions_utils_free(&g_sh.env, &lst, -1));
 		if (tokens_valid_ret[i])
 		{
+			if (!lst)
+				return (expansions_utils_free(&g_sh.env, &lst, -1));
 			newtk = (t_token *)lst->content;
 			if (strcmp(newtk->str, tokens_valid_str[i]) || newtk->size !=
 					strlen(tokens_valid_str[i]))
