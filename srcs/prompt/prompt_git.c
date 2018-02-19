@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 00:33:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/08 14:12:52 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/19 13:57:18 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int			sh_prompt_git(void)
 	}
 	ft_strdel(&test_git);
 	ft_strdel(&path);
+	close(fd);
 	return ((ret != -1) ? ret : 0);
 }
