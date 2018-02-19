@@ -6,13 +6,12 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 20:58:39 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/15 21:02:10 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/19 02:59:24 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "libunit_utils.h"
-#include "ft_sh.h"
 #include "expansions.h"
 #include "expansions_utils.h"
 
@@ -21,8 +20,6 @@
 #define ARG2_VALUE "     ls\t        -la\n"
 #define VALID_RETURN {"coucouhello", "ca", "marche.coucou", "ls", "-la",\
 	".encore", NULL}
-
-extern t_sh	g_sh;
 
 int		expansions_parameters_ifsunset(void)
 {
@@ -42,9 +39,8 @@ int		expansions_parameters_ifsunset(void)
 	tk.id = WORD;
 	ret = expansions_expand(&lst, &tk);
 	free(tk.str);
-	utils_venvdestroy(g_sh.env);
 	if (!ret || !lst)
-		return (expansions_utils_freelst(lst, -1));
+		return (expansions_utils_free(&g_sh.env, &lst, -1));
 	cur = lst;
 	i = 0;
 	while (cur && valid_return[i])
@@ -52,11 +48,11 @@ int		expansions_parameters_ifsunset(void)
 		newtk = (t_token*)cur->content;
 		if (strcmp(newtk->str, valid_return[i]) || newtk->size !=
 				strlen(valid_return[i]))
-			return (expansions_utils_freelst(lst, -1));
+			return (expansions_utils_free(&g_sh.env, &lst, -1));
 		cur = cur->next;
 		++i;
 	}
 	if (cur || valid_return[i])
-		return (expansions_utils_freelst(lst, -1));
-	return (expansions_utils_freelst(lst, 0));
+		return (expansions_utils_free(&g_sh.env, &lst, -1));
+	return (expansions_utils_free(&g_sh.env, &lst, 0));
 }

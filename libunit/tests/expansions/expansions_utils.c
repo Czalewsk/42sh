@@ -6,21 +6,28 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 13:33:17 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/15 14:16:07 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/19 03:30:53 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "expansions.h"
+#include "expansions_utils.h"
+#include "libunit_utils.h"
 
-int		expansions_utils_freelst(t_list *lst, int ret)
+int		expansions_utils_free(char ***venv, t_list **lst, int ret)
 {
 	t_list	*cur;
 	t_list	*prev;
 
-	if (lst)
+	if (venv && *venv)
 	{
-		cur = lst;
+		utils_venvdestroy(*venv);
+		*venv = NULL;
+	}
+	if (lst && *lst)
+	{
+		cur = *lst;
 		while (cur)
 		{
 			free(((t_token*)cur->content)->str);
@@ -29,6 +36,7 @@ int		expansions_utils_freelst(t_list *lst, int ret)
 			free(cur);
 			cur = prev;
 		}
+		*lst = NULL;
 	}
 	return (ret);
 }

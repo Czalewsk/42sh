@@ -6,13 +6,12 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 19:23:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/15 19:44:36 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/19 02:58:41 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include "libunit_utils.h"
-#include "ft_sh.h"
 #include "expansions.h"
 #include "expansions_utils.h"
 
@@ -20,8 +19,6 @@
 #define ARG1_VALUE "ARG1"
 #define ARG2_VALUE "ARG2"
 #define FULL_STR "coucou" ARG1_VALUE ".itwork" ARG2_VALUE ".lol"
-
-extern t_sh	g_sh;
 
 int		expansions_parameters_catexpand(void)
 {
@@ -38,11 +35,10 @@ int		expansions_parameters_catexpand(void)
 	tk.id = WORD;
 	ret = expansions_expand(&lst, &tk);
 	free(tk.str);
-	utils_venvdestroy(g_sh.env);
 	if (!ret || !lst || lst->next)
-		return (expansions_utils_freelst(lst, -1));
+		return (expansions_utils_free(&g_sh.env, &lst, -1));
 	newtk = (t_token*)lst->content;
 	if (strcmp(newtk->str, FULL_STR) || newtk->size != strlen(FULL_STR))
-		return (expansions_utils_freelst(lst, -1));
-	return (expansions_utils_freelst(lst, 0));
+		return (expansions_utils_free(&g_sh.env, &lst, -1));
+	return (expansions_utils_free(&g_sh.env, &lst, 0));
 }
