@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/20 18:48:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/21 00:51:42 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 {
 	size_t		len;
 
-	if (!cmd || !info)
-		return ;
 	if (str)
 	{
-		if (!buff_handler(cmd, NULL, str, info))
+		len = info->total_char;
+		info->total_char = 0;
+		if (!buff_handler(cmd, NULL, str, info) &&
+				((info->total_char = len) || 1))
 			return ;
 		ft_strcpy(cmd->cmd, str);
 	}
