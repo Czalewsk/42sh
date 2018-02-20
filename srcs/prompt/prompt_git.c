@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 00:33:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/19 13:57:18 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/20 14:04:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			sh_prompt_git(void)
 	if (!(path = getcwd(path, 0)))
 		return (0);
 	depth = ft_howmany(path, '/');
-	test_git = ft_strdup(".git/HEAD");
+	test_git = ft_strdup("./.git/HEAD");
 	while (--depth >= 0)
 	{
 		if ((fd = open(test_git, O_RDONLY)) > 0)
@@ -62,6 +62,5 @@ int			sh_prompt_git(void)
 	}
 	ft_strdel(&test_git);
 	ft_strdel(&path);
-	close(fd);
 	return ((ret != -1) ? ret : 0);
 }
