@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:05:03 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/09 16:04:47 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/21 00:41:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	ft_is_a_dir(const char *path)
 {
 	struct stat buf;
 
+	ft_bzero(&buf, sizeof(buf));
 	stat(path, &buf);
 	return (S_ISDIR(buf.st_mode));
 }
