@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:22:36 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/20 18:48:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	add_str(t_buf *cmd, t_read *info, char *str)
 	int		len;
 	char	*curs;
 
+	if (!buff_handler(cmd, NULL, str, info))
+		return ;
 	len = ft_strlen(str);
-	buff_handler(cmd, NULL, str);
 	cmd->size_actual += len;
 	curs = cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char, 0);
 	ft_memmove(curs + len, curs, sh_curs_unicode(cmd->cmd,
@@ -40,7 +41,8 @@ void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 		return ;
 	if (str)
 	{
-		buff_handler(cmd, NULL, str);
+		if (!buff_handler(cmd, NULL, str, info))
+			return ;
 		ft_strcpy(cmd->cmd, str);
 	}
 	cmd->size_actual = ft_strlen(cmd->cmd);

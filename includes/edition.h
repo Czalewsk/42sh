@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:20:35 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/20 18:45:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef struct		s_buf
 	size_t			size_actual;
 }					t_buf;
 
-void				buff_handler(t_buf *cmd, t_key *entry, char *str);
+char				buff_handler(t_buf *cmd, t_key *entry, char *str,
+		t_read *info);
 char				read_line(t_buf *cmd, t_read *info);
 void				read_key(t_key *entry);
 char				paste_handler(t_buf *cmd, t_read *info, t_key *entry);
@@ -110,5 +111,6 @@ char				cpy_cut_intern(t_buf *cmd, t_read *info, t_key *entry);
 char				cpy_pst_mvt(t_buf *cmd, t_read *info, t_key *entry);
 char				cpy_cut_validate(t_buf *cmd, t_read *info, t_key *entry);
 char				paste_intern(t_buf *cmd, t_read *info, t_key *entry);
+void				buff_max_char_init(t_read *info);
 
 #endif

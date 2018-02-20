@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/14 18:21:12 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/20 18:49:21 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char			read_line(t_buf *cmd, t_read *info)
 	t_key		entry;
 	char		ret;
 
-	buff_handler(cmd, NULL, NULL);
+	buff_handler(cmd, NULL, NULL, info);
 	ft_bzero(&entry, sizeof(t_key));
 	while (42)
 	{

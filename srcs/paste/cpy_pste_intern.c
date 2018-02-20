@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:25:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/20 19:17:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char		paste_intern(t_buf *cmd, t_read *info, t_key *entry)
 	int		size_visu;
 
 	ft_bzero(entry, sizeof(t_key));
-	if (!g_sh.pasted || !(size_paste = ft_strlen(g_sh.pasted)))
+	if (!g_sh.pasted || !(size_paste = ft_strlen(g_sh.pasted))
+			|| !buff_handler(cmd, NULL, g_sh.pasted, info))
 		return (1);
-	buff_handler(cmd, NULL, g_sh.pasted);
 	cmd->size_actual += size_paste;
 	len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
 	curs = cmd->cmd + len;
