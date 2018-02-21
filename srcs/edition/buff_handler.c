@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 15:17:27 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/21 00:44:18 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/21 17:59:18 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,14 @@ void			buff_max_char_init(t_read *info)
 static char		sh_limits_char(t_key *entry, char *str, t_read *info)
 {
 	size_t		len_visu;
-	int			limits;
 
 	len_visu = str ? info->total_char + ft_strlen_utf8(str)
 		: info->total_char + 1;
 	if (len_visu < g_max_char_visu)
 		return (1);
-	if (str && (limits = (int)(g_max_char_visu - len_visu)) > 0)
+	if (str)
 	{
-		*(str + limits) = 0;
+		*(str + g_max_char_visu - 1) = 0;
 		return (1);
 	}
 	else if (entry)

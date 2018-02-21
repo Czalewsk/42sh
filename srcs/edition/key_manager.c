@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/16 14:59:02 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/21 18:01:40 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ const t_key_map			g_key_map[] =
 		{&curs_move_hz, &completion_to_normal, &curs_move_hz,
 			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{2, ARROW_U, 3, {27, 91, 65},
-		{&history_mode, &completion_to_normal, &history_up, &history_up,
+		{&history_mode, &completion_to_normal, &history_up, NULL,
 			&pasted_remove_highlight}},
 	{3, ARROW_D, 3, {27, 91, 66},
-		{NULL, &completion_to_normal, &history_do, &history_do,
+		{NULL, &completion_to_normal, &history_do, NULL,
 			&pasted_remove_highlight}},
 	{4, QUIT, 1, {CTRL_KEY('D')},
 		{&sh_quit, &completion_to_normal, &sh_quit, &sh_quit, &sh_quit}},
@@ -97,10 +97,10 @@ const t_key_map			g_key_map[] =
 		{&edition_home_end, &completion_to_normal, &edition_home_end,
 			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{12, PAGE_UP, 4, {27, 91, 53, 126},
-		{&history_mode, &completion_to_normal, &history_up, &history_up,
+		{&history_mode, &completion_to_normal, &history_up, NULL,
 			&pasted_remove_highlight}},
 	{13, PAGE_DO, 4, {27, 91, 54, 126},
-		{NULL, &completion_to_normal, &history_do, &history_do,
+		{NULL, &completion_to_normal, &history_do, NULL,
 			&pasted_remove_highlight}},
 	{14, PASTE_KEYBOARD, 6, {27, 91, 50, 48, 48, 126},
 		{&paste_handler, &completion_to_normal, &paste_handler,
