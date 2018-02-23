@@ -6,7 +6,7 @@
 #    By: thugo <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/28 14:48:37 by thugo             #+#    #+#              #
-#    Updated: 2018/02/15 22:02:59 by thugo            ###   ########.fr        #
+#    Updated: 2018/02/23 11:37:01 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ LINKS = -L ../../libft -lft
 #Tests Folders
 TFOLDERS = expansions
 #Source files
-SRC = main.c $(wildcard ../../srcs/expansions/*.c)
+SRC = main.c $(wildcard ../../srcs/expansions/*.c ../../srcs/glob/*.c)		\
+	  ../../srcs/utils/sh_error.c
 #Dependance files
 DEP = Makefile $(wildcard */*.h)
 
