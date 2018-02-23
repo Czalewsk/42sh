@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 15:51:28 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/10 17:02:06 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/08 14:13:17 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	ft_search_prompt(t_read *info, size_t pos, char *to_find, char *new)
 	{
 		ft_printf("(reverse-i-search)`%s': ", to_find);
 		if (new)
-			ft_putstr(new);
+			ft_putstr_fd(new, g_sh.fd_tty);
 	}
 	else
-		ft_putstr("(reverse-i-search)`': ");
+		ft_putstr_fd("(reverse-i-search)`': ", g_sh.fd_tty);
 }
 
 static void	search_history(char **new, char **to_find, size_t *pos, int ret)
@@ -86,7 +86,8 @@ static int	ctrlr_solve(t_read *info, size_t *pos, char **new, char **to_find)
 			search_history(new, to_find, pos, ret);
 		else if (ret == 127 && *pos)
 			ft_delone_ctrlr(new, to_find, pos);
-		else if (ret != 127 && !ft_isprint(ret))
+		else if ((ret != 127 && !ft_isprint(ret))
+				|| (info->prompt == info->win_co - 1))
 			break ;
 	}
 	return (ret);

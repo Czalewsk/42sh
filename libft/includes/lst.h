@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:00:54 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/29 16:15:01 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/09 16:15:19 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void				ft_ldl_del_if(t_ldl_head *ldl, int (*fcmp)(),
 t_ldl_head			*ft_ldl_find(t_ldl_head *ldl_head,
 		int (*fcmp)(), size_t size, void *content);
 t_ldl				*ft_ldl_head(t_ldl_head *ldl);
+int					ft_ldl_if_exist(t_ldl_head *ldl, int (*fcmp)(),
+		void *content);
 t_ldl_head			*ft_ldl_insert(t_ldl_head *ldl, void *content, size_t pos);
 t_ldl_head			*ft_ldl_insert_sort(t_ldl_head *ldl,
 		t_ldl *new, int (*fcmp)());

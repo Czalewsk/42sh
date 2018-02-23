@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 13:54:36 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/24 02:43:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:33:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@
 
 # define BRACE_DEFAULT_SIZE (4)
 
+# define BRACE_MAX_EXPANSION_NB (1000l)
+
 # define GLOB_CHECK_CLOSE(str, x) ((int)((*(str + x) == x)))
 # define GLOB_SET_CLOSE(str, x) (*str = x)
+
+# define BRACE_ERR_1_2 " last number truncated to "
+# define BRACE_ERR_1 "Numbers expansion is too large,"
+# define BRACE_ERR_2_2 " does not fit in integer, change to "
+# define BRACE_ERR_2 "Number "
 
 typedef struct	s_brace_exp
 {
@@ -84,14 +91,14 @@ void			brace_expand_deq_num(char *tkkn, t_list *res,
 		t_brace_exp *find);
 void			brace_expand_deq_alpha(char *tkkn, t_list *res,
 		t_brace_exp *find);
-char			glob_check_char(int c);
+char			glob_check_char(unsigned char c);
 t_list			*sh_glob_init_path(char *to_glob);
 t_glob_rules	glob_rules_square(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_char(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_question(char **curs, t_list **rules, char add);
 t_glob_rules	glob_rules_asterisk(char **curs, t_list **rules, char add);
-void			sh_glob_rules_init(char *str, t_list **rules);
-void			glob_add_rules_to_path(t_list *path);
+char			sh_glob_rules_init(char *str, t_list **rules);
+char			glob_add_rules_to_path(t_list *path);
 void			glob_folders_init(t_list **path, unsigned deep_max,
 		t_list **folders);
 char			glob_rules_check(char *str, t_list *rules);
@@ -101,5 +108,7 @@ void			glob_free_files(void *content, size_t size);
 void			glob_free_process(void *content, size_t size);
 void			glob_free_str(void *elmt, size_t size);
 char			glob_is_relative(t_list **path, t_list **folders);
+char			sh_brace_exp(char *tkkn, t_list **res);
+char			sh_glob(char *to_glob, t_list **files);
 
 #endif

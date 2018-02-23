@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 13:58:59 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/15 05:32:11 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/23 04:23:39 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,3 @@ char		ft_is_escape(char *esc, char *str)
 	}
 	return ((is_escape && change) ? 0 : is_escape);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-
-int main()
-{
-	char *str = strdup("\"$arg\"$arg");
-	char esc = ft_is_escape(str + 7, str);
-
-	printf("Is Escape: %i [%c]\n", (int)esc, esc);
-	return (0);
-}
-*/

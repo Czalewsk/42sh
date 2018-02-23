@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/23 01:37:32 by thugo            ###   ########.fr        #
+#    Updated: 2018/02/23 04:22:39 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,30 +39,41 @@ SRCS_FILES		= ft_sh 													\
 				  termcaps/termcaps_init 									\
 				  prompt/prompt_display prompt/prompt_add					\
 				  prompt/prompt_git											\
-				  edition/buff_handler edition/read edition/paste_handler 	\
+				  edition/buff_handler edition/read							\
 				  edition/key_manager edition/insert_char edition/cursor	\
 				  edition/unicode edition/print edition/curs_back			\
+				  edition/expansion_wrapper edition/wrapper_is_arg			\
+				  edition/curs_word											\
 				  builtins/builtin_history									\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
+				  history/change_mode										\
+				  completion/sh_comp completion/change_mode					\
+				  completion/print_comp completion/add_select				\
+				  completion/add_dir completion/sh_first_comp				\
+				  completion/add_bin completion/add_env						\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
 				  expansions/tilde											\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
+				  utils/sh_error											\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square\
 				  glob/glob_folders glob/glob_rules_check glob/glob_files	\
-				  glob/glob_free_function glob/glob_is_relative
+				  glob/glob_free_function glob/glob_is_relative				\
+				  glob/globbing												\
+				  paste/paste_handler paste/pasted_remove_highlight			\
+				  paste/cpy_pste_intern
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
-				  utils.h sh_escape.h lexer_types.h lexer.h expansions.h
+				  utils.h sh_escape.h lexer_types.h lexer.h completion.h expansions.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -71,7 +82,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/ expansions/)
+ utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

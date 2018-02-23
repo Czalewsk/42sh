@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:00:37 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/21 19:27:07 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/16 15:59:45 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	builtin_history(void)
 		return (0);
 	while (tmp)
 	{
-		DEBUG("AAA");
 		ft_putnchar(' ', len_max - ft_count_len(len));
 		ft_printf("%zu  %s\n", len, tmp->content);
 		tmp = tmp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/01 09:19:03 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/23 04:24:53 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ inline void	info_init(t_read *info)
 	struct winsize	ws;
 
 	ft_bzero(info, sizeof(t_read));
-	ioctl(1, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
+	ioctl(g_sh.fd_tty, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
 	info->win_co = ws.ws_col;
+	info->win_height = ws.ws_row - 1;
 }
 
 static void	sh_quit_prog(t_buf *cmd)
@@ -30,8 +31,10 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_ldl_clear(&g_sh.hist, &ft_strdel);
 	ft_ldl_clear(&g_sh.history, &ft_strdel);
 	ft_strdel(&(g_sh.hist_file));
+	ft_strdel(&(g_sh.h_save));
 	free_tab2d(&(g_sh.env));
 	ft_strdel(&cmd->cmd);
+	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
 }
 
@@ -41,6 +44,8 @@ static void	sh_init_prog(char **env)
 	int j;
 
 	g_sh.edition_state = 0;
+	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
+	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
 	j = 0;
@@ -56,6 +61,8 @@ static void	sh_init_prog(char **env)
 	}
 	g_sh.env[i] = NULL;
 	g_sh.exitstatus = 0;
+	g_sh.comp = NULL;
+	g_sh.comp_status = 0;
 	init_history();
 	termcaps_init(g_sh.env);
 }
@@ -71,33 +78,13 @@ int			main(int ac, char **av, char **env)
 	while (ac || av)
 	{
 		info_init(&info);
-		prompt_display(&info, 1);
+		prompt_display(&info, 0);
+		buff_max_char_init(&info);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
 		if (ret == -3)
 			continue ;
-		//DEBUG("\r\nCMD=|%s|", cmd.cmd);
-		/* PARSER CALL START */
-		t_token tk;
-		char *cur = cmd.cmd;
-		while (lexer_getnexttoken(&tk, &cur, &cmd.cmd) > 0)
-		{
-			ft_printf("\nToken: %s | Size: %zu | Class: %i", tk.str, tk.size, tk.id);
-			t_list  *cur = expansions_expand(&tk);
-			t_list  *next;
-			while (cur)
-			{
-				t_token *etk = (t_token*)cur->content;
-				ft_printf("\n\tExpand: %s | Size: %zu | Class: %i", etk->str, etk->size, etk->id);
-				next = cur->next;
-				free(etk->str);
-				free(etk);
-				free(cur);
-				cur = next;
-			}
-			free(tk.str);
-		}
-		/* PARSER CALL END */
+		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);

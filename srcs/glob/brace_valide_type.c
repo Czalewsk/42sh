@@ -6,14 +6,12 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 13:47:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/12/18 12:58:55 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/15 06:07:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_glob.h"
 
-//Ajouter Warning si un des nombres est plus grands qu'un int
-//ils sera tronque a sa borne la plus proche
 char	brace_seq_num(char *curs, char *end, t_brace_exp *valide)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/01/03 19:40:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/20 18:48:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 	char	*curs;
 	int		len;
 
-	buff_handler(cmd, entry, NULL);
+	if (!buff_handler(cmd, entry, NULL, info))
+		return (1);
 	cmd->size_actual += entry->nread;
 	if (info->curs_char == (long)info->total_char)
 	{
-		cmd->cmd = ft_strncat(cmd->cmd, entry->entry, entry->nread);
-		write(1, entry->entry, entry->nread);
+		ft_strncat(cmd->cmd, entry->entry, entry->nread);
+		write(g_sh.fd_tty, entry->entry, entry->nread);
 	}
 	else
 	{
@@ -31,11 +32,10 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 		ft_memmove(curs + entry->nread, curs, sh_curs_unicode(cmd->cmd,
 					ft_strlen(curs) + 1, 1));
 		ft_memcpy(curs, entry->entry, entry->nread);
-		cursor_back_home(info);
-		write(1, cmd->cmd, cmd->size_actual);
+		cursor_back_home(info, 1);
+		write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	}
-	info->curs_char++;
-	info->total_char++;
+	++info->curs_char && info->total_char++;
 	cursor_display_update(info, 1);
 	ft_bzero(entry, sizeof(t_key));
 	return (1);
@@ -51,9 +51,9 @@ char		delete_char(t_buf *cmd, t_read *info, t_key *entry)
 	curs = cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char, 1);
 	ft_memmove(cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char - 1, 0),
 			curs, ft_strlen(curs) + 1);
-	cursor_back_home(info);
+	cursor_back_home(info, 1);
 	cmd->size_actual = ft_strlen(cmd->cmd);
-	write(1, cmd->cmd, cmd->size_actual);
+	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	info->curs_char--;
 	info->total_char = ft_strlen_utf8(cmd->cmd);
 	cursor_display_update(info, 1);
@@ -72,8 +72,8 @@ char		suppr_char(t_buf *cmd, t_read *info, t_key *entry)
 	ft_memmove(curs, cmd->cmd + sh_curs_unicode(cmd->cmd,
 				info->curs_char + 1, 1), ft_strlen(curs) + 1);
 	cmd->size_actual = ft_strlen(cmd->cmd);
-	cursor_back_home(info);
-	write(1, cmd->cmd, cmd->size_actual);
+	cursor_back_home(info, 1);
+	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	info->total_char--;
 	cursor_display_update(info, 1);
 	ft_bzero(entry, sizeof(t_key));

@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/02/03 03:15:01 by thugo            ###   ########.fr        #
+#    Updated: 2018/02/23 04:23:07 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,10 +63,11 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  lst/ldl/ft_ldl_clear.c lst/ldl/ft_ldl_del.c					\
 			  lst/ldl/ft_ldl_del_id.c lst/ldl/ft_ldl_del_if.c				\
 			  lst/ldl/ft_ldl_find.c lst/ldl/ft_ldl_head.c					\
-			  lst/ldl/ft_ldl_insert.c lst/ldl/ft_ldl_insert_sort.c			\
-			  lst/ldl/ft_ldl_new_list.c	lst/ldl/ft_ldl_new_node.c 			\
-			  lst/ldl/ft_ldl_rev.c	lst/ldl/ft_ldl_size.c					\
-			  lst/ldl/ft_ldl_tail.c	lst/ldl/ft_ldl_to_tab.c					\
+			  lst/ldl/ft_ldl_if_exist.c lst/ldl/ft_ldl_insert.c 			\
+			  lst/ldl/ft_ldl_insert_sort.c lst/ldl/ft_ldl_new_list.c		\
+			  lst/ldl/ft_ldl_new_node.c lst/ldl/ft_ldl_rev.c				\
+			  lst/ldl/ft_ldl_size.c	lst/ldl/ft_ldl_tail.c					\
+			  lst/ldl/ft_ldl_to_tab.c										\
 			  maths/ft_abs.c maths/ft_pow.c	maths/ft_atoi.c maths/ft_itoa.c	\
 			  maths/ft_sqrt.c maths/ft_rec_fac.c maths/reverse_octet.c		\
 			  maths/ft_itoa_base_uns.c maths/ft_itoa_base_signed.c			\
