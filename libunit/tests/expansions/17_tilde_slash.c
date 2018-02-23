@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 05:39:51 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/19 08:44:26 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/23 01:17:32 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define $_HOME "/Users/tim"
 
 #define TOKENS {"~/", "/~", "~/coucou/plop", "~///////",  NULL}
-#define TOKENS_VALID_STR {$_HOME"/", $_HOME"/coucou/plop", $_HOME"///////"}
+#define TOKENS_VALID_STR {$_HOME"/", NULL, $_HOME"/coucou/plop", $_HOME"///////"}
 #define TOKENS_VALID_RET {1, 0, 1, 1, 1}
 
 int		expansions_tilde_slash(void)
