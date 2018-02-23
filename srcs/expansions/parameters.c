@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/15 19:06:07 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/22 22:59:35 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char		*substr_join(t_list **substr)
 	return (str);
 }
 
-static void		expand_env(t_list **lst[2], t_token *tk, char *value,
+static void		expand_env(t_list **lst[2], const t_token *tk, char *value,
 	char *ifs)
 {
 	int		i;
@@ -83,7 +83,7 @@ static void		expand_env(t_list **lst[2], t_token *tk, char *value,
 		ft_lst_pushend(lst[1], ft_lstnew(value, ft_strlen(value)));
 }
 
-static int		expand_variable(t_list **lst[2], t_token *tk, char **cur,
+static int		expand_variable(t_list **lst[2], const t_token *tk, char **cur,
 	char *found)
 {
 	int		i;
@@ -108,7 +108,7 @@ static int		expand_variable(t_list **lst[2], t_token *tk, char **cur,
 	return (0);
 }
 
-char			expand_parameters(t_token *tk, t_list **lst)
+char			expand_parameters(const t_token *tk, t_list **lst)
 {
 	t_list	*substr;
 	char	*cur;

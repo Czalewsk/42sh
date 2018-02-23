@@ -6,13 +6,14 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 06:48:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/15 06:52:01 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/22 22:59:57 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansions.h"
 
 static t_expands_rules	g_expands[] = {
+	{expand_tilde, 2, {WORD, ASSIGNMENT_WORD}},
 	{expand_parameters, 2, {WORD, ASSIGNMENT_WORD}},
 	{NULL, 0, {0}},
 };
@@ -38,7 +39,7 @@ void	expansions_addtoken(t_list **lst, char *str, t_token_id id)
 **		0: Si aucune expansion a ete realise. (Utiliser le token original)
 */
 
-char	expansions_expand(t_list **lst, t_token *tk)
+char	expansions_expand(t_list **lst, const t_token *tk)
 {
 	int		i;
 	int		u;
