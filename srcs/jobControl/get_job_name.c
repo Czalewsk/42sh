@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 11:18:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 11:18:36 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/02/24 13:33:14 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 t_job   *get_job_name(char *name)
 {
-    
+    if (name)
+        return (NULL);
+    return (NULL);
 }
