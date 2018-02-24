@@ -84,6 +84,7 @@ int		execute_run(t_tree *c, t_tree *stop, t_job *job)
 		job->process = p;
 	else
 		current_execute = p; // simple command avec possibilite de la mettre en bg
+	// built in(p)
 	returned = -1;
 	path = ft_strsplit("/Users/maastie/.brew/bin:/Users/maastie/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/VMware", ':');
 	while (path && path[i])

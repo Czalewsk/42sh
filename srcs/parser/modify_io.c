@@ -171,13 +171,13 @@ t_tree	*lessgreat(t_process *p, t_tree *c)
 	return (c->right->right);	
 }
 
-t_tree	*clobber(t_process *p, t_tree *c)
-{
-	// oublie
-	(void)p;
-	(void)c;
-	return (c->right->right);
-}
+// t_tree	*clobber(t_process *p, t_tree *c)
+// {
+// 	// oublie
+// 	(void)p;
+// 	(void)c;
+// 	return (c->right->right);
+// }
 
 t_tree	*ft_dgreat(t_process *p, t_tree *c)
 {
