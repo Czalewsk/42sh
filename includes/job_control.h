@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 10:04:28 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/02/24 10:09:40 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@
 # include <unistd.h>
 # include <errno.h>
 
-struct s_job 		*first_job;
-struct s_list 		*job_order;
-struct s_process	*current_execute;
+
 
 typedef struct 			s_process
 {
@@ -48,12 +46,14 @@ typedef struct 			s_job
 	struct termios		tmodes;			/* saved terminal modes */
 }						t_job;
 
-
-extern t_job *first_job;
-extern pid_t shell_pgid;
-extern struct termios shell_tmodes;
-extern int shell_terminal;
-extern int shell_is_interactive;
+t_job			*first_job;
+t_list			*job_order;
+t_process		*current_execute;
+t_job			*first_job;
+pid_t			shell_pgid;
+struct termios	shell_tmodes;
+int				shell_terminal;
+int				shell_is_interactive;
 
 t_job	*find_job(pid_t pgid);
 int		job_is_stopped(t_job *j);
