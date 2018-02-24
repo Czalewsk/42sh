@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 06:48:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/22 22:59:57 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/23 11:56:08 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_expands_rules	g_expands[] = {
 	{expand_tilde, 2, {WORD, ASSIGNMENT_WORD}},
 	{expand_parameters, 2, {WORD, ASSIGNMENT_WORD}},
+	{expand_globing, 2, {WORD}},
 	{NULL, 0, {0}},
 };
 

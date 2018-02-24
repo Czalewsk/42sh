@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/22 22:59:35 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/24 15:07:12 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,7 @@ char			expand_parameters(const t_token *tk, t_list **lst)
 		ft_lst_pushend(&substr, ft_lstnew(cur, i));
 	if (substr)
 		expansions_addtoken(lst, substr_join(&substr), tk->id);
+	if (tk->id == WORD && *lst)
+		expand_globing(NULL, lst);
 	return (found);
 }

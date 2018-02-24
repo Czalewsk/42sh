@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/23 04:22:39 by thugo            ###   ########.fr        #
+#    Updated: 2018/02/24 17:27:50 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRCS_FILES		= ft_sh 													\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
-				  expansions/tilde											\
+				  expansions/tilde expansions/globing						\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
 				  utils/sh_error											\
