@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:40:25 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/17 16:08:06 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/02/24 10:11:00 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,3 @@ void  continue_job (t_job *j, int foreground)
   else
     put_job_in_background (j, 1);
 }
-
