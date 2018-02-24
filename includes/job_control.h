@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 11:15:32 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/02/24 18:31:31 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ void	continue_job (t_job *j, int foreground);
 void	mark_job_as_running (t_job *j);
 void	put_job_in_foreground (t_job *j, int cont);
 void  	put_job_in_background (t_job *j, int cont);
+
+/* jobs */
+int		jobs_display(t_job *j);
+int 	jobs_display_only_id(t_job *j);
+int     bt_jobs(char **arg);
 
 
 
