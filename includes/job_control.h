@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 09:45:59 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/02/24 10:04:28 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <unistd.h>
 # include <errno.h>
 
+struct s_job 		*first_job;
+struct s_list 		*job_order;
+struct s_process	*current_execute;
 
 typedef struct 			s_process
 {
