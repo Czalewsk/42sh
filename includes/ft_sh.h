@@ -62,7 +62,7 @@ typedef struct			s_sh
 	char			comp_status;
 	int				comp_start;
 	int				comp_end;
-	int				test_fd;// read.c25.18 a modifier si necessaire
+	int				test_fd;// read.c25.18 a modifier si necessaire // ft_sh.c:48:7: 
 	char			*pasted;
 	char			prompt_display;
 

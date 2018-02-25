@@ -83,6 +83,7 @@ int							ft_fill_for_jobs(t_tree *head);
 
 char						*get_command(char *ret, t_tree *chead);
 char						**get_new_argv(char **argv, char *to_add);
+char						**extract_from_tab(char **env, char *ref);
 
 void						ft_create_jobs(t_tree *c);
 void						reset_fd(int pdes[3], t_process *p);

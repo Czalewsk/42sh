@@ -64,6 +64,10 @@ int				ft_fill_for_jobs(t_tree *head)
 	while (tmp)
 		tmp = check_run(tmp);
 	if (job_order)
+	{
+		ft_printf("fill_for_jobs l:68 si tu veux free la list de job\n");
+//		job_order = job_order->next;
 		ft_free_order(job_order);
+	}
 	return (ft_free_tree(head));
 }

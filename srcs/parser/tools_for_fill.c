@@ -31,9 +31,12 @@ char		*get_command(char *ret, t_tree *chead)
 	t_tree	*tmp;
 
 	tmp = chead;
-	while (tmp)
+	while (tmp->right)
 	{
-		ret = ft_strjoin_free(ft_strjoin_free(ret, tmp->token.str, 0), " ", 0);
+		if (!ret)
+			ret = ft_strdup(tmp->token.str);
+		else
+			ret = ft_strjoin_free(ft_strjoin_free(ret, " ", 0), tmp->token.str, 0);
 		tmp = tmp->right;
 	}
 	return (ret);

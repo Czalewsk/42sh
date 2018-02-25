@@ -12,38 +12,47 @@
 
 #include "ft_sh.h"
 
-void		add_n_job(t_job *new)
+char		*get_command_from_process(char **argv_p)
 {
-	t_job 	*tmp;
+	int		i;
+	int		e;
+	char	*ret;
 
-	tmp = first_job;
-	while (tmp->next)
-		tmp = tmp->next;
-	new->num = tmp->num + 1;
-	tmp->next = new;
+	i = 0;
+	e = 0;
+	while (argv_p && argv_p[i])
+		e = e + ft_strlen(argv_p[i++]);
+	ret = (char *)ft_memalloc(sizeof(char *) * e + i);
+	i = 0;
+	while (argv_p && argv_p[i])
+		ret = ft_strjoin_free(ft_strjoin_free(ret, " ", 0), argv_p[i++], 0);
+	return (ret);
 }
 
-void		ft_add_jobs()// current_execute;
+void		ft_add_jobs()
 {
-	t_job 	*njob;
-	t_list	*new_order;	
+	t_job	*njob;
+	t_job 	*tmp;
+	t_list	*new_order;
 
+	njob = (t_job *)ft_memalloc(sizeof(t_job));
 	new_order = ft_lstnew(NULL, 0);
 	if (first_job)
 	{
-		njob = (t_job *)ft_memalloc(sizeof(t_job));
-		add_n_job(njob);
-		njob->process = current_execute;
-		new_order->content = njob;
+		tmp = job_order->content;
 		new_order->next = job_order;
+		njob->command = get_command_from_process(current_execute->argv);
+		new_order->content = njob;
+		njob->num = tmp->num + 1;
+		njob->process = current_execute;
 		job_order = new_order;
 	}
 	else
 	{
-		first_job = (t_job *)ft_memalloc(sizeof(t_job));
+		new_order->content = njob;
+		first_job = new_order->content;
 		first_job->num = 1;
 		first_job->process = current_execute;
-		new_order->content = first_job;
 		job_order = new_order;
 	}
 }
@@ -51,26 +60,26 @@ void		ft_add_jobs()// current_execute;
 void		ft_create_jobs(t_tree *c)
 {
 	t_job	*njob;
+	t_job 	*tmp;
 	t_list	*new_order;
 
-	ft_printf("?\n");
+	njob = (t_job *)ft_memalloc(sizeof(t_job));
 	new_order = ft_lstnew(NULL, 0);
 	if (first_job)
 	{
-		njob = (t_job *)ft_memalloc(sizeof(t_job));
-		add_n_job(njob);
-		njob->command = get_command(njob->command, c);
-		njob->num = job->order->content->num + 1;
-		new_order->content = njob;
+		tmp = job_order->content;
 		new_order->next = job_order;
+		njob->command = get_command(njob->command, c);
+		new_order->content = njob;
+		njob->num = tmp->num + 1;
 		job_order = new_order;
 	}
 	else
 	{
-		first_job = (t_job *)ft_memalloc(sizeof(t_job));
-		first_job->num = 1;
+		new_order->content = njob;
+		first_job = new_order->content;
 		first_job->command = get_command(first_job->command, c);
-		new_order->content = first_job;
+		first_job->num = 1;
 		job_order = new_order;
 	}
 	check_run_v2(c);

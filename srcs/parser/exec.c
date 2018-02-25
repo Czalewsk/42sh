@@ -49,7 +49,6 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job)
 	{
 		if (job)
 		{
-//			ft_printf("exec.c 53\n");
 			p->pid = getpid();
 			job->pgid = setpgid(getpid(), getpid());
 		}
@@ -60,14 +59,15 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job)
 	return (g_sh.exitstatus);
 }
 
-int				execute(t_process *p, t_job *job)
+int				execute(t_process *p, t_job *job)// rajouter char **env
 {
 	char		**path;
 	char		*exec_line;
 	int			i;
 
 	i = 0;
-	path = ft_strsplit("/Users/maastie/.brew/bin:/Users/maastie/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/VMware", ':');
+	if ((path = extract_from_tab(g_sh.env, "PATH=")) == NULL)
+		return (-1);
 	while (path && path[i])
 	{
 		exec_line = ft_strjoin(path[i], "/");
@@ -89,12 +89,8 @@ int				execute(t_process *p, t_job *job)
 
 int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 {
-	// char		**path;
-	// char		*exec_line;
-	// int			i;
 	t_process 	*p;
 
-//	i = 0;
 	p = NULL;
 	p = fill_for_exec(c, stop);
 	if (p == (void *)1)
@@ -107,24 +103,6 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 		current_execute = p;
 	if (check_built_in(p) == 0)
 		return (do_built_in(p));
+	g_sh.exitstatus = -1;
 	return (execute(p, job));
-	// g_sh.exitstatus = -1;
-	// path = ft_strsplit("/Users/maastie/.brew/bin:/Users/maastie/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Applications/VMware", ':');
-	// while (path && path[i])
-	// {
-	// 	exec_line = ft_strjoin(path[i], "/");
-	// 	exec_line = ft_strjoin_free(exec_line, p->argv[0], 0);
-	// 	if (access(exec_line, X_OK) != -1)
-	// 	{
-	// 		g_sh.exitstatus = exec_with_acces(exec_line, p, job);
-	// 		ft_strdel(&exec_line);
-	// 		break ;
-	// 	}
-	// 	ft_strdel(&exec_line);
-	// 	i++;
-	// }
-	// ft_free_array(path);
-	// reset_fd(g_sh.fds, p);
-	// ft_free_process(p);
-	// return (g_sh.exitstatus);
 }

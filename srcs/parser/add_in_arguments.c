@@ -18,9 +18,9 @@ char		**realloc_argv(char **argv, char *to_add, int s)
 	char	**new;
 	int		i;
 
+	i = 0;
 	if ((new = (char **)malloc(sizeof(char *) * (s + 1))) == NULL)
 		return (NULL);
-	i = 0;
 	while (argv && argv[i])
 	{
 		new[i] = ft_strdup(argv[i]);
@@ -40,7 +40,7 @@ char		**get_new_argv(char **argv, char *to_add)
 	i = 0;
 	if (!argv)
 	{
-		if ((argv = (char **)malloc(sizeof(char *) * 2)) == NULL)
+		if ((argv = (char **)malloc(sizeof(char *) * 1)) == NULL)
 			return (NULL);
 		argv[0] = ft_strdup(to_add);
 		argv[1] = NULL;

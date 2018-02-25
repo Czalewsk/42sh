@@ -65,15 +65,15 @@ int	ft_free_process(t_process *p)
 int ft_free_jobs(t_job *j)
 {
 	if (j->command)
-	{
-		ft_printf("%s\n", j->command);
+	// {
+	// 	ft_printf("freed t_job->command\n");
 		free(j->command);
-	}
+//	}
 	if (j)
-	{
-		ft_printf("j");
+	// {
+	// 	ft_printf("freed t_job\n");
 		free(j);
-	}
+//	}
 	return (0);
 }
 
@@ -88,7 +88,13 @@ int	ft_free_order(t_list *lst)
 		ft_free_jobs(lst->content);
 		tmp = tmp->next;
 		if (lst)
+		// {
+		// 	ft_printf("freed lst\n");
 			free(lst);
+//		}
 	}
+	job_order = NULL;
+	first_job = NULL;
+//	ft_printf("all freed\n");
 	return (0);
 }
