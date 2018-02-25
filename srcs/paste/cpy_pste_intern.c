@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/20 19:17:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/25 20:35:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,29 @@ char		paste_intern(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char	*curs;
 	int		len;
-	int		size_paste;
-	int		size_visu;
+	int		size;
+	char	*tmp;
 
 	ft_bzero(entry, sizeof(t_key));
-	if (!g_sh.pasted || !(size_paste = ft_strlen(g_sh.pasted))
-			|| !buff_handler(cmd, NULL, g_sh.pasted, info))
+	if (!g_sh.pasted)
 		return (1);
-	cmd->size_actual += size_paste;
+	tmp = ft_strdup(g_sh.pasted);
+	if (!buff_handler(cmd, NULL, g_sh.pasted, info))
+		return (1);
+	size = ft_strlen(g_sh.pasted);
+	cmd->size_actual += size;
 	len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
 	curs = cmd->cmd + len;
-	ft_memmove(curs + size_paste, curs, ft_strlen(curs));
-	ft_memcpy(curs, g_sh.pasted, size_paste);
+	ft_memmove(curs + size, curs, ft_strlen(curs));
+	ft_memcpy(curs, g_sh.pasted, size);
 	cursor_back_home(info, 1);
 	write(g_sh.fd_tty, cmd->cmd, len);
 	tputs(g_termcaps_cap[HIGH_START], 0, &ft_putchar_termcap);
-	write(g_sh.fd_tty, curs, size_paste);
+	write(g_sh.fd_tty, curs, size);
 	tputs(g_termcaps_cap[HIGH_STOP], 0, &ft_putchar_termcap);
-	write(g_sh.fd_tty, curs + size_paste, cmd->size_actual - len - size_paste);
-	size_visu = ft_strlen_utf8(g_sh.pasted);
-	(info->curs_char += size_visu) && (info->total_char += size_visu);
+	write(g_sh.fd_tty, curs + size, cmd->size_actual - len - size);
+	size = ft_strlen_utf8(g_sh.pasted);
+	((info->curs_char += size) || 1) && (info->total_char += size);
 	cursor_display_update(info, 1);
 	g_sh.edition_state = PASTED;
 	return (1);
