@@ -6,19 +6,19 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 18:04:21 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:36:45 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:52:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh_glob.h"
 
-inline char		glob_check_char(int c)
+inline char		glob_check_char(unsigned char c)
 {
 	const char	test[255] = {['*'] = 1,
 		['?'] = 2,
 		['['] = 3 };
 
-	return (test[(unsigned)c]);
+	return (test[c]);
 }
 
 /*

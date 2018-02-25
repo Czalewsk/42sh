@@ -6,7 +6,6 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 19:26:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +27,7 @@
 # include "termcaps.h"
 # include "prompt.h"
 # include "job_control.h"
+# include "expansions.h"
 # include "lexer.h"
 # include "lexer_types.h"
 # include "parser.h"
@@ -42,6 +42,7 @@
 ** - l'historique des arguments en ligne de commande
 ** - l'autocompletion
 ** - le statut de sortie de la commande precedente (SUCCESS ou Code d'erreur)
+** - le copycolle
 */
 typedef struct			s_sh
 {
@@ -54,13 +55,17 @@ typedef struct			s_sh
 	char			*h_save;
 	char			*hist_file;
 	int				h_first;
+	int				fds[3];
 	char			**env;
-	unsigned char	exitstatus;
+	int				exitstatus;
 	t_comp			*comp;
 	char			comp_status;
 	int				comp_start;
 	int				comp_end;
-	int 			test_fd;
+	int				test_fd;// read.c25.18 a modifier si necessaire
+	char			*pasted;
+	char			prompt_display;
+
 }						t_sh;
 
 extern t_sh				g_sh;

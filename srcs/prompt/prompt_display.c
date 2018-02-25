@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 18:45:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/19 13:49:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ static int	sh_current_dir(int ret, char *path, char *home)
 	{
 		ft_putstr_fd(tmp + 1, g_sh.fd_tty);
 		ret = ft_strlen(tmp + 1);
-		ft_strdel(&path);
 	}
+	ft_strdel(&path);
 	return (ret);
 }
 
 void		prompt_display(t_read *info, int new)
 {
-	int		ret;
+	int				ret;
 
 	ret = 0;
 	new ? write(g_sh.fd_tty, "\n", 1) : 0;
@@ -92,4 +92,5 @@ void		prompt_display(t_read *info, int new)
 	ft_putstr_fd(C_DEFAULT, g_sh.fd_tty);
 	ret += ft_strlen_utf8(PROMPT) + 1;
 	info->prompt = ret;
+	g_sh.prompt_display = 1;
 }

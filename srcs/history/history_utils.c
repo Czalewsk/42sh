@@ -6,11 +6,27 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:26:34 by bviala            #+#    #+#             */
-/*   Updated: 2018/01/11 02:31:54 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/20 14:04:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+char	history_well_formated(char *line)
+{
+	int		fd;
+
+	if (!line || line[0] != '#')
+	{
+		sh_error(0, 1, NULL, 3, RED, "Historique corrompu", C_DEFAULT "\n");
+		if ((fd = open(g_sh.hist_file, O_RDWR | O_TRUNC, 0600)) == -1)
+			return (sh_error(0, 1, NULL, 1, "Historique : Open error\n"));
+		close(fd);
+		get_next_line(-2, NULL);
+		return (0);
+	}
+	return (1);
+}
 
 int		check_history_access(const char *file)
 {

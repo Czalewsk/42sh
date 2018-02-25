@@ -64,17 +64,15 @@ typedef struct s_classic
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
 }				t_classic;
 
-
-int							ft_free_order(t_list *lst);
-
-
-void						reset_fd(int pdes[2], t_process *p);
+int							check_built_in(t_process *p);
+int							do_built_in(t_process *p);
 int							set_for_pipe(t_tree *c);
 int							ft_leave_parse(t_token t);
 int							read_parser(char **cmd, char *cur);
 int							cnewline(t_token t, char **cmd, char *cur);
 int							read_from_prompt(char **cmd, char *cur);
-int							ft_free_token(t_tree *token);
+int							ft_free_order(t_list *lst);
+int							ft_free_node(t_tree *token);
 int							ft_free_array(char **argv);
 int							ft_free_tree(t_tree *c);
 int							ft_free_process(t_process *p);
@@ -82,10 +80,14 @@ int							add_in_classic_tree(t_tree *cur, t_tree *new);
 int							parser(char	**cmd);
 int							execute_run(t_tree *c, t_tree *stop, t_job *job);
 int							ft_fill_for_jobs(t_tree *head);
+
 char						*get_command(char *ret, t_tree *chead);
 char						**get_new_argv(char **argv, char *to_add);
+
+void						ft_create_jobs(t_tree *c);
+void						reset_fd(int pdes[3], t_process *p);
 void						set_new_id(t_tree *cur, t_tree *new);
-void						init_closefd(int pdes[2]);
+void						init_closefd(int pdes[3]);
 
 t_process					*init_process(t_process *p);
 t_tree						*init_node(t_token c, t_tree *n);
@@ -107,5 +109,6 @@ t_tree						*clobber(t_process *p, t_tree *c);
 t_tree						*check_and_if(t_tree *tmp, t_tree *stop);
 t_tree						*check_or_if(t_tree *tmp, t_tree *stop);
 t_tree						*check_pipe(t_tree *tmp, t_tree *stop);
+t_tree						*check_run_v2(t_tree *c);
 
 #endif

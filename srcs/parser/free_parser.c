@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-int	ft_free_token(t_tree *t)
+int	ft_free_node(t_tree *t)
 {
 	if (t && t != NULL)
 		free(t);
@@ -64,8 +64,16 @@ int	ft_free_process(t_process *p)
 
 int ft_free_jobs(t_job *j)
 {
-	free(j->command);
-	free(j);
+	if (j->command)
+	{
+		ft_printf("%s\n", j->command);
+		free(j->command);
+	}
+	if (j)
+	{
+		ft_printf("j");
+		free(j);
+	}
 	return (0);
 }
 

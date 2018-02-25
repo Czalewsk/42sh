@@ -6,11 +6,12 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:48 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/20 22:02:56 by thugo            ###   ########.fr       */
+/*   Updated: 2018/01/29 21:16:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_types.h"
+#include "libft.h"
 
 int		rules_word(t_token *tk, char **cur, char *escape)
 {
@@ -78,3 +79,28 @@ int		rules_subsh(t_token *tk, char **cur, char *escape)
 	}
 	return (0);
 }
+
+/* OLD VERSION */
+/*
+int		rules_param_exp(t_token *tk, char **cur, char *escape)
+{
+	int		i;
+
+	if (*escape & ~(char)2 || **cur != '$')
+		return (0);
+	i = 1;
+	while (*cur + i && (ft_isalnum(*(*cur + i)) || *(*cur + i) == '_'))
+		++i;
+	if (i > 1)
+	{
+		if (tk->size)
+			return (1);
+		tk->size = i;
+		tk->str = *cur;
+		tk->id = PARAM_EXP;
+		*cur += i;
+		return (1);
+	}
+	return (0);
+}*/
+

@@ -29,7 +29,6 @@ const t_fill_job	g_fill_jobs[] = {
 	{DLESS, &here_doc},
 	{DGREAT, &ft_dgreat},
 	{LESSGREAT, &lessgreat},
-	//ASSIGNMENT_WORD, SUBSH
 	{0, NULL}
 };
 

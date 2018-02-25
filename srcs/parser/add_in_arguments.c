@@ -12,9 +12,8 @@
 
 #include "ft_sh.h"
 
-
-/// a modifier pour opti malloc de ****
-char	**realloc_argv(char **argv, char *to_add, int s)
+/// a modifier pour opti malloc de **
+char		**realloc_argv(char **argv, char *to_add, int s)
 {
 	char	**new;
 	int		i;
@@ -34,7 +33,7 @@ char	**realloc_argv(char **argv, char *to_add, int s)
 	return (new);
 }
 
-char	**get_new_argv(char **argv, char *to_add)
+char		**get_new_argv(char **argv, char *to_add)
 {
 	int		i;
 
@@ -52,9 +51,8 @@ char	**get_new_argv(char **argv, char *to_add)
 	return (argv = realloc_argv(argv, to_add, ++i));
 }
 
-t_tree	*add_in_arguments(t_process *p, t_tree *clist)
+t_tree		*add_in_arguments(t_process *p, t_tree *clist)
 {
-//	ft_printf("\n%s\n", clist->token.str);
 	p->argv = get_new_argv(p->argv, clist->token.str);
 	return (clist->right);
 }

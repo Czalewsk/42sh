@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:57 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/29 10:21:37 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/23 04:23:22 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char				*ft_strchr(const char *str, int n);
 char				*ft_strrchr(const char *str, int n);
 char				**ft_strsplit(char const *s, char c);
 char				**ft_strsplit_whitespaces(char const *str);
+char				**ft_strsplits(char const *s, char *c);
 void				ft_striter(char *s, void (*f) (char *));
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strcat(char *dest, const char *src);
@@ -53,6 +54,8 @@ char				*ft_strmapi(char const *s, char (*f) (unsigned int, char));
 char				*ft_strnstr(const char *str, const char *to_find, size_t n);
 int					ft_calc_wstrlen(wchar_t *str, int precision, int i);
 int					ft_strlen_utf8(char *str);
+int					ft_strnlen_utf8(char *str, int n);
 char				*ft_strxjoin(int nb_elemt, ...);
+char                *ft_strcnt(const char *s, const char *sfind);
 
 #endif

@@ -56,3 +56,4 @@ dkms.conf
 
 #42sh spec
 42sh
+libunit/tests/unit_test

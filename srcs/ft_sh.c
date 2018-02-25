@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/07 19:13:31 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/23 04:24:53 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+#include "lexer.h"
+#include "expansions.h"
 
 t_sh		g_sh;
 
@@ -21,6 +23,7 @@ inline void	info_init(t_read *info)
 	ft_bzero(info, sizeof(t_read));
 	ioctl(g_sh.fd_tty, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
 	info->win_co = ws.ws_col;
+	info->win_height = ws.ws_row - 1;
 }
 
 static void	sh_quit_prog(t_buf *cmd)
@@ -28,10 +31,10 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_ldl_clear(&g_sh.hist, &ft_strdel);
 	ft_ldl_clear(&g_sh.history, &ft_strdel);
 	ft_strdel(&(g_sh.hist_file));
+	ft_strdel(&(g_sh.h_save));
 	free_tab2d(&(g_sh.env));
 	ft_strdel(&cmd->cmd);
-	// close(g_sh.test_fd);
-	// close(g_sh.fd_tty);
+	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
 }
 
@@ -59,6 +62,8 @@ static void	sh_init_prog(char **env)
 	}
 	g_sh.env[i] = NULL;
 	g_sh.exitstatus = 0;
+	g_sh.comp = NULL;
+	g_sh.comp_status = 0;
 	init_history();
 	termcaps_init(g_sh.env);
 }
@@ -75,7 +80,8 @@ int			main(int ac, char **av, char **env)
 	while (ac || av)
 	{
 		info_init(&info);
-		prompt_display(&info, 1);
+		prompt_display(&info, 0);
+		buff_max_char_init(&info);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
 		if (ret == -3)
@@ -83,11 +89,10 @@ int			main(int ac, char **av, char **env)
 		savefds[0] = dup(STDIN_FILENO);
 		savefds[1] = dup(STDOUT_FILENO);
 		savefds[2] = dup(STDERR_FILENO);
-		parser(&cmd.cmd); // parser &cmd.cmd
+		parser(&cmd.cmd);
 		dup2(savefds[0], STDIN_FILENO);
 		dup2(savefds[1], STDOUT_FILENO);
 		dup2(savefds[2], STDERR_FILENO);
-//		DEBUG("\r\nCMD=|%s|", cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);
