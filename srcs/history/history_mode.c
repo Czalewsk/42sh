@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/21 17:59:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/27 13:43:55 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void		close_history(t_buf *cmd)
 		{
 			ft_putstr_fd("#", fd);
 			ft_putstr_fd(cmd->cmd, fd);
+			if (!ft_strchr(cmd->cmd, '\n')) // a supprimer apres avoir enlever le '\n' de cmd->cmd
+				ft_putchar_fd('\n', fd);
 			close(fd);
 		}
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 15:17:27 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/21 17:59:18 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/25 18:35:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char		sh_limits_char(t_key *entry, char *str, t_read *info)
 		return (1);
 	if (str)
 	{
-		*(str + g_max_char_visu - 1) = 0;
+		*(str + g_max_char_visu - info->total_char - 1) = 0;
 		return (1);
 	}
 	else if (entry)

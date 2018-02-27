@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 07:08:35 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/15 06:53:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/27 15:53:46 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void	brace_error_not_int(char *old, int len, int new)
 	char	nbr[13];
 
 	str = ft_strsub(old, 0, len);
+	ft_bzero(nbr, sizeof(nbr));
 	ft_itoa_nm(new, nbr);
-	sh_error(0, 1, NULL, 5, BRACE_ERR_2, str,
+	sh_error(0, 1, NULL, 4, BRACE_ERR_2, str,
 			BRACE_ERR_2_2, nbr);
 	ft_strdel(&str);
 }
