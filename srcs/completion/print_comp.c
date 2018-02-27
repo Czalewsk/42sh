@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 08:40:39 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 18:06:54 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/21 18:27:31 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void		display_new_comp(t_buf *cmd, t_read *info, t_select *select)
 	int		len_path;
 	int		len;
 
+	DEBUG("display new comp\n");
 	len = ft_strlen(select->escaped);
 	len_path = ft_strlen(g_sh.comp->path);
 	new_cmd = ft_strnew(ft_strlen(cmd->cmd) -
