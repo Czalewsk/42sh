@@ -6,23 +6,13 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 00:18:22 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/27 13:34:39 by thugo            ###   ########.fr       */
+/*   Updated: 2018/02/27 15:27:14 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft.h"
-
-static int	get_argc(char **argv)
-{
-	int	argc;
-
-	argc = 0;
-	while (argv[argc])
-		++argc;
-	return (argc);
-}
 
 static int	parse_arg(const char *arg, const char *options, char *asciitab,
 		char **res)
@@ -83,14 +73,12 @@ static void	save_res(const char *asciitab, char **res)
 **	-1 if has illegal option (not in options arg), the *res is illegal opt
 */
 
-int			ft_getopt(char **argv, const char *options, char **res)
+int			ft_getopt(int argc, char **argv, const char *options, char **res)
 {
 	int		i;
 	char	asciitab[128];
-	int		argc;
 
 	ft_bzero(asciitab, 128);
-	argc = get_argc(argv);
 	i = 1;
 	while (i < argc)
 	{
