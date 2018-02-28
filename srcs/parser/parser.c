@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2017/11/26 18:31:01 by maastie          ###   ########.fr       */
+/*   Updated: 2018/02/28 16:52:59 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int			place_token(t_token t)
 	{
 		if (t.id == NEWLINE)
 			return (0);
-		if (t.id != WORD && t.id != LPAR && t.id != IO_NUMBER && t.id != SUBSH)
+		if (t.id != WORD && t.id != LPAR && t.id != IO_NUMBER && t.id != SUBSH
+				&& t.id != ASSIGNMENT_WORD)
 			return (-1);
 		else if ((head_tree = init_node(t, head_tree)) == NULL)
 			return (-3);
@@ -102,10 +103,9 @@ int			parser(char **cmd)
 	head_tree = NULL;
 	if (read_parser(cmd, cur) == -1)
 	{
-			ft_free_tree(head_tree);
-			return (-1);
+		ft_free_tree(head_tree);
+		return (-1);
 	}
-
 	if (head_tree)
 		return (ft_fill_for_jobs(head_tree));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 16:41:07 by maastie           #+#    #+#             */
-/*   Updated: 2017/12/13 16:41:10 by maastie          ###   ########.fr       */
+/*   Updated: 2018/02/28 19:15:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ const t_fill_job	g_fill_jobs[] = {
 	{DLESS, &here_doc},
 	{DGREAT, &ft_dgreat},
 	{SUBSH, &subshell},
+	{ASSIGNMENT_WORD, &assign_word},
 	{0, NULL}
 };
 
@@ -84,5 +85,7 @@ const t_classic g_classics[] = {
 	{WORD, SEMI, &go_to_current_right},
 	{WORD, PIPE, &go_to_current_right},
 	{WORD, WORD, &go_to_current_right},
+	{ASSIGNMENT_WORD, ASSIGNMENT_WORD, &go_to_current_right},
+	{ASSIGNMENT_WORD, WORD, &go_to_current_right},
 	{0, 0, NULL}
 };

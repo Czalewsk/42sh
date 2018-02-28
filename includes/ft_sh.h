@@ -30,6 +30,7 @@
 # include "expansions.h"
 # include "lexer.h"
 # include "lexer_types.h"
+# include "env.h"
 # include "parser.h"
 # include "utils.h"
 # include "history.h"

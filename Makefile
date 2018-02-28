@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/24 17:27:50 by thugo            ###   ########.fr        #
+#    Updated: 2018/02/28 18:43:44 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,13 +74,14 @@ SRCS_FILES		= ft_sh 													\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  paste/paste_handler paste/pasted_remove_highlight			\
-				  paste/cpy_pste_intern
+				  paste/cpy_pste_intern										\
+				  env/assign_word
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
 				  utils.h sh_escape.h lexer_types.h lexer.h parser.h 		\
-				  job_control.h completion.h expansions.h
+				  job_control.h completion.h expansions.h env.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -89,7 +90,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/ parser/)
+ utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/ \
+ parser/ env/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
