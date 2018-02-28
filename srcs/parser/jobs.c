@@ -82,5 +82,5 @@ void		ft_create_jobs(t_tree *c)
 		first_job->num = 1;
 		job_order = new_order;
 	}
-	check_run_v2(c);
+	check_run_v2(c, njob);
 }

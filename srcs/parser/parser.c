@@ -101,7 +101,11 @@ int			parser(char **cmd)
 	cur = *cmd;
 	head_tree = NULL;
 	if (read_parser(cmd, cur) == -1)
-		return (ft_free_tree(head_tree));
+	{
+			ft_free_tree(head_tree);
+			return (-1);
+	}
+
 	if (head_tree)
 		return (ft_fill_for_jobs(head_tree));
 	return (0);

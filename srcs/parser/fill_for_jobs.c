@@ -17,7 +17,7 @@
 
 extern	t_check_proc g_check_procs[];
 
-t_tree			*check_run_v2(t_tree *c)
+t_tree			*check_run_v2(t_tree *c, t_job *job)
 {
 	t_tree		*tp;
 	t_tree		*sp;
@@ -29,9 +29,9 @@ t_tree			*check_run_v2(t_tree *c)
 		if (sp->token.id == AND_IF || sp->token.id == OR_IF
 			|| sp->token.id == PIPE)
 		{
-			sp->token.id == AND_IF ? tp = g_check_procs[0].cproc(tp, sp) : tp;
-			sp->token.id == OR_IF ? tp = g_check_procs[1].cproc(tp, sp) : tp;
-			sp->token.id == PIPE ? tp = g_check_procs[2].cproc(tp, sp) : tp;
+			sp->token.id == AND_IF ? tp = g_check_procs[0].cproc(tp, sp, job) : tp;
+			sp->token.id == OR_IF ? tp = g_check_procs[1].cproc(tp, sp, job) : tp;
+			sp->token.id == PIPE ? tp = g_check_procs[2].cproc(tp, sp, job) : tp;
 			if (tp == (void *)1)
 				return (NULL);
 			sp = tp;
@@ -55,7 +55,7 @@ t_tree			*check_run(t_tree *c)
 		ft_create_jobs(c);
 		return (c->left);
 	}
-	return (check_run_v2(c));
+	return (check_run_v2(c, NULL));//	return (check_run_v2(c, NULL));
 }
 
 int				ft_fill_for_jobs(t_tree *head)
@@ -68,7 +68,7 @@ int				ft_fill_for_jobs(t_tree *head)
 		tmp = check_run(tmp);
 	if (job_order)
 	{
-		ft_printf("fill_for_jobs l:68 si tu veux free la list de job\n");
+		ft_printf("fill_for_jobs l:68 si tu veux pas free la list de job\n");
 //		job_order = job_order->next;
 		ft_free_order(job_order);
 	}

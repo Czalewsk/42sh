@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-int				ft_pipe(t_tree *first, t_tree *second)
+int				ft_pipe(t_tree *first, t_tree *second, t_job *job)
 {
 	pid_t		f;
 
@@ -24,21 +24,21 @@ int				ft_pipe(t_tree *first, t_tree *second)
 		{
 			dup2(g_sh.fds[1], STDOUT_FILENO);
 			close(g_sh.fds[0]);
-			exit(g_sh.exitstatus = execute_run(first, second, NULL));
+			exit(g_sh.exitstatus = execute_run(first, second, job));
 		}
 		else
 		{
 			waitpid(f, &g_sh.exitstatus, WUNTRACED | WCONTINUED | WNOHANG);
 			dup2(g_sh.fds[0], STDIN_FILENO);
 			close(g_sh.fds[1]);
-			g_sh.exitstatus = (set_for_pipe(second->right));
+			g_sh.exitstatus = (set_for_pipe(second->right, job));
 			return (g_sh.exitstatus);
 		}
 	}
 	return (0);
 }
 
-int				set_for_pipe(t_tree *c)
+int				set_for_pipe(t_tree *c, t_job *job)
 {
 	t_tree		*tmp;
 	t_tree		*first_cmd;
@@ -49,11 +49,11 @@ int				set_for_pipe(t_tree *c)
 	{
 		if (tmp->token.id == PIPE)
 		{
-			if (ft_pipe(first_cmd, tmp) == -1)
+			if (ft_pipe(first_cmd, tmp, job) == -1)
 				return (-1);
 			return (0);
 		}
 		tmp = tmp->right;
 	}
-	return (g_sh.exitstatus = execute_run(first_cmd, tmp, NULL));
+	return (g_sh.exitstatus = execute_run(first_cmd, tmp, job));
 }

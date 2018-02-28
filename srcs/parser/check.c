@@ -44,23 +44,23 @@ t_tree		*get_new_process_from_pipe(t_tree *c)
 	return (c);
 }
 
-t_tree		*check_or_if(t_tree *tmp, t_tree *stop)
+t_tree		*check_or_if(t_tree *tmp, t_tree *stop, t_job *job)
 {
-	if ((g_sh.exitstatus = execute_run(tmp, stop, NULL)) == 0)
+	if ((g_sh.exitstatus = execute_run(tmp, stop, job)) == 0)
 		return (tmp = get_new_process_from_valid_or_if(stop->right));
 	return (stop->right);
 }
 
-t_tree		*check_and_if(t_tree *tmp, t_tree *stop)
+t_tree		*check_and_if(t_tree *tmp, t_tree *stop, t_job *job)
 {
-	if ((g_sh.exitstatus = execute_run(tmp, stop, NULL)) != 0)
+	if ((g_sh.exitstatus = execute_run(tmp, stop, job)) != 0)
 		return ((void *)1);
 	return (stop->right);
 }
 
-t_tree		*check_pipe(t_tree *tmp, t_tree *stop)
+t_tree		*check_pipe(t_tree *tmp, t_tree *stop, t_job *job)
 {
-	if ((g_sh.exitstatus = set_for_pipe(tmp)) == 0)
+	if ((g_sh.exitstatus = set_for_pipe(tmp, job)) == 0)
 		return (tmp = get_new_process_from_pipe(stop));
 	return ((void *)1);
 }

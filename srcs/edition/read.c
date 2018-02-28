@@ -22,7 +22,8 @@ void			read_key(t_key *entry)
 {
 	int		ret;
 
-	ret = read(STDIN_FILENO, entry->entry + entry->nread, SIZE_READ);
+//	ret = read(STDIN_FILENO, entry->entry + entry->nread, SIZE_READ);
+	ret = read(g_sh.test_fd, entry->entry + entry->nread, SIZE_READ);
 	if (ret == -1)
 		ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
 	entry->nread += ret;

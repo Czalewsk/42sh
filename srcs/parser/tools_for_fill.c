@@ -21,6 +21,9 @@ void		init_closefd(int fds[3])
 
 void		reset_fd(int fds[3], t_process *p)
 {
+	close(fds[0]);
+	close(fds[1]);
+	close(fds[2]);
 	dup2(p->stdin, fds[0]);
 	dup2(p->stdout, fds[1]);
 	dup2(p->stderr, fds[2]);

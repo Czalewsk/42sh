@@ -45,7 +45,7 @@ static void	sh_init_prog(char **env)
 
 	g_sh.edition_state = 0;
 	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
-//	g_sh.test_fd = open(ttyname(0), O_RDONLY);
+	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
@@ -73,7 +73,7 @@ int			main(int ac, char **av, char **env)
 	t_buf		cmd;
 	t_read		info;
 	char		ret;
-	int			savefds[3];
+	//int			savefds[3];
 
 	ret = 0;
 	sh_init_prog(env);
@@ -86,13 +86,13 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
-		savefds[0] = dup(STDIN_FILENO);
-		savefds[1] = dup(STDOUT_FILENO);
-		savefds[2] = dup(STDERR_FILENO);
+		//savefds[0] = dup(STDIN_FILENO);
+		//savefds[1] = dup(STDOUT_FILENO);
+		//savefds[2] = dup(STDERR_FILENO);
 		parser(&cmd.cmd);
-		dup2(savefds[0], STDIN_FILENO);
-		dup2(savefds[1], STDOUT_FILENO);
-		dup2(savefds[2], STDERR_FILENO);
+		//dup2(savefds[0], STDIN_FILENO);
+		//dup2(savefds[1], STDOUT_FILENO);
+		//dup2(savefds[2], STDERR_FILENO);
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);

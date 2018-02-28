@@ -26,9 +26,11 @@ int		check_built_in(t_process *p)
 		return (0);
 	else if (ft_memcmp(p->argv[0], "exit", 5) == 0)
 		return (0);
-	else if (ft_memcmp(p->argv[0], "fg", 5) == 0)
+	else if (ft_memcmp(p->argv[0], "fg", 2) == 0)
 		return (0);
-	else if (ft_memcmp(p->argv[0], "bg", 5) == 0)
+	else if (ft_memcmp(p->argv[0], "bg", 2) == 0)
+		return (0);
+	else if (ft_memcmp(p->argv[0], "job", 3) == 0)
 		return (0);
 	return (-1);
 }

@@ -42,8 +42,8 @@ int			lessand(int fd, t_tree *c, t_process *p)
 		ofd = ft_atoi(c->token.str);
 		if (fcntl(ofd, F_GETFD) == -1)
 		{
-			sh_error(-1, 0, NULL, 3, "Error, ",
-				c->token.str, " is not set as file descriptor\n");
+			sh_error(-1, 0, NULL, 2, c->token.str,
+				" is not set as file descriptor\n");
 			return (-1);
 		}
 		if (fd != ofd)
@@ -74,8 +74,8 @@ t_tree		*modify_io(t_process *p, t_tree *clist)
 	{
 		if (((fd = open(clist->token.str, O_WRONLY, 0755))) == -1)
 		{
-			sh_error(0, 0, NULL, 3, "Error, ",
-				clist->token.str, " is not set as file descriptor\n");
+			sh_error(0, 0, NULL, 2, clist->token.str,
+				" is not set as file descriptor\n");
 			return ((void *)1);
 		}
 	}

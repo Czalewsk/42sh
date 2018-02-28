@@ -41,7 +41,7 @@ char		**get_new_argv(char **argv, char *to_add)
 	i = 0;
 	if (!argv)
 	{
-		if ((argv = (char **)malloc(sizeof(char *) * 1)) == NULL)
+		if ((argv = (char **)malloc(sizeof(char *) * 2)) == NULL)
 			return (NULL);
 		argv[0] = ft_strdup(to_add);
 		argv[1] = NULL;

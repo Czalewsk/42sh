@@ -90,12 +90,11 @@ int				execute(t_process *p, t_job *job, char **env, int i)
 		{
 			g_sh.exitstatus = exec_with_acces(exec_line, p, job, env);
 			ft_strdel(&exec_line);
-			break ;
+			return (clear_execute(path, p));
 		}
 		ft_strdel(&exec_line);
 	}
-	if (path && !path[i])
-		sh_error(0, 0, NULL, 3, "command not found: ", p->argv[0], "\n");
+	sh_error(0, 0, NULL, 3, "command not found: ", p->argv[0], "\n");
 	return (clear_execute(path, p));
 }
 
@@ -104,7 +103,7 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	t_process	*p;
 
 	p = NULL;
-	p = fill_for_exec(c, stop);
+	p = fill_for_exec(c, stop);	
 	if (p == (void *)1)
 		return (-1);
 	else if (p && !p->argv)

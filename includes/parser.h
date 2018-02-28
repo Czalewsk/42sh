@@ -30,7 +30,7 @@ typedef struct				s_tree
 typedef struct s_check_proc
 {
 	t_token_id	one;
-	t_tree		*(*cproc)(t_tree *c, t_tree *s);
+	t_tree		*(*cproc)(t_tree *c, t_tree *s, t_job *job);
 }				t_check_proc;
 
 typedef struct s_fill_job
@@ -67,7 +67,7 @@ typedef struct s_classic
 int							clear_execute(char **path, t_process *p);
 int							check_built_in(t_process *p);
 int							do_built_in(t_process *p);
-int							set_for_pipe(t_tree *c);
+int							set_for_pipe(t_tree *c, t_job *job);
 int							ft_leave_parse(t_token t);
 int							read_parser(char **cmd, char *cur);
 int							cnewline(t_token t, char **cmd, char *cur);
@@ -108,9 +108,9 @@ t_tree						*land(t_process *p, t_tree *c);
 t_tree						*gand(t_process *p, t_tree *c);
 t_tree						*lessgreat(t_process *p, t_tree *c);
 t_tree						*clobber(t_process *p, t_tree *c);
-t_tree						*check_and_if(t_tree *tmp, t_tree *stop);
-t_tree						*check_or_if(t_tree *tmp, t_tree *stop);
-t_tree						*check_pipe(t_tree *tmp, t_tree *stop);
-t_tree						*check_run_v2(t_tree *c);
+t_tree						*check_and_if(t_tree *tmp, t_tree *stop, t_job *job);
+t_tree						*check_or_if(t_tree *tmp, t_tree *stop, t_job *job);
+t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
+t_tree						*check_run_v2(t_tree *c, t_job *job);
 
 #endif
