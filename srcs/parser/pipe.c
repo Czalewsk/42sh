@@ -40,8 +40,8 @@ int				ft_pipe(t_tree *first, t_tree *second)
 
 int				set_for_pipe(t_tree *c)
 {
-	t_tree 		*tmp;
-	t_tree 		*first_cmd;
+	t_tree		*tmp;
+	t_tree		*first_cmd;
 
 	first_cmd = c;
 	tmp = c;

@@ -52,7 +52,7 @@ static int	quote_finish(t_token *token, char *escape, char **cmd,
 	if (*escape & 8)
 		*(*cur - 2) = '\0';
 	ft_strcpy(prompt, *escape & 1 ? "quote> " : "> ");
-	if ((ret = prompt_add(*escape & 2 ? "dquote> " : prompt, &new)) == -2)
+	if ((ret = prompt_add(*escape & 2 ? "dquote> " : prompt, &new, 0)) == -2)
 	{
 		if (!(new = ft_strjoin_free(*cur - token->size, new, 1)))
 			exit(EXIT_FAILURE);

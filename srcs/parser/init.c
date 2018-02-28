@@ -27,4 +27,3 @@ t_tree		*init_node(t_token c, t_tree *n)
 	n->token = c;
 	return (n);
 }
-

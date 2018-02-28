@@ -30,7 +30,7 @@ typedef struct				s_tree
 typedef struct s_check_proc
 {
 	t_token_id	one;
-	t_tree		*(*cproc)(t_tree *c, t_tree *s);
+	t_tree		*(*cproc)(t_tree *c, t_tree *s, t_list *job);
 }				t_check_proc;
 
 typedef struct s_fill_job
@@ -64,6 +64,7 @@ typedef struct s_classic
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
 }				t_classic;
 
+int							clear_execute(char **path, t_process *p);
 int							check_built_in(t_process *p);
 int							do_built_in(t_process *p);
 int							set_for_pipe(t_tree *c);
@@ -87,11 +88,11 @@ char						**extract_from_tab(char **env, char *ref);
 
 void						ft_create_jobs(t_tree *c);
 void						reset_fd(int pdes[3], t_process *p);
-void						set_new_id(t_tree *cur, t_tree *new);
 void						init_closefd(int pdes[3]);
 
 t_process					*init_process(t_process *p);
 t_tree						*init_node(t_token c, t_tree *n);
+t_tree						*subshell(t_process *p, t_tree *c);
 t_tree 						*set_data_for_fill(t_tree *c, t_process *p);
 t_tree						*pipe_process(t_process *p, t_tree *clist);
 t_tree						*modify_io(t_process *p, t_tree *clist);

@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-t_tree 		*get_new_process_from_valid_or_if(t_tree *c)
+t_tree		*get_new_process_from_valid_or_if(t_tree *c)
 {
 	while (c)
 	{
@@ -23,7 +23,7 @@ t_tree 		*get_new_process_from_valid_or_if(t_tree *c)
 	return (c);
 }
 
-t_tree 		*get_new_process_from_pipe(t_tree *c)
+t_tree		*get_new_process_from_pipe(t_tree *c)
 {
 	while (c)
 	{
@@ -37,7 +37,7 @@ t_tree 		*get_new_process_from_pipe(t_tree *c)
 		else if (c && c->token.id == OR_IF)
 		{
 			if (g_sh.exitstatus == 0)
-				return(c = get_new_process_from_valid_or_if(c));
+				return (c = get_new_process_from_valid_or_if(c));
 			return (c->right);
 		}
 	}
@@ -60,7 +60,7 @@ t_tree		*check_and_if(t_tree *tmp, t_tree *stop)
 
 t_tree		*check_pipe(t_tree *tmp, t_tree *stop)
 {
-	if (set_for_pipe(tmp) == 0)
+	if ((g_sh.exitstatus = set_for_pipe(tmp)) == 0)
 		return (tmp = get_new_process_from_pipe(stop));
 	return ((void *)1);
 }

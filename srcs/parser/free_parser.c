@@ -12,17 +12,17 @@
 
 #include "ft_sh.h"
 
-int	ft_free_node(t_tree *t)
+int			ft_free_node(t_tree *t)
 {
 	if (t && t != NULL)
 		free(t);
 	return (-1);
 }
 
-int	ft_free_tree(t_tree *c)
+int			ft_free_tree(t_tree *c)
 {
-	t_tree *r;
-	t_tree *tmp;
+	t_tree	*r;
+	t_tree	*tmp;
 
 	if (!c)
 		return (0);
@@ -39,7 +39,7 @@ int	ft_free_tree(t_tree *c)
 	return (0);
 }
 
-int	ft_free_array(char **argv)
+int			ft_free_array(char **argv)
 {
 	int		i;
 	char	*t;
@@ -55,29 +55,23 @@ int	ft_free_array(char **argv)
 	return (0);
 }
 
-int	ft_free_process(t_process *p)
+int			ft_free_process(t_process *p)
 {
 	ft_free_array(p->argv);
 	free(p);
 	return (0);
 }
 
-int ft_free_jobs(t_job *j)
+int			ft_free_jobs(t_job *j)
 {
 	if (j->command)
-	// {
-	// 	ft_printf("freed t_job->command\n");
 		free(j->command);
-//	}
 	if (j)
-	// {
-	// 	ft_printf("freed t_job\n");
 		free(j);
-//	}
 	return (0);
 }
 
-int	ft_free_order(t_list *lst)
+int			ft_free_order(t_list *lst)
 {
 	t_list	*tmp;
 
@@ -88,13 +82,9 @@ int	ft_free_order(t_list *lst)
 		ft_free_jobs(lst->content);
 		tmp = tmp->next;
 		if (lst)
-		// {
-		// 	ft_printf("freed lst\n");
 			free(lst);
-//		}
 	}
 	job_order = NULL;
 	first_job = NULL;
-//	ft_printf("all freed\n");
 	return (0);
 }

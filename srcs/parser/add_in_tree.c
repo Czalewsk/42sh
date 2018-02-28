@@ -14,27 +14,6 @@
 
 extern t_classic					g_classics[];
 
-// void		set_new_id(t_tree *cur, t_tree *new)
-// {
-// 	t_token_id	o;
-// 	t_token_id	n;
-
-// 	o = cur->token.id;
-// 	n = new->token.id;
-// 	if (n == While || n == If || n == Case || n == Until)
-// 	{
-// 		if (o != AND && o != SEMI && o != OR_IF
-// 			&& o != AND_IF && o != AND)
-// 			new->token.id = WORD;
-// 	}
-// 	// else if (o == IO_NUMBER) // check sur les operateur et non pas les IO_NUMBER
-// 	// {
-// 	// 	if (n != DLESS && n != DGREAT && n != LESSGREAT && n != GREATAND
-// 	// 		&& n != DLESSDASH && n != CLOBBER && n != LESS && n != GREAT)
-// 	// 		new->token.id = WORD;
-// 	// }
-// }
-
 t_tree			*go_to_current_right(t_tree *cur, t_tree *new)
 {
 	new->previous = cur;
@@ -67,7 +46,8 @@ int				check_last_token(t_tree *cur)
 
 int				cnewline(t_token t, char **cmd, char *cur)
 {
-	free(t.str);
+	if (t.str && t.str != NULL)
+		free(t.str);
 	if (!head_tree || !current)
 		return (0);
 	else if (check_last_token(current) == -1)
@@ -77,15 +57,14 @@ int				cnewline(t_token t, char **cmd, char *cur)
 	return (0);
 }
 
-int			add_in_classic_tree(t_tree *cur, t_tree *new)
+int				add_in_classic_tree(t_tree *cur, t_tree *new)
 {
-	int		i;
+	int			i;
 
 	i = 0;
-//	set_new_id(cur, new);
 	while (g_classics[i].cmp)
 	{
-		if (cur->token.id == g_classics[i].one && 
+		if (cur->token.id == g_classics[i].one &&
 			new->token.id == g_classics[i].two)
 		{
 			if ((current = g_classics[i].cmp(cur, new)) == NULL)

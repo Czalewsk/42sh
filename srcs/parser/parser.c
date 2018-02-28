@@ -23,8 +23,7 @@ int			place_token(t_token t)
 	{
 		if (t.id == NEWLINE)
 			return (0);
-		if (t.id != WORD && t.id != LPAR && t.id != If && t.id != While
-			&& t.id != Until && t.id != Case && t.id != IO_NUMBER)
+		if (t.id != WORD && t.id != LPAR && t.id != IO_NUMBER && t.id != SUBSH)
 			return (-1);
 		else if ((head_tree = init_node(t, head_tree)) == NULL)
 			return (-3);
@@ -37,11 +36,13 @@ int			place_token(t_token t)
 int			ft_leave_parse(t_token t)
 {
 	if (t.id == NEWLINE)
-		ft_printf("\nError parsing near `\\n'\n", t.str); //
+		sh_error(0, 0, NULL, 1, "Error parsing near `\\n'\n");
 	else
-		ft_printf("\nError parsing near `%s'\n", t.str); //
-	if (t.str && t.str)
-		free(t.str);
+	{
+		sh_error(0, 0, NULL, 3, "Error parsing near `", t.str, "`\n");
+		if (t.str)
+			free(t.str);
+	}
 	return (-1);
 }
 
@@ -81,7 +82,7 @@ int			read_parser(char **cmd, char *cur)
 		{
 			if (t.id == NEWLINE)
 			{
-				 if (cnewline(t, cmd, cur) == -1)
+				if (cnewline(t, cmd, cur) == -1)
 					return (ft_leave_parse(t));
 			}
 			else if (place_token(t) < 0)
@@ -89,7 +90,6 @@ int			read_parser(char **cmd, char *cur)
 		}
 		else
 			return (take_token_from_list(lst, t));
-
 	}
 	return (ret);
 }

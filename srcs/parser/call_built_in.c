@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-int	check_built_in(t_process *p)
+int		check_built_in(t_process *p)
 {
 	if (ft_memcmp(p->argv[0], "env", 3) == 0)
 		return (0);
@@ -25,6 +25,10 @@ int	check_built_in(t_process *p)
 	else if (ft_memcmp(p->argv[0], "echo", 5) == 0)
 		return (0);
 	else if (ft_memcmp(p->argv[0], "exit", 5) == 0)
+		return (0);
+	else if (ft_memcmp(p->argv[0], "fg", 5) == 0)
+		return (0);
+	else if (ft_memcmp(p->argv[0], "bg", 5) == 0)
 		return (0);
 	return (-1);
 }
@@ -47,4 +51,3 @@ int		do_built_in(t_process *p)
 	// 	return (g_sh.exitstatus = (ft_exit()));
 	// return (-1);
 }
-

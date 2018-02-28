@@ -72,7 +72,7 @@ SRCS_FILES		= ft_sh 													\
 				  parser/tools_for_fill parser/init parser/exec				\
 				  parser/modify_io parser/add_in_arguments parser/check		\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
-				  parser/heredoc parser/call_built_in parser/exec_tool		\
+				  parser/heredoc parser/call_built_in parser/subshell		\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern
 #------------------------------------------------------------------------------#

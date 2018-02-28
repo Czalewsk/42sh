@@ -27,5 +27,6 @@ char	*g_termcaps_cap[LAST];
 
 char		termcaps_init(char **env);
 void		termcaps_restore_tty(void);
+void		termcaps_set_tty(void);
 
 #endif

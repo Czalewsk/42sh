@@ -14,9 +14,9 @@
 
 int			read_hr(char *hr, char *ref)
 {
-	if (ft_strlen(hr) -1 == 0)
+	if (ft_strlen(hr) - 1 == 0)
 		return (-1);
-	else if (ft_memcmp(hr, ref, ft_strlen(hr) -1) != 0)
+	else if (ft_memcmp(hr, ref, ft_strlen(hr) - 1) != 0)
 		return (-1);
 	return (0);
 }
@@ -28,18 +28,18 @@ t_tree		*here_doc(t_process *p, t_tree *c)
 
 	(void)p;
 	if (pipe(asd) == -1)
- 		return ((void *)1);// return (sh_error)
- 	hr = NULL;
-	prompt_add("> ", &hr);
- 	while (read_hr(hr, c->right->token.str) != 0)
- 	{
- 		ft_putstr_fd(hr, asd[1]);
+		return ((void *)1);
+	hr = NULL;
+	prompt_add("> ", &hr, 1);
+	while (read_hr(hr, c->right->token.str) != 0)
+	{
+		ft_putstr_fd(hr, asd[1]);
 		ft_strdel(&hr);
-	 	prompt_add("> ", &hr);
- 	}
- 	ft_strdel(&hr);
- 	close(asd[1]);
- 	dup2(asd[0], STDIN_FILENO);
+		prompt_add("> ", &hr, 1);
+	}
+	ft_strdel(&hr);
+	close(asd[1]);
+	dup2(asd[0], STDIN_FILENO);
 	close(asd[0]);
- 	return (c->right->right);
+	return (c->right->right);
 }

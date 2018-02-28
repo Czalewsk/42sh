@@ -18,7 +18,7 @@ int			read_from_prompt(char **cmd, char *cur)
 	int		i;
 
 	nfpr = NULL;
-	prompt_add(PROMPT, &nfpr);
+	prompt_add(PROMPT, &nfpr, 0);
 	i = cur - (*cmd);
 	(*cmd) = ft_strjoin_free(*cmd, nfpr, 2);
 	return (read_parser(cmd, (*cmd) + i));

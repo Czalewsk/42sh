@@ -29,10 +29,10 @@ char		*get_command_from_process(char **argv_p)
 	return (ret);
 }
 
-void		ft_add_jobs()
+void		ft_add_jobs(void)
 {
 	t_job	*njob;
-	t_job 	*tmp;
+	t_job	*tmp;
 	t_list	*new_order;
 
 	njob = (t_job *)ft_memalloc(sizeof(t_job));
@@ -60,7 +60,7 @@ void		ft_add_jobs()
 void		ft_create_jobs(t_tree *c)
 {
 	t_job	*njob;
-	t_job 	*tmp;
+	t_job	*tmp;
 	t_list	*new_order;
 
 	njob = (t_job *)ft_memalloc(sizeof(t_job));

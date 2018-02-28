@@ -36,8 +36,17 @@ char		*get_command(char *ret, t_tree *chead)
 		if (!ret)
 			ret = ft_strdup(tmp->token.str);
 		else
-			ret = ft_strjoin_free(ft_strjoin_free(ret, " ", 0), tmp->token.str, 0);
+			ret = ft_strjoin_free(
+				ft_strjoin_free(ret, " ", 0), tmp->token.str, 0);
 		tmp = tmp->right;
 	}
 	return (ret);
+}
+
+int			clear_execute(char **path, t_process *p)
+{
+	ft_free_array(path);
+	reset_fd(g_sh.fds, p);
+	ft_free_process(p);
+	return (g_sh.exitstatus);
 }

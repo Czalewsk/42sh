@@ -60,7 +60,7 @@ void			termcaps_restore_tty(void)
 		tcsetattr(0, 0, &s_termios_backup);
 }
 
-static void		termcaps_set_tty(void)
+void		termcaps_set_tty(void)
 {
 	tcsetattr(0, 0, &s_termios);
 }

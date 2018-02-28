@@ -12,7 +12,7 @@
 
 #include "ft_sh.h"
 
-char	prompt_add(char *prompt, char **line)
+char	prompt_add(char *prompt, char **line, int i)
 {
 	t_buf		cmd;
 	t_read		info;
@@ -21,7 +21,8 @@ char	prompt_add(char *prompt, char **line)
 	ret = 0;
 	info_init(&info);
 	info.prompt = ft_strlen_utf8(prompt);
-	write(g_sh.fd_tty, "\n\r", 2);
+	if (i == 0)
+		write(g_sh.fd_tty, "\n\r", 2);
 	ft_putstr_fd(prompt, g_sh.fd_tty);
 	ret = read_line(&cmd, &info);
 	*line = cmd.cmd;

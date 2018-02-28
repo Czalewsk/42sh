@@ -14,10 +14,10 @@
 
 extern	t_fill_job	g_fill_jobs[];
 
-t_process 		*fill_for_exec(t_tree *c, t_tree *stop)
+t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 {
 	int			i;
-	t_process 	*p;
+	t_process	*p;
 
 	i = 0;
 	p = NULL;
@@ -39,10 +39,11 @@ t_process 		*fill_for_exec(t_tree *c, t_tree *stop)
 	return (p);
 }
 
-int				exec_with_acces(char *tmp, t_process *p, t_job *job)
+int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	pid_t		father;
 
+	termcaps_restore_tty();
 	if ((father = fork()) == -1)
 		exit(-1);
 	if (father == 0)
@@ -52,44 +53,55 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job)
 			p->pid = getpid();
 			job->pgid = setpgid(getpid(), getpid());
 		}
-		exit(g_sh.exitstatus = execve(tmp, p->argv, g_sh.env));
+		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 	}
 	else
 		waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
 
-int				execute(t_process *p, t_job *job)// rajouter char **env
+int				exec_in_line(t_process *p, t_job *job, char **env)
+{
+	if (access(p->argv[0], X_OK) != -1)
+	{
+		g_sh.exitstatus = exec_with_acces(p->argv[0], p, job, env);
+		if (g_sh.exitstatus == 0)
+			ft_free_process(p);
+	}
+	return (g_sh.exitstatus);
+}
+
+int				execute(t_process *p, t_job *job, char **env, int i)
 {
 	char		**path;
 	char		*exec_line;
-	int			i;
 
-	i = 0;
-	if ((path = extract_from_tab(g_sh.env, "PATH=")) == NULL)
-		return (-1);
+	if (ft_strstr(p->argv[0], "/") != NULL)
+		if ((g_sh.exitstatus = exec_in_line(p, job, env)) == 0)
+			return (g_sh.exitstatus);
+	if ((path = ft_strsplit(ft_getenv(env, "PATH"), ':')) == NULL)
+		return (ft_free_process(p));
 	while (path && path[i])
 	{
-		exec_line = ft_strjoin(path[i], "/");
+		exec_line = ft_strjoin(path[i++], "/");
 		exec_line = ft_strjoin_free(exec_line, p->argv[0], 0);
 		if (access(exec_line, X_OK) != -1)
 		{
-			g_sh.exitstatus = exec_with_acces(exec_line, p, job);
+			g_sh.exitstatus = exec_with_acces(exec_line, p, job, env);
 			ft_strdel(&exec_line);
 			break ;
 		}
 		ft_strdel(&exec_line);
-		i++;
 	}
-	ft_free_array(path);
-	reset_fd(g_sh.fds, p);
-	ft_free_process(p);
-	return (g_sh.exitstatus);
+	if (path && !path[i])
+		sh_error(0, 0, NULL, 3, "command not found: ", p->argv[0], "\n");
+	return (clear_execute(path, p));
 }
 
 int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 {
-	t_process 	*p;
+	t_process	*p;
 
 	p = NULL;
 	p = fill_for_exec(c, stop);
@@ -104,5 +116,5 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	if (check_built_in(p) == 0)
 		return (do_built_in(p));
 	g_sh.exitstatus = -1;
-	return (execute(p, job));
+	return (execute(p, job, g_sh.env, 0));
 }
