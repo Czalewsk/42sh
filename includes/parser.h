@@ -30,7 +30,7 @@ typedef struct				s_tree
 typedef struct s_check_proc
 {
 	t_token_id	one;
-	t_tree		*(*cproc)(t_tree *c, t_tree *s, t_list *job);
+	t_tree		*(*cproc)(t_tree *c, t_tree *s);
 }				t_check_proc;
 
 typedef struct s_fill_job

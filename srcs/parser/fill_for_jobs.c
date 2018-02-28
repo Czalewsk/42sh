@@ -55,7 +55,7 @@ t_tree			*check_run(t_tree *c)
 		ft_create_jobs(c);
 		return (c->left);
 	}
-	return (check_run_v2(c, NULL));
+	return (check_run_v2(c));
 }
 
 int				ft_fill_for_jobs(t_tree *head)
