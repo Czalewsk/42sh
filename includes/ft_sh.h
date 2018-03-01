@@ -57,7 +57,8 @@ typedef struct			s_sh
 	char			*hist_file;
 	int				h_first;
 	int				fds[3];
-	char			**env;
+	t_env			**env;
+	char			envupd;
 	int				exitstatus;
 	t_comp			*comp;
 	char			comp_status;

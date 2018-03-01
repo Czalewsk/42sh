@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/28 18:43:44 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/02 00:20:42 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,8 @@ SRCS_FILES		= ft_sh 													\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
-				  env/assign_word
+				  env/init env/assign_word env/get env/set env/make env/len	\
+				  env/unset env/destroy
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

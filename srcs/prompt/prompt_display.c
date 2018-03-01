@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/19 13:49:48 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/01 18:39:43 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	sh_current_dir(int ret, char *path, char *home)
 		return (0);
 	ft_putstr_fd(CYAN, g_sh.fd_tty);
 	ft_putstr_fd(T_BOLD, g_sh.fd_tty);
-	if ((home = ft_getenv(g_sh.env, "HOME")) && !ft_strcmp(path, home))
+	if ((home = env_get("HOME")) && !ft_strcmp(path, home))
 	{
 		ft_putstr_fd("~", g_sh.fd_tty);
 		ret = 1;

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 12:27:23 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 15:19:02 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/01 21:34:09 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void	comp_all(char *to_search)
 	else
 		g_sh.comp->search = ft_strdup(to_search);
 	ret += add_bin(g_sh.comp, g_sh.comp->head);
-	ret += add_env(g_sh.comp, g_sh.comp->head, g_sh.env);
+	ret += add_env(g_sh.comp, g_sh.comp->head,
+			env_make(ENV_LOCAL | ENV_GLOBAL));
 	if (ret)
 		ret += add_dir(g_sh.comp, g_sh.comp->head);
 	else

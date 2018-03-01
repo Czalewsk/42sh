@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/23 04:24:53 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/02 00:18:05 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_ldl_clear(&g_sh.history, &ft_strdel);
 	ft_strdel(&(g_sh.hist_file));
 	ft_strdel(&(g_sh.h_save));
-	free_tab2d(&(g_sh.env));
+	env_destroy();
 	ft_strdel(&cmd->cmd);
 	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
@@ -40,7 +40,6 @@ static void	sh_quit_prog(t_buf *cmd)
 
 static void	sh_init_prog(char **env)
 {
-	int i;
 	int j;
 
 	g_sh.edition_state = 0;
@@ -50,22 +49,66 @@ static void	sh_init_prog(char **env)
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
 	j = 0;
-	while (env && env[j])
-		j++;
-	g_sh.env = (char **)ft_memalloc(sizeof(char *) * (j + 1));
-	i = 0;
-	while (*env)
-	{
-		g_sh.env[i] = ft_strdup(*env);
-		i++;
-		env++;
-	}
-	g_sh.env[i] = NULL;
 	g_sh.exitstatus = 0;
 	g_sh.comp = NULL;
 	g_sh.comp_status = 0;
+	env_init((const char **)env);
 	init_history();
-	termcaps_init(g_sh.env);
+	termcaps_init();
+}
+
+void		printenv(void)
+{
+	int	i;
+
+	i = -1;
+	ft_printf("-- PRINT ENV START --\n");
+	while (g_sh.env[++i])
+		ft_printf("%s\n", g_sh.env[i]->var);
+	ft_printf("-- PRINT ENV END --\n");
+}
+
+void		debugtim(void)
+{
+	//env_unset("HOME");
+	//env_set("HOME", "/coucou/plop", ENV_LOCAL);
+	//env_make(ENV_LOCAL | ENV_GLOBAL | ENV_TEMP);
+	//env_settype("HOME", ENV_LOCAL);
+	//env_make(ENV_LOCAL | ENV_GLOBAL | ENV_TEMP);
+
+	//ft_printenv(env_make(ENV_LOCAL));
+	//ft_printf("FIRST IFS: '%s'\n", env_get("IFS"));
+}
+
+void		printtoken(char **cmd)
+{
+	t_token	tk;
+	t_token	*tk2;
+	char	*cur;
+	t_list	*lst;
+	t_list	*prev;
+
+	cur = *cmd;
+	while (lexer_getnexttoken(&tk, &cur, cmd) > 0)
+	{
+		ft_printf("TOKEN: %s | Size: %zu | Class: %i\n", tk.str, tk.size, tk.id);
+		if (expansions_expand(&lst, &tk))
+		{
+			ft_printf("\t--EXPAND--\n");
+			while (lst)
+			{
+				tk2 = (t_token *)lst->content;
+				ft_printf("\tExpand: %s | Size: %zu | Class: %i\n", tk2->str,
+					tk2->size, tk2->id);
+				prev = lst;
+				lst = lst->next;
+				free(tk2->str);
+				free(tk2);
+				free(prev);
+			}
+		}
+		free(tk.str);
+	}
 }
 
 int			main(int ac, char **av, char **env)
@@ -77,6 +120,7 @@ int			main(int ac, char **av, char **env)
 
 	ret = 0;
 	sh_init_prog(env);
+	debugtim();
 	while (ac || av)
 	{
 		info_init(&info);
@@ -89,6 +133,7 @@ int			main(int ac, char **av, char **env)
 		//savefds[0] = dup(STDIN_FILENO);
 		//savefds[1] = dup(STDOUT_FILENO);
 		//savefds[2] = dup(STDERR_FILENO);
+		//printtoken(&cmd.cmd);
 		parser(&cmd.cmd);
 		//dup2(savefds[0], STDIN_FILENO);
 		//dup2(savefds[1], STDOUT_FILENO);
