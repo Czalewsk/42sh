@@ -6,11 +6,12 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/20 18:49:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/02 11:49:40 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+#include "sh_signal.h"
 
 char			(*const g_special_case[EDITION_MAX_STATE])
 		(t_buf *cmd, t_read *info, t_key *entry) = {
@@ -22,6 +23,7 @@ void			read_key(t_key *entry)
 {
 	int		ret;
 
+	signal_manager();
 	ret = read(0, entry->entry + entry->nread, SIZE_READ);
 	if (ret == -1)
 		ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D

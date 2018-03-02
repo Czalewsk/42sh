@@ -6,13 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/23 04:24:53 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/02 11:46:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 #include "lexer.h"
 #include "expansions.h"
+#include "sh_signal.h"
 
 t_sh		g_sh;
 
@@ -40,10 +41,9 @@ static void	sh_quit_prog(t_buf *cmd)
 
 static void	sh_init_prog(char **env)
 {
-	int i;
 	int j;
 
-	g_sh.edition_state = 0;
+	ft_bzero(&g_sh, sizeof(t_sh));
 	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
@@ -52,19 +52,16 @@ static void	sh_init_prog(char **env)
 	while (env && env[j])
 		j++;
 	g_sh.env = (char **)ft_memalloc(sizeof(char *) * (j + 1));
-	i = 0;
+	j = 0;
 	while (*env)
 	{
-		g_sh.env[i] = ft_strdup(*env);
-		i++;
+		g_sh.env[j] = ft_strdup(*env);
+		j++;
 		env++;
 	}
-	g_sh.env[i] = NULL;
-	g_sh.exitstatus = 0;
-	g_sh.comp = NULL;
-	g_sh.comp_status = 0;
 	init_history();
 	termcaps_init(g_sh.env);
+	signal_handler_init();
 }
 
 int			main(int ac, char **av, char **env)
