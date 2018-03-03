@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 18:30:38 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 09:40:27 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ static int  jobs_display_jobspec(char info, char run_or_stop, char **arg)
             continue ;
         else if (run_or_stop == 's' && !job_is_stopped(j))
             continue ;
-        else if (info == 'l')
-            jobs_display_with_id(tmp);
         else if (info == 'p')
             jobs_display_only_id(tmp);
+        else if (info == 'l')
+            jobs_display(tmp, 1);
         else
-            jobs_display(tmp);
+            jobs_display(tmp, 0);
         i++;
     }
     return (retour);
@@ -57,12 +57,12 @@ static int  jobs_display_no_jobspec(char info, char run_or_stop)
             continue ;
         if (run_or_stop == 's' && !job_is_stopped(j))
             continue ;
-        if (info == 'l')
-            jobs_display_with_id(tmp);
         else if (info == 'p')
             jobs_display_only_id(tmp);
+        else if (info == 'l')
+            jobs_display(tmp, 1);
         else
-            jobs_display(tmp);
+            jobs_display(tmp, 0);
         tmp = tmp->next;
     }
     return (0);

@@ -6,13 +6,13 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 18:31:13 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 10:39:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/job_control.h"
 
-int jobs_display(t_job *j)
+int jobs_display(t_job *j, int long_flag)
 {
     int     is_current;
     int     is_old_current;
@@ -29,7 +29,10 @@ int jobs_display(t_job *j)
             ft_printf(" ");
     }
     ft_printf("  ");
-    process_display(j->process);
+    if (long_flag)
+        process_display_long(j->process);
+    else
+        process_display_short(j->process);
     return (0);
 }
 

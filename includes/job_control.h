@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 18:31:31 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 11:12:20 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				shell_is_interactive;
 
 
 
-void    put_first_in_job_order(t_job *j) /* Permet de trouver le conteneur list du job en parametre pour le mettre */
+void    put_first_in_job_order(t_job *j) /* Permet de trouver le conteneur list du job en parametre pour le mettre en job actif*/
 int		bt_fg(char **arg);
 int		bt_bg(char **arg);
 t_job   *get_job(char *arg);
@@ -72,6 +72,8 @@ void  	put_job_in_background (t_job *j, int cont);
 
 /* jobs */
 int		jobs_display(t_job *j);
+void    process_display_short(t_process *process);
+void    process_display_long(t_process *process);
 int 	jobs_display_only_id(t_job *j);
 int     bt_jobs(char **arg);
 
