@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/01 21:27:58 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/03 16:28:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char			termcaps_init(void)
 	termcaps_backup_tty();
 	tcgetattr(0, &s_termios);
 	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN);
 	s_termios.c_cflag |= (CS8);
 	s_termios.c_cc[VMIN] = 1;
 	s_termios.c_cc[VTIME] = 0;

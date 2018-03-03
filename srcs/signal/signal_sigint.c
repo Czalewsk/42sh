@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.h                                           :+:      :+:    :+:   */
+/*   signal_sigint.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:18:28 by czalewsk         ###   ########.fr       */
+/*   Created: 2018/03/03 14:50:28 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/03 16:27:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SIGNAL_H
-# define __SIGNAL_H
+#include "ft_sh.h"
+#include "sh_signal.h"
 
-# include <signal.h>
-
-# define MAX_NB_SIGNAL (32 + 1)
-# define CHECK_BIT(x, n) (x & (1 << n))
-
-extern volatile char	g_new_prompt;
-
-void					signal_handler(int sig, siginfo_t *siginfo,
-		void *context);
-void					signal_handler_init(void);
-char					signal_manager(void);
-void					signal_sigint(void);
-
-#endif
+void		signal_sigint(void)
+{
+	g_new_prompt = 1;
+	g_sh.exitstatus = 1;
+}

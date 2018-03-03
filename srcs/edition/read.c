@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 14:01:00 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:19:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void			read_key(t_key *entry)
 	int		ret;
 
 	ret = read(g_sh.test_fd, entry->entry + entry->nread, SIZE_READ);
-	signal_manager();
 	if (ret == -1)
 	{
 		ft_bzero(entry, sizeof(t_key));
@@ -75,7 +74,10 @@ char			read_line(t_buf *cmd, t_read *info)
 	ft_bzero(&entry, sizeof(t_key));
 	while (42)
 	{
+		signal_manager();
 		read_key(&entry);
+		if (g_new_prompt)
+			break ;
 		ret = key_wrapper(cmd, info, &entry);
 		if (ret < 0)
 			break ;

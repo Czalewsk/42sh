@@ -6,11 +6,12 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/01 18:39:43 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/03 16:27:39 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+#include "sh_signal.h"
 
 static int	sh_print_time(void)
 {
@@ -93,4 +94,5 @@ void		prompt_display(t_read *info, int new)
 	ret += ft_strlen_utf8(PROMPT) + 1;
 	info->prompt = ret;
 	g_sh.prompt_display = 1;
+	g_new_prompt = 0;
 }
