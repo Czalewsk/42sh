@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 08:05:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/27 15:39:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:29:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		sh_error_bi(int fd, char ret, int nb, ...)
 	return (ret);
 }
 
-char		sh_error(char ret, char new_line, void *f_callback(), int nb, ...)
+char		sh_error(char ret, char new_line, void (*f_callback)(), int nb, ...)
 {
 	va_list	ap;
 	char	*str;

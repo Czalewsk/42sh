@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/02 00:19:01 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/03 16:47:21 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	pid_t		father;
 
 	termcaps_restore_tty();
+	g_sh.prompt_display = 0;
 	if ((father = fork()) == -1)
 		exit(-1);
 	if (father == 0)
@@ -70,15 +71,16 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	return (g_sh.exitstatus);
 }
 
-int				exec_in_line(t_process *p, t_job *job, char **env)
+static int		exec_in_line(t_process *p, t_job *job, char **env)
 {
 	if (access(p->argv[0], X_OK) != -1)
 	{
 		g_sh.exitstatus = exec_with_acces(p->argv[0], p, job, env);
 		if (g_sh.exitstatus == 0)
 			ft_free_process(p);
+		return (0);
 	}
-	return (g_sh.exitstatus);
+	return (1);
 }
 
 int				execute(t_process *p, t_job *job, char **env, int i)
@@ -87,7 +89,7 @@ int				execute(t_process *p, t_job *job, char **env, int i)
 	char		*exec_line;
 
 	if (ft_strstr(p->argv[0], "/") != NULL)
-		if ((g_sh.exitstatus = exec_in_line(p, job, env)) == 0)
+		if (exec_in_line(p, job, env) == 0)
 			return (g_sh.exitstatus);
 	if ((path = ft_strsplit(ft_getenv(env, "PATH"), ':')) == NULL)
 		return (ft_free_process(p));
@@ -112,7 +114,7 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	t_process	*p;
 
 	p = NULL;
-	p = fill_for_exec(c, stop);	
+	p = fill_for_exec(c, stop);
 	if (p == (void *)1)
 		return (-1);
 	else if (p && !p->argv)

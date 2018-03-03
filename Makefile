@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/02 11:46:00 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/03/03 15:48:44 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g
+FLAGS			= -Wall -Wextra -Werror -g #-fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -77,7 +77,7 @@ SRCS_FILES		= ft_sh 													\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
-				  signal/signal_handler
+				  signal/signal_handler signal/signal_sigint
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
