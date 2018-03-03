@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:19:16 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:55:41 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void			read_key(t_key *entry)
 	{
 		ft_bzero(entry, sizeof(t_key));
 		if (errno != EINTR)
-			ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
+			exit(sh_error(EXIT_FAILURE, 1, &termcaps_restore_tty, 1,
+						"Error in read\n"));
 		errno = 0;
 	}
 	else

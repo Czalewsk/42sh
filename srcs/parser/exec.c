@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 16:05:11 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:47:21 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	t_process	*p;
 
 	p = NULL;
-	p = fill_for_exec(c, stop);	
+	p = fill_for_exec(c, stop);
 	if (p == (void *)1)
 		return (-1);
 	else if (p && !p->argv)

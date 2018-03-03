@@ -6,12 +6,12 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:18:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:39:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SIGNAL_H
-# define __SIGNAL_H
+#ifndef __SH_SIGNAL_H
+# define __SH_SIGNAL_H
 
 # include <signal.h>
 

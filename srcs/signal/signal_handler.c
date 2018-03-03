@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:29:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:52:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ inline		char		signal_manager(void)
 		return (0);
 	i = -1;
 	while (g_signal_mask && ++i < MAX_NB_SIGNAL)
-			if (g_signal_mask & (1 << i))
-			{
-				g_signal_mask &= ~(1 << i);
-				if (g_signal_mask_fct[(int)i])
-					g_signal_mask_fct[(int)i]();
-			}
+		if (g_signal_mask & (1 << i))
+		{
+			g_signal_mask &= ~(1 << i);
+			if (g_signal_mask_fct[(int)i])
+				g_signal_mask_fct[(int)i]();
+		}
 	return (1);
 }

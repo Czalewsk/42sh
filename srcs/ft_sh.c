@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:26:55 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:43:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	sh_init_prog(char **env)
 	termcaps_init();
 	signal_handler_init();
 }
-
 
 int			main(int ac, char **av, char **env)
 {

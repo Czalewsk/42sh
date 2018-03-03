@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 08:39:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/03 14:03:14 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:44:07 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char			rules_check_asterisk(char *str, t_list *rules,
 		ret = rules_check(*str, &rule->in, &rule->out);
 		if ((ret == 1) &&
 				(!rules->next ||
-				 glob_rules_check((*str ? str + 1 : str), rules->next)))
-				return (1);
+				glob_rules_check((*str ? str + 1 : str), rules->next)))
+			return (1);
 		if (ret < 0)
 			return (0);
 		if (!*str)
