@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/02 00:20:42 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/02 11:46:00 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,8 @@ SRCS_FILES		= ft_sh 													\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
 				  expansions/tilde expansions/globing						\
+				  env/init env/assign_word env/get env/set env/make env/len	\
+				  env/unset env/destroy										\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
 				  utils/sh_error											\
@@ -75,14 +77,13 @@ SRCS_FILES		= ft_sh 													\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
-				  env/init env/assign_word env/get env/set env/make env/len	\
-				  env/unset env/destroy
+				  signal/signal_handler
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
-				  utils.h sh_escape.h lexer_types.h lexer.h parser.h 		\
-				  job_control.h completion.h expansions.h env.h
+				  utils.h sh_escape.h lexer_types.h lexer.h completion.h	\
+				  expansions.h sh_signal.h job_control.h env.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -92,7 +93,7 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
  utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/ \
- parser/ env/)
+ parser/ env/ signal/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
