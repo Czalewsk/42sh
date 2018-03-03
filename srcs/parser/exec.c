@@ -48,15 +48,24 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 		exit(-1);
 	if (father == 0)
 	{
-		if (job)
-		{
-			p->pid = getpid();
-			job->pgid = setpgid(getpid(), getpid());
-		}
+		// if (job)
+		// {
+		// 	p->pid = getpid();
+		// 	job->pgid = setpgid(getpid(), getpid());
+		// }
 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 	}
 	else
-		waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+	{
+		if (job)
+		{
+			ft_printf("test last test\n");
+			p->pid = getpid();
+			job->pgid = setpgid(getpid(), getpid());
+		}
+		else
+			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+	}
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
@@ -113,7 +122,11 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	else
 		current_execute = p;
 	if (check_built_in(p) == 0)
-		return (do_built_in(p));
+	{
+		g_sh.exitstatus = (do_built_in(p));
+		ft_free_process(p);
+		return (g_sh.exitstatus);
+	}
 	g_sh.exitstatus = -1;
 	return (execute(p, job, env_make(ENV_GLOBAL | ENV_TEMP), 0));
 }
