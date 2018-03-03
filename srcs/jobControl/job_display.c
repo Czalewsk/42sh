@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 10:39:39 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 12:47:04 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int jobs_display(t_job *j, int long_flag)
     if (long_flag)
         process_display_long(j->process);
     else
-        process_display_short(j->process);
+        process_display_short(j->process, j->command);
     return (0);
 }
 

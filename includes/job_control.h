@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 11:12:20 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 14:03:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,32 +72,9 @@ void  	put_job_in_background (t_job *j, int cont);
 
 /* jobs */
 int		jobs_display(t_job *j);
-void    process_display_short(t_process *process);
+void    process_display_short(t_process *process, char *cmd);
 void    process_display_long(t_process *process);
 int 	jobs_display_only_id(t_job *j);
 int     bt_jobs(char **arg);
-
-
-
-
-
-
-
-
-t_job	*find_job(pid_t pgid);
-int		job_is_stopped(t_job *j);
-int		job_is_completed(t_job *j);
-void	continue_job (t_job *j, int foreground);
-void	do_job_notification (void);
-void	format_job_info (t_job *j, const char *status);
-void	init_shell ();
-void	launch_job (t_job *j, int foreground);
-void	launch_process (t_process *p, pid_t pgid, int foreground, char ** env);
-void	mark_job_as_running (t_job *j);
-int		mark_process_status (pid_t pid, int status);
-void	put_job_in_background (t_job *j, int cont);
-void	put_job_in_foreground (t_job *j, int cont);
-void	update_status (void);
-void	wait_for_job (t_job *j);
 
 #endif
