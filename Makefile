@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/24 17:27:50 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/02 11:46:00 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,12 +68,14 @@ SRCS_FILES		= ft_sh 													\
 				  glob/glob_free_function glob/glob_is_relative				\
 				  glob/globbing												\
 				  paste/paste_handler paste/pasted_remove_highlight			\
-				  paste/cpy_pste_intern
+				  paste/cpy_pste_intern										\
+				  signal/signal_handler
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
-				  utils.h sh_escape.h lexer_types.h lexer.h completion.h expansions.h
+				  utils.h sh_escape.h lexer_types.h lexer.h completion.h	\
+				  expansions.h sh_signal.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -82,7 +84,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/)
+ utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/ \
+ signal/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 
