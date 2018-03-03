@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/02 11:49:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 14:01:00 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,14 @@ void			read_key(t_key *entry)
 	signal_manager();
 	ret = read(0, entry->entry + entry->nread, SIZE_READ);
 	if (ret == -1)
-		ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
-	entry->nread += ret;
+	{
+		ft_bzero(entry, sizeof(t_key));
+		if (errno != EINTR)
+			ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
+		errno = 0;
+	}
+	else
+		entry->nread += ret;
 }
 
 void			debug_key(t_key *entry)
