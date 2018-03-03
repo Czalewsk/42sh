@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cpy_to.c                                           :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/10 16:49:28 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/10 16:51:26 by czalewsk         ###   ########.fr       */
+/*   Created: 2018/03/01 21:25:08 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/01 21:26:29 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char		cpy_to_normal(t_buf *cmd, t_read *info, t_key *entry)
+void	env_destroy(void)
 {
-	g_sh.edition_state = NORMAL;
-	(void)entry;
-	cursor_back_home(info);
-	write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
-	cursor_display_update(info, 1);
-	return (key_manager(cmd, info, entry));
+	int		i;
+
+	i = -1;
+	while (g_sh.env[++i])
+	{
+		free(g_sh.env[i]->var);
+		free(g_sh.env[i]);
+	}
+	free(g_sh.env);
 }

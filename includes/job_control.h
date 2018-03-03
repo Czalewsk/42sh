@@ -6,13 +6,14 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 14:03:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 20:23:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef JOB_CONTROL_H
 # define JOB_CONTROL_H
 
+# include "libft.h"
 # include <sys/types.h>
 # include <termios.h>
 # include <stdlib.h>
@@ -21,7 +22,9 @@
 # include <unistd.h>
 # include <errno.h>
 
-
+# define A 1
+# define O 2
+# define P 3
 
 typedef struct 			s_process
 {
@@ -38,6 +41,9 @@ typedef struct 			s_process
 typedef struct 			s_job
 {
 	struct s_job		*next;
+	struct t_tree		*finish_or_nd_if;
+	int					returnedlast;
+	int					foni;
 	t_process			*process;
 	int					num;
 	char				*command;		/* command line, used for messages */
@@ -46,19 +52,18 @@ typedef struct 			s_job
 	struct termios		tmodes;			/* saved terminal modes */
 }						t_job;
 
-t_job			*first_job;
-t_list			*job_order;
-t_process		*current_execute;
-t_job			*first_job;
-pid_t			shell_pgid;
-struct termios	shell_tmodes;
-int				shell_terminal;
-int				shell_is_interactive;
+extern t_job			*first_job;
+extern t_list			*job_order;
+extern t_process		*current_execute;
+extern pid_t			shell_pgid;
+extern struct termios	shell_tmodes;
+extern int				shell_terminal;
+extern int				shell_is_interactive;
 
 
 
 
-void    put_first_in_job_order(t_job *j) /* Permet de trouver le conteneur list du job en parametre pour le mettre en job actif*/
+void    put_first_in_job_order(t_job *j);
 int		bt_fg(char **arg);
 int		bt_bg(char **arg);
 t_job   *get_job(char *arg);
@@ -71,10 +76,20 @@ void	put_job_in_foreground (t_job *j, int cont);
 void  	put_job_in_background (t_job *j, int cont);
 
 /* jobs */
-int		jobs_display(t_job *j);
+int		jobs_display(t_job *j, int long_flag);
 void    process_display_short(t_process *process, char *cmd);
 void    process_display_long(t_process *process);
 int 	jobs_display_only_id(t_job *j);
 int     bt_jobs(char **arg);
+
+/* before prompt */
+int		mark_process_status (pid_t pid, int status);
+void  	update_status (void);
+
+/* utils */
+int		job_is_completed(t_job *j);
+int		job_is_stopped(t_job *j);
+void	format_job_info (t_job *j, const char *status);
+void	wait_for_job (t_job *j);
 
 #endif

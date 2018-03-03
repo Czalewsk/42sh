@@ -6,11 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 18:34:55 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:25:59 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 /* Notify the user about stopped or terminated jobs.
    Delete terminated jobs from the active job list.  */
@@ -18,7 +18,6 @@
 void  do_job_notification (void)
 {
   t_job *j, *jlast, *jnext;
-  t_process *p;
 
   /* Update status information for child processes.  */
   update_status ();

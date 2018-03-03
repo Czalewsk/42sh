@@ -6,13 +6,16 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/17 17:09:56 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:43:13 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __FT_SH_H
 # define __FT_SH_H
 
+
+# include "utils.h"
+# include "job_control.h"
 # include "libft.h"
 # include <termcap.h>
 # include <curses.h>
@@ -27,11 +30,15 @@
 # include "edition.h"
 # include "termcaps.h"
 # include "prompt.h"
-# include "job_control.h"
-# include "utils.h"
+# include "expansions.h"
+# include "lexer.h"
+# include "lexer_types.h"
+# include "env.h"
+# include "parser.h"
 # include "history.h"
 # include "builtins.h"
 # include "completion.h"
+
 
 /*
 ** Structure globale, comprenant les informations relatives a :
@@ -52,14 +59,18 @@ typedef struct			s_sh
 	char			*h_save;
 	char			*hist_file;
 	int				h_first;
-	char			**env;
-	unsigned char	exitstatus;
+	int				fds[3];
+	t_env			**env;
+	char			envupd;
+	int				exitstatus;
 	t_comp			*comp;
 	char			comp_status;
 	int				comp_start;
 	int				comp_end;
+	int				test_fd;// read.c25.18 a modifier si necessaire // ft_sh.c:48:7: a laisser c est pour reset la STDIN sur le tty
 	char			*pasted;
 	char			prompt_display;
+
 }						t_sh;
 
 extern t_sh				g_sh;

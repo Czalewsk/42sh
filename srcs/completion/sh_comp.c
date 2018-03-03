@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 14:45:38 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/21 16:24:33 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 	ldl = g_sh.comp->head->head;
 	if (ldl)
 	{
+		DEBUG("coucou");
 		info->curs_char = info->total_char;
 		cursor_display_update(info, 0);
 		info->curs_char = 0;

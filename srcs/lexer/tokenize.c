@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:41:53 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/20 20:26:24 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/03 17:50:37 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	quote_finish(t_token *token, char *escape, char **cmd,
 	if (*escape & 8)
 		*(*cur - 2) = '\0';
 	ft_strcpy(prompt, *escape & 1 ? "quote> " : "> ");
-	if ((ret = prompt_add(*escape & 2 ? "dquote> " : prompt, &new)) == -2)
+	if ((ret = prompt_add(*escape & 2 ? "dquote> " : prompt, &new, 0)) == -2)
 	{
 		if (!(new = ft_strjoin_free(*cur - token->size, new, 1)))
 			exit(EXIT_FAILURE);
@@ -90,6 +90,7 @@ int			lexer_getnexttoken(t_token *tk, char **cur, char **cmd)
 	escape = 0;
 	ret = 0;
 	ft_bzero(tk, sizeof(t_token));
+	DEBUG("cmd=%s", *cmd);
 	while (**cur || !(ret = quote_finish(tk, &escape, cmd, cur)))
 	{
 		i = 0;

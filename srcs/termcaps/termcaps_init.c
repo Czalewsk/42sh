@@ -6,11 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/08 14:12:26 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/01 21:27:58 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static struct termios	s_termios_backup;
+static struct termios	s_termios;
 
 /*
 **	int i = 0;
@@ -47,27 +50,35 @@ static void		termcaps_cap_init(void)
 	g_termcaps_cap[HIGH_STOP] = tgetstr("se", NULL);
 }
 
-static void		termcaps_set_tty(void)
-{
-	struct termios			s_termios;
+void			termcaps_backup_tty(void)
+{	
+	tcgetattr(0, &s_termios_backup);
+}
 
+void			termcaps_restore_tty(void)
+{	
+		tcsetattr(0, 0, &s_termios_backup);
+}
+
+void		termcaps_set_tty(void)
+{
+	tcsetattr(0, 0, &s_termios);
+}
+
+char			termcaps_init(void)
+{
+	int		ret;
+	char	*env_term;
+
+	termcaps_backup_tty();
 	tcgetattr(0, &s_termios);
-	termcaps_restore_tty();
 	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 	s_termios.c_cflag |= (CS8);
 	s_termios.c_cc[VMIN] = 1;
 	s_termios.c_cc[VTIME] = 0;
-	tcsetattr(0, 0, &s_termios);
-}
-
-char			termcaps_init(char **env)
-{
-	int		ret;
-	char	*env_term;
-
 	termcaps_set_tty();
-	env_term = ft_getenv(env, "TERM");
+	env_term = env_get("TERM");
 	ret = tgetent(NULL, env_term ? env_term : DEFAULT_TERMCAPS);
 	if (ret < 0)
 		ft_error("Could not access the termcaps database",
@@ -79,13 +90,3 @@ char			termcaps_init(char **env)
 	return (ret);
 }
 
-void			termcaps_restore_tty(void)
-{
-	static struct termios	s_termios_backup;
-	static	int				i;
-
-	if (!i++)
-		tcgetattr(0, &s_termios_backup);
-	else
-		tcsetattr(0, 0, &s_termios_backup);
-}

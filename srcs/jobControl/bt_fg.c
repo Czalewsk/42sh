@@ -6,11 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:08:50 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 11:12:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:43:53 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 int bt_fg(char **arg)
 {
@@ -20,9 +20,9 @@ int bt_fg(char **arg)
     if (tmp == NULL)
     {
         if (arg == NULL)
-            //42sh: fg: current: no such job
+            sh_error(0, 0, NULL, 1, "fg: current: no such job");
         else
-            //42sh: fg: *arg: no such job
+            sh_error(0, 0, NULL, 3, "fg: ", *arg, ": no such job");
         return (1);
     }
     continue_job(tmp, 1);

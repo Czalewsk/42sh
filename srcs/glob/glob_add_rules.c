@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/13 22:47:15 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/10 18:44:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/01 21:34:52 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char		glob_add_rules_to_path(t_list *path)
 			valide = 1;
 		if (root == 2)
 		{
-			elmt->path = ft_strjoin(ft_getenv(g_sh.env, "HOME"), "/");
+			elmt->path = ft_strjoin(env_get("HOME"), "/");
 			free(path->content);
 		}
 		path->content = elmt;

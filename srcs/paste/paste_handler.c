@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:25:14 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/02/20 19:23:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,13 @@ void		insert_chars_pasted(t_buf *cmd, t_read *info, t_buf *pasted)
 {
 	int		i;
 
-	buff_handler(cmd, NULL, pasted->cmd);
 	i = -1;
 	while (*(pasted->cmd + (++i)))
 		if (ft_isspace(*(pasted->cmd + i)))
 			*(pasted->cmd + i) = ' ';
-	buff_handler(cmd, NULL, pasted->cmd);
+	if (!buff_handler(cmd, NULL, pasted->cmd, info))
+		return ;
+	pasted->size_actual = ft_strlen(pasted->cmd);
 	cmd->size_actual += pasted->size_actual;
 	if (info->curs_char == (long)info->total_char)
 	{
@@ -95,7 +96,7 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	t_buf	pasted;
 
 	g_sh.edition_state = PASTED;
-	buff_handler(&pasted, NULL, NULL);
+	buff_handler(&pasted, NULL, NULL, info);
 	i = 6;
 	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
@@ -107,7 +108,7 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 		{
 			i = 0;
 			ft_bzero(entry, sizeof(t_key));
-			buff_handler(&pasted, NULL, "             ");
+			buff_handler(&pasted, NULL, "             ",  info);
 			read_key(entry);
 		}
 	}

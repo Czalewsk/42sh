@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_current_job.c                                  :+:      :+:    :+:   */
+/*   put_first_in_job_order.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 10:19:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/24 11:10:17 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:46:24 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 static t_list  *pop_job_order_by_job(t_job *j)
 {

@@ -6,11 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 17:49:55 by scorbion          #+#    #+#             */
-/*   Updated: 2018/02/17 18:21:38 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:45:51 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 t_job   *get_job_id(int id)
 {

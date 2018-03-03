@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 15:29:26 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/08 14:15:17 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/01 21:27:19 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef enum	e_termcaps_capability
 
 char	*g_termcaps_cap[LAST];
 
-char		termcaps_init(char **env);
+char		termcaps_init();
 void		termcaps_restore_tty(void);
+void		termcaps_set_tty(void);
 
 #endif

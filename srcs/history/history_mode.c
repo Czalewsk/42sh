@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 16:02:32 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/27 13:43:55 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void		close_history(t_buf *cmd)
 		{
 			ft_putstr_fd("#", fd);
 			ft_putstr_fd(cmd->cmd, fd);
+			if (!ft_strchr(cmd->cmd, '\n')) // a supprimer apres avoir enlever le '\n' de cmd->cmd
+				ft_putchar_fd('\n', fd);
 			close(fd);
 		}
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);
@@ -47,12 +49,6 @@ char		history_up(t_buf *cmd, t_read *info, t_key *entry)
 	last = (entry->entry[2] == 65) ? 0 : 1;
 	if (!check_history_access(g_sh.hist_file))
 		return (no_history_up(cmd, info, last));
-	if (ft_strcmp(cmd->cmd, g_sh.hist_current->content))
-	{
-		ft_ldl_clear(&g_sh.hist, &ft_strdel);
-		entry->entry[2] = 65;
-		history_mode(cmd, info, entry);
-	}
 	if (!last && g_sh.hist_current->next)
 		g_sh.hist_current = g_sh.hist_current->next;
 	else if (last)
@@ -71,12 +67,6 @@ char		history_do(t_buf *cmd, t_read *info, t_key *entry)
 	first = (entry->entry[2] == 66) ? 0 : 1;
 	if (!check_history_access(g_sh.hist_file))
 		return (no_history_do(cmd, info, first));
-	if (ft_strcmp(cmd->cmd, g_sh.hist_current->content))
-	{
-		ft_ldl_clear(&g_sh.hist, &ft_strdel);
-		entry->entry[2] = 65;
-		history_mode(cmd, info, entry);
-	}
 	if (!first && g_sh.hist_current->prev)
 		g_sh.hist_current = g_sh.hist_current->prev;
 	else if (first)
@@ -99,13 +89,13 @@ static void	history_init(t_buf *cmd, t_read *info)
 	{
 		if ((fd = open(g_sh.hist_file, O_RDWR)) == -1)
 			return ;
-		while ((get_next_line(fd, &line) > 0) && line && line[0] == '#')
+		while ((get_next_line(fd, &line) > 0) && history_well_formated(line))
 		{
 			if (!info->curs_char)
 				g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line + 1));
 			else
 			{
-				if (!ft_strncmp(line, cmd->cmd, len))
+				if (!ft_strncmp(line + 1, cmd->cmd, len))
 					g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(line + 1));
 			}
 			ft_strdel(&line);
