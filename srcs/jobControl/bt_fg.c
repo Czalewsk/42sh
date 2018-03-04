@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:08:50 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 15:43:53 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 09:37:49 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int bt_fg(char **arg)
     tmp = get_job(*arg);
     if (tmp == NULL)
     {
-        if (arg == NULL)
-            sh_error(0, 0, NULL, 1, "fg: current: no such job");
+        if (*arg == NULL)
+            sh_error(0, 0, NULL, 1, "fg: current: no such job\n");
         else
-            sh_error(0, 0, NULL, 3, "fg: ", *arg, ": no such job");
+            sh_error(0, 0, NULL, 3, "fg: ", *arg, ": no such job\n");
         return (1);
     }
     continue_job(tmp, 1);

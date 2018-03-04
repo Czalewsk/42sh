@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 17:47:59 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 10:48:47 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int			read_parser(char **cmd, char *cur)
 	ret = 0;
 	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) != 0)
 	{
-		DEBUG("str=%s|\n\n\n", t.str);
 		if (!expansions_expand(&lst, &t))
 		{
 			if (t.id == NEWLINE)

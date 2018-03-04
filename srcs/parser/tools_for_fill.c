@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_for_fill.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/11 16:07:31 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/04 10:26:16 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int			clear_execute(char **path, t_process *p)
 {
 	ft_free_array(path);
 	reset_fd(g_sh.fds, p);
+	DEBUG("tools_for_fill ligne 53 clear_execute\n");
 	ft_free_process(p);
 	return (g_sh.exitstatus);
 }

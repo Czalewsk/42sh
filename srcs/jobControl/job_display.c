@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 15:49:46 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 10:47:13 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int jobs_display(t_job *j, int long_flag)
 
 int jobs_display_only_id(t_job *j)
 {
-    ft_printf("%d", j->process->pid);
+    ft_printf("%d\n", j->process->pid);
     return (0);
 }

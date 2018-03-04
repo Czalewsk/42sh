@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:49:17 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 19:27:50 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 12:37:13 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ struct termios	shell_tmodes;
 int				shell_terminal;
 int				shell_is_interactive;
 
-char		*get_command_from_process(char **argv_p)
+char	*get_command_from_process(char **argv_p)
 {
 	int		i;
 	int		e;
@@ -37,7 +37,26 @@ char		*get_command_from_process(char **argv_p)
 	return (ret);
 }
 
-void		ft_add_jobs(void)
+int		get_id_max_job()
+{
+	t_list	*tmp;
+	t_job	*j;
+	int		res;
+
+	tmp = job_order;
+	res = 1;
+	while (tmp)
+	{
+		j = (t_job*)(tmp->content);
+		DEBUG("jobs.c ligne 51 : cmd du JOB : %s\n", j->command);
+		if (j && j->num >= res)
+			res = j->num + 1;
+		tmp = tmp->next;
+	}
+	return (res);
+}	
+
+void	ft_add_jobs(void)
 {
 	t_job	*njob;
 	t_job	*tmp;
@@ -65,23 +84,27 @@ void		ft_add_jobs(void)
 	}
 }
 
-void		ft_create_jobs(t_tree *c)
+void	ft_create_jobs(t_tree *c)
 {
 	t_job	*njob;
-	//t_job	*tmp;
+	t_job	*tmp;
 	t_list	*new_order;
 
 	njob = (t_job *)ft_memalloc(sizeof(t_job));
 	new_order = ft_lstnew(NULL, 0);
-	DEBUG("je cree un job\n");
 	new_order->content = njob;
 	njob->command = get_command(njob->command, c);
-	njob->num = 1;
-	new_order->next = job_order;
+	njob->num = get_id_max_job();
+	if (job_order)
+		new_order->next = job_order;
 	job_order = new_order;
-	DEBUG("%p\n", job_order);
-	if (job_order == NULL)
-		DEBUG("job_order est null dans create job\n");
+	tmp = first_job;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	if (tmp)
+		tmp->next = njob;
+	else
+		first_job = njob;
 	// if (first_job)
 	// {
 	// 	tmp = job_order->content;

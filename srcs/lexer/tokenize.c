@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:41:53 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/03 17:50:37 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 10:48:31 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int			lexer_getnexttoken(t_token *tk, char **cur, char **cmd)
 	escape = 0;
 	ret = 0;
 	ft_bzero(tk, sizeof(t_token));
-	DEBUG("cmd=%s", *cmd);
 	while (**cur || !(ret = quote_finish(tk, &escape, cmd, cur)))
 	{
 		i = 0;
