@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 22:10:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 13:59:42 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 	}
 	else
-		waitpid(father, &g_sh.exitstatus, WUNTRACED);
+		while (waitpid(father, &g_sh.exitstatus, WUNTRACED) == -1
+				&& errno == EINTR)
+			;
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }

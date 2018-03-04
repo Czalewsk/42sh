@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:55:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 22:25:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char			(*const g_special_case[EDITION_MAX_STATE])
 void			read_key(t_key *entry)
 {
 	int		ret;
+	char	*new_line;
 
 	ret = read(g_sh.test_fd, entry->entry + entry->nread, SIZE_READ);
 	if (ret == -1)
@@ -33,7 +34,16 @@ void			read_key(t_key *entry)
 		errno = 0;
 	}
 	else
+	{
 		entry->nread += ret;
+		if (ret > 1)
+			while ((new_line = ft_strnchr(entry->entry, '\n', entry->nread)))
+			{
+				ft_memmove(new_line, new_line + 1,
+						entry->nread - (new_line - entry->entry));
+				--entry->nread;
+			}
+	}
 }
 
 void			debug_key(t_key *entry)
