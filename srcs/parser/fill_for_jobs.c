@@ -37,7 +37,7 @@ t_tree			*check_run_v2(t_tree *c, t_job *job)
 			sp = tp;
 		}
 		if (sp && sp->right == NULL)
-			g_sh.exitstatus = execute_run(tp, sp->right, NULL);
+			g_sh.exitstatus = execute_run(tp, sp->right, job);
 		sp ? sp = sp->right : sp;
 	}
 	return (c->left);
@@ -71,6 +71,7 @@ int				ft_fill_for_jobs(t_tree *head)
 		ft_printf("fill_for_jobs l:68 si tu veux pas free la list de job\n");
 //		job_order = job_order->next;
 		ft_free_order(job_order);
+
 	}
 	return (ft_free_tree(head));
 }

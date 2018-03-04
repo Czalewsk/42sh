@@ -49,18 +49,12 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 		exit(-1);
 	if (father == 0)
 	{
-		// if (job)
-		// {
-		// 	p->pid = getpid();
-		// 	job->pgid = setpgid(getpid(), getpid());
-		// }
 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 	}
 	else
 	{
 		if (job)
 		{
-			ft_printf("test last test\n");
 			p->pid = getpid();
 			job->pgid = setpgid(getpid(), getpid());
 		}
@@ -127,6 +121,7 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	{
 		g_sh.exitstatus = (do_built_in(p));
 		ft_free_process(p);
+		reset_fd(g_sh.fds, p);
 		return (g_sh.exitstatus);
 	}
 	g_sh.exitstatus = -1;

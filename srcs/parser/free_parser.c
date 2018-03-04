@@ -36,6 +36,7 @@ int			ft_free_tree(t_tree *c)
 		r = r->right;
 		free(tmp);
 	}
+		ft_printf("TEST Here\n");
 	return (0);
 }
 

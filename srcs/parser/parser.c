@@ -90,7 +90,11 @@ int			read_parser(char **cmd, char *cur)
 				return (ft_leave_parse(t));
 		}
 		else
-			return (take_token_from_list(lst, t));
+		{
+			if (take_token_from_list(lst, t) == -1 || place_token(t) < 0)
+				return (ft_leave_parse(t));
+//			return (take_token_from_list(lst, t));
+		}
 	}
 	return (ret);
 }
