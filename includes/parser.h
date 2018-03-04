@@ -17,6 +17,7 @@
 
 struct	s_tree				*head_tree;
 struct	s_tree				*current;
+int							is_from_sub;
 
 typedef struct				s_tree
 {

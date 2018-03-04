@@ -82,7 +82,5 @@ void		ft_create_jobs(t_tree *c)
 		first_job->num = 1;
 		job_order = new_order;
 	}
-	if (njob)
-		ft_printf("JOB INC\n");
 	check_run_v2(c, njob);
 }

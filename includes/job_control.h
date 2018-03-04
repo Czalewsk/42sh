@@ -21,9 +21,9 @@
 # include <unistd.h>
 # include <errno.h>
 
-struct s_job 		*first_job;
-struct s_list 		*job_order;
-struct s_process	*current_execute;
+struct s_job 			*first_job;
+struct s_list 			*job_order;
+struct s_process		*current_execute;
 
 typedef struct 			s_process
 {
@@ -40,6 +40,8 @@ typedef struct 			s_process
 typedef struct 			s_job
 {
 	struct s_job		*next;
+	int					foni;
+	struct s_tree		*finish_oni;
 	t_process			*process;
 	int					num;
 	char				*command;		/* command line, used for messages */

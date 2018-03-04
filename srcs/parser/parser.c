@@ -89,12 +89,8 @@ int			read_parser(char **cmd, char *cur)
 			else if (place_token(t) < 0)
 				return (ft_leave_parse(t));
 		}
-		else
-		{
-			if (take_token_from_list(lst, t) == -1 || place_token(t) < 0)
-				return (ft_leave_parse(t));
-//			return (take_token_from_list(lst, t));
-		}
+		else if (take_token_from_list(lst, t) == -1)
+			return (-1);
 	}
 	return (ret);
 }
