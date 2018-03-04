@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/04 10:47:13 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:18:19 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int jobs_display(t_job *j, int long_flag)
         process_display_long(j->process);
     else
         process_display_short(j->process, j->command);
+    if (job_is_completed(j) == 0)
+        del_job_in_first(j);
     return (0);
 }
 

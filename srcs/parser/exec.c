@@ -6,11 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/03/04 12:19:18 by scorbion         ###   ########.fr       */
-=======
-/*   Updated: 2018/03/03 22:10:05 by czalewsk         ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2018/03/04 20:45:07 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +42,7 @@ t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	pid_t		father;
-
+	int			i;
 
 	
 	termcaps_restore_tty();
@@ -62,6 +58,7 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	// 	p->pid = getpid();
 	// 	job->pgid = setpgid(getpid(), getpid());
 	// }
+	i = 0;
 	if (father == 0)
 	{
 		if (job)
@@ -74,11 +71,19 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
 		else
 		{
+			dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, father);
 			p->pid = father;
+			g_sh.exitstatus = 0;
 			job->pgid = p->pid;
 			DEBUG("\n\nPROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", p->pid, p->completed, p->stopped, p->status, p->stdin, p->stdout, p->stderr);
 			job->process = ft_memalloc(sizeof(t_process));
 			ft_memcpy(job->process, p, sizeof(t_process));
+			job->process->argv = ft_memdup(p->argv, sizeof(char*) * (ft_tab2dlen((const void**)(p->argv)) + 1));
+			while(p->argv[i])
+			{
+				job->process->argv[i] = ft_memdup(p->argv[i], sizeof(char) * (ft_strlen(p->argv[i]) + 1));
+				i++;
+			}
 			DEBUG("JOB->PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", job->process->pid, job->process->completed, job->process->stopped, job->process->status, job->process->stdin, job->process->stdout, job->process->stderr);
 		}
 	}
@@ -141,6 +146,7 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	if (check_built_in(p) == 0)
 	{	
 		g_sh.exitstatus = do_built_in(p);
+		reset_fd(g_sh.fds, p);
 		ft_free_process(p);
 		return (g_sh.exitstatus);
 	}

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:20:16 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 18:53:37 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:25:58 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,22 @@ t_job   *get_job_id(int id)
 
 t_job   *get_job_minus()
 {
-    if (job_order == NULL && job_order->next != NULL)
+    if (job_order != NULL && job_order->next != NULL)
         return ((t_job*)(job_order->next->content));
     return (NULL);
 }
 
 t_job   *get_job_name(char *name)
 {
-    if (name)
-        return (NULL);
+    t_job   *tmp;
+
+    tmp = first_job;
+    while (tmp)
+    {
+        if (ft_strncmp(tmp->command, name, ft_strlen(name)) == 0)
+            return (tmp);
+        tmp = tmp->next;
+    }
     return (NULL);
 }
 
@@ -67,8 +74,8 @@ t_job   *get_job(char *arg)
         return (get_job_plus());
     if (!ft_strcmp(arg, "%-") || !ft_strcmp(arg, "-"))
         return (get_job_minus());
-    id = ft_atoi(arg);
+    id = arg[0] == '%' ? ft_atoi(arg + 1) : ft_atoi(arg);
     if (id != 0)
         return (get_job_id(id));
-    return (get_job_name(arg));
+    return (get_job_name(arg[0] == '%' ? arg + 1 : arg));
 }

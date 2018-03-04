@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 16:23:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:00:16 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,42 +55,38 @@
 
 int mark_process_status (pid_t pid, int status)
 {
-	t_list		*lst;
 	t_job		*tmp;
 	t_process	*p;
 	
-
-	if (pid == 0 || errno == ECHILD)
+	if (pid == 0)
 		return -1;
 	else if (pid < 0)
 		return (sh_error(1, 0, NULL, 1, "job control: waitpid"));
-	lst = job_order;
-	while (lst)
+	tmp = first_job;
+	while (tmp)
 	{
-		tmp = (t_job*)lst->content;
-		while (tmp)
+		p = tmp->process;
+		if (p->pid == pid)
 		{
-			p = tmp->process;
-			if (p->pid == pid)
+			p->status = status;
+			if (WIFSTOPPED (status))
 			{
-				p->status = status;
-				if (WIFSTOPPED (status))
-					p->stopped = 1;
-				else
-				{
-					p->completed = 1;
-					/*
-					if (WIFSIGNALED (status))
-					fprintf (stderr, "%d: Terminated by signal %d.\n",
-								(int) pid, WTERMSIG (p->status));
-					*/
-				}
-				return 0;
+				DEBUG("mark_process_status ligne 75 : process %d est stop\n", p->pid);
+				p->stopped = 1;
 			}
-			tmp = tmp->next;
+			else
+			{
+				DEBUG("mark_process_status ligne 80 : process %d est fini\n", p->pid);
+				p->completed = 1;
+				/*
+				if (WIFSIGNALED (status))
+				fprintf (stderr, "%d: Terminated by signal %d.\n",
+							(int) pid, WTERMSIG (p->status));
+				*/
+			}
+			return 0;
 		}
-		lst = lst->next;
+		tmp = tmp->next;
 	}
-	fprintf (stderr, "No child process %d.\n", pid);
 	return -1;
 }

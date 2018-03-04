@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_display.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:27:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 15:27:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ void		prompt_display(t_read *info, int new)
 {
 	int				ret;
 
+	/*if (g_sh.prompt_display)
+	{
+		//info->prompt = 0;
+		//g_new_prompt = 1;
+		return ;
+	}*/
 	ret = 0;
 	new ? write(g_sh.fd_tty, "\n", 1) : 0;
 	ft_putstr_fd(!g_sh.exitstatus ? "🦆  " : "🐣  ", g_sh.fd_tty);

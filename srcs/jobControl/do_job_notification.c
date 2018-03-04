@@ -6,48 +6,112 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 16:25:59 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 20:12:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-/* Notify the user about stopped or terminated jobs.
-   Delete terminated jobs from the active job list.  */
-
-void  do_job_notification (void)
+void	del_job_in_order(t_job *j)
 {
-  t_job *j, *jlast, *jnext;
+	t_list	*tmp;
+	t_list	*last;
+	t_list	*next;
 
-  /* Update status information for child processes.  */
-  update_status ();
+	tmp = job_order;
+	last = NULL;
+	while (tmp)
+	{
+		next = tmp->next;
+		DEBUG("@@@@@ %p --------- %p\n", j, tmp->content);
+		if (tmp->content == j)
+		{
+			if (last)
+				last->next = next;
+			else
+				job_order = next;
+			ft_memdel((void**)&tmp);
+			break ;
+		}
+		else
+			last = tmp;
+		tmp = next;
+	}
+}
 
-  jlast = NULL;
-  for (j = first_job; j; j = jnext)
-    {
-      jnext = j->next;
+void	del_job_in_first(t_job *j)
+{
+	t_job	*tmp;
+	t_job	*last_job;
+	t_job	*next_job;
 
-      /* If all processes have completed, tell the user the job has
-         completed and delete it from the list of active jobs.  */
-      if (job_is_completed (j)) {
-        format_job_info (j, "completed");
-        if (jlast)
-          jlast->next = jnext;
-        else
-          first_job = jnext;
-        //free_job (j);
-      }
+	tmp = first_job;
+	last_job = NULL;
+	while (tmp)
+	{
+		DEBUG("%p ----- %p\n", j, tmp);
+		next_job = tmp->next;
+		if (j == tmp)
+		{
+			if (last_job)
+				last_job->next = next_job;
+			else
+			{
 
-      /* Notify the user about stopped jobs,
-         marking them so that we won’t do this more than once.  */
-      else if (job_is_stopped (j) && !j->notified) {
-        format_job_info (j, "stopped");
-        j->notified = 1;
-        jlast = j;
-      }
+				first_job = next_job;
+				DEBUG("Pas de first job  %p\n", first_job);				
+			}
+			del_job_in_order(j);
+			free_job(j);
+			break ;
+		}
+		else
+			last_job = tmp;
+		tmp = next_job;
+	}
+}
 
-      /* Don’t say anything about jobs that are still running.  */
-      else
-        jlast = j;
-    }
+void	free_job(t_job *j)
+{
+	ft_memdel((void**)&(j->command));
+	ft_free_process(j->process);
+	ft_memdel((void**)&(j));
+}
+
+void	do_job_notification (void)
+{
+	t_job	*tmp;
+	t_job	*last_job;
+	t_job	*next_job;
+
+
+	DEBUG("first job =   %p\n", first_job);
+	update_status();
+	DEBUG("first job =   %p\n", first_job);
+	tmp = first_job;
+	last_job = NULL;
+	while (tmp)
+	{
+		next_job = tmp->next;
+		DEBUG("do_job_notification ligne 58 : pgid : %d ---- cmd : %s\n", tmp->pgid, tmp->command);
+		if (job_is_completed(tmp) == 0)
+		{
+			jobs_display(tmp, 0);
+			if (last_job)
+				last_job->next = next_job;
+			else
+				first_job = next_job;
+			//del_job_in_order(tmp);
+			//free_job(tmp);
+		}
+		else if (job_is_stopped(tmp) == 0 && !tmp->notified)
+		{
+			jobs_display(tmp, 0);
+			tmp->notified = 1;
+			last_job = tmp;
+		}
+		else
+			last_job = tmp;
+		tmp = next_job;
+	}
 }

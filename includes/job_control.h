@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 20:23:08 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:20:18 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct 			s_job
 	char				notified;		/* true if user told about stopped job */
 	pid_t				pgid;			/* process group ID */
 	struct termios		tmodes;			/* saved terminal modes */
+	int					already_wait;
 }						t_job;
 
 extern t_job			*first_job;
@@ -80,7 +81,13 @@ int		jobs_display(t_job *j, int long_flag);
 void    process_display_short(t_process *process, char *cmd);
 void    process_display_long(t_process *process);
 int 	jobs_display_only_id(t_job *j);
+void	del_job_in_first(t_job *j);
+void	free_job(t_job *j);
 int     bt_jobs(char **arg);
+
+/* sigchld */
+void	do_job_notification (void);
+void	update_status (void);
 
 /* before prompt */
 int		mark_process_status (pid_t pid, int status);

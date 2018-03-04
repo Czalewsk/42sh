@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 22:00:51 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 14:11:04 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static unsigned	long	g_signal_mask;
 **Variable qui defini si un signal doit etre gere par le signal handler
 */
 
-static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {[SIGINT] = 1};
+static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {[SIGINT] = 1,
+[SIGCHLD] = 17};
 
 /*
 **Variable qui permet de stocke les fonctions a appeler dans le signl handler
@@ -30,7 +31,7 @@ static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {[SIGINT] = 1};
 */
 
 static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) =
-{[SIGINT] = &signal_sigint};
+{[SIGINT] = &signal_sigint, [SIGCHLD] = &signal_sigchld};
 
 /*
 ** Variable qui stock les fonctions appelle par le signal manager dans la boucle

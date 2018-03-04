@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/04 12:58:28 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:54:25 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ static int  jobs_display_jobspec(char info, char run_or_stop, char **arg)
 static int  jobs_display_no_jobspec(char info, char run_or_stop)
 {
     t_job       *j;
+    t_job       *next;
 
     j = first_job;
     while (j != NULL)
     {
+        next = j->next;
         if (run_or_stop == 'r' && (job_is_stopped(j) == 0 || job_is_completed(j) == 0))
             ;
         else if (run_or_stop == 's' && job_is_stopped(j) != 0)
@@ -67,7 +69,7 @@ static int  jobs_display_no_jobspec(char info, char run_or_stop)
             jobs_display(j, 1);
         else
             jobs_display(j, 0);
-        j = j->next;
+        j = next;
     }
     return (0);
 }
