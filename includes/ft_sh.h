@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 15:43:13 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 13:12:18 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct			s_sh
 	char			comp_status;
 	int				comp_start;
 	int				comp_end;
-	int				test_fd;// read.c25.18 a modifier si necessaire // ft_sh.c:48:7: a laisser c est pour reset la STDIN sur le tty
+	int				test_fd;
 	char			*pasted;
 	char			prompt_display;
 

@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/24 19:44:57 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/03 16:51:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ t_tree	*land(t_process *p, t_tree *c)
 {
 	int	fd;
 
-	(void)p;
-	if (ft_str_isdigit(c->right->token.str) == 1)
+	if ((p || !p) && ft_str_isdigit(c->right->token.str) == 1)
 	{
 		fd = ft_atoi(c->right->token.str);
 		if (fcntl(fd, F_GETFD) == -1)
@@ -45,8 +44,7 @@ t_tree	*land(t_process *p, t_tree *c)
 		}
 		return (c->right->right);
 	}
-	if (ft_memcmp(c->right->token.str, "-",
-		ft_strlen(c->right->token.str)) == 0)
+	if (!ft_memcmp(c->right->token.str, "-", ft_strlen(c->right->token.str)))
 	{
 		close(STDIN_FILENO);
 		return (c->right->right);

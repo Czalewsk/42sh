@@ -6,15 +6,11 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/20 19:23:55 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/03 16:51:48 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-//Rajouter un etat dans la machine a etats de l'edition qui sactive lors de lajout
-// d'un coller et qui va rewrite tout cmd->cmd afin d'enlever le surlignement
-// du texte colle
 
 static void	remove_excess(t_key *entry, int len)
 {
@@ -108,7 +104,7 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 		{
 			i = 0;
 			ft_bzero(entry, sizeof(t_key));
-			buff_handler(&pasted, NULL, "             ",  info);
+			buff_handler(&pasted, NULL, "             ", info);
 			read_key(entry);
 		}
 	}

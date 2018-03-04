@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/03 16:32:32 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/04 13:10:26 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,7 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/update_status									\
 				  jobControl/wait_for_job									\
 				  signal/signal_handler
+				  signal/signal_handler signal/signal_sigint
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/01 21:27:58 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/03 16:53:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static struct termios	s_termios;
 ** Activation du mode : bracketed paste en fin d'initialisation
 */
 
-static void		termcaps_cap_init(void)
+static void				termcaps_cap_init(void)
 {
 	g_termcaps_cap[LEFT] = tgetstr("le", NULL);
 	g_termcaps_cap[RIGHT] = tgetstr("nd", NULL);
@@ -50,22 +50,22 @@ static void		termcaps_cap_init(void)
 	g_termcaps_cap[HIGH_STOP] = tgetstr("se", NULL);
 }
 
-void			termcaps_backup_tty(void)
-{	
+void					termcaps_backup_tty(void)
+{
 	tcgetattr(0, &s_termios_backup);
 }
 
-void			termcaps_restore_tty(void)
-{	
-		tcsetattr(0, 0, &s_termios_backup);
+void					termcaps_restore_tty(void)
+{
+	tcsetattr(0, 0, &s_termios_backup);
 }
 
-void		termcaps_set_tty(void)
+void					termcaps_set_tty(void)
 {
 	tcsetattr(0, 0, &s_termios);
 }
 
-char			termcaps_init(void)
+char					termcaps_init(void)
 {
 	int		ret;
 	char	*env_term;
@@ -73,7 +73,7 @@ char			termcaps_init(void)
 	termcaps_backup_tty();
 	tcgetattr(0, &s_termios);
 	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN);
 	s_termios.c_cflag |= (CS8);
 	s_termios.c_cc[VMIN] = 1;
 	s_termios.c_cc[VTIME] = 0;
@@ -89,4 +89,3 @@ char			termcaps_init(void)
 		termcaps_cap_init();
 	return (ret);
 }
-
