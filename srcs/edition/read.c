@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 22:25:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/05 15:28:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char			(*const g_special_case[EDITION_MAX_STATE])
 	&pasted_remove_highlight_char, &pasted_remove_highlight_char
 };
 
-void			read_key(t_key *entry)
+char			read_key(t_key *entry)
 {
 	int		ret;
 	char	*new_line;
@@ -31,7 +31,7 @@ void			read_key(t_key *entry)
 		if (errno != EINTR)
 			exit(sh_error(EXIT_FAILURE, 1, &termcaps_restore_tty, 1,
 						"Error in read\n"));
-		errno = 0;
+		return (-3);
 	}
 	else
 	{
@@ -44,6 +44,7 @@ void			read_key(t_key *entry)
 				--entry->nread;
 			}
 	}
+	return (1);
 }
 
 void			debug_key(t_key *entry)
@@ -86,8 +87,8 @@ char			read_line(t_buf *cmd, t_read *info)
 	while (42)
 	{
 		signal_manager();
-		read_key(&entry);
-		if (g_new_prompt)
+		ret = read_key(&entry);
+		if (g_new_prompt || ret < 0)
 			break ;
 		ret = key_wrapper(cmd, info, &entry);
 		if (ret < 0)

@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:19 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/05 19:32:19 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/05 13:44:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			ft_free_tree(t_tree *c)
 	while (r)
 	{
 		tmp = r;
-		free(tmp->token.str);
+		ft_strdel(&tmp->token.str);
 		r = r->right;
 		free(tmp);
 	}
