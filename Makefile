@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/02/24 17:27:50 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/05 12:17:23 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBFT_PATH		= libft/includes/
 
 #------------------------------| SOURCE FILES |--------------------------------#
 SRCS_FILES		= ft_sh 													\
-				  termcaps/termcaps_init 									\
+				  termcaps/termcaps_init termcaps/termcaps_comp				\
 				  prompt/prompt_display prompt/prompt_add					\
 				  prompt/prompt_git											\
 				  edition/buff_handler edition/read							\
@@ -53,6 +53,7 @@ SRCS_FILES		= ft_sh 													\
 				  completion/print_comp completion/add_select				\
 				  completion/add_dir completion/sh_first_comp				\
 				  completion/add_bin completion/add_env						\
+				  completion/prompt_comp completion/arrow_comp				\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\

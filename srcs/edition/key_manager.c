@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/21 18:01:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/05 23:48:52 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,19 @@ char					sh_stop_line(t_buf *cmd, t_read *info, t_key *entry)
 const t_key_map			g_key_map[] =
 {
 	{0, ARROW_L, 3, {27, 91, 68},
-		{&curs_move_hz, &completion_to_normal, &curs_move_hz,
+		{&curs_move_hz, &comp_arrow_left, &curs_move_hz,
 			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{1, ARROW_R, 3, {27, 91, 67},
-		{&curs_move_hz, &completion_to_normal, &curs_move_hz,
+		{&curs_move_hz, &comp_arrow_right, &curs_move_hz,
 			&pasted_remove_highlight, &cpy_pst_mvt}},
 	{2, ARROW_U, 3, {27, 91, 65},
-		{&history_mode, &completion_to_normal, &history_up, NULL,
+		{&history_mode, &comp_arrow_up, &history_up, NULL,
 			&pasted_remove_highlight}},
 	{3, ARROW_D, 3, {27, 91, 66},
-		{NULL, &completion_to_normal, &history_do, NULL,
+		{NULL, &comp_arrow_down, &history_do, NULL,
 			&pasted_remove_highlight}},
 	{4, QUIT, 1, {CTRL_KEY('D')},
-		{&sh_quit, &completion_to_normal, &sh_quit, &sh_quit, &sh_quit}},
+		{&sh_quit, &quit_completion, &sh_quit, &sh_quit, &sh_quit}},
 	{5, ENTER, 1, {13},
 		{&sh_validate_line, &validate_completion, &sh_validate_line,
 			&sh_validate_line, &cpy_cut_validate}},
@@ -111,8 +111,9 @@ const t_key_map			g_key_map[] =
 	{16, CTRL_R, 1, {CTRL_KEY('R')},
 		{&history_ctrlr, &completion_to_normal, &history_ctrlr,
 			&pasted_remove_highlight, &pasted_remove_highlight}},
-	{17, TAB, 1, {9}, {&expansion_wrapper, &sh_comp, &history_to_completion,
-			&pasted_remove_highlight, &pasted_remove_highlight}},
+	{17, TAB, 1, {9}, {&expansion_wrapper, &comp_arrow_down,
+			&history_to_completion, &pasted_remove_highlight,
+			&pasted_remove_highlight}},
 	{18, SHIFT_ARROW_L, 6, {27, 91, 49, 59, 50, 68},
 		{&sh_curs_move_word, &completion_to_normal, &sh_curs_move_word,
 			&pasted_remove_highlight, &cpy_pst_mvt}},

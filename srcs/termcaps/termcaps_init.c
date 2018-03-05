@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/08 14:12:26 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/27 16:17:48 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ static void		termcaps_cap_init(void)
 		tputs("\e[?2004h", 0, &ft_putchar_termcap);
 	g_termcaps_cap[HIGH_START] = tgetstr("so", NULL);
 	g_termcaps_cap[HIGH_STOP] = tgetstr("se", NULL);
+	g_termcaps_cap[INV_ON] = tgetstr("vi", NULL);
+	g_termcaps_cap[INV_OFF] = tgetstr("ve", NULL);
+	g_termcaps_cap[SPE_ON] = tgetstr("te", NULL);
+	g_termcaps_cap[SPE_OFF] = tgetstr("ti", NULL);
 }
 
 static void		termcaps_set_tty(void)

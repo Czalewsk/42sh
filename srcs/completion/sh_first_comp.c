@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 12:27:23 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 15:19:02 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/05 23:43:51 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,20 @@ static void	comp_all(char *to_search)
 
 char		first_comp(t_buf *cmd, t_read *info, t_key *entry, char *to_search)
 {
+	t_ldl *ldl;
+
 	g_sh.edition_state = COMPLETION;
 	g_sh.comp = ft_memalloc(sizeof(t_comp));
+	comp_termcaps_set_tty(0);
 	g_sh.comp->head = ft_ldl_new_list();
-	g_sh.comp->path = NULL;
 	if (!g_sh.comp_status)
 		comp_all(to_search);
 	else
 		comp_file(to_search, to_search, ft_strlen(to_search));
+	ldl = g_sh.comp->head ? g_sh.comp->head->head : NULL;
+	if (ldl)
+		((t_select *)ldl->content)->is_current = 1;
+	else
+		return (quit_completion(cmd, info, entry));
 	return (sh_comp(cmd, info, entry));
 }

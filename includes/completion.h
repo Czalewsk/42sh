@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 14:10:58 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/05 17:36:24 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@ typedef struct	s_comp
 	t_ldl_head			*head;
 	char				*search;
 	char				*path;
-	int					nb_item;
+	int					win_height;
+	int					nb_file;
+	int					nb_file_col;
 	int					nb_col;
-	int					nb_row;
+	int					nb_col_visible;
 	int					len_max;
-	int					nb_visible;
-	int					index;
+	int					index_col;
+	int					first;
+	int					part;
+	int					ret;
 
 }				t_comp;
 
@@ -45,10 +49,21 @@ typedef struct	s_select
 **	sh_comp + print_comp :
 **	Algo et display de l'autocompletion
 */
+void		calcul_display(t_comp *comp, t_read *info, t_buf *cmd);
+t_ldl		*get_current(t_ldl_head *lst);
 char		sh_comp(t_buf *cmd, t_read *info, t_key *entry);
 char		first_comp(t_buf *cmd, t_read *info, t_key *entry, char *to_search);
-void		print_comp(t_comp *comp, t_read *info);
+void		print_comp(t_comp *comp, t_read *info, t_buf *cmd);
 void		display_new_comp(t_buf *cmd, t_read *info, t_select *select);
+void		clear_prompt_comp(t_comp *comp);
+/*
+** arrow_comp :
+** Se deplacer visuellement en auto_completion;
+*/
+char		comp_arrow_down(t_buf *cmd, t_read *info, t_key *entry);
+char		comp_arrow_up(t_buf *cmd, t_read *info, t_key *entry);
+char		comp_arrow_left(t_buf *cmd, t_read *info, t_key *entry);
+char		comp_arrow_right(t_buf *cmd, t_read *info, t_key *entry);
 
 /*
 ** Change_mode :
@@ -69,4 +84,5 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search);
 int			add_dir(t_comp *comp, t_ldl_head *head);
 int			add_bin(t_comp *comp, t_ldl_head *head);
 int			add_env(t_comp *comp, t_ldl_head *head, char **env);
+
 #endif
