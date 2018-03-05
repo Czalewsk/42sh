@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/24 15:07:12 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/01 23:57:45 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ static int		expand_variable(t_list **lst[2], const t_token *tk, char **cur,
 		if (found - *cur)
 			ft_lst_pushend(lst[1], ft_lstnew(*cur, found - *cur));
 		name = ft_strndup(found + 1, i - 1);
-		value = ft_getenv(g_sh.env, name);
+		value = env_get(name);
 		if (value)
-			expand_env(lst, tk, value, ft_getenv(g_sh.env, "IFS"));
+			expand_env(lst, tk, value, env_get("IFS"));
 		*cur += i;
 		free(name);
 		return (1);

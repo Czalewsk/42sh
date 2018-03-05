@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/14 14:47:40 by bviala           ###   ########.fr       */
+/*   Updated: 2018/02/27 15:26:35 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,8 @@ int					ft_find_end_nbr(char *str);
 int					ft_isint(char *nb);
 char				ft_is_escape(char *esc, char *str);
 t_list				*ft_list_folders(char *path);
+int					ft_getopt(int argc, char **argv, const char *options,
+		char **res);
+int					ft_tab2dlen(const void **tab);
 
 #endif

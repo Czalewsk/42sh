@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 23:48:52 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/05 23:53:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ const t_key_map			g_key_map[] =
 			&pasted_remove_highlight}},
 };
 
-static void				*key_token(t_key *entry)
+inline void				*key_token(t_key *entry)
 {
 	int		i;
 	int		j;

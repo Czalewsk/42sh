@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 07:19:33 by thugo             #+#    #+#             */
-/*   Updated: 2018/02/23 01:36:25 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/01 19:08:49 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char			expand_tilde(const t_token *tk, t_list **lst)
 	while (tilde[loginsize + 1] && tilde[loginsize + 1] != '/')
 		++loginsize;
 	expandstr = loginsize ? tilde_getlogindir(tilde, loginsize) :
-		ft_getenv(g_sh.env, "HOME");
+		env_get("HOME");
 	if (expandstr)
 	{
 		expandstr = tilde_concat(tk, expandstr, loginsize, tilde);

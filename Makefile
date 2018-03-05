@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/05 12:17:23 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/06 00:00:25 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g
+FLAGS			= -Wall -Wextra -Werror -g #-fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -58,23 +58,33 @@ SRCS_FILES		= ft_sh 													\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
 				  expansions/tilde expansions/globing						\
+				  env/init env/assign_word env/get env/set env/make env/len	\
+				  env/unset env/destroy										\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
-				  utils/sh_error											\
+				  utils/sh_error utils/fds_utils							\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
 				  glob/glob_add_rules glob/glob_rules glob/glob_rules_square\
 				  glob/glob_folders glob/glob_rules_check glob/glob_files	\
-				  glob/glob_free_function glob/glob_is_relative				\
 				  glob/globbing												\
+				  glob/glob_free_function glob/glob_is_relative				\
+				  parser/parser parser/parser_rules parser/free_parser		\
+				  parser/fill_for_jobs parser/add_in_tree parser/fd			\
+				  parser/tools_for_fill parser/init parser/exec				\
+				  parser/modify_io parser/add_in_arguments parser/check		\
+				  parser/read_from_prompt parser/pipe parser/jobs			\
+				  parser/heredoc parser/call_built_in parser/subshell		\
 				  paste/paste_handler paste/pasted_remove_highlight			\
-				  paste/cpy_pste_intern
+				  paste/cpy_pste_intern										\
+				  signal/signal_handler signal/signal_sigint
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#
 HEAD_FILES		= ft_sh.h builtins.h edition.h history.h prompt.h termcaps.h\
-				  utils.h sh_escape.h lexer_types.h lexer.h completion.h expansions.h
+				  utils.h sh_escape.h lexer_types.h lexer.h completion.h	\
+				  expansions.h sh_signal.h job_control.h env.h
 #------------------------------------------------------------------------------#
 
 #------------------------------| CREATE SOURCE |-------------------------------#
@@ -83,7 +93,8 @@ SRCS			= $(addprefix $(SRCS_PATH), $(addsuffix .c, $(SRCS_FILES)))
 
 #------------------------------| CREATE OBJECTS |------------------------------#
 OBJS_DIRS		= $(addprefix $(OBJS_PATH), termcaps/ prompt/ edition/ utils/ \
- utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/)
+ utils/escape/ glob/ builtins/ history/ lexer/ completion/ paste/ expansions/ \
+ parser/ env/ signal/)
 OBJ				= $(addprefix $(OBJS_PATH), $(addsuffix .o, $(SRCS_FILES)))
 #------------------------------------------------------------------------------#
 

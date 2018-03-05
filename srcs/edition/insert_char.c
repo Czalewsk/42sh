@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/20 18:48:02 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 19:08:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 		cursor_back_home(info, 1);
 		write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
 	}
-	++info->curs_char && info->total_char++;
+	len = ft_strlen_utf8(entry->entry);
+	(info->curs_char += len) && (info->total_char += len);
 	cursor_display_update(info, 1);
 	ft_bzero(entry, sizeof(t_key));
 	return (1);

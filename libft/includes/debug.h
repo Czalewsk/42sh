@@ -16,7 +16,7 @@
 # include "libft.h"
 # include <fcntl.h>
 
-# define DEBUG_WINDOW ("/dev/ttys005")
+# define DEBUG_WINDOW ("/dev/ttys002")
 # define DEBUG(x...) (debug(x));
 
 int		debug(char *format, ...);

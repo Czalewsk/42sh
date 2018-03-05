@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 14:14:57 by czalewsk          #+#    #+#             */
-/*   Updated: 2017/11/28 18:07:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/02 11:42:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 void		ft_env_cpy(char ***env)
 {
 	int		i;
-	int		j;
 	char	**new;
 
 	i = 0;
-	j = 0;
 	if (!env || !*env)
 		return ;
 	while (*(*env + i))

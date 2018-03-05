@@ -16,6 +16,6 @@
 # include "ft_sh.h"
 
 void		prompt_display(t_read *info, int new);
-char		prompt_add(char *prompt, char **line);
+char		prompt_add(char *prompt, char **line, int i);
 int			sh_prompt_git(void);
 #endif

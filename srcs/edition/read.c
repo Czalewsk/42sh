@@ -6,11 +6,12 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/20 18:49:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/05 15:28:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+#include "sh_signal.h"
 
 char			(*const g_special_case[EDITION_MAX_STATE])
 		(t_buf *cmd, t_read *info, t_key *entry) = {
@@ -18,14 +19,32 @@ char			(*const g_special_case[EDITION_MAX_STATE])
 	&pasted_remove_highlight_char, &pasted_remove_highlight_char
 };
 
-void			read_key(t_key *entry)
+char			read_key(t_key *entry)
 {
 	int		ret;
+	char	*new_line;
 
-	ret = read(0, entry->entry + entry->nread, SIZE_READ);
+	ret = read(g_sh.test_fd, entry->entry + entry->nread, SIZE_READ);
 	if (ret == -1)
-		ft_error(strerror(errno), &termcaps_restore_tty); // A recoder :D
-	entry->nread += ret;
+	{
+		ft_bzero(entry, sizeof(t_key));
+		if (errno != EINTR)
+			exit(sh_error(EXIT_FAILURE, 1, &termcaps_restore_tty, 1,
+						"Error in read\n"));
+		return (-3);
+	}
+	else
+	{
+		entry->nread += ret;
+		if (ret > 1)
+			while ((new_line = ft_strnchr(entry->entry, '\n', entry->nread)))
+			{
+				ft_memmove(new_line, new_line + 1,
+						entry->nread - (new_line - entry->entry));
+				--entry->nread;
+			}
+	}
+	return (1);
 }
 
 void			debug_key(t_key *entry)
@@ -67,7 +86,10 @@ char			read_line(t_buf *cmd, t_read *info)
 	ft_bzero(&entry, sizeof(t_key));
 	while (42)
 	{
-		read_key(&entry);
+		signal_manager();
+		ret = read_key(&entry);
+		if (g_new_prompt || ret < 0)
+			break ;
 		ret = key_wrapper(cmd, info, &entry);
 		if (ret < 0)
 			break ;

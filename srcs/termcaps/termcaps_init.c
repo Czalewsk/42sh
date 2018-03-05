@@ -6,11 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/27 16:17:48 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/05 23:53:00 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static struct termios	s_termios_backup;
+static struct termios	s_termios;
 
 /*
 **	int i = 0;
@@ -30,7 +33,7 @@
 ** Activation du mode : bracketed paste en fin d'initialisation
 */
 
-static void		termcaps_cap_init(void)
+static void				termcaps_cap_init(void)
 {
 	g_termcaps_cap[LEFT] = tgetstr("le", NULL);
 	g_termcaps_cap[RIGHT] = tgetstr("nd", NULL);
@@ -51,27 +54,35 @@ static void		termcaps_cap_init(void)
 	g_termcaps_cap[SPE_OFF] = tgetstr("ti", NULL);
 }
 
-static void		termcaps_set_tty(void)
+void					termcaps_backup_tty(void)
 {
-	struct termios			s_termios;
+	tcgetattr(0, &s_termios_backup);
+}
 
-	tcgetattr(0, &s_termios);
-	termcaps_restore_tty();
-	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-	s_termios.c_cflag |= (CS8);
-	s_termios.c_cc[VMIN] = 1;
-	s_termios.c_cc[VTIME] = 0;
+void					termcaps_restore_tty(void)
+{
+	tcsetattr(0, 0, &s_termios_backup);
+}
+
+void					termcaps_set_tty(void)
+{
 	tcsetattr(0, 0, &s_termios);
 }
 
-char			termcaps_init(char **env)
+char					termcaps_init(void)
 {
 	int		ret;
 	char	*env_term;
 
+	termcaps_backup_tty();
+	tcgetattr(0, &s_termios);
+	s_termios.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+	s_termios.c_lflag &= ~(ECHO | ICANON | IEXTEN);
+	s_termios.c_cflag |= (CS8);
+	s_termios.c_cc[VMIN] = 1;
+	s_termios.c_cc[VTIME] = 0;
 	termcaps_set_tty();
-	env_term = ft_getenv(env, "TERM");
+	env_term = env_get("TERM");
 	ret = tgetent(NULL, env_term ? env_term : DEFAULT_TERMCAPS);
 	if (ret < 0)
 		ft_error("Could not access the termcaps database",
@@ -81,15 +92,4 @@ char			termcaps_init(char **env)
 	if (ret > 0)
 		termcaps_cap_init();
 	return (ret);
-}
-
-void			termcaps_restore_tty(void)
-{
-	static struct termios	s_termios_backup;
-	static	int				i;
-
-	if (!i++)
-		tcgetattr(0, &s_termios_backup);
-	else
-		tcsetattr(0, 0, &s_termios_backup);
 }
