@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 17:25:15 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/05 19:23:11 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int			main(int ac, char **av, char **env)
 	t_buf		cmd;
 	t_read		info;
 	char		ret;
+	int			savefds[3];
 
 	ret = 0;
 	sh_init_prog(env);
@@ -73,7 +74,9 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
+		sh_savefds(savefds);
 		parser(&cmd.cmd);
+		sh_restorefds(savefds);
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);
