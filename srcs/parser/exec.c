@@ -39,17 +39,59 @@ t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 	return (p);
 }
 
+void			set_fd(t_process *p)
+{
+	if (p->stdin != STDIN_FILENO)
+	{
+		close(STDIN_FILENO);
+		dup2(p->stdin, STDIN_FILENO);
+	}
+	if (p->stdout != STDOUT_FILENO)
+	{
+		close(STDOUT_FILENO);
+		dup2(p->stdout, STDOUT_FILENO);
+	}
+	if (p->stderr != STDERR_FILENO)
+	{
+		close(STDERR_FILENO);
+		dup2(p->stderr, STDERR_FILENO);
+	}
+
+}
+
+void			reset_fdd(t_process *p)
+{
+	dup2(STDIN_FILENO, p->stdin);
+	dup2(STDOUT_FILENO, p->stdout);
+	dup2(STDERR_FILENO, p->stderr);
+	// if (p->stdin != STDIN_FILENO)
+	// {
+	// 	close(STDIN_FILENO);
+	// 	dup2(p->stdin, STDIN_FILENO);
+	// }
+	// if (p->stdout != STDOUT_FILENO)
+	// {
+	// 	close(STDOUT_FILENO);
+	// 	dup2(p->stdout, STDOUT_FILENO);
+	// }
+	// if (p->stderr != STDERR_FILENO)
+	// {
+	// 	close(STDERR_FILENO);
+	// 	dup2(p->stderr, STDERR_FILENO);
+	// }	
+}
+
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	pid_t		father;
 	int			i;
 
 	
+	i = 0;
 	termcaps_restore_tty();
+	set_fd(p);
 	if ((father = fork()) == -1)
 		exit(-1);
-
-	i = 0;
 	if (father == 0)
 	{
 		if (job)
@@ -80,6 +122,7 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 			DEBUG("JOB->PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", job->process->pid, job->process->completed, job->process->stopped, job->process->status, job->process->stdin, job->process->stdout, job->process->stderr);
 		}
 	}
+	reset_fdd(p);
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }

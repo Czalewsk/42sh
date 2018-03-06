@@ -15,27 +15,33 @@
 int				ft_pipe(t_tree *first, t_tree *second, t_job *job)
 {
 	pid_t		f;
+	int			fd[2];
 
-	if (pipe(g_sh.fds) == -1 || (f = fork()) == -1)
+	if (pipe(fd) == -1 || (f = fork()) == -1)
 		return (-1);
 	else
 	{
 		if (f == 0)
 		{
-			dup2(g_sh.fds[1], STDOUT_FILENO);
-			close(g_sh.fds[0]);
-			exit(g_sh.exitstatus = execute_run(first, second, job));
+			close(fd[1]);
+			dup2(fd[0], STDIN_FILENO);
+			exit(g_sh.exitstatus = set_for_pipe(second->right, job));
+			// dup2(fd[1], STDOUT_FILENO);
+			// close(fd[0]);
+			// exit(g_sh.exitstatus = execute_run(first, second, job));
 		}
 		else
 		{
-			waitpid(f, &g_sh.exitstatus, WUNTRACED | WCONTINUED);// | WNOHANG);
-			dup2(g_sh.fds[0], STDIN_FILENO);
-			close(g_sh.fds[1]);
-			g_sh.exitstatus = (set_for_pipe(second->right, job));
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[0]);
+			g_sh.exitstatus = execute_run(first, second, job);
 			return (g_sh.exitstatus);
+			// close(fd[1]);
+			// dup2(fd[0], STDIN_FILENO);
+			// return (g_sh.exitstatus = set_for_pipe(second->right, job));
 		}
 	}
-	return (0);
+	return (g_sh.exitstatus);
 }
 
 int				set_for_pipe(t_tree *c, t_job *job)

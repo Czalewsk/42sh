@@ -15,9 +15,9 @@
 t_process	*init_process(t_process *p)
 {
 	p = (t_process *)ft_memalloc(sizeof(t_process));
-	p->stdin = dup(STDIN_FILENO);
-	p->stdout = dup(STDOUT_FILENO);
-	p->stderr = dup(STDERR_FILENO);
+	p->stdin = STDIN_FILENO;
+	p->stdout = STDOUT_FILENO;
+	p->stderr = STDERR_FILENO;
 	return (p);
 }
 

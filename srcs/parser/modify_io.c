@@ -14,6 +14,21 @@
 
 int			greatand(int fd, t_tree *c, t_process *p)
 {
+	// int		ofd;
+
+	// (void)p;
+	// close(fd);
+	// ofd = -1;
+	// if (ft_str_isdigit(c->token.str) == 1)
+	// 	ofd = ft_atoi(c->token.str);
+	// else if (ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
+	// 	ofd = -1;
+	// else if ((ofd = open(c->token.str, O_CREAT |
+	// 	O_TRUNC | O_WRONLY, 0755)) == -1)
+	// 	return (-1);
+	// if (ofd != -1)
+	// 	dup2(dup2(ofd, fd), STDERR_FILENO);
+	// return (0);
 	int		ofd;
 
 	(void)p;
@@ -39,7 +54,7 @@ int			lessand(int fd, t_tree *c, t_process *p)
 	ofd = -1;
 	if (ft_str_isdigit(c->token.str) == 1)
 	{
-		ofd = ft_atoi(c->token.str);
+		p->stdin = ft_atoi(c->token.str);
 		if (fcntl(ofd, F_GETFD) == -1)
 		{
 			sh_error(-1, 0, NULL, 2, c->token.str,

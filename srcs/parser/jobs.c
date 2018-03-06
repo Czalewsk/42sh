@@ -54,34 +54,6 @@ int		get_id_max_job()
 		tmp = tmp->next;
 	}
 	return (res);
-}	
-
-void	ft_add_jobs(void)
-{
-	t_job	*njob;
-	t_job	*tmp;
-	t_list	*new_order;
-
-	njob = (t_job *)ft_memalloc(sizeof(t_job));
-	new_order = ft_lstnew(NULL, 0);
-	if (first_job)
-	{
-		tmp = job_order->content;
-		new_order->next = job_order;
-		njob->command = get_command_from_process(current_execute->argv);
-		new_order->content = njob;
-		njob->num = tmp->num + 1;
-		njob->process = current_execute;
-		job_order = new_order;
-	}
-	else
-	{
-		new_order->content = njob;
-		first_job = new_order->content;
-		first_job->num = 1;
-		first_job->process = current_execute;
-		job_order = new_order;
-	}
 }
 
 void	ft_create_jobs(t_tree *c)
@@ -105,23 +77,5 @@ void	ft_create_jobs(t_tree *c)
 		tmp->next = njob;
 	else
 		first_job = njob;
-	// if (first_job)
-	// {
-	// 	tmp = job_order->content;
-	// 	new_order->next = job_order;
-	// 	njob->command = get_command(njob->command, c);
-	// 	new_order->content = njob;
-	// 	njob->num = tmp->num + 1;
-	// 	job_order = new_order;
-	// }
-	// else
-	// {
-	// 	new_order->content = njob;
-	// 	first_job = new_order->content;
-	// 	first_job->command = get_command(first_job->command, c);
-	// 	first_job->num = 1;
-	// 	job_order = new_order;
-	// }
-
 	check_run_v2(c, njob);
 }

@@ -45,6 +45,7 @@ const t_classic g_classics[] = {
 	{DGREAT, WORD, &go_to_current_right},
 	{GREAT, WORD, &go_to_current_right},
 	{GREATAND, WORD, &go_to_current_right},
+	{IO_NUMBER, GREAT, &go_to_current_right},
 	{IO_NUMBER, GREATAND, &go_to_current_right},
 	{IO_NUMBER, SUBSH, &go_to_current_right},
 	{IO_NUMBER, LESSAND, &go_to_current_right},
