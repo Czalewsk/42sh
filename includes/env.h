@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 18:41:02 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/01 21:25:24 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/05 19:12:41 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void			env_unsetaddr(t_env **addr);
 char			**env_make(char type);
 size_t			env_len(const t_env **env, char type);
 void			env_destroy(void);
+
 t_tree			*assign_word(t_process *p, t_tree *c);
+t_tree			*clear_assign_word(t_tree *cur, t_tree *new);
 
 #endif

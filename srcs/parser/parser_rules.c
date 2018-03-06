@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 16:41:07 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/28 19:15:26 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/05 19:12:51 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ const t_classic g_classics[] = {
 	{WORD, WORD, &go_to_current_right},
 	{ASSIGNMENT_WORD, ASSIGNMENT_WORD, &go_to_current_right},
 	{ASSIGNMENT_WORD, WORD, &go_to_current_right},
+	{WORD, ASSIGNMENT_WORD, &clear_assign_word},
 	{0, 0, NULL}
 };

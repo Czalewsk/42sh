@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 21:38:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/05 18:33:31 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,37 @@ static void	sh_init_prog(char **env)
 	signal_handler_init();
 }
 
+void		printtoken(char **cmd)
+{
+	t_token	tk;
+	t_token	*tk2;
+	char	*cur;
+	t_list	*lst;
+	t_list	*prev;
+
+	cur = *cmd;
+	while (lexer_getnexttoken(&tk, &cur, cmd) > 0)
+	{
+		ft_printf("TOKEN: %s | Size: %zu | Class: %i\n", tk.str, tk.size, tk.id);
+		if (expansions_expand(&lst, &tk))
+		{
+			ft_printf("\t--EXPAND--\n");
+			while (lst)
+			{
+				tk2 = (t_token *)lst->content;
+				ft_printf("\tExpand: %s | Size: %zu | Class: %i\n", tk2->str,
+						tk2->size, tk2->id);
+				prev = lst;
+				lst = lst->next;
+				free(tk2->str);
+				free(tk2);
+				free(prev);
+			}
+		}
+		free(tk.str);
+	}
+}
+
 int			main(int ac, char **av, char **env)
 {
 	t_buf		cmd;
@@ -70,6 +101,7 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
+		printtoken(&cmd.cmd);
 		parser(&cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}
