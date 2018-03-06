@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/02 17:31:28 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/06 15:05:45 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int				ft_fill_for_jobs(t_tree *head)
 	t_tree		*tmp;
 
 	tmp = head;
-	init_closefd(g_sh.fds);
+//	init_closefd(g_sh.fds);
 	while (tmp)
 		tmp = check_run(tmp);
 	if (job_order)
