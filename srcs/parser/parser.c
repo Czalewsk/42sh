@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/04 13:12:20 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/05 15:33:22 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int			read_parser(char **cmd, char *cur)
 	t_token	t;
 
 	ret = 0;
-	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) != 0)
+	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) > 0)
 	{
 		if (!expansions_expand(&lst, &t))
 		{
@@ -98,10 +98,12 @@ int			read_parser(char **cmd, char *cur)
 int			parser(char **cmd)
 {
 	char	*cur;
+	int		i;
 
 	cur = *cmd;
 	head_tree = NULL;
-	if (read_parser(cmd, cur) == -1)
+	i = read_parser(cmd, cur);
+	if (i == -1 || i == -2)
 	{
 		ft_free_tree(head_tree);
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 14:11:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 13:53:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void					signal_handler_init(void)
 	int							i;
 	const	struct sigaction	action = {.sa_sigaction = &signal_handler,
 
-	.sa_flags = SA_SIGINFO | SA_RESTART};
+	.sa_flags = SA_SIGINFO};
 	i = -1;
 	while (++i < MAX_NB_SIGNAL)
 		if (g_signal_interrupt[i] && sigaction(i, &action, NULL))

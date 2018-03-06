@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:43:49 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/24 20:43:49 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/05 19:26:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				ft_pipe(t_tree *first, t_tree *second, t_job *job)
 		}
 		else
 		{
-			waitpid(f, &g_sh.exitstatus, WUNTRACED | WCONTINUED | WNOHANG);
+			waitpid(f, &g_sh.exitstatus, WUNTRACED | WCONTINUED);// | WNOHANG);
 			dup2(g_sh.fds[0], STDIN_FILENO);
 			close(g_sh.fds[1]);
 			g_sh.exitstatus = (set_for_pipe(second->right, job));

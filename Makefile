@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/04 19:22:43 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/06 00:00:25 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBFT_PATH		= libft/includes/
 
 #------------------------------| SOURCE FILES |--------------------------------#
 SRCS_FILES		= ft_sh 													\
-				  termcaps/termcaps_init 									\
+				  termcaps/termcaps_init termcaps/termcaps_comp				\
 				  prompt/prompt_display prompt/prompt_add					\
 				  prompt/prompt_git											\
 				  edition/buff_handler edition/read							\
@@ -53,6 +53,7 @@ SRCS_FILES		= ft_sh 													\
 				  completion/print_comp completion/add_select				\
 				  completion/add_dir completion/sh_first_comp				\
 				  completion/add_bin completion/add_env						\
+				  completion/prompt_comp completion/arrow_comp				\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
@@ -61,7 +62,7 @@ SRCS_FILES		= ft_sh 													\
 				  env/unset env/destroy										\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
-				  utils/sh_error											\
+				  utils/sh_error utils/fds_utils							\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\

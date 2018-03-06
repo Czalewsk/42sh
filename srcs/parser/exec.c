@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/04 20:45:07 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 13:59:42 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,44 +46,22 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 
 	
 	termcaps_restore_tty();
-	// if (job)
-	// {
-	// 	DEBUG("tst");
-	// 	ft_putendl_fd("", STDOUT_FILENO);
-	// }
 	if ((father = fork()) == -1)
 		exit(-1);
 
 	i = 0;
 	if (father == 0)
 	{
-			if (job)
-				setpgid(getpid(), getpid());
-	//		{
-	//			p->pid = getpid();
-	//			job->pgid = setpgid(getpid(), getpid());
-	//		}
+		if (job)
+			setpgid(getpid(), getpid());// je suis pas sur que ca reste
 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 	}
-// 	else
-// 	{
-// 		if (job)
-// // <<<<<<< HEAD
-// // 		{
-// // 			p->pid = getpid();
-// // 			job->pgid = setpgid(getpid(), getpid());
-// // 		}
-// // 		else
-// // 			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
-// // 	}
-// // =======
-// 			setpgid(getpid(), getpid());
-// 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
-// 	}
 	else
 	{
 		if (!job)
-			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+			while (waitpid(father, &g_sh.exitstatus, WUNTRACED) == -1
+					&& errno == EINTR)
+					;
 		else
 		{
 			dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, father);
@@ -102,7 +80,6 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 			DEBUG("JOB->PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", job->process->pid, job->process->completed, job->process->stopped, job->process->status, job->process->stdin, job->process->stdout, job->process->stderr);
 		}
 	}
-//>>>>>>> Job_Control
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
