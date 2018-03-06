@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 19:23:11 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/06 14:02:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include "lexer.h"
 #include "expansions.h"
 #include "sh_signal.h"
+
+char			(*const g_special_case[EDITION_MAX_STATE])
+		(t_buf *cmd, t_read *info, t_key *entry) = {
+	NULL, &completion_to_normal_char, &history_to_normal_char,
+	&pasted_remove_highlight_char, &pasted_remove_highlight_char
+};
 
 t_sh		g_sh;
 
@@ -56,6 +62,12 @@ static void	sh_init_prog(char **env)
 	signal_handler_init();
 }
 
+inline void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry)
+{
+	if (g_special_case[g_sh.edition_state])
+		g_special_case[g_sh.edition_state](cmd, info, entry);
+}
+
 int			main(int ac, char **av, char **env)
 {
 	t_buf		cmd;
@@ -67,16 +79,18 @@ int			main(int ac, char **av, char **env)
 	sh_init_prog(env);
 	while (ac || av)
 	{
+		sh_reinit_edition_state(&cmd, &info, NULL);
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
-		if (ret == -3)
-			continue ;
-		sh_savefds(savefds);
-		parser(&cmd.cmd);
-		sh_restorefds(savefds);
+		if (ret != -3)
+		{
+			sh_savefds(savefds);
+			parser(&cmd.cmd);
+			sh_restorefds(savefds);
+		}
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);

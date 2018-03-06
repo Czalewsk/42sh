@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 19:24:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/05 18:10:43 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/06 14:26:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char		completion_to_normal(t_buf *cmd, t_read *info, t_key *entry)
 
 char		completion_to_normal_char(t_buf *cmd, t_read *info, t_key *entry)
 {
-	(void)entry;
 	g_sh.edition_state = NORMAL;
 	clear_prompt_comp((g_sh.comp && (g_sh.comp->head->length > 1)) ?
 			g_sh.comp : NULL);
@@ -57,6 +56,8 @@ char		completion_to_normal_char(t_buf *cmd, t_read *info, t_key *entry)
 	}
 	comp_reinit_tty(0);
 	display_str(cmd, info, cmd->cmd, ft_strlen_utf8(cmd->cmd));
+	if (!entry)
+		write(g_sh.fd_tty, "\n", 1);
 	return (1);
 }
 

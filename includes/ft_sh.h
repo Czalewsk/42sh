@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 16:37:55 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:38:14 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/06 12:39:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,21 @@ extern t_sh				g_sh;
 ** Variable permettant decrire les term sur le bon fd (ft_putchar_termcap)
 */
 extern int	g_termcps_fd;
+
+/*
+** Variable qui contient les fonctions a appelee pour reset la machine a etat
+**  selon l'etat dans lequelle elle est.
+*/
+
+extern char			(*const g_special_case[EDITION_MAX_STATE])(t_buf *cmd,
+		t_read *info, t_key *entry);
+
+/*
+** Fonction qui check l'etat de l'edition et qui le cas echeant le reinitialise
+**  /!\ La variable entry peut etre egal a NULL /!\
+*/
+
+void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry);
 
 # define SIZE_BUF_CMD (128)
 # define PROMPT ("✗ ")

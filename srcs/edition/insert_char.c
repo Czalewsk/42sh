@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 19:08:58 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/06 14:17:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ char		insert_char(t_buf *cmd, t_read *info, t_key *entry)
 	else
 	{
 		len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
-		curs = cmd->cmd + len;
-		ft_memmove(curs + entry->nread, curs, sh_curs_unicode(cmd->cmd,
-					ft_strlen(curs) + 1, 1));
+		(curs = cmd->cmd + len) && ft_memmove(curs + entry->nread, curs,
+				sh_curs_unicode(cmd->cmd, ft_strlen(curs) + 1, 1));
 		ft_memcpy(curs, entry->entry, entry->nread);
 		cursor_back_home(info, 1);
 		write(g_sh.fd_tty, cmd->cmd, cmd->size_actual);
