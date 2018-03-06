@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_signal.h                                        :+:      :+:    :+:   */
+/*   bt_fg.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 13:21:53 by scorbion         ###   ########.fr       */
+/*   Created: 2018/02/17 16:08:50 by scorbion          #+#    #+#             */
+/*   Updated: 2018/03/04 09:37:49 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SH_SIGNAL_H
-# define __SH_SIGNAL_H
+#include "ft_sh.h"
 
-# include <signal.h>
+int bt_fg(char **arg)
+{
+    t_job   *tmp;
 
-# define MAX_NB_SIGNAL (32 + 1)
-# define CHECK_BIT(x, n) (x & (1 << n))
-
-extern volatile char	g_new_prompt;
-
-void					signal_handler(int sig, siginfo_t *siginfo,
-		void *context);
-void					signal_handler_init(void);
-char					signal_manager(void);
-void					signal_sigint(void);
-void					signal_sigchld(void);
-
-#endif
+    tmp = get_job(*arg);
+    if (tmp == NULL)
+    {
+        if (*arg == NULL)
+            sh_error(0, 0, NULL, 1, "fg: current: no such job\n");
+        else
+            sh_error(0, 0, NULL, 3, "fg: ", *arg, ": no such job\n");
+        return (1);
+    }
+    continue_job(tmp, 1);
+    return (0);
+}

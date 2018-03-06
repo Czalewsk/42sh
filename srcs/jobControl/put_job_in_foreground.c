@@ -6,11 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 17:15:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:46:30 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 /* Put job j in the foreground.  If cont is nonzero,
    restore the saved terminal modes and send the process group a

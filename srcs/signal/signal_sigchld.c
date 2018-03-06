@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_signal.h                                        :+:      :+:    :+:   */
+/*   signal_sigchld.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 13:21:53 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/04 13:19:19 by scorbion          #+#    #+#             */
+/*   Updated: 2018/03/04 17:42:56 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SH_SIGNAL_H
-# define __SH_SIGNAL_H
+#include "ft_sh.h"
+#include "sh_signal.h"
 
-# include <signal.h>
-
-# define MAX_NB_SIGNAL (32 + 1)
-# define CHECK_BIT(x, n) (x & (1 << n))
-
-extern volatile char	g_new_prompt;
-
-void					signal_handler(int sig, siginfo_t *siginfo,
-		void *context);
-void					signal_handler_init(void);
-char					signal_manager(void);
-void					signal_sigint(void);
-void					signal_sigchld(void);
-
-#endif
+void		signal_sigchld(void)
+{
+    //do_job_notification();
+    //g_sh.prompt_display = 0;
+    update_status();
+}

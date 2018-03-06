@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 16:47:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 20:45:07 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,67 @@ t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	pid_t		father;
+	int			i;
 
+	
 	termcaps_restore_tty();
-	g_sh.prompt_display = 0;
+	// if (job)
+	// {
+	// 	DEBUG("tst");
+	// 	ft_putendl_fd("", STDOUT_FILENO);
+	// }
 	if ((father = fork()) == -1)
 		exit(-1);
+
+	i = 0;
 	if (father == 0)
 	{
+			if (job)
+				setpgid(getpid(), getpid());
+	//		{
+	//			p->pid = getpid();
+	//			job->pgid = setpgid(getpid(), getpid());
+	//		}
 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 	}
+// 	else
+// 	{
+// 		if (job)
+// // <<<<<<< HEAD
+// // 		{
+// // 			p->pid = getpid();
+// // 			job->pgid = setpgid(getpid(), getpid());
+// // 		}
+// // 		else
+// // 			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+// // 	}
+// // =======
+// 			setpgid(getpid(), getpid());
+// 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
+// 	}
 	else
 	{
-		if (job)
-		{
-			p->pid = getpid();
-			job->pgid = setpgid(getpid(), getpid());
-		}
-		else
+		if (!job)
 			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+		else
+		{
+			dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, father);
+			p->pid = father;
+			g_sh.exitstatus = 0;
+			job->pgid = p->pid;
+			DEBUG("\n\nPROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", p->pid, p->completed, p->stopped, p->status, p->stdin, p->stdout, p->stderr);
+			job->process = ft_memalloc(sizeof(t_process));
+			ft_memcpy(job->process, p, sizeof(t_process));
+			job->process->argv = ft_memdup(p->argv, sizeof(char*) * (ft_tab2dlen((const void**)(p->argv)) + 1));
+			while(p->argv[i])
+			{
+				job->process->argv[i] = ft_memdup(p->argv[i], sizeof(char) * (ft_strlen(p->argv[i]) + 1));
+				i++;
+			}
+			DEBUG("JOB->PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", job->process->pid, job->process->completed, job->process->stopped, job->process->status, job->process->stdin, job->process->stdout, job->process->stderr);
+		}
 	}
+//>>>>>>> Job_Control
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }

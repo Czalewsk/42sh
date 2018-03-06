@@ -6,11 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:32:43 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 17:15:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/03 15:46:40 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 /* Check for processes that have status information available,
    blocking until all processes in the given job have reported.  */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:43:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/04 18:04:41 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ inline void	info_init(t_read *info)
 {
 	struct winsize	ws;
 
+	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
+	g_sh.test_fd = open(ttyname(0), O_RDONLY);
+	//g_sh.prompt_display = 0;
 	ft_bzero(info, sizeof(t_read));
 	ioctl(g_sh.fd_tty, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
 	info->win_co = ws.ws_col;
@@ -42,8 +45,6 @@ static void	sh_quit_prog(t_buf *cmd)
 static void	sh_init_prog(char **env)
 {
 	ft_bzero(&g_sh, sizeof(t_sh));
-	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
-	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
@@ -70,7 +71,9 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
+		//do_job_notification();
 		parser(&cmd.cmd);
+		do_job_notification();
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);

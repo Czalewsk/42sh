@@ -6,11 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:33:28 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 16:45:24 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/04 15:36:45 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
 /* Format information about job status for the user to look at.  */
 

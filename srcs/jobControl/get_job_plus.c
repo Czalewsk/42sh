@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_signal.h                                        :+:      :+:    :+:   */
+/*   get_job_plus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 13:21:53 by scorbion         ###   ########.fr       */
+/*   Created: 2018/02/17 16:52:42 by scorbion          #+#    #+#             */
+/*   Updated: 2018/02/17 18:02:24 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SH_SIGNAL_H
-# define __SH_SIGNAL_H
+#include "../includes/job_control.h"
 
-# include <signal.h>
-
-# define MAX_NB_SIGNAL (32 + 1)
-# define CHECK_BIT(x, n) (x & (1 << n))
-
-extern volatile char	g_new_prompt;
-
-void					signal_handler(int sig, siginfo_t *siginfo,
-		void *context);
-void					signal_handler_init(void);
-char					signal_manager(void);
-void					signal_sigint(void);
-void					signal_sigchld(void);
-
-#endif
+t_job   *get_job_plus()
+{
+    if (job_order != NULL)
+        return ((t_job*)(job_order->content));
+    return (NULL);
+}
