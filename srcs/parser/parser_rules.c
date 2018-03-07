@@ -85,8 +85,12 @@ const t_classic g_classics[] = {
 	{WORD, SEMI, &go_to_current_right},
 	{WORD, PIPE, &go_to_current_right},
 	{WORD, WORD, &go_to_current_right},
+	{WORD, ASSIGNMENT_WORD, &go_to_current_right},
 	{ASSIGNMENT_WORD, ASSIGNMENT_WORD, &go_to_current_right},
 	{ASSIGNMENT_WORD, WORD, &go_to_current_right},
-	{WORD, ASSIGNMENT_WORD, &clear_assign_word},
+	{ASSIGNMENT_WORD, SEMI, &go_to_current_right},
+	{ASSIGNMENT_WORD, AND_IF, &go_to_current_right},
+	{ASSIGNMENT_WORD, OR_IF, &go_to_current_right},
+	{ASSIGNMENT_WORD, AND, &go_to_current_right},
 	{0, 0, NULL}
 };

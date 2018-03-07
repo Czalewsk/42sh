@@ -79,7 +79,9 @@ int				execute(t_process *p, t_job *job, char **env, int i)
 {
 	char		**path;
 	char		*exec_line;
-
+	ft_printf("--- START\n");
+	ft_printenv(env);
+	ft_printf("---STOP\n");
 	if (ft_strstr(p->argv[0], "/") != NULL)
 		if (exec_in_line(p, job, env) == 0)
 			return (g_sh.exitstatus);

@@ -18,6 +18,7 @@
 # define ENV_LOCAL	1
 # define ENV_GLOBAL 2
 # define ENV_TEMP	4
+# define ENV_DELETE	8
 
 typedef struct	s_env
 {
@@ -37,6 +38,5 @@ size_t			env_len(const t_env **env, char type);
 void			env_destroy(void);
 
 t_tree			*assign_word(t_process *p, t_tree *c);
-t_tree			*clear_assign_word(t_tree *cur, t_tree *new);
 
 #endif

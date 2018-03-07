@@ -57,10 +57,25 @@ int				cnewline(t_token t, char **cmd, char *cur)
 	return (0);
 }
 
+void			clear_assign_word(t_tree *cur, t_tree *new)
+{
+	while (cur)
+	{
+		if (cur->token.id == WORD)
+		{
+			new->token.id = WORD;
+			return ;
+		}
+		cur = cur->previous;
+	}
+}
+
 int				add_in_classic_tree(t_tree *cur, t_tree *new)
 {
 	int			i;
 
+	if (new->token.id == ASSIGNMENT_WORD)
+		clear_assign_word(cur, new);
 	i = 0;
 	while (g_classics[i].cmp)
 	{
