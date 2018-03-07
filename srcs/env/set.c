@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 17:43:57 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/02 00:16:18 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/07 22:54:30 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void	env_add(const char *name, const char *value, char type)
 	new = ft_memalloc(sizeof(t_env *) * (len + 2));
 	ft_memcpy((void *)new, (void *)g_sh.env, len * sizeof(t_env *));
 	new[len] = (t_env *)ft_memalloc(sizeof(t_env));
-	new[len]->var = ft_strxjoin(3, name, "=", value);
+	if (type & ENV_TEMP)
+		new[len]->temp = ft_strxjoin(3, name, "=", value);
+	else
+		new[len]->var = ft_strxjoin(3, name, "=", value);
 	new[len]->type = type;
 	free(g_sh.env);
 	g_sh.env = new;
@@ -33,9 +36,16 @@ void		env_set(const char *name, const char *value, char type)
 
 	if ((found = env_getaddr(name)))
 	{
-		free((*found)->var);
-		(*found)->var = ft_strxjoin(3, name, "=", value);
-		(*found)->type = type;
+		if (type & ENV_TEMP)
+		{
+			(*found)->temp = ft_strxjoin(3, name, "=", value);
+			(*found)->type = ((*found)->type & ~ENV_DELETE) | ENV_TEMP;
+		}
+		else
+		{
+			free((*found)->var);
+			(*found)->var = ft_strxjoin(3, name, "=", value);
+		}
 	}
 	else
 		env_add(name, value, type);

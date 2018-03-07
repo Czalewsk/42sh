@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 21:05:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/02 00:03:50 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/07 22:45:24 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	env_unsetaddr(t_env **addr)
 {
 	size_t	len;
 
-	free((*addr)->var);
+	if ((*addr)->var)
+		free((*addr)->var);
+	if ((*addr)->temp)
+		free((*addr)->temp);
 	free(*addr);
 	len = env_len((const t_env **)addr + 1, ENV_LOCAL | ENV_GLOBAL | ENV_TEMP);
 	ft_memmove(addr, addr + 1, (len + 1) * sizeof(t_env *));
