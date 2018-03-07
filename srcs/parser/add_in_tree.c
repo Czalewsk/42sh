@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:06 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/05 19:32:06 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/07 14:25:04 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,6 @@ int				cnewline(t_token t, char **cmd, char *cur)
 	else if (current->token.id == OR_IF || current->token.id == AND_IF)
 		return (read_from_prompt(cmd, cur));
 	return (0);
-}
-
-void			clear_assign_word(t_tree *cur, t_tree *new)
-{
-	while (cur)
-	{
-		if (cur->token.id == WORD)
-		{
-			new->token.id = WORD;
-			return ;
-		}
-		cur = cur->previous;
-	}
 }
 
 int				add_in_classic_tree(t_tree *cur, t_tree *new)

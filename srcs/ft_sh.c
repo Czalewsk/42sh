@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 18:33:31 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/07 14:27:08 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int			main(int ac, char **av, char **env)
 			break ;
 		if (ret == -3)
 			continue ;
-		printtoken(&cmd.cmd);
 		parser(&cmd.cmd);
 		ft_strdel(&cmd.cmd);
 	}

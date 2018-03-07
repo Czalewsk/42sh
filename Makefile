@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/03 15:48:44 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/03/07 14:26:10 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ SRCS_FILES		= ft_sh 													\
 				  parser/modify_io parser/add_in_arguments parser/check		\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
+				  parser/clear_assign_word									\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
 				  signal/signal_handler signal/signal_sigint
