@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:06 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/05 19:32:06 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/07 14:25:04 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int				add_in_classic_tree(t_tree *cur, t_tree *new)
 {
 	int			i;
 
+	if (new->token.id == ASSIGNMENT_WORD)
+		clear_assign_word(cur, new);
 	i = 0;
 	while (g_classics[i].cmp)
 	{

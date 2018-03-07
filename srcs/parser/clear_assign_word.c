@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   clear_assign_word.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/01 21:05:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/07 22:45:24 by thugo            ###   ########.fr       */
+/*   Created: 2018/03/07 14:24:51 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/07 14:25:13 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void	env_unsetaddr(t_env **addr)
+void			clear_assign_word(t_tree *cur, t_tree *new)
 {
-	size_t	len;
-
-	if ((*addr)->var)
-		free((*addr)->var);
-	if ((*addr)->temp)
-		free((*addr)->temp);
-	free(*addr);
-	len = env_len((const t_env **)addr + 1, ENV_LOCAL | ENV_GLOBAL | ENV_TEMP);
-	ft_memmove(addr, addr + 1, (len + 1) * sizeof(t_env *));
-	g_sh.envupd = 1;
-}
-
-void	env_unset(const char *name)
-{
-	t_env	**found;
-
-	if ((found = env_getaddr(name)))
-		env_unsetaddr(found);
+	while (cur)
+	{
+		if (cur->token.id == WORD)
+		{
+			new->token.id = WORD;
+			return ;
+		}
+		cur = cur->previous;
+	}
 }
