@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:43:08 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 15:50:21 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/07 18:36:41 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    process_display_short(t_process *p, char * cmd)
     if (p->completed)
     {
         if (WIFSIGNALED(p->status))
-            ft_printf("%s: %d", strsignal(WTERMSIG(p->status)), WTERMSIG(p->status));
+            ft_printf("%s", strsignal(WTERMSIG(p->status)));
         else if (p->status == 0)
             ft_printf("Done");
         else

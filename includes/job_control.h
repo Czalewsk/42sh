@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/04 19:20:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/07 20:35:04 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,8 @@ int		job_is_completed(t_job *j);
 int		job_is_stopped(t_job *j);
 void	format_job_info (t_job *j, const char *status);
 void	wait_for_job (t_job *j);
+
+/* init */
+void	init_job_control(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 18:04:41 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/07 20:34:35 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ static void	sh_quit_prog(t_buf *cmd)
 
 static void	sh_init_prog(char **env)
 {
+	init_job_control();
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
-	env_init((const char **)env);
 	init_history();
+	env_init((const char **)env);
 	termcaps_init();
-	signal_handler_init();
 }
 
 int			main(int ac, char **av, char **env)

@@ -1,31 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bt_fg.c                                            :+:      :+:    :+:   */
+/*   signal_sigtstp.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/17 16:08:50 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/07 18:42:55 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/07 19:03:25 by scorbion          #+#    #+#             */
+/*   Updated: 2018/03/07 20:39:23 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int bt_fg(char **arg)
+void	signal_sigtstp(void)
 {
-    t_job   *tmp;
-
-    tmp = get_job(*arg);
-    if (tmp == NULL)
-    {
-        if (*arg == NULL)
-            sh_error(0, 0, NULL, 1, "fg: current: no such job\n");
-        else
-            sh_error(0, 0, NULL, 3, "fg: ", *arg, ": no such job\n");
-        return (1);
-    }
-    printf("%s\n", tmp->command);
-    continue_job(tmp, 1);
-    return (0);
 }

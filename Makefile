@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/04 19:22:43 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/07 20:17:54 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,8 +95,12 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/put_job_in_foreground							\
 				  jobControl/update_status									\
 				  jobControl/wait_for_job									\
+				  jobControl/init_job_control								\
 				  signal/signal_handler										\
 				  signal/signal_sigchld										\
+				  signal/signal_sigtstp										\
+				  signal/signal_sigttou										\
+				  signal/signal_sigttin										\
 				  signal/signal_handler signal/signal_sigint
 #------------------------------------------------------------------------------#
 

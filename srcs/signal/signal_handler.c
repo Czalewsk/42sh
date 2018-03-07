@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 14:11:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/07 20:21:02 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static unsigned	long	g_signal_mask;
 */
 
 static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {[SIGINT] = 1,
-[SIGCHLD] = 17};
+[SIGCHLD] = 17, [SIGTSTP] = 7, [SIGTTIN] = 77, [SIGTTOU] = 71};
 
 /*
 **Variable qui permet de stocke les fonctions a appeler dans le signl handler
@@ -31,7 +31,8 @@ static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {[SIGINT] = 1,
 */
 
 static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) =
-{[SIGINT] = &signal_sigint, [SIGCHLD] = &signal_sigchld};
+{[SIGINT] = &signal_sigint, [SIGCHLD] = &signal_sigchld,
+	[SIGTSTP] = &signal_sigtstp, [SIGTTIN] = &signal_sigttin, [SIGTTOU] = &signal_sigttou};
 
 /*
 ** Variable qui stock les fonctions appelle par le signal manager dans la boucle

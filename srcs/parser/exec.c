@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/04 20:45:07 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/07 19:28:07 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	i = 0;
 	if (father == 0)
 	{
+		signal (SIGTSTP, SIG_IGN);
 		if (job)
 			setpgid(getpid(), getpid());
 		exit(g_sh.exitstatus = execve(tmp, p->argv, env));

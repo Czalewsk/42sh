@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 13:12:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/07 20:02:55 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include "history.h"
 # include "builtins.h"
 # include "completion.h"
+# include "sh_signal.h"
 
 
 /*
