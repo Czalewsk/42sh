@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 14:41:38 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:40:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	sh_quit_prog(t_buf *cmd)
 
 static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 {
+	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");

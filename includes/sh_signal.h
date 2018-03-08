@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 15:09:09 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:14:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ char					signal_manager(void);
 void					signal_sigint(int sig, siginfo_t *siginfo,
 		void *context);
 void					sigwinch(void);
+void					signal_avoid(void);
 
 #endif
