@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 00:33:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/20 14:04:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/07 17:23:13 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,12 @@ static char	sh_print_git(int fd)
 	return (ret_length);
 }
 
-int			sh_prompt_git(void)
+int			sh_prompt_git(int ret, int depth)
 {
 	int		fd;
 	char	*path;
 	char	*test_git;
-	int		depth;
-	int		ret;
 
-	ret = -1;
 	path = NULL;
 	if (!(path = getcwd(path, 0)))
 		return (0);
@@ -53,7 +50,9 @@ int			sh_prompt_git(void)
 	test_git = ft_strdup("./.git/HEAD");
 	while (--depth >= 0)
 	{
-		if ((fd = open(test_git, O_RDONLY)) > 0)
+		while ((fd = open(test_git, O_RDONLY)) == -1 && errno == EINTR)
+			;
+		if (fd > 0)
 		{
 			ret = sh_print_git(fd);
 			depth = -1;
