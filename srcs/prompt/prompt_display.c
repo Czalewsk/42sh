@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:27:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/07 16:56:01 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		prompt_display(t_read *info, int new)
 	ret += sh_prompt_get_host();
 	ret += sh_print_time();
 	ret += sh_current_dir(0, NULL, NULL);
-	ret += sh_prompt_git();
+	ret += sh_prompt_git(-1, 0);
 	ft_putstr_fd(" " YELLOW, g_sh.fd_tty);
 	ft_putstr_fd(PROMPT, g_sh.fd_tty);
 	ft_putstr_fd(C_DEFAULT, g_sh.fd_tty);
