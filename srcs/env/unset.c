@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 21:05:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/07 22:45:24 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 19:28:14 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void	env_unset(const char *name)
 {
 	t_env	**found;
 
-	if ((found = env_getaddr(name)))
+	if ((found = env_getaddr(name, ENV_LOCAL | ENV_GLOBAL | ENV_TEMP)))
 		env_unsetaddr(found);
 }
