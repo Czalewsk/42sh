@@ -6,18 +6,19 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:00:37 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 15:59:45 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/08 21:58:11 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char	builtin_history(void)
+static int	display_history(char **argv)
 {
 	size_t	len;
 	size_t	len_max;
 	t_ldl	*tmp;
 
+	(void)argv;
 	if (!g_sh.history)
 		return (-1);
 	len = 1;
@@ -33,4 +34,22 @@ char	builtin_history(void)
 		++len;
 	}
 	return (0);
+}
+
+int			builtin_history(t_process *p)
+{
+	char	*options;
+	int		ret;
+
+	options = NULL;
+	if (!p || !p->argv)
+		return (sh_error(-1, 1, NULL, 1, "Fail history builtin\n"));
+	if (p->argv[0][0] == '!')
+		ret = display_history(p->argv);
+	else if (!ft_strcmp(p->argv[0], "history"))
+		ret = display_history(p->argv);
+	else
+		return (sh_error(-1, 1, NULL, 1, "Fail history builtin\n"));
+	ft_strdel(&options);
+	return (ret);
 }
