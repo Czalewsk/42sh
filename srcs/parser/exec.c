@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/07 19:28:07 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/08 11:42:17 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,51 +41,52 @@ t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
-	pid_t		father;
-	int			i;
-
+	pid_t		pid;
 	
 	termcaps_restore_tty();
-	// if (job)
-	// {
-	// 	DEBUG("tst");
-	// 	ft_putendl_fd("", STDOUT_FILENO);
-	// }
-	if ((father = fork()) == -1)
-		exit(-1);
-	// if (job)
-	// {
-	// 	p->pid = getpid();
-	// 	job->pgid = setpgid(getpid(), getpid());
-	// }
-	i = 0;
-	if (father == 0)
+	if ((pid = fork()) == -1)
+		exit(sh_error(-1, 0, NULL, 1, "Erreur fork exec_with_acces\n"));
+	if (pid == 0)
 	{
-		signal (SIGTSTP, SIG_IGN);
-		if (job)
-			setpgid(getpid(), getpid());
-		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
+		// signal (SIGTSTP, SIG_IGN);
+		// if (job)
+		// 	setpgid(getpid(), getpid());
+		// exit(g_sh.exitstatus = execve(tmp, p->argv, env));
+		launch_process(tmp, p, job, env);
 	}
 	else
 	{
 		if (!job)
-			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+		{
+			// DEBUG("PERE Mon groupe : %d\n", getpgid(getpid()));
+			// DEBUG("avant le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(STDIN_FILENO));
+			DEBUG("retour de tcsetpgrp %d\n", tcsetpgrp(STDIN_FILENO, pid));
+			if (errno)
+			 	DEBUG("val ERRNO : %d  ---- val PID : %d\n", errno, pid);
+			DEBUG("apres le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(STDIN_FILENO));
+			waitpid(pid, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
+			//DEBUG("Mon groupe : %d\n", getpgid(getpid()));
+			//DEBUG("avant le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(shell_terminal));
+			tcsetpgrp(STDIN_FILENO, getpgid(getpid()));
+			//DEBUG("apres le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(shell_terminal));
+		}	
 		else
 		{
-			dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, father);
-			p->pid = father;
-			g_sh.exitstatus = 0;
-			job->pgid = p->pid;
-			DEBUG("\n\nPROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", p->pid, p->completed, p->stopped, p->status, p->stdin, p->stdout, p->stderr);
-			job->process = ft_memalloc(sizeof(t_process));
-			ft_memcpy(job->process, p, sizeof(t_process));
-			job->process->argv = ft_memdup(p->argv, sizeof(char*) * (ft_tab2dlen((const void**)(p->argv)) + 1));
-			while(p->argv[i])
+			dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid);
+
+			p->pid = pid;
+			if (shell_is_interactive)
 			{
-				job->process->argv[i] = ft_memdup(p->argv[i], sizeof(char) * (ft_strlen(p->argv[i]) + 1));
-				i++;
+				DEBUG("exec.c -- ligne 70 : Le shell est bien interactif.\n");
+				if (!job->pgid)
+				{
+					DEBUG("exec.c -- ligne 73 : job->pgid est null, affectation de %d a cette variable.\n", pid);
+					job->pgid = pid;
+				}
+				setpgid (pid, job->pgid);
 			}
-			DEBUG("JOB->PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", job->process->pid, job->process->completed, job->process->stopped, job->process->status, job->process->stdin, job->process->stdout, job->process->stderr);
+			g_sh.exitstatus = 0;
+			job->process = cpy_profonde_process(p);
 		}
 	}
 	termcaps_set_tty();

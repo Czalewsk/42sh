@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 13:19:19 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/07 20:39:02 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/08 09:29:54 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,4 +14,5 @@
 
 void		signal_sigchld(void)
 {
+    update_status();
 }

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:49:17 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/04 12:37:13 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/08 09:53:32 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int		get_id_max_job()
 	while (tmp)
 	{
 		j = (t_job*)(tmp->content);
-		DEBUG("jobs.c ligne 51 : cmd du JOB : %s\n", j->command);
 		if (j && j->num >= res)
 			res = j->num + 1;
 		tmp = tmp->next;

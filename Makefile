@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/07 20:17:54 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/08 10:28:39 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS			= -Wall -Wextra -Werror -g #-fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -96,6 +96,8 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/update_status									\
 				  jobControl/wait_for_job									\
 				  jobControl/init_job_control								\
+				  jobControl/cpy_profonde_process							\
+				  jobControl/launch_process									\
 				  signal/signal_handler										\
 				  signal/signal_sigchld										\
 				  signal/signal_sigtstp										\

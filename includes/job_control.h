@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/07 20:35:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:30:18 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,42 +64,46 @@ extern int				shell_is_interactive;
 
 
 
-void    put_first_in_job_order(t_job *j);
-int		bt_fg(char **arg);
-int		bt_bg(char **arg);
-t_job   *get_job(char *arg);
-t_job   *get_job_plus();
-t_job   *get_job_minus();
-t_job   *get_job_id(int id);
-void	continue_job (t_job *j, int foreground);
-void	mark_job_as_running (t_job *j);
-void	put_job_in_foreground (t_job *j, int cont);
-void  	put_job_in_background (t_job *j, int cont);
+void    	put_first_in_job_order(t_job *j);
+int			bt_fg(char **arg);
+int			bt_bg(char **arg);
+t_job   	*get_job(char *arg);
+t_job   	*get_job_plus();
+t_job   	*get_job_minus();
+t_job   	*get_job_id(int id);
+void		continue_job (t_job *j, int foreground);
+void		mark_job_as_running (t_job *j);
+void		put_job_in_foreground (t_job *j, int cont);
+void  		put_job_in_background (t_job *j, int cont);
 
 /* jobs */
-int		jobs_display(t_job *j, int long_flag);
-void    process_display_short(t_process *process, char *cmd);
-void    process_display_long(t_process *process);
-int 	jobs_display_only_id(t_job *j);
-void	del_job_in_first(t_job *j);
-void	free_job(t_job *j);
-int     bt_jobs(char **arg);
+int			jobs_display(t_job *j, int long_flag);
+void    	process_display_short(t_process *process, char *cmd);
+void    	process_display_long(t_process *process);
+int 		jobs_display_only_id(t_job *j);
+void		del_job_in_first(t_job *j);
+void		free_job(t_job *j);
+int     	bt_jobs(char **arg);
 
 /* sigchld */
-void	do_job_notification (void);
-void	update_status (void);
+void		do_job_notification (void);
+void		update_status (void);
 
 /* before prompt */
-int		mark_process_status (pid_t pid, int status);
-void  	update_status (void);
+int			mark_process_status (pid_t pid, int status);
+void  		update_status (void);
 
 /* utils */
-int		job_is_completed(t_job *j);
-int		job_is_stopped(t_job *j);
-void	format_job_info (t_job *j, const char *status);
-void	wait_for_job (t_job *j);
+int			job_is_completed(t_job *j);
+int			job_is_stopped(t_job *j);
+void		format_job_info (t_job *j, const char *status);
+void		wait_for_job (t_job *j);
+t_process	*cpy_profonde_process(t_process *src);
 
 /* init */
-void	init_job_control(void);
+void		init_job_control(void);
+
+/* exec */
+void		launch_process(char *tmp, t_process *p, t_job *j, char **env);
 
 #endif
