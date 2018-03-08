@@ -6,14 +6,14 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 14:26:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 14:56:35 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:25:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static t_read		*g_save_info;
-static t_buf		*g_save_cmd;
+t_read		*g_save_info;
+t_buf		*g_save_cmd;
 
 void		update_display_init(t_read *info, t_buf *cmd)
 {

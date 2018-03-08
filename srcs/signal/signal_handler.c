@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 17:28:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:27:27 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static unsigned	long	g_signal_mask;
 */
 
 static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
-	[SIGWINCH] = 1, [SIGQUIT] = 1};
+	[SIGWINCH] = 1,
+	[SIGQUIT] = 1};
 
 /*
 **Variable qui permet de stocke les fonctions a appeler dans le signl handler
@@ -30,8 +31,9 @@ static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
 ** dans le signal manager
 */
 
-static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) =
-{[SIGWINCH] = &sigwinch, [SIGQUIT] = &signal_avoid};
+static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) = {
+	[SIGWINCH] = &sigwinch,
+	[SIGQUIT] = &signal_avoid};
 
 /*
 ** Variable qui stock les fonctions appelle par le signal manager dans la boucle
