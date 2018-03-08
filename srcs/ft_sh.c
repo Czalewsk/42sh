@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 23:00:25 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 17:40:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_strdel(&cmd->cmd);
 	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
+	write(g_sh.fd_tty, "\n", 1);
 	close(g_sh.fd_tty);
 	close(g_sh.test_fd);
 }
 
-static void	sh_init_prog(char **env)
+static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 {
+	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
@@ -59,6 +61,7 @@ static void	sh_init_prog(char **env)
 	g_termcps_fd = g_sh.fd_tty;
 	init_history();
 	termcaps_init();
+	update_display_init(info, cmd);
 	signal_handler_init();
 }
 
@@ -107,7 +110,7 @@ int			main(int ac, char **av, char **env)
 	int			savefds[3];
 
 	ret = 0;
-	sh_init_prog(env);
+	sh_init_prog(env, &cmd, &info);
 	while (ac || av)
 	{
 		sh_reinit_edition_state(&cmd, &info, NULL);

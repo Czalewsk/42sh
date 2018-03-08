@@ -6,13 +6,13 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 16:48:41 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/01 23:57:30 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 19:25:15 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-t_env	**env_getaddr(const char *name)
+t_env	**env_getaddr(const char *name, char type)
 {
 	int		i;
 	size_t	len1;
@@ -22,7 +22,7 @@ t_env	**env_getaddr(const char *name)
 	len1 = ft_strlen(name);
 	while (g_sh.env[++i])
 	{
-		if (g_sh.env[i]->type & (ENV_LOCAL | ENV_GLOBAL))
+		if (g_sh.env[i]->type & type)
 		{
 			len2 = ft_strchr(g_sh.env[i]->var, '=') - g_sh.env[i]->var;
 			if (len1 == len2 && !ft_strncmp(name, g_sh.env[i]->var, len1))

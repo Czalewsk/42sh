@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/05 23:59:27 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/08 18:28:35 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void			print_comp(t_comp *comp, t_read *info, t_buf *cmd);
 void			display_new_comp(t_buf *cmd,
 					t_read *info, t_select *select);
 void			clear_prompt_comp(t_comp *comp);
+void			comp_signal(t_buf *cmd, t_read *info);
 /*
 ** arrow_comp :
 ** Se deplacer visuellement en auto_completion;

@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 17:43:57 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/07 22:54:30 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 19:26:59 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		env_set(const char *name, const char *value, char type)
 {
 	t_env	**found;
 
-	if ((found = env_getaddr(name)))
+	if ((found = env_getaddr(name, ENV_LOCAL | ENV_GLOBAL | ENV_TEMP)))
 	{
 		if (type & ENV_TEMP)
 		{
@@ -56,7 +56,7 @@ void		env_settype(const char *name, char type)
 {
 	t_env	**found;
 
-	if ((found = env_getaddr(name)))
+	if ((found = env_getaddr(name, ENV_LOCAL | ENV_GLOBAL | ENV_TEMP)))
 	{
 		(*found)->type = type;
 		g_sh.envupd = 1;

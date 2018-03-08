@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 18:41:02 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/07 21:35:06 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 19:27:35 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_env
 
 void			env_init(const char **env);
 char			*env_get(const char *name);
-t_env			**env_getaddr(const char *name);
+t_env			**env_getaddr(const char *name, char type);
 void			env_set(const char *name, const char *value, char type);
 void			env_settype(const char *name, char type);
 void			env_unset(const char *name);

@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:39:58 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:23:10 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@
 
 extern volatile char	g_new_prompt;
 
+extern t_read		*g_save_info;
+extern t_buf		*g_save_cmd;
+
 void					signal_handler(int sig, siginfo_t *siginfo,
 		void *context);
 void					signal_handler_init(void);
 char					signal_manager(void);
-void					signal_sigint(void);
+void					signal_sigint(int sig, siginfo_t *siginfo,
+		void *context);
+void					sigwinch(void);
+void					signal_avoid(void);
 
 #endif
