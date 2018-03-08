@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2017/11/26 18:32:02 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/07 14:25:44 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ t_tree						*check_or_if(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_run_v2(t_tree *c, t_job *job);
 
+void						clear_assign_word(t_tree *cur, t_tree *new);
 #endif

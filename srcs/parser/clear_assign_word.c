@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_sigint.c                                    :+:      :+:    :+:   */
+/*   clear_assign_word.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/03 14:50:28 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 15:43:22 by czalewsk         ###   ########.fr       */
+/*   Created: 2018/03/07 14:24:51 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/07 14:25:13 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-#include "sh_signal.h"
 
-void		signal_sigint(int sig, siginfo_t *siginfo, void *context)
+void			clear_assign_word(t_tree *cur, t_tree *new)
 {
-	(void)siginfo;
-	(void)context;
-	(void)sig;
-	g_new_prompt = 1;
-	g_sh.exitstatus = 1;
+	while (cur)
+	{
+		if (cur->token.id == WORD)
+		{
+			new->token.id = WORD;
+			return ;
+		}
+		cur = cur->previous;
+	}
 }

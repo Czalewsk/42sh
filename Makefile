@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/08 18:27:59 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/08 18:32:19 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ SRCS_FILES		= ft_sh 													\
 				  env/unset env/destroy										\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
-				  utils/sh_error utils/fds_utils							\
+				  utils/sh_error utils/fds_utils utils/update_display		\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
@@ -77,9 +77,11 @@ SRCS_FILES		= ft_sh 													\
 				  parser/modify_io parser/add_in_arguments parser/check		\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
+				  parser/clear_assign_word									\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
-				  signal/signal_handler signal/signal_sigint
+				  signal/signal_handler signal/signal_sigint signal/sigwinch\
+				  signal/signal_avoid
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

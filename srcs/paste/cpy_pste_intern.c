@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/25 23:25:14 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/07 15:08:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,21 @@ char		paste_intern(t_buf *cmd, t_read *info, t_key *entry)
 	ft_bzero(entry, sizeof(t_key));
 	if (!g_sh.pasted || !(tmp = ft_strdup(g_sh.pasted)))
 		return (1);
-	if (!buff_handler(cmd, NULL, tmp, info))
+	if (buff_handler(cmd, NULL, tmp, info))
 	{
-		free(tmp);
-		return (1);
+		cmd->size_actual += (size = ft_strlen(tmp));
+		len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
+		curs = cmd->cmd + len;
+		ft_memmove(curs + size, curs, ft_strlen(curs));
+		ft_memcpy(curs, tmp, size);
+		cursor_back_home(info, 1);
+		write_highligh(cmd->cmd, len, len + size, cmd->size_actual);
+		size = ft_strlen_utf8(tmp);
+		(info->curs_char += size) && (info->total_char += size);
+		cursor_display_update(info, 1);
+		g_sh.edition_state = PASTED;
 	}
-	cmd->size_actual += (size = ft_strlen(tmp));
-	len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
-	curs = cmd->cmd + len;
-	ft_memmove(curs + size, curs, ft_strlen(curs));
-	ft_memcpy(curs, tmp, size);
-	cursor_back_home(info, 1);
-	write_highligh(cmd->cmd, len, len + size, cmd->size_actual);
-	size = ft_strlen_utf8(tmp);
-	(info->curs_char += size) && (info->total_char += size);
-	cursor_display_update(info, 1);
-	g_sh.edition_state = PASTED;
+	free(tmp);
 	return (1);
 }
 
