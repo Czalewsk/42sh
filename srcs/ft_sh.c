@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 14:06:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:41:38 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	sh_quit_prog(t_buf *cmd)
 	close(g_sh.test_fd);
 }
 
-static void	sh_init_prog(char **env)
+static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 {
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
@@ -60,6 +60,7 @@ static void	sh_init_prog(char **env)
 	g_termcps_fd = g_sh.fd_tty;
 	init_history();
 	termcaps_init();
+	update_display_init(info, cmd);
 	signal_handler_init();
 }
 
@@ -108,7 +109,7 @@ int			main(int ac, char **av, char **env)
 	int			savefds[3];
 
 	ret = 0;
-	sh_init_prog(env);
+	sh_init_prog(env, &cmd, &info);
 	while (ac || av)
 	{
 		sh_reinit_edition_state(&cmd, &info, NULL);
