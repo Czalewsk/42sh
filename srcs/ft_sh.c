@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 23:00:25 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 14:06:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_strdel(&cmd->cmd);
 	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
+	write(g_sh.fd_tty, "\n", 1);
 	close(g_sh.fd_tty);
 	close(g_sh.test_fd);
 }
