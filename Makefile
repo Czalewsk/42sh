@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/08 21:44:02 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/09 01:10:32 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ SRCS_FILES		= ft_sh 													\
 				  completion/add_dir completion/sh_first_comp				\
 				  completion/add_bin completion/add_env						\
 				  completion/prompt_comp completion/arrow_comp				\
-				  completion/signal_comp									\
+				  completion/signal_comp completion/comp_tools				\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
