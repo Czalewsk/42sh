@@ -377,7 +377,7 @@ void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
 			close(p[0][0]);
 			close(p[0][1]);
 			close(p[1][0]);
-		close(p[1][1]);
+			close(p[1][1]);
 		if (c == end)
 		{
 			t_list *tmp;
