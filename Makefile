@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/08 10:28:39 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/09 17:34:44 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,8 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/init_job_control								\
 				  jobControl/cpy_profonde_process							\
 				  jobControl/launch_process									\
+				  jobControl/put_first_in_job_order							\
+				  jobControl/del_job										\
 				  signal/signal_handler										\
 				  signal/signal_sigchld										\
 				  signal/signal_sigtstp										\

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/08 11:42:17 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 15:11:03 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 	return (p);
 }
 
+
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	pid_t		pid;
@@ -47,47 +48,21 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	if ((pid = fork()) == -1)
 		exit(sh_error(-1, 0, NULL, 1, "Erreur fork exec_with_acces\n"));
 	if (pid == 0)
-	{
-		// signal (SIGTSTP, SIG_IGN);
-		// if (job)
-		// 	setpgid(getpid(), getpid());
-		// exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 		launch_process(tmp, p, job, env);
+	p->pid = pid;
+	if (shell_is_interactive)
+	{
+		if (job && !job->pgid)
+			job->pgid = pid;
+		setpgid (pid, pid);
 	}
+	if (!job)
+		put_job_in_foregroundv2(p, 1);
 	else
 	{
-		if (!job)
-		{
-			// DEBUG("PERE Mon groupe : %d\n", getpgid(getpid()));
-			// DEBUG("avant le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(STDIN_FILENO));
-			DEBUG("retour de tcsetpgrp %d\n", tcsetpgrp(STDIN_FILENO, pid));
-			if (errno)
-			 	DEBUG("val ERRNO : %d  ---- val PID : %d\n", errno, pid);
-			DEBUG("apres le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(STDIN_FILENO));
-			waitpid(pid, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
-			//DEBUG("Mon groupe : %d\n", getpgid(getpid()));
-			//DEBUG("avant le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(shell_terminal));
-			tcsetpgrp(STDIN_FILENO, getpgid(getpid()));
-			//DEBUG("apres le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(shell_terminal));
-		}	
-		else
-		{
-			dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid);
-
-			p->pid = pid;
-			if (shell_is_interactive)
-			{
-				DEBUG("exec.c -- ligne 70 : Le shell est bien interactif.\n");
-				if (!job->pgid)
-				{
-					DEBUG("exec.c -- ligne 73 : job->pgid est null, affectation de %d a cette variable.\n", pid);
-					job->pgid = pid;
-				}
-				setpgid (pid, job->pgid);
-			}
-			g_sh.exitstatus = 0;
-			job->process = cpy_profonde_process(p);
-		}
+		dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid);
+		g_sh.exitstatus = 0;
+		job->process = cpy_profonde_process(p);
 	}
 	termcaps_set_tty();
 	return (g_sh.exitstatus);

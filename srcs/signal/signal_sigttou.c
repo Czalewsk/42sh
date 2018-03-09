@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 19:03:25 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/08 10:56:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 12:06:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	signal_sigttou(void)
 {
-    DEBUG("SIGTTOU recu, je suis : %d\n", getpid());
+    //DEBUG("SIGTTOU recu, je suis : %d\n", getpid());
 }

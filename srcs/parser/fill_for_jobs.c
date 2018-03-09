@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 19:30:10 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 16:03:11 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ t_tree			*check_run(t_tree *c)
 	tmp = c;
 	while (tmp->right)
 	{
-		DEBUG("str=%s|\n", tmp->right->token.str);
 		tmp = tmp->right;
 	}
 	if (tmp->token.id == AND)
 	{
-		DEBUG("check run\n");
 		ft_create_jobs(c);
 		return (c->left);
 	}

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/04 19:54:25 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 18:36:22 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,44 +81,7 @@ int         bt_jobs(char **arg)
     char    run_or_stop;
     int     i;
     int     j;
-
-     t_job *tmp;
-     t_process *p;
-
-    // if (job_order == NULL)
-    // {
-    //     DEBUG("job_order NULL\n");
-    //     return (0);
-    // }
-    // if (job_order->content == NULL)
-    // {
-    //     DEBUG("job_order->content NULL\n");
-    //     return (0);
-    // }
-    // if (job_order)
-    // {
-    //     l = job_order;
-    //     while (l)
-    //     {
-    //         tmp = (t_job*)(l->content);
-    //         DEBUG("\n\nBT_JOBS JOBS : %d --- %s --- %d --- %d\n", tmp->num, tmp->command, tmp->notified, tmp->pgid);
-    //         p = tmp->process;
-    //         DEBUG("BT_JOBS PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", p->pid, p->completed, p->stopped, p->status, p->stdin, p->stdout, p->stderr);
-    //         l = l->next;
-    //     }
-    // }
-    if (first_job)
-    {
-        tmp = first_job;
-        while (tmp)
-        {
-            DEBUG("\n\nBT_JOBS JOBS : %d --- %s --- %d --- %d\n", tmp->num, tmp->command, tmp->notified, tmp->pgid);
-            p = tmp->process;
-            DEBUG("BT_JOBS PROCESS : %d --- %d --- %d --- %d --- %d --- %d --- %d\n", p->pid, p->completed, p->stopped, p->status, p->stdin, p->stdout, p->stderr);
-            tmp = tmp->next;
-        }
-    }
-
+    
     i = 0;
     info = 0;
     run_or_stop = 0;
@@ -143,5 +106,6 @@ int         bt_jobs(char **arg)
         jobs_display_no_jobspec(info, run_or_stop);
     else
         jobs_display_jobspec(info, run_or_stop, arg);
+    clear_completed_job();
     return (0);
 }

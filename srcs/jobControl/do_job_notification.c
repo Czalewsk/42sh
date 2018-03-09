@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/04 20:12:39 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 19:48:24 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,37 @@ void	free_job(t_job *j)
 	ft_memdel((void**)&(j));
 }
 
+void	print_list_job()
+{
+	t_job	*tmp;
+	t_list	*tmplist;
+
+	DEBUG("\n\n\nDEBUT AFFICHAGE LIST :\n");
+	tmp = first_job;
+	while (tmp)
+	{
+		DEBUG("job pgid %d cmd de lancement %s est stop %d est terminer %d numero %d\n", tmp->pgid, tmp->command, job_is_stopped(tmp), job_is_completed(tmp), tmp->num);
+		tmp = tmp->next;
+	}
+	DEBUG("\njob order :\n");
+	tmplist = job_order;
+	while (tmplist)
+	{
+		tmp = (t_job*)(tmplist->content);
+		DEBUG("job pgid %d cmd de lancement %s est stop %d est terminer %d numero %d\n", tmp->pgid, tmp->command, job_is_stopped(tmp), job_is_completed(tmp), tmp->num);
+		tmplist = tmplist->next;
+	}
+	DEBUG("\nFIN AFFICHAGE LIST :\n\n\n");
+}
+
 void	do_job_notification (void)
 {
 	t_job	*tmp;
 	t_job	*last_job;
 	t_job	*next_job;
 
-
-	DEBUG("first job =   %p\n", first_job);
+	print_list_job();
 	update_status();
-	DEBUG("first job =   %p\n", first_job);
 	tmp = first_job;
 	last_job = NULL;
 	while (tmp)
@@ -95,15 +116,7 @@ void	do_job_notification (void)
 		next_job = tmp->next;
 		DEBUG("do_job_notification ligne 58 : pgid : %d ---- cmd : %s\n", tmp->pgid, tmp->command);
 		if (job_is_completed(tmp) == 0)
-		{
 			jobs_display(tmp, 0);
-			if (last_job)
-				last_job->next = next_job;
-			else
-				first_job = next_job;
-			//del_job_in_order(tmp);
-			//free_job(tmp);
-		}
 		else if (job_is_stopped(tmp) == 0 && !tmp->notified)
 		{
 			jobs_display(tmp, 0);
@@ -114,4 +127,5 @@ void	do_job_notification (void)
 			last_job = tmp;
 		tmp = next_job;
 	}
+	clear_completed_job();
 }

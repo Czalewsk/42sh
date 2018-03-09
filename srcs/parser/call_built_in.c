@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 17:36:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 18:13:16 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		do_built_in(t_process *p)
 		return (g_sh.exitstatus = (bt_fg(&(p->argv[1]))));
 	if (ft_memcmp(p->argv[0], "bg", 3) == 0)
 		return (g_sh.exitstatus = (bt_bg(&(p->argv[1]))));
-	if (ft_memcmp(p->argv[0], "jobs", 3) == 0)
+	if (ft_memcmp(p->argv[0], "jobs", 4) == 0)
 		return (g_sh.exitstatus = (bt_jobs(&(p->argv[1]))));
 	return (0);
 	// if (ft_memcmp(p->argv[0], "env", 3) == 0)

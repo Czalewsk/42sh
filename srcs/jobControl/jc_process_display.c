@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:43:08 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/07 18:36:41 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 16:07:38 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    process_display_long(t_process *process)
 
 void    process_display_short(t_process *p, char * cmd)
 {
+    DEBUG("jc_process_display ligne 23 : PRINTF\n");
     if (p->completed)
     {
         if (WIFSIGNALED(p->status))

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/03 15:46:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 14:53:43 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void  put_job_in_foreground (t_job *j, int cont)
 
   /* Send the job a continue signal, if necessary.  */
   if (cont)
-    {
-      tcsetattr (shell_terminal, TCSADRAIN, &j->tmodes);
-      if (kill (- j->pgid, SIGCONT) < 0)
-        perror ("kill (SIGCONT)");
-    }
+	{
+	  tcsetattr (shell_terminal, TCSADRAIN, &j->tmodes);
+	  if (kill (- j->pgid, SIGCONT) < 0)
+		perror ("kill (SIGCONT)");
+	}
 
   /* Wait for it to report.  */
   wait_for_job (j);
@@ -38,4 +38,16 @@ void  put_job_in_foreground (t_job *j, int cont)
   /* Restore the shell’s terminal modes.  */
   tcgetattr (shell_terminal, &j->tmodes);
   tcsetattr (shell_terminal, TCSADRAIN, &shell_tmodes);
+}
+
+void  put_job_in_foregroundv2(t_process *p, int cont)
+{
+	tcsetpgrp(shell_terminal, p->pid);
+	if (cont)
+	{
+		if (kill(- p->pid, SIGCONT) < 0)
+			perror ("kill (SIGCONT)");
+	}
+	waitpid(p->pid, &g_sh.exitstatus, WUNTRACED);
+	tcsetpgrp(shell_terminal, shell_pgid);
 }

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:26:09 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/08 11:42:42 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 15:19:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,38 +72,21 @@ void  launch_process(char *tmp, t_process *p, t_job *j, char **env)
 
 	if (shell_is_interactive)
 	{
-/*
-		
-		//signal(SIGTTOU, NULL);
-		*/
-		DEBUG("avant le bordel\n");
+
 		pid = getpid();
 		if (j && j->pgid == 0)
 			j->pgid = pid;
 		else
 			pgid = pid;
 		setpgid(pid, j ? j->pgid : pgid);
-		DEBUG("avant le tcsetpgrp\n");
-		if (!j)
-		{
-			// if (tcsetpgrp(shell_terminal, pgid) == -1)
-			// {
-			// 	//perror("tcsetpgrp");
-			// 	//exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
-			// }
-			// sleep(1);
-			// DEBUG("FILS Mon groupe : %d\n", getpgid(getpid()));
-			// DEBUG("avant le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(shell_terminal));
-			// DEBUG("retour de tcsetpgrp %d\n", tcsetpgrp(STDIN_FILENO, getpgid(getpid())));
-			// DEBUG("apres le tcsetpgrp le terminal appartient au groupe : %d\n", tcgetpgrp(shell_terminal));
-		}
+		if (!j && tcsetpgrp(shell_terminal, pgid) == -1)
+			exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGTSTP, SIG_DFL);
 		signal(SIGTTIN, SIG_DFL);
 		signal(SIGTTOU, SIG_DFL);
 		signal(SIGCHLD, SIG_DFL);
-		DEBUG("apres le tcsetpgrp\n");
 	}
 	exit(g_sh.exitstatus = execve(tmp, p->argv, env));
 }

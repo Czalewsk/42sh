@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/08 10:30:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/09 17:50:18 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ extern int				shell_terminal;
 extern int				shell_is_interactive;
 
 
-
-
 void    	put_first_in_job_order(t_job *j);
 int			bt_fg(char **arg);
 int			bt_bg(char **arg);
@@ -73,8 +71,9 @@ t_job   	*get_job_minus();
 t_job   	*get_job_id(int id);
 void		continue_job (t_job *j, int foreground);
 void		mark_job_as_running (t_job *j);
-void		put_job_in_foreground (t_job *j, int cont);
-void  		put_job_in_background (t_job *j, int cont);
+void		put_job_in_foreground(t_job *j, int cont);
+void  		put_job_in_background(t_job *j, int cont);
+void  		put_job_in_foregroundv2(t_process *p, int cont);
 
 /* jobs */
 int			jobs_display(t_job *j, int long_flag);
@@ -99,6 +98,8 @@ int			job_is_stopped(t_job *j);
 void		format_job_info (t_job *j, const char *status);
 void		wait_for_job (t_job *j);
 t_process	*cpy_profonde_process(t_process *src);
+t_list		*pop_job_from_job_order(t_job *j);
+void		clear_completed_job();
 
 /* init */
 void		init_job_control(void);
