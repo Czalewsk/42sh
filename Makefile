@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/08 18:32:19 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/09 06:26:51 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS_FILES		= ft_sh 													\
 				  edition/unicode edition/print edition/curs_back			\
 				  edition/expansion_wrapper edition/wrapper_is_arg			\
 				  edition/curs_word											\
-				  builtins/builtin_history									\
+				  builtins/builtin_history builtins/builtin_export			\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\

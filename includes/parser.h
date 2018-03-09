@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/07 14:25:44 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 19:52:31 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,14 @@ typedef struct s_classic
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
 }				t_classic;
 
+typedef	struct	s_builtin
+{
+	char	*name;
+	int		(*f)(t_process *p, int argc, char **argv, char **env);
+}				t_builtin;
+
 int							clear_execute(char **path, t_process *p);
-int							check_built_in(t_process *p);
-int							do_built_in(t_process *p);
+int							do_built_in(t_process *p, char **env);
 int							set_for_pipe(t_tree *c, t_job *job);
 int							ft_leave_parse(t_token t);
 int							read_parser(char **cmd, char *cur);

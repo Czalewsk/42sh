@@ -6,50 +6,30 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/24 23:24:26 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/09 05:23:02 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int		check_built_in(t_process *p)
-{
-	if (ft_memcmp(p->argv[0], "env", 3) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "cd", 2) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "setenv", 6) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "unsetenv", 8) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "echo", 5) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "exit", 5) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "fg", 2) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "bg", 2) == 0)
-		return (0);
-	else if (ft_memcmp(p->argv[0], "jobs", 3) == 0)
-		return (0);
-	return (-1);
-}
+const t_builtin	g_builtins[] = {
+	{"export", builtin_export},
+	{NULL, NULL}
+};
 
-int		do_built_in(t_process *p)
+int		do_built_in(t_process *p, char **env)
 {
-	(void)p;
+	int		i;
+
+	i = -1;
+	while (g_builtins[++i].name)
+	{
+		if (!ft_strcmp(g_builtins[i].name, p->argv[0]))
+		{
+			g_sh.exitstatus = g_builtins[i].f(p,
+					ft_tab2dlen((const void **)p->argv), p->argv, env);
+			return (1);
+		}
+	}
 	return (0);
-	// if (ft_memcmp(p->argv[0], "env", 3) == 0)
-	// 	return (g_sh.exitstatus = (ft_env()));
-	// else if (ft_memcmp(p->argv[0], "cd", 2) == 0)
-	// 	return (g_sh.exitstatus = (ft_cd()));
-	// else if (ft_memcmp(p->argv[0], "setenv", 6) == 0)
-	// 	return (g_sh.exitstatus = (ft_setenv()));
-	// else if (ft_memcmp(p->argv[0], "unsetenv", 8) == 0)
-	// 	return (g_sh.exitstatus = (ft_unsetenv()));
-	// else if (ft_memcmp(p->argv[0], "echo", 5) == 0)
-	// 	return (g_sh.exitstatus = (ft_echo()));
-	// else if (ft_memcmp(p->argv[0], "exit", 5) == 0)
-	// 	return (g_sh.exitstatus = (ft_exit()));
-	// return (-1);
 }
