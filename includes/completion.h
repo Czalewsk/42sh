@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/08 18:28:35 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/09 01:11:16 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ void			add_ls(t_comp *comp, t_ldl_head *head, char *search);
 int				add_dir(t_comp *comp, t_ldl_head *head);
 int				add_bin(t_comp *comp, t_ldl_head *head);
 int				add_env(t_comp *comp, t_ldl_head *head, char **env);
+char			*comp_checktilde(char *search, size_t len_search, char *home);
 #endif

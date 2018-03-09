@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:26:34 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/07 17:24:11 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/08 22:02:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	init_history(void)
 			return ;
 		while (get_next_line(fd, &line) > 0 && history_well_formated(line))
 		{
-			g_sh.history = ft_ldl_addfront(g_sh.history, ft_strdup(line));
+			g_sh.history = ft_ldl_addfront(g_sh.history, ft_strdup(line + 1));
 			ft_strdel(&line);
 		}
 		ft_strdel(&line);
