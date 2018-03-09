@@ -57,7 +57,7 @@ void					signal_handler_init(void)
 	int							i;
 	const	struct sigaction	action = {.sa_sigaction = &signal_handler,
 
-	.sa_flags = SA_SIGINFO};
+	.sa_flags = SA_SIGINFO | SA_RESTART};
 	i = -1;
 	while (++i < MAX_NB_SIGNAL)
 		if (g_signal_interrupt[i] && sigaction(i, &action, NULL))
