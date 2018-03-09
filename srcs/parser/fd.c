@@ -14,9 +14,11 @@
 
 t_tree	*ft_great(t_process *p, t_tree *c)
 {
+
 	if ((p->stdout = open(c->right->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 		return ((void *)1);
+	ft_printf("IN GREAT %d\n", p->stdout);
 	return (c->right->right);
 }
 
@@ -71,6 +73,7 @@ t_tree	*gand(t_process *p, t_tree *c)
 
 t_tree	*ft_dgreat(t_process *p, t_tree *c)
 {
+	// dup a la zsh si != de la sortie demander alor juste dup sur p->stdDEMANDER
 	if ((p->stdout = (open(c->right->token.str, O_APPEND |
 		O_CREAT | O_WRONLY, 0755))) == -1)
 		return ((void *)1);

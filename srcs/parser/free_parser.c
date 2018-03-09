@@ -57,8 +57,16 @@ int			ft_free_array(char **argv)
 
 int			ft_free_process(t_process *p)
 {
-	ft_free_array(p->argv);
-	free(p);
+t_process *l;
+
+	while (p)
+	{
+		l = p;
+		ft_free_array(p->argv);
+		p = p->next;
+		free(l);
+
+	}
 	return (0);
 }
 

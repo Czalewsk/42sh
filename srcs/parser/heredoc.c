@@ -30,16 +30,16 @@ t_tree		*here_doc(t_process *p, t_tree *c)
 	if (pipe(asd) == -1)
 		return ((void *)1);
 	hr = NULL;
-	prompt_add("> ", &hr, 1);
+	prompt_add("> ", &hr, STDOUT_FILENO);
 	while (read_hr(hr, c->right->token.str) != 0)
 	{
 		ft_putstr_fd(hr, asd[1]);
 		ft_strdel(&hr);
-		prompt_add("> ", &hr, 1);
+		prompt_add("> ", &hr, STDOUT_FILENO);
 	}
 	ft_strdel(&hr);
 	close(asd[1]);
-	dup2(asd[0], STDIN_FILENO);
+	dup2(asd[0], p->stdin);
 	close(asd[0]);
 	return (c->right->right);
 }

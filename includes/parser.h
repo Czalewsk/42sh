@@ -24,21 +24,22 @@ typedef struct				s_tree
 	struct s_tree			*father;
 	struct s_tree			*previous;
 	struct s_tree			*left;
+	struct s_tree			*save_left;
 	struct s_tree			*right;
 	struct s_token			token;
 }							t_tree;
 
-typedef struct s_check_proc
-{
-	t_token_id	one;
-	t_tree		*(*cproc)(t_tree *c, t_tree *s, t_job *job);
-}				t_check_proc;
+// typedef struct s_check_proc
+// {
+// 	t_token_id	one;
+// 	t_tree		*(*cproc)(t_tree *c, t_tree *s, t_job *job);
+// }				t_check_proc;
 
-typedef struct s_fill_job
+typedef struct s_cmd_action
 {
 	t_token_id	one;
 	t_tree		*(*fjob)(t_process *p, t_tree *clist);
-}				t_fill_job;
+}				t_cmd_action;
 
 typedef struct s_valid_res
 {
@@ -80,7 +81,7 @@ int							ft_free_tree(t_tree *c);
 int							ft_free_process(t_process *p);
 int							add_in_classic_tree(t_tree *cur, t_tree *new);
 int							parser(char	**cmd);
-int							execute_run(t_tree *c, t_tree *stop, t_job *job);
+//int							execute_run(t_tree *c, t_tree *stop, t_job *job);
 int							ft_fill_for_jobs(t_tree *head);
 
 char						*get_command(char *ret, t_tree *chead);
@@ -113,5 +114,7 @@ t_tree						*check_and_if(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_or_if(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_run_v2(t_tree *c, t_job *job);
+
+t_tree						*cmd_action(t_tree *c, t_job *job);
 
 #endif

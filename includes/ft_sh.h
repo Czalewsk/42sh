@@ -63,6 +63,7 @@ typedef struct			s_sh
 	t_env			**env;
 	char			envupd;
 	int				exitstatus;
+	int				subshellactive;
 	t_comp			*comp;
 	char			comp_status;
 	int				comp_start;

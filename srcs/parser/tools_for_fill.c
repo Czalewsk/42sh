@@ -12,22 +12,22 @@
 
 #include "ft_sh.h"
 
-void		init_closefd(int fds[3])
-{
-	fds[0] = STDIN_FILENO;
-	fds[1] = STDOUT_FILENO;
-	fds[2] = STDERR_FILENO;
-}
+// void		init_closefd(int fds[3])
+// {
+// 	fds[0] = STDIN_FILENO;
+// 	fds[1] = STDOUT_FILENO;
+// 	fds[2] = STDERR_FILENO;
+// }
 
-void		reset_fd(int fds[3], t_process *p)
-{
-	close(fds[0]);
-	close(fds[1]);
-	close(fds[2]);
-	dup2(p->stdin, fds[0]);
-	dup2(p->stdout, fds[1]);
-	dup2(p->stderr, fds[2]);
-}
+// void		reset_fd(int fds[3], t_process *p)
+// {
+// 	close(fds[0]);
+// 	close(fds[1]);
+// 	close(fds[2]);
+// 	dup2(p->stdin, fds[0]);
+// 	dup2(p->stdout, fds[1]);
+// 	dup2(p->stderr, fds[2]);
+// }
 
 char		*get_command(char *ret, t_tree *chead)
 {
@@ -48,9 +48,10 @@ char		*get_command(char *ret, t_tree *chead)
 
 int			clear_execute(char **path, t_process *p)
 {
+	(void)p;
 	ft_free_array(path);
 // 	reset_fd(g_sh.fds, p);
-	DEBUG("tools_for_fill ligne 53 clear_execute\n exit=%d\n", g_sh.exitstatus);
-	ft_free_process(p);
+//	DEBUG("tools_for_fill ligne 53 clear_execute\n exit=%d\n", g_sh.exitstatus);
+//	ft_free_process(p);
 	return (g_sh.exitstatus);
 }

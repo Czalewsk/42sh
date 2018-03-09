@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/06 14:02:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/07 19:37:26 by maastie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int			main(int ac, char **av, char **env)
 	t_buf		cmd;
 	t_read		info;
 	char		ret;
-	int			savefds[3];
 
 	ret = 0;
 	sh_init_prog(env);
@@ -83,14 +82,13 @@ int			main(int ac, char **av, char **env)
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
+		g_sh.fds[0] = dup(STDIN_FILENO);
+		g_sh.fds[1] = dup(STDOUT_FILENO);
+		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
 		if (ret != -3)
-		{
-			sh_savefds(savefds);
 			parser(&cmd.cmd);
-			sh_restorefds(savefds);
-		}
 		do_job_notification();
 		ft_strdel(&cmd.cmd);
 	}

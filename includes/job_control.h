@@ -24,15 +24,18 @@
 
 struct s_job 			*first_job;
 struct s_list 			*job_order;
-struct s_process		*current_execute;
+struct s_process		*current_process;
 
 typedef struct 			s_process
 {
+	struct s_process	*next;
 	char				**argv;
 	pid_t				pid;        /* process ID */
 	char				completed;  /* true if process has completed */
 	char				stopped;    /* true if process has stopped */
 	int					status;     /* reported status value */
+	int					returned;
+	int					std[3];
 	int					stdin;
 	int					stdout;
 	int					stderr;

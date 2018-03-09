@@ -77,5 +77,5 @@ void	ft_create_jobs(t_tree *c)
 		tmp->next = njob;
 	else
 		first_job = njob;
-	check_run_v2(c, njob);
+//	check_run_v2(c, njob);
 }
