@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 21:58:39 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 14:43:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 18:47:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define SH_IS_ESC(str, i) (*(str + i) & 1)
 # define SH_IS_END_DQ(str, i) (*(str + i) & 2)
 
-char		sh_escape(char *str, char **escaped);
+void		sh_escape(char *str);
 char		sh_globbing(char *tkkn, t_list **result);
 char		*escape_it(char *str);
 char		sh_error(char ret, char new_line, void (*f_callback)(),

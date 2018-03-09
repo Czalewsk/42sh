@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 21:41:31 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:39:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 18:45:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
 
 extern unsigned int		g_nb_remove;
 
-void					*sh_esc_squote(char *str, char *escaped,
+void					*sh_esc_squote(char *str,
 		char *to_remove, int index);
-void					*sh_esc_bslash(char *str, char *escaped,
+void					*sh_esc_bslash(char *str,
 		char *to_remove, int index);
 void					set_escape(char *str, unsigned int index, char bit);
-void					*sh_esc_dquote(char *str, char *escaped,
+void					*sh_esc_dquote(char *str,
 		char *to_remove, int index);
 char					sh_is_escape(char *str, unsigned int index);
 char					esc_remove(char *str, unsigned int index);
 void					set_remove(char *str, unsigned int index);
-void					*escape_fonctions(char *str, char *escaped,
+void					*escape_fonctions(char *str,
 		char *to_remove, int index);
 
 #endif
