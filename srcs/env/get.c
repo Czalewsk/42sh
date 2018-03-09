@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 16:48:41 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/08 19:25:15 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 23:57:19 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ t_env	**env_getaddr(const char *name, char type)
 	{
 		if (g_sh.env[i]->type & type)
 		{
-			len2 = ft_strchr(g_sh.env[i]->var, '=') - g_sh.env[i]->var;
-			if (len1 == len2 && !ft_strncmp(name, g_sh.env[i]->var, len1))
+			len2 = ft_strchr(g_sh.env[i]->var ? g_sh.env[i]->var :
+				g_sh.env[i]->temp, '=') - g_sh.env[i]->var;
+			if (len1 == len2 && !ft_strncmp(name, g_sh.env[i]->var ?
+					g_sh.env[i]->var : g_sh.env[i]->temp, len1))
 				return (g_sh.env + i);
 		}
 	}

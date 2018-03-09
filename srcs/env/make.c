@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 20:09:14 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/07 22:54:41 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/09 05:19:25 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ static void	process_env(char **env, char type, size_t *len, int *i)
 		if (g_sh.env[*i]->type & ~ENV_DELETE)
 		{
 			ft_memdel((void **)&(g_sh.env[*i]->temp));
-			g_sh.env[*i]->type &= ~(ENV_TEMP | ENV_DELETE);
+			if (!(g_sh.env[*i]->type &= ~(ENV_TEMP | ENV_DELETE)))
+				return ;
 		}
 		else
+		{
 			env_unsetaddr(g_sh.env + (*i)--);
-		return ;
+			return ;
+		}
 	}
 	if (g_sh.env[*i]->type & type)
 		env[++(*len)] = g_sh.env[*i]->type & ENV_TEMP ? g_sh.env[*i]->temp :
