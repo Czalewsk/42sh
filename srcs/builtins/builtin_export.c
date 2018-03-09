@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 14:28:00 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/08 19:19:17 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/08 23:18:13 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ static int	export_variables(t_process *p, char **argv, char **env)
 				name ? name : *argv, "': not a valid name\n"));
 		if (value)
 			env_set(name, value, ENV_GLOBAL);
-		else{ft_printf("ENTER\n");
-			env_settype(name, ENV_GLOBAL);}
+		else if ((sep = ft_getenv(env, name ? name : *argv)))
+			env_set(name ? name : *argv, sep, ENV_GLOBAL);
+		else
+			env_settype(name ? name : *argv, ENV_GLOBAL);
 		if (name)
 			free(name);
 		++argv;

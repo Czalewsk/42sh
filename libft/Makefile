@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/03/04 19:03:33 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/03/08 17:51:22 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  utils/ft_strisnumber.c utils/ft_find_end_nbr.c				\
 			  utils/ft_is_escape.c utils/ft_isfile.c						\
 			  utils/ft_count_len.c utils/ft_howmany.c utils/ft_getopt.c		\
-			  utils/ft_tab2dlen.c											\
+			  utils/ft_tab2dlen.c utils/ft_isposixname.c					\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
 			  printf/solve_c.c	printf/solve_d.c							\

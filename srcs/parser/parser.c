@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/05 15:33:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/09 06:23:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int			read_parser(char **cmd, char *cur)
 			else if (place_token(t) < 0)
 				return (ft_leave_parse(t));
 		}
-		else
-			return (take_token_from_list(lst, t));
+		else if (take_token_from_list(lst, t) == -1)
+			return (-1);
 	}
 	return (ret);
 }

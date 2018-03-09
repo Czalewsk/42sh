@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/04 13:59:42 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/09 04:17:03 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int				execute(t_process *p, t_job *job, char **env, int i)
 int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 {
 	t_process	*p;
+	char		**env;
 
 	p = NULL;
 	p = fill_for_exec(c, stop);
@@ -115,8 +116,9 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 		job->process = p;
 	else
 		current_execute = p;
-	if (check_built_in(p) == 0)
-		return (do_built_in(p));
+	env = env_make(ENV_GLOBAL | ENV_TEMP);
+	if (do_built_in(p, env))
+		return (g_sh.exitstatus);
 	g_sh.exitstatus = -1;
-	return (execute(p, job, env_make(ENV_GLOBAL | ENV_TEMP), 0));
+	return (execute(p, job, env, 0));
 }
