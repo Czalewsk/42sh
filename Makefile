@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/09 08:34:58 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/09 22:38:46 by bviala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRCS_FILES		= ft_sh 													\
 				  edition/curs_word											\
 				  builtins/builtin_history builtins/history_expoint			\
 				  builtins/builtin_export builtins/builtin_unsetenv			\
-				  builtins/builtin_setenv									\
+				  builtins/builtin_setenv builtins/builtin_history2			\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
