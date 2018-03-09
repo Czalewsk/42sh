@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 07:10:32 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/09 08:32:14 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "ft_sh.h"
 
 int		builtin_history(t_process *p);
-char	*history_expoint(char *str);
 int		builtin_export(t_process *p, int argc, char **argv, char **env);
+int		builtin_unsetenv(t_process *p, int argc, char **argv, char **env);	
+int		builtin_setenv(t_process *p, int argc, char **argv, char **env);	
 
 #endif

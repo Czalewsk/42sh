@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 05:23:02 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/09 08:32:30 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 const t_builtin	g_builtins[] = {
 	{"export", builtin_export},
+	{"unsetenv", builtin_unsetenv},
+	{"setenv", builtin_setenv},
 	{NULL, NULL}
 };
 
