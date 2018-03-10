@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:41:53 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/05 13:38:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/10 16:07:55 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static	int (*g_rules[])(t_token *, char **, char *) = {
 	rules_reserved,
 	rules_io_number,
 	rules_assignment_word,
+	rules_history_expoint,
 	rules_subsh,
 	rules_word,
 	NULL

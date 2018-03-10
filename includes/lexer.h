@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:39:45 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/29 21:13:41 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/10 16:08:09 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int		rules_assignment_word(t_token *tk, char **cur, char *escape);
 int		rules_word(t_token *tk, char **cur, char *escape);
 int		rules_escape(t_token *tk, char **cur, char *escape);
 int		rules_subsh(t_token *tk, char **cur, char *escape);
+int		rules_history_expoint(t_token *tk, char **cur, char *escape);
 
 #endif
