@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/09 17:50:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/10 18:05:53 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@
 # include <unistd.h>
 # include <errno.h>
 
-# define A 1
-# define O 2
-# define P 3
+# define PROCESS_RUNNING 0
+# define PROCESS_STOPPED 1
+# define PROCESS_COMPLETED 2
 
 typedef struct 			s_process
 {
+	struct s_process	*next;
 	char				**argv;
-	pid_t				pid;        /* process ID */
-	char				completed;  /* true if process has completed */
-	char				stopped;    /* true if process has stopped */
-	int					status;     /* reported status value */
+	pid_t				pid;
+	int					state;
+	int					status;
 	int					stdin;
 	int					stdout;
 	int					stderr;
@@ -46,11 +46,10 @@ typedef struct 			s_job
 	int					foni;
 	t_process			*process;
 	int					num;
-	char				*command;		/* command line, used for messages */
-	char				notified;		/* true if user told about stopped job */
-	pid_t				pgid;			/* process group ID */
-	struct termios		tmodes;			/* saved terminal modes */
-	int					already_wait;
+	char				*command;
+	char				notified;
+	pid_t				pgid;
+	struct termios		tmodes;
 }						t_job;
 
 extern t_job			*first_job;
@@ -78,7 +77,7 @@ void  		put_job_in_foregroundv2(t_process *p, int cont);
 /* jobs */
 int			jobs_display(t_job *j, int long_flag);
 void    	process_display_short(t_process *process, char *cmd);
-void    	process_display_long(t_process *process);
+void    	process_display_long(t_process *process, char *cmd);
 int 		jobs_display_only_id(t_job *j);
 void		del_job_in_first(t_job *j);
 void		free_job(t_job *j);
@@ -95,10 +94,11 @@ void  		update_status (void);
 /* utils */
 int			job_is_completed(t_job *j);
 int			job_is_stopped(t_job *j);
-void		format_job_info (t_job *j, const char *status);
+int			job_is_running(t_job *j);
 void		wait_for_job (t_job *j);
 t_process	*cpy_profonde_process(t_process *src);
 t_list		*pop_job_from_job_order(t_job *j);
+void		del_job(t_job *j);
 void		clear_completed_job();
 
 /* init */

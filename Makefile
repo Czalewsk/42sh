@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/09 17:34:44 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/10 10:13:03 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,8 +87,7 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/get_job										\
 				  jobControl/jc_process_display								\
 				  jobControl/job_display									\
-				  jobControl/job_is_completed								\
-				  jobControl/job_is_stopped									\
+				  jobControl/job_status								\
 				  jobControl/mark_job_as_running							\
 				  jobControl/mark_process_status							\
 				  jobControl/put_job_in_background							\

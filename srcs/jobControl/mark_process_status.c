@@ -6,48 +6,51 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/09 19:58:26 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/10 13:59:54 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"   
+#include "ft_sh.h"
 
-int mark_process_status (pid_t pid, int status)
+int	mark_each_process(t_job *j, pid_t pid, int status)
 {
-	t_job		*tmp;
 	t_process	*p;
-	
-	if (pid == 0)
-		return -1;
-	else if (pid < 0)
-		return (sh_error(1, 0, NULL, 1, "job control: waitpid"));
-	tmp = first_job;
-	while (tmp)
+
+	p = j->process;
+	while (p)
 	{
-		p = tmp->process;
 		if (p->pid == pid)
 		{
 			p->status = status;
-			if (WIFSTOPPED (status))
+			if (WIFSTOPPED(status))
 			{
-				DEBUG("mark_process_status ligne 33 : process %d est stop\n", p->pid);
-				p->stopped = 1;
-				tmp->notified = 0;
+				p->state = PROCESS_STOPPED;
+				j->notified = 0;
 			}
 			else
-			{
-				DEBUG("mark_process_status ligne 39 : process %d est fini\n", p->pid);
-				p->completed = 1;
-				/*
-				if (WIFSIGNALED (status))
-				fprintf (stderr, "%d: Terminated by signal %d.\n",
-							(int) pid, WTERMSIG (p->status));
-				*/
-			}
-			put_first_in_job_order(tmp);
-			return 0;
+				p->state = PROCESS_COMPLETED;
+			put_first_in_job_order(j);
+			return (0);
 		}
+		p = p->next;
+	}
+	return (1);
+}
+
+int	mark_process_status(pid_t pid, int status)
+{
+	t_job	*tmp;
+
+	if (pid == 0)
+		return (1);
+	else if (pid < 0)
+		return (sh_error(0, 0, NULL, 1, "job control: waitpid"));
+	tmp = first_job;
+	while (tmp)
+	{
+		if (mark_each_process(tmp, pid, status) == 0)
+			return (0);
 		tmp = tmp->next;
 	}
-	return -1;
+	return (1);
 }

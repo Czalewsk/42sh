@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/09 19:48:24 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/10 13:50:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	del_job_in_order(t_job *j)
 	while (tmp)
 	{
 		next = tmp->next;
-		DEBUG("@@@@@ %p --------- %p\n", j, tmp->content);
 		if (tmp->content == j)
 		{
 			if (last)
@@ -49,18 +48,13 @@ void	del_job_in_first(t_job *j)
 	last_job = NULL;
 	while (tmp)
 	{
-		DEBUG("%p ----- %p\n", j, tmp);
 		next_job = tmp->next;
 		if (j == tmp)
 		{
 			if (last_job)
 				last_job->next = next_job;
 			else
-			{
-
 				first_job = next_job;
-				DEBUG("Pas de first job  %p\n", first_job);				
-			}
 			del_job_in_order(j);
 			free_job(j);
 			break ;
@@ -78,7 +72,7 @@ void	free_job(t_job *j)
 	ft_memdel((void**)&(j));
 }
 
-void	print_list_job()
+void	print_list_job(void)
 {
 	t_job	*tmp;
 	t_list	*tmplist;
@@ -101,23 +95,21 @@ void	print_list_job()
 	DEBUG("\nFIN AFFICHAGE LIST :\n\n\n");
 }
 
-void	do_job_notification (void)
+void	do_job_notification(void)
 {
 	t_job	*tmp;
 	t_job	*last_job;
 	t_job	*next_job;
 
-	print_list_job();
 	update_status();
 	tmp = first_job;
 	last_job = NULL;
 	while (tmp)
 	{
 		next_job = tmp->next;
-		DEBUG("do_job_notification ligne 58 : pgid : %d ---- cmd : %s\n", tmp->pgid, tmp->command);
-		if (job_is_completed(tmp) == 0)
+		if (job_is_completed(tmp) == 1)
 			jobs_display(tmp, 0);
-		else if (job_is_stopped(tmp) == 0 && !tmp->notified)
+		else if (job_is_stopped(tmp) == 1 && !tmp->notified)
 		{
 			jobs_display(tmp, 0);
 			tmp->notified = 1;

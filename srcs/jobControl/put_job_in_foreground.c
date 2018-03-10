@@ -6,47 +6,48 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/09 14:53:43 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/10 15:55:17 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-/* Put job j in the foreground.  If cont is nonzero,
-   restore the saved terminal modes and send the process group a
-   SIGCONT signal to wake it up before we block.  */
-
-void  put_job_in_foreground (t_job *j, int cont)
+void	put_job_in_foreground(t_job *j, int cont)
 {
-  /* Put the job into the foreground.  */
-  tcsetpgrp (shell_terminal, j->pgid);
-
-  /* Send the job a continue signal, if necessary.  */
-  if (cont)
+	DEBUG("PUT_JOB_IN_FOREGROUND\n");
+	DEBUG("Retour du setpgrp pour donner la main sur le terminal au job : %d\n", tcsetpgrp(shell_terminal, j->pgid));
+	if (cont)
 	{
-	  tcsetattr (shell_terminal, TCSADRAIN, &j->tmodes);
-	  if (kill (- j->pgid, SIGCONT) < 0)
-		perror ("kill (SIGCONT)");
+	// if (j->tmodes != NULL)
+	// {
+	//   DEBUG("Retour de setattr pour mettre en place les termios du job : %d\n", tcsetattr (shell_terminal, TCSADRAIN, &j->tmodes));
+	// }
+	// else
+	// {
+		termcaps_restore_tty();
+		DEBUG("j->tmodes est NULL, dans ce cas mise en place des termios du shell de base\n");
+	// }
+		if (kill(-j->pgid, SIGCONT) < 0)
+			sh_error(1, 0, NULL, 1, "job control: kill SIGCONT");
 	}
-
-  /* Wait for it to report.  */
-  wait_for_job (j);
-
-  /* Put the shell back in the foreground.  */
-  tcsetpgrp (shell_terminal, shell_pgid);
-
-  /* Restore the shell’s terminal modes.  */
-  tcgetattr (shell_terminal, &j->tmodes);
-  tcsetattr (shell_terminal, TCSADRAIN, &shell_tmodes);
+	DEBUG("Fin du IF cont, debut de wait for job\n");
+	wait_for_job(j);
+	DEBUG("wait for job termine\n");
+	DEBUG("Retour de setpgrp pour donner la main sur le terminal au shell : %d\n", tcsetpgrp(shell_terminal, shell_pgid));
+	DEBUG("Retour de getattr pour prendre les termios du job : %d\n", tcgetattr(shell_terminal, &j->tmodes));
+	termcaps_set_tty();
+	DEBUG("put job in foreground est fini");
+	if (job_is_completed(j))
+		del_job(j);
 }
 
-void  put_job_in_foregroundv2(t_process *p, int cont)
+void	put_job_in_foregroundv2(t_process *p, int cont)
 {
 	tcsetpgrp(shell_terminal, p->pid);
 	if (cont)
 	{
-		if (kill(- p->pid, SIGCONT) < 0)
-			perror ("kill (SIGCONT)");
+		if (kill(-p->pid, SIGCONT) < 0)
+			sh_error(1, 0, NULL, 1, "job control: kill SIGCONT");
 	}
 	waitpid(p->pid, &g_sh.exitstatus, WUNTRACED);
 	tcsetpgrp(shell_terminal, shell_pgid);
