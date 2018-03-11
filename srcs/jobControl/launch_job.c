@@ -57,7 +57,6 @@ void  launch_job (t_job *j, int foreground)
               setpgid (pid, j->pgid);
             }
         }
-
       /* Clean up after pipes.  */
       if (infile != j->stdin)
         close (infile);
