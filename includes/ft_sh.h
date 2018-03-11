@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/03 16:37:55 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 21:43:29 by bviala           ###   ########.fr       */
+/*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/11 18:59:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __FT_SH_H
 # define __FT_SH_H
 
+
+# include "job_control.h"
 # include "libft.h"
 # include <termcap.h>
 # include <curses.h>
@@ -27,16 +29,17 @@
 # include "edition.h"
 # include "termcaps.h"
 # include "prompt.h"
-# include "job_control.h"
 # include "expansions.h"
 # include "lexer.h"
 # include "lexer_types.h"
 # include "env.h"
 # include "parser.h"
-# include "utils.h"
 # include "history.h"
 # include "builtins.h"
 # include "completion.h"
+# include "sh_signal.h"
+# include "utils.h"
+
 
 /*
 ** Structure globale, comprenant les informations relatives a :

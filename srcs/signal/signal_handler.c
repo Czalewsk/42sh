@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 19:27:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:48:23 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static unsigned	long	g_signal_mask;
 **Variable qui defini si un signal doit etre gere par le signal handler
 */
 
-static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
+ static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
+	[SIGCHLD] = 17,
+	[SIGTSTP] = 7,
+	[SIGTTIN] = 77,
 	[SIGWINCH] = 1,
 	[SIGQUIT] = 1};
 
@@ -31,7 +34,10 @@ static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
 ** dans le signal manager
 */
 
-static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) = {
+ static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) = {
+	[SIGCHLD] = &signal_sigchld,
+	[SIGTSTP] = &signal_sigtstp,
+	[SIGTTIN] = &signal_sigttin,
 	[SIGWINCH] = &sigwinch,
 	[SIGQUIT] = &signal_avoid};
 

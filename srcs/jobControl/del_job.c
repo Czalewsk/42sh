@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_job_notification.c                              :+:      :+:    :+:   */
+/*   del_job.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 16:05:00 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/09 17:27:11 by scorbion          #+#    #+#             */
+/*   Updated: 2018/03/11 11:15:09 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void	del_job_in_order(t_job *j)
+t_list	*pop_job_from_job_order(t_job *j)
 {
 	t_list	*tmp;
 	t_list	*last;
@@ -29,16 +29,16 @@ void	del_job_in_order(t_job *j)
 				last->next = next;
 			else
 				g_job_order = next;
-			ft_memdel((void**)&tmp);
-			break ;
+			return (tmp);
 		}
 		else
 			last = tmp;
 		tmp = next;
 	}
+	return (NULL);
 }
 
-void	del_job_in_first(t_job *j)
+void	pop_job_from_first_job(t_job *j)
 {
 	t_job	*tmp;
 	t_job	*last_job;
@@ -55,8 +55,6 @@ void	del_job_in_first(t_job *j)
 				last_job->next = next_job;
 			else
 				g_first_job = next_job;
-			del_job_in_order(j);
-			free_job(j);
 			break ;
 		}
 		else
@@ -65,36 +63,35 @@ void	del_job_in_first(t_job *j)
 	}
 }
 
-void	free_job(t_job *j)
+void	free_job2(t_job *j)
 {
 	ft_memdel((void**)&(j->command));
 	ft_free_process(j->process);
 	ft_memdel((void**)&(j));
 }
 
-void	do_job_notification(void)
+void	del_job(t_job *j)
+{
+	t_list	*res;
+
+	res = pop_job_from_job_order(j);
+	if (res)
+		ft_memdel((void**)&res);
+	pop_job_from_first_job(j);
+	free_job2(j);
+}
+
+void	clear_completed_job(void)
 {
 	t_job	*tmp;
-	t_job	*last_job;
-	t_job	*next_job;
+	t_job	*next;
 
-	update_status();
 	tmp = g_first_job;
-	last_job = NULL;
 	while (tmp)
 	{
-		next_job = tmp->next;
+		next = tmp->next;
 		if (job_is_completed(tmp) == 1)
-			jobs_display(tmp, 0);
-		else if (job_is_stopped(tmp) == 1 && !tmp->notified)
-		{
-			jobs_display(tmp, 0);
-			tmp->notified = 1;
-			last_job = tmp;
-		}
-		else
-			last_job = tmp;
-		tmp = next_job;
+			del_job(tmp);
+		tmp = next;
 	}
-	clear_completed_job();
 }

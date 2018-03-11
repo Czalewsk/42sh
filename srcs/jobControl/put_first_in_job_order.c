@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_is_completed.c                                 :+:      :+:    :+:   */
+/*   put_first_in_job_order.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scorbion <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/03 13:40:18 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 13:42:16 by scorbion         ###   ########.fr       */
+/*   Created: 2018/02/24 10:19:13 by scorbion          #+#    #+#             */
+/*   Updated: 2018/03/11 11:17:43 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
-int	job_is_completed(t_job *j)
+void	put_first_in_job_order(t_job *j)
 {
-	t_process *p;
+	t_list	*tmp;
 
-	p = j->first_process;
-	while (p != NULL)
-	{
-		if (p->completed != 0)
-			return (0);
-	}
-	return (1);
+	tmp = pop_job_from_job_order(j);
+	if (tmp == NULL)
+		return ;
+	tmp->next = g_job_order;
+	g_job_order = tmp;
 }
