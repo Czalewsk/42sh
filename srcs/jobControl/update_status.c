@@ -6,21 +6,23 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:32:11 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 17:15:19 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 11:18:36 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
-/* Check for processes that have status information available,
-   without blocking.  */
-
-void  update_status (void)
+void	update_status(void)
 {
-  int status;
-  pid_t pid;
+	t_job	*tmp;
+	int		status;
 
-  do
-    pid = waitpid (WAIT_ANY, &status, WUNTRACED|WNOHANG);
-  while (!mark_process_status (pid, status));
+	tmp = g_first_job;
+	while (tmp)
+	{
+		status = 0;
+		if (waitpid(tmp->pgid, &status, WUNTRACED | WNOHANG) > 0)
+			mark_process_status(tmp->pgid, status);
+		tmp = tmp->next;
+	}
 }

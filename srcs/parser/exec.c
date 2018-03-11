@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 04:17:03 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/11 21:18:35 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,31 @@ t_process		*fill_for_exec(t_tree *c, t_tree *stop)
 	return (p);
 }
 
+
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
-	pid_t		father;
-
+	pid_t		pid;
+	
 	termcaps_restore_tty();
-	if ((father = fork()) == -1)
-		exit(-1);
-	if (father == 0)
+	if ((pid = fork()) == -1)
+		exit(sh_error(-1, 0, NULL, 1, "Erreur fork exec_with_acces\n"));
+	if (pid == 0)
+		launch_process(tmp, p, job, env);
+	p->pid = pid;
+	if (g_shell_is_interactive)
 	{
-		if (job)
-		{
-			p->pid = getpid();
-			job->pgid = setpgid(getpid(), getpid());
-		}
-		exit(g_sh.exitstatus = execve(tmp, p->argv, env));
+		if (job && !job->pgid)
+			job->pgid = pid;
+		setpgid (pid, pid);
 	}
+	if (!job)
+		put_process_in_foreground(p, 1);
 	else
-		while (waitpid(father, &g_sh.exitstatus, WUNTRACED) == -1
-				&& errno == EINTR)
-			;
+	{
+		dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid);
+		g_sh.exitstatus = 0;
+		job->process = cpy_profonde_process(p);
+	}
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
@@ -115,10 +120,13 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	if (job)
 		job->process = p;
 	else
-		current_execute = p;
+		g_current_execute = p;
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
 	if (do_built_in(p, env))
+	{
+		ft_free_process(p);
 		return (g_sh.exitstatus);
+	}
 	g_sh.exitstatus = -1;
 	return (execute(p, job, env, 0));
 }

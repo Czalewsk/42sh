@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:55:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/24 20:55:13 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/03 20:21:54 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_tree		*check_or_if(t_tree *tmp, t_tree *stop, t_job *job)
 }
 
 t_tree		*check_and_if(t_tree *tmp, t_tree *stop, t_job *job)
-{
+{	
 	if ((g_sh.exitstatus = execute_run(tmp, stop, job)) != 0)
 		return ((void *)1);
 	return (stop->right);

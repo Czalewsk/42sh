@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_for_jobs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/06 15:05:45 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:50:01 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_tree			*check_run_v2(t_tree *c, t_job *job)
 			sp = tp;
 		}
 		if (sp && sp->right == NULL)
-			g_sh.exitstatus = execute_run(tp, sp->right, NULL);
+			g_sh.exitstatus = execute_run(tp, sp->right, job);
 		sp ? sp = sp->right : sp;
 	}
 	return (c->left);
@@ -49,10 +49,12 @@ t_tree			*check_run(t_tree *c)
 
 	tmp = c;
 	while (tmp->right)
+	{
 		tmp = tmp->right;
+	}
 	if (tmp->token.id == AND)
 	{
-		ft_create_jobs(c);
+		ft_need_jobs(c);
 		return (c->left);
 	}
 	return (check_run_v2(c, NULL));//	return (check_run_v2(c, NULL));
@@ -66,11 +68,11 @@ int				ft_fill_for_jobs(t_tree *head)
 //	init_closefd(g_sh.fds);
 	while (tmp)
 		tmp = check_run(tmp);
-	if (job_order)
+	if (g_job_order)
 	{
-		ft_printf("fill_for_jobs l:68 si tu veux pas free la list de job\n");
+//		ft_printf("fill_for_jobs l:68 si tu veux pas free la list de job\n");
 //		job_order = job_order->next;
-		ft_free_order(job_order);
+//		ft_free_order(job_order);
 	}
 	return (ft_free_tree(head));
 }

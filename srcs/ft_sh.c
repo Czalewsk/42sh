@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 22:30:34 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/11 18:44:36 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	sh_quit_prog(t_buf *cmd)
 
 static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 {
+	init_job_control();
 	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
@@ -60,9 +61,9 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	init_history();
+	env_init((const char **)env);
 	termcaps_init();
 	update_display_init(info, cmd);
-	signal_handler_init();
 }
 
 inline void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry)
@@ -122,6 +123,7 @@ int			main(int ac, char **av, char **env)
 		if (ret != -3)
 		{
 			sh_savefds(savefds);
+			do_job_notification();
 			parser(&cmd.cmd);
 			sh_restorefds(savefds);
 		}

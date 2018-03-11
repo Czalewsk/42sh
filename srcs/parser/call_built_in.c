@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   call_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 08:32:30 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/11 19:12:01 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ const t_builtin	g_builtins[] = {
 	{"export", builtin_export},
 	{"unsetenv", builtin_unsetenv},
 	{"setenv", builtin_setenv},
+	{"jobs", bt_jobs},
+	{"bg", bt_bg},
+	{"fg", bt_fg},
 	{NULL, NULL}
 };
 

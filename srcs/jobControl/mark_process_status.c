@@ -6,48 +6,51 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 16:48:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 16:06:50 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "ft_sh.h"
 
-/* Store the status of the process pid that was returned by waitpid.
-   Return 0 if all went well, nonzero otherwise.  */
-
-int mark_process_status (pid_t pid, int status)
+int	mark_process(t_job *j, pid_t pid, int status)
 {
-  t_job *j;
-  t_process *p;
+	t_process	*p;
 
-  if (pid > 0)
-    {
-      /* Update the record for the process.  */
-      for (j = first_job; j; j = j->next)
-        for (p = j->first_process; p; p = p->next)
-          if (p->pid == pid)
-            {
-              p->status = status;
-              if (WIFSTOPPED (status))
-                p->stopped = 1;
-              else
-                {
-                  p->completed = 1;
-                  if (WIFSIGNALED (status))
-                    fprintf (stderr, "%d: Terminated by signal %d.\n",
-                             (int) pid, WTERMSIG (p->status));
-                }
-              return 0;
-             }
-      fprintf (stderr, "No child process %d.\n", pid);
-      return -1;
-    }
-  else if (pid == 0 || errno == ECHILD)
-    /* No processes ready to report.  */
-    return -1;
-  else {
-    /* Other weird errors.  */
-    perror ("waitpid");
-    return -1;
-  }
+	p = j->process;
+	while (p)
+	{
+		if (p->pid == pid)
+		{
+			p->status = status;
+			if (WIFSTOPPED(status))
+			{
+				p->state = PROCESS_STOPPED;
+				j->notified = 0;
+			}
+			else
+				p->state = PROCESS_COMPLETED;
+			put_first_in_job_order(j);
+			return (0);
+		}
+		p = p->next;
+	}
+	return (1);
+}
+
+int	mark_process_status(pid_t pid, int status)
+{
+	t_job	*tmp;
+
+	if (pid == 0)
+		return (1);
+	else if (pid < 0)
+		return (sh_error(0, 0, NULL, 1, "job control: waitpid"));
+	tmp = g_first_job;
+	while (tmp)
+	{
+		if (mark_process(tmp, pid, status) == 0)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*      parser.h                                        :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/08 19:52:31 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/11 18:45:37 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ char						*get_command(char *ret, t_tree *chead);
 char						**get_new_argv(char **argv, char *to_add);
 char						**extract_from_tab(char **env, char *ref);
 
-void						ft_create_jobs(t_tree *c);
+void						ft_need_jobs(t_tree *c);
+t_job						*ft_create_jobs(t_tree *c);
 void						reset_fd(int pdes[3], t_process *p);
 void						init_closefd(int pdes[3]);
 
