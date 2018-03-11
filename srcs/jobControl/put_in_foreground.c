@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 16:29:07 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 17:29:42 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	display_process_interrupt(t_job *job)
 	{
 		if ((t_job*)(g_job_order->content) == job)
 			ft_putstr_fd("+", g_sh.fd_tty);
-		else if (g_job_order->next && (t_job*)(g_job_order->next->content) == job)
+		else if (g_job_order->next &&
+			(t_job*)(g_job_order->next->content) == job)
 			ft_putstr_fd("-", g_sh.fd_tty);
 		else
 			ft_putstr_fd(" ", g_sh.fd_tty);
@@ -53,7 +54,7 @@ void	put_job_in_foreground(t_job *j, int cont)
 void	put_process_in_foreground(t_process *p, int cont)
 {
 	t_job	*newjob;
-	
+
 	tcsetpgrp(g_shell_terminal, p->pid);
 	if (cont)
 	{
