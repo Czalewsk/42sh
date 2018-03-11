@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/06 15:05:45 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:36:48 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,79 +201,11 @@ t_tree			*get_next_pipe(t_tree *c)
 	return (tmp);
 }
 
-// void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
-// {
- 	// pid_t			f;
-	// t_tree		*cmd;
-// 	int				fd[2];
-//
-// 	cmd = get_next_pipe(c);
-// 	current_process->next = ft_memalloc(sizeof(t_process));
-// 	current_process->next->stdin = 0;
-// 	current_process->next->stdout = 1;
-// 	current_process->next->stderr = 2;
-// 	DEBUG("START =  %s END = %s\n", c->token.str, end->token.str);
-// 	if (pipe(fd) == -1 || (f = fork()) == -1)
-// 		return ((void *)1);
-// 	if (f == 0)
-// 	{
-// 			DEBUG("7\n");
-// 			if (cmd == end)
-// 			{
-// 				DEBUG("8 CMD = END\n");
-// 				dup2(fd[0], STDIN_FILENO);
-// 				close(fd[1]);
-// 				DEBUG("9 CMD = END\n");
-// 	//			current_process->next->stdin = fd[0];
-// //				current_process->next->stdin = dup(fd[0]);
-// 				DEBUG("10 EXECUTE SECOND CMD\n");
-// 				exit(execute_pipe_run(cmd, job, current_process->next));
-// 				DEBUG("11 OUT OF SECOND EXEC\n");
-// 					if (current_process->next->returned == 0)
-// 						return ((void *)0);
-// //					exit(EXIT_SUCCESS);
-// 				DEBUG("12 CMD = END\n");
-// 				return ((void *)1);
-// 	//			exit(EXIT_FAILURE);
-// 			}
-// 			DEBUG("8\n");
-// 			return ((void *)1);
-// //			exit(EXIT_SUCCESS);
-// 		}
-// 		else
-// 		{
-// 			DEBUG("0\n");
-// 			dup2(fd[1], STDOUT_FILENO);
-// 			DEBUG("1\n");
-// 			close(fd[0]);
-// 			DEBUG("2\n");
-// //			current_process->stdout = fd[1];
-// 	//		current_process->stdout = dup(fd[1]);
-// 			DEBUG("3 EXECUTE FIST CMD\n");
-// 			execute_pipe_run(c, job, current_process);
-// 			DEBUG("4 OUT OF EXECUTE FIRST CMD\n");
-// 			current_process = current_process->next;
-// 			DEBUG("5 CURRENT PROCESS MOVED\n");
-// 			if (cmd != end)
-// 			{
-// 				DEBUG("MULTI PIPE\n");
-// 				// dup2(fd[0], STDIN_FILENO);
-// 				// close(fd[1]);
-// 		//		current_process->next->stdin = dup(fd[0]);
-// 				current_process = current_process->next;
-// 				return (do_pipe(cmd, end, job));
-// //						return (do_pipe(cmd, end, job));
-// 			}
-// 			DEBUG("6\n");
-// 		}
-// 	return ((void *)0);
-//}
-
 int		execute_pipe_run(t_tree *c, t_job *job)
 {
 	t_tree	*tmp;
 	int			i;
-	//reset_fd(g_sh.fds, p); A METTRE DANS DO_BUILT_IN
+
 	i = 0;
 	tmp = c;
 	while (c && g_cmd_actions[i].fjob)
@@ -303,202 +235,73 @@ int		execute_pipe_run(t_tree *c, t_job *job)
 	return (current_process->returned);
 }
 
-void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
+void				wait_multiple_proc(t_list *pid_list)
 {
-	pid_t				f;
-	int					i;
-	int					p[2];
-	t_list			*pid_list;
-	t_list			*tmp;
-	int  				stdin;
-	int 				stdout;
-
-	i = 0;
-	stdin = 0;
-	pid_list = NULL;
-	while (c)
+	while (pid_list)
 	{
-		if (c != end)
-		{
-			if (i)
-				close(stdout);
-			if (pipe(p) == -1)
-				return ;         // MSG d'erreur
-			stdout = p[1];
-		}
-		if ((f = fork()) == -1)
-			return ;
-		if (f == 0)
-		{
-			if (!i)
-			{
-				dup2(p[1], STDOUT_FILENO);
- 				close(p[0]);
-			}
-			else if (c == end)
-			{
-				dup2(stdin, STDIN_FILENO);
-				close(stdout);
-			}
-			else
-			{
-				dup2(stdin, STDIN_FILENO);
-				dup2(stdout, STDOUT_FILENO);
-				close(p[0]);
-			}
-			DEBUG("Exec pipe run\n");
- 		 	exit(execute_pipe_run(c, job));
-		}
-		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
-		if (i)
-		{
-			close(stdin);
-			close(stdout);
-		}
-		if (c != end)
-			stdin = p[0];
-		i++;
-		// if (p[0] != STDIN_FILENO)
-		// {
-		// 	DEBUG("CLOSE p[0]\n");
-		// 	dup2(STDIN_FILENO, p[0]);
-		// }
-		// if (p[1] != STDOUT_FILENO)
-		// {
-		// 	DEBUG("CLOSE p[1]\n");
-		// 	dup2(STDOUT_FILENO, p[1]);
-		// }
-
-		if (c == end)
-		{
-			tmp = pid_list;
-			while (tmp)
-			{
-				if (waitpid(*(pid_t*)tmp->content, &current_process->returned, 0) == -1)
-					DEBUG("Erreur waitpid %s| 2\n", strerror(errno))
-				else
-					DEBUG("SUCCES 2\n");
-				tmp = tmp->next;
-			}
-			break ;
-		}
-		c = get_next_pipe(c);
-//		current_process->stdin = p[0];
-		current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
-		current_process = current_process->next;
-		current_process->stdin = 0;
-		current_process->stdout = 1;
-		current_process->stderr = 2;
+		if (waitpid(*(pid_t*)pid_list->content,
+					&current_process->returned, 0) == -1)
+			DEBUG("Erreur waitpid %s| 2\n", strerror(errno)) //utiliser sh_error
+				pid_list = pid_list->next;
 	}
 }
 
-// 	void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
-// 	{
-// 		pid_t			f;
-// 		int				p[2][2];
-// 		t_list		*pid_list;
-//
-// 			pid_list = NULL;
-// 		 	if (pipe(p[0]) || pipe(p[1]) ||  (f = fork()) == -1)
-// 				return ;
-// 			if (f == 0)
-// 			{
-// 				DEBUG("IN SON 1\n");
-// 				dup2(p[0][1], STDOUT_FILENO);
-// 				close(p[0][0]);
-// 				DEBUG("EXECUTE SON 1\n");
-// 		 		exit(execute_pipe_run(c, job));
-// 			}
-// 			else
-// 			{
-// 					ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
-// 					DEBUG("OUT OF FATHER 1\n");
-// 			}
-// 			c = get_next_pipe(c);
-// 			DEBUG("TEST AFTER FIRST FORK\n%s\n", c->token.str);
-// 			current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
-// 			current_process = current_process->next;
-// 			current_process->stdin = 0;
-// 			current_process->stdout = 1;
-// 			current_process->stderr = 2;
-// 			if ((f = fork()) == -1)
-// 				return ;
-// 			if (f == 0)
-// 				{
-// 					DEBUG("IN SON 2\n");
-// 					dup2(p[0][0], STDIN_FILENO);
-// 					dup2(p[1][1], STDOUT_FILENO);
-// 			    close(p[0][1]);
-// 			    close(p[1][0]);
-// 					DEBUG("EXECUTE SON 2\n");
-// 			 		exit(execute_pipe_run(c, job));
-// 				}
-// 			else
-// 				{
-// 					ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
-// 					DEBUG("OUT OF FATHER 2\n");
-// 				}
-// 			if (c == end)
-// 			{
-// 				DEBUG("DONT COME HERE Je suis par la\n")
-// 				return ;
-// 			}
-// 			DEBUG("RENTRER ICI\n");
-// 			c = get_next_pipe(c);
-// 			current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
-// 			current_process = current_process->next;
-// 			current_process->stdin = 0;
-// 			current_process->stdout = 1;
-// 			current_process->stderr = 2;
-// 			if ((f = fork()) == -1)
-// 				return ;
-// 			if (f == 0)
-// 				{
-// 					DEBUG("IN SON 3\n");
-// 					dup2(p[1][0], STDIN_FILENO);
-// 					close(p[1][1]);
-// 					close(p[0][1]);
-// 					close(p[0][0]);
-// 					DEBUG("EXECUTE SON 3\n");
-// 			 		exit(execute_pipe_run(c, job));
-// 				}
-// 			else
-// 				{
-// 					ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
-// 					DEBUG("OUT OF FATHER 3\n");
-// 				}
-//
-// 				close(p[0][0]);
-// 				close(p[0][1]);
-// 				close(p[1][0]);
-// 				close(p[1][1]);
-// 			if (c == end)
-// 			{
-// 				t_list *tmp;
-// 				tmp = pid_list;
-// 				int closed = 0;
-// 				while (tmp)
-// 				{
-// 						close(p[closed / 2][1]);
-// 					if (waitpid(*(pid_t*)tmp->content, &current_process->returned, 0) == -1)
-// 						DEBUG("Erreur waitpid %s| 2\n", strerror(errno))
-// 					else
-// 						DEBUG("SUCCES 2\n");
-// 					closed++;
-// 					tmp = tmp->next;
-// 				}
-// 					DEBUG("Ma porte ouverte 2\n");
-// 				//close(p[1]);
-// 				return ;
-// 			}
-// 			DEBUG("NE PAS RENTRER 2\n");
-// 			c = get_next_pipe(c);
-// 			current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
-// 			current_process = current_process->next;
-// 			current_process->stdin = 0;
-// 			current_process->stdout = 1;
-// 			current_process->stderr = 2;
-// }
+void				init_current_process(void)
+{
+	current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
+	current_process = current_process->next;
+	current_process->stdout = 1;
+	current_process->stderr = 2;
+}
+
+/*
+void				do_pipe_child(t_tree *c, int temp[2], int p[2], int i,
+		t_job *job)
+{
+	if (i & 1)
+		dup_and_close(temp[1], STDOUT_FILENO, unused);
+	if (i & 2)
+		dup_and_close(temp[0], STDIN_FILENO, temp[1]);
+	exit(execute_pipe_run(c, job));
+}
+*/
+
+void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
+{
+	pid_t			f;
+	int				p[2];
+	t_list			*pid_list;
+	int				temp[2];
+
+	temp[1] = -1;
+	pid_list = NULL;
+	while (c)
+	{
+		close(temp[1]);
+		if (c != end && pipe(p) == -1)
+			return ;         // MSG d'erreur
+		temp[1] = p[1];
+		if ((f = fork()) == -1)
+			return ;         // MSG d'erreur
+		if (!f)
+		{
+			if (c != end)
+				dup_and_close(temp[1], STDOUT_FILENO, p[0]);
+			if (pid_list)
+				dup_and_close(temp[0], STDIN_FILENO, p[1]);
+ 		 	exit(execute_pipe_run(c, job));
+		}
+		(close(temp[0]) || 1) && close(temp[1]);
+		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
+		temp[0] = p[0];
+		if (c == end)
+			break ;
+		c = get_next_pipe(c);
+		init_current_process();
+	}
+	wait_multiple_proc(pid_list);
+	ft_lstdel(&pid_list, NULL);
+}
 
 t_tree			*new_success_or_if(t_tree *c)
 {
