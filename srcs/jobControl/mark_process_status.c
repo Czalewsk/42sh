@@ -6,13 +6,13 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 13:59:54 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 16:06:50 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int	mark_each_process(t_job *j, pid_t pid, int status)
+int	mark_process(t_job *j, pid_t pid, int status)
 {
 	t_process	*p;
 
@@ -45,10 +45,10 @@ int	mark_process_status(pid_t pid, int status)
 		return (1);
 	else if (pid < 0)
 		return (sh_error(0, 0, NULL, 1, "job control: waitpid"));
-	tmp = first_job;
+	tmp = g_first_job;
 	while (tmp)
 	{
-		if (mark_each_process(tmp, pid, status) == 0)
+		if (mark_process(tmp, pid, status) == 0)
 			return (0);
 		tmp = tmp->next;
 	}

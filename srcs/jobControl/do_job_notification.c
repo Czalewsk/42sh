@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 13:50:08 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 16:05:00 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	del_job_in_order(t_job *j)
 	t_list	*last;
 	t_list	*next;
 
-	tmp = job_order;
+	tmp = g_job_order;
 	last = NULL;
 	while (tmp)
 	{
@@ -28,7 +28,7 @@ void	del_job_in_order(t_job *j)
 			if (last)
 				last->next = next;
 			else
-				job_order = next;
+				g_job_order = next;
 			ft_memdel((void**)&tmp);
 			break ;
 		}
@@ -44,7 +44,7 @@ void	del_job_in_first(t_job *j)
 	t_job	*last_job;
 	t_job	*next_job;
 
-	tmp = first_job;
+	tmp = g_first_job;
 	last_job = NULL;
 	while (tmp)
 	{
@@ -54,7 +54,7 @@ void	del_job_in_first(t_job *j)
 			if (last_job)
 				last_job->next = next_job;
 			else
-				first_job = next_job;
+				g_first_job = next_job;
 			del_job_in_order(j);
 			free_job(j);
 			break ;
@@ -72,29 +72,6 @@ void	free_job(t_job *j)
 	ft_memdel((void**)&(j));
 }
 
-void	print_list_job(void)
-{
-	t_job	*tmp;
-	t_list	*tmplist;
-
-	DEBUG("\n\n\nDEBUT AFFICHAGE LIST :\n");
-	tmp = first_job;
-	while (tmp)
-	{
-		DEBUG("job pgid %d cmd de lancement %s est stop %d est terminer %d numero %d\n", tmp->pgid, tmp->command, job_is_stopped(tmp), job_is_completed(tmp), tmp->num);
-		tmp = tmp->next;
-	}
-	DEBUG("\njob order :\n");
-	tmplist = job_order;
-	while (tmplist)
-	{
-		tmp = (t_job*)(tmplist->content);
-		DEBUG("job pgid %d cmd de lancement %s est stop %d est terminer %d numero %d\n", tmp->pgid, tmp->command, job_is_stopped(tmp), job_is_completed(tmp), tmp->num);
-		tmplist = tmplist->next;
-	}
-	DEBUG("\nFIN AFFICHAGE LIST :\n\n\n");
-}
-
 void	do_job_notification(void)
 {
 	t_job	*tmp;
@@ -102,7 +79,7 @@ void	do_job_notification(void)
 	t_job	*next_job;
 
 	update_status();
-	tmp = first_job;
+	tmp = g_first_job;
 	last_job = NULL;
 	while (tmp)
 	{

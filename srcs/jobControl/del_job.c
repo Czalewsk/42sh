@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 17:27:11 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 13:48:00 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 11:15:09 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*pop_job_from_job_order(t_job *j)
 	t_list	*last;
 	t_list	*next;
 
-	tmp = job_order;
+	tmp = g_job_order;
 	last = NULL;
 	while (tmp)
 	{
@@ -28,7 +28,7 @@ t_list	*pop_job_from_job_order(t_job *j)
 			if (last)
 				last->next = next;
 			else
-				job_order = next;
+				g_job_order = next;
 			return (tmp);
 		}
 		else
@@ -44,7 +44,7 @@ void	pop_job_from_first_job(t_job *j)
 	t_job	*last_job;
 	t_job	*next_job;
 
-	tmp = first_job;
+	tmp = g_first_job;
 	last_job = NULL;
 	while (tmp)
 	{
@@ -54,7 +54,7 @@ void	pop_job_from_first_job(t_job *j)
 			if (last_job)
 				last_job->next = next_job;
 			else
-				first_job = next_job;
+				g_first_job = next_job;
 			break ;
 		}
 		else
@@ -86,7 +86,7 @@ void	clear_completed_job(void)
 	t_job	*tmp;
 	t_job	*next;
 
-	tmp = first_job;
+	tmp = g_first_job;
 	while (tmp)
 	{
 		next = tmp->next;

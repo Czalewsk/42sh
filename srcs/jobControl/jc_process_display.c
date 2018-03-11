@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:43:08 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 17:08:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 16:03:57 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	get_printable_state(t_process *p)
 		ft_printf("Stopped");
 	else
 		ft_printf("Running");
-}	
+}
 
 void		process_display_long(t_process *p, char *cmd)
 {
@@ -35,8 +35,6 @@ void		process_display_long(t_process *p, char *cmd)
 	char		**cmd_process;
 	int			i;
 
-	DEBUG("DEBUT PROCESS DISPLAY LONG\n");
-	DEBUG("%s\n", cmd);
 	tmp = p;
 	cmd_process = ft_strsplit(cmd, '|');
 	i = 0;
@@ -51,23 +49,10 @@ void		process_display_long(t_process *p, char *cmd)
 		i++;
 	}
 	ft_free_array(cmd_process);
-	DEBUG("FIN PROCESS DISPLAY LONG\n");
 }
 
 void		process_display_short(t_process *p, char *cmd)
 {
-	if (p->state == PROCESS_COMPLETED)
-	{
-		if (WIFSIGNALED(p->status))
-			ft_printf("%s", strsignal(WTERMSIG(p->status)));
-		else if (p->status == 0)
-			ft_printf("Done");
-		else
-			ft_printf("exit: %d", WEXITSTATUS(p->status));
-	}
-	else if (p->state == PROCESS_STOPPED)
-		ft_printf("Stopped");
-	else
-		ft_printf("Running");
+	get_printable_state(p);
 	ft_printf("     %s\n", cmd);
 }

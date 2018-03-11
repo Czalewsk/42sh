@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:32:11 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 14:08:38 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 11:18:36 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	update_status(void)
 	t_job	*tmp;
 	int		status;
 
-	tmp = first_job;
+	tmp = g_first_job;
 	while (tmp)
 	{
 		status = 0;

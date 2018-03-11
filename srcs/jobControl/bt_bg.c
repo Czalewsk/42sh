@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 10:34:53 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 16:04:19 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ static void		bg_launch(t_job *j)
 	else
 	{
 		ft_printf("[%s]", num);
-		if (job_order)
+		if (g_job_order)
 		{
-			if ((t_job*)(job_order->content) == j)
+			if ((t_job*)(g_job_order->content) == j)
 				ft_printf("+");
-			else if (job_order->next && (t_job*)(job_order->next->content) == j)
+			else if (g_job_order->next &&
+				(t_job*)(g_job_order->next->content) == j)
 				ft_printf("-");
 			else
 				ft_printf(" ");

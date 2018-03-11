@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:20:16 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 13:52:46 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 11:23:04 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ t_job	*get_job_id(int id)
 	t_list	*tmp;
 	t_job	*j;
 
-	if (job_order == NULL || job_order->content == NULL)
+	if (g_job_order == NULL || g_job_order->content == NULL)
 		return (NULL);
-	tmp = job_order;
+	tmp = g_job_order;
 	while (tmp != NULL)
 	{
 		j = (t_job*)(tmp->content);
@@ -34,8 +34,8 @@ t_job	*get_job_id(int id)
 
 t_job	*get_job_minus(void)
 {
-	if (job_order != NULL && job_order->next != NULL)
-		return ((t_job*)(job_order->next->content));
+	if (g_job_order != NULL && g_job_order->next != NULL)
+		return ((t_job*)(g_job_order->next->content));
 	return (NULL);
 }
 
@@ -43,7 +43,7 @@ t_job	*get_job_name(char *name)
 {
 	t_job	*tmp;
 
-	tmp = first_job;
+	tmp = g_first_job;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->command, name, ft_strlen(name)) == 0)
@@ -55,8 +55,8 @@ t_job	*get_job_name(char *name)
 
 t_job	*get_job_plus(void)
 {
-	if (job_order != NULL)
-		return ((t_job*)(job_order->content));
+	if (g_job_order != NULL)
+		return ((t_job*)(g_job_order->content));
 	return (NULL);
 }
 

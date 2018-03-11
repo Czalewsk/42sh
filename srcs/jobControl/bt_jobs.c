@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 13:37:11 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 11:13:45 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	jobs_display_no_jobspec(char info, char run_or_stop)
 	t_job	*j;
 	t_job	*next;
 
-	j = first_job;
+	j = g_first_job;
 	while (j != NULL)
 	{
 		next = j->next;

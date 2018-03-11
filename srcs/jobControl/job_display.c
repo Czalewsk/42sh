@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 16:07:53 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 16:06:40 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	jobs_display(t_job *j, int long_flag)
 {
 	ft_printf("[%d]", j->num);
-	if (job_order)
+	if (g_job_order)
 	{
-		if ((t_job*)(job_order->content) == j)
+		if ((t_job*)(g_job_order->content) == j)
 			ft_printf("+");
-		else if (job_order->next && (t_job*)(job_order->next->content) == j)
+		else if (g_job_order->next && (t_job*)(g_job_order->next->content) == j)
 			ft_printf("-");
 		else
 			ft_printf(" ");
