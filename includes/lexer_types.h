@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:40:22 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/29 21:13:33 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/10 14:55:01 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef	enum		e_token_id
 	WORD = 0, NEWLINE, AND_IF, OR_IF, DSEMI, DLESS, DGREAT, LESSAND,
 	GREATAND, LESSGREAT, DLESSDASH, AND, LPAR, RPAR, PIPE, GREAT,
 	LESS, CLOBBER, SEMI, If, Then, Else, Elif, Fi, Do, Done, Case, Esac, While,
-	Until, For, IO_NUMBER, ASSIGNMENT_WORD, SUBSH
+	Until, For, IO_NUMBER, ASSIGNMENT_WORD, SUBSH, HISTORY_EXPOINT
 }					t_token_id;
 
 typedef struct		s_token_assign

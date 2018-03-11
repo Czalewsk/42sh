@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   fds_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 16:56:18 by bviala           ###   ########.fr       */
+/*   Created: 2018/03/05 19:20:42 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/05 19:23:14 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PROMPT_H
-# define __PROMPT_H
+#include "ft_sh.h"
 
-# include "ft_sh.h"
+inline void	sh_savefds(int savefds[3])
+{
+	savefds[0] = dup(STDIN_FILENO);
+	savefds[1] = dup(STDOUT_FILENO);
+	savefds[2] = dup(STDERR_FILENO);
+}
 
-void		prompt_display(t_read *info, int new);
-char		prompt_add(char *prompt, char **line, int i);
-int			sh_prompt_git(int ret, int depth);
-#endif
+inline void	sh_restorefds(int savefds[3])
+{
+	dup2(savefds[0], STDIN_FILENO);
+	dup2(savefds[1], STDOUT_FILENO);
+	dup2(savefds[2], STDERR_FILENO);
+}

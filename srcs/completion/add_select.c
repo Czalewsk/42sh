@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 17:08:42 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/27 14:10:34 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/09 01:50:18 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
 	t_ldl			*ldl;
 	char			*path;
 
-	path = search ? search : ".\0";
+	path = comp_checktilde(search, ft_strlen(search), env_get("HOME"));
 	if (!(dir_stream = opendir(path)))
 	{
 		sh_error(0, 1, NULL, 3, "Fail opendir : ", path, "\n");
@@ -76,9 +76,10 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
 				(comp->search && !(ft_strncmp(comp->search, dir->d_name,
 										ft_strlen_utf8(comp->search))))))
 		{
-			ft_ldl_new_node(&ldl, new_select(ft_strdup(dir->d_name), search));
+			ft_ldl_new_node(&ldl, new_select(ft_strdup(dir->d_name), path));
 			head = ft_ldl_insert_sort(head, ldl, &fcmp_select);
 		}
 	}
+	ft_strdel(&path);
 	closedir(dir_stream);
 }

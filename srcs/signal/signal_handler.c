@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/09 14:15:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:48:23 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ static unsigned	long	g_signal_mask;
 **Variable qui defini si un signal doit etre gere par le signal handler
 */
 
- static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {[SIGINT] = 1,
- [SIGCHLD] = 17, [SIGTSTP] = 7, [SIGTTIN] = 77, [SIGTTOU] = 0};
-
+ static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
+	[SIGCHLD] = 17,
+	[SIGTSTP] = 7,
+	[SIGTTIN] = 77,
+	[SIGWINCH] = 1,
+	[SIGQUIT] = 1};
 
 /*
 **Variable qui permet de stocke les fonctions a appeler dans le signl handler
@@ -31,9 +34,12 @@ static unsigned	long	g_signal_mask;
 ** dans le signal manager
 */
 
- static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) =
- {[SIGINT] = &signal_sigint, [SIGCHLD] = &signal_sigchld,
- 	[SIGTSTP] = &signal_sigtstp, [SIGTTIN] = &signal_sigttin};
+ static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) = {
+	[SIGCHLD] = &signal_sigchld,
+	[SIGTSTP] = &signal_sigtstp,
+	[SIGTTIN] = &signal_sigttin,
+	[SIGWINCH] = &sigwinch,
+	[SIGQUIT] = &signal_avoid};
 
 /*
 ** Variable qui stock les fonctions appelle par le signal manager dans la boucle
@@ -57,9 +63,21 @@ void					signal_handler(int sig, siginfo_t *siginfo,
 void					signal_handler_init(void)
 {
 	int							i;
-	const	struct sigaction	action = {.sa_sigaction = &signal_handler,
+	sigset_t					block_mask;
+	struct sigaction			action;
 
-	.sa_flags = SA_SIGINFO | SA_RESTART};
+	action.sa_sigaction = &signal_sigint;
+	action.sa_flags = SA_SIGINFO;
+	sigemptyset(&block_mask);
+	i = -1;
+	while (++i < MAX_NB_SIGNAL)
+		if (g_signal_interrupt[i])
+			sigaddset(&block_mask, i);
+	sigaddset(&block_mask, SIGINT);
+	action.sa_mask = block_mask;
+	sigaction(SIGINT, &action, NULL);
+	action.sa_sigaction = &signal_handler;
+	action.sa_flags |= SA_RESTART;
 	i = -1;
 	while (++i < MAX_NB_SIGNAL)
 		if (g_signal_interrupt[i] && sigaction(i, &action, NULL))

@@ -6,22 +6,17 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:55:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/06 12:37:47 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 #include "sh_signal.h"
 
-char			(*const g_special_case[EDITION_MAX_STATE])
-		(t_buf *cmd, t_read *info, t_key *entry) = {
-	NULL, &completion_to_normal_char, &history_to_normal_char,
-	&pasted_remove_highlight_char, &pasted_remove_highlight_char
-};
-
-void			read_key(t_key *entry)
+char			read_key(t_key *entry)
 {
 	int		ret;
+	char	*new_line;
 
 	ret = read(g_sh.test_fd, entry->entry + entry->nread, SIZE_READ);
 	if (ret == -1)
@@ -30,10 +25,20 @@ void			read_key(t_key *entry)
 		if (errno != EINTR)
 			exit(sh_error(EXIT_FAILURE, 1, &termcaps_restore_tty, 1,
 						"Error in read\n"));
-		errno = 0;
+		return (-3);
 	}
 	else
+	{
 		entry->nread += ret;
+		if (ret > 1)
+			while ((new_line = ft_strnchr(entry->entry, '\n', entry->nread)))
+			{
+				ft_memmove(new_line, new_line + 1,
+						entry->nread - (new_line - entry->entry));
+				--entry->nread;
+			}
+	}
+	return (1);
 }
 
 void			debug_key(t_key *entry)
@@ -58,12 +63,8 @@ char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 //	debug_key(entry);
 	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
-	else
-	{
-		if (g_special_case[g_sh.edition_state])
-			g_special_case[g_sh.edition_state](cmd, info, entry);
-		return (insert_char(cmd, info, entry));
-	}
+	sh_reinit_edition_state(cmd, info, entry);
+	return (insert_char(cmd, info, entry));
 }
 
 char			read_line(t_buf *cmd, t_read *info)
@@ -76,8 +77,8 @@ char			read_line(t_buf *cmd, t_read *info)
 	while (42)
 	{
 		signal_manager();
-		read_key(&entry);
-		if (g_new_prompt)
+		ret = read_key(&entry);
+		if (g_new_prompt || ret < 0)
 			break ;
 		ret = key_wrapper(cmd, info, &entry);
 		if (ret < 0)

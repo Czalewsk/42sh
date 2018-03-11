@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 18:01:14 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:49:15 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char		*get_command(char *ret, t_tree *chead)
 int			clear_execute(char **path, t_process *p)
 {
 	ft_free_array(path);
-	reset_fd(g_sh.fds, p);
+//	reset_fd(g_sh.fds, p);
 	ft_free_process(p);
 	return (g_sh.exitstatus);
 }

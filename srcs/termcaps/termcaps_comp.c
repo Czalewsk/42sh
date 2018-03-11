@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   termcaps_comp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 09:40:48 by thugo            ###   ########.fr       */
+/*   Created: 2018/02/27 15:18:44 by bviala            #+#    #+#             */
+/*   Updated: 2018/03/08 19:35:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __BUILTINS_H
-# define __BUILTINS_H
+#include "ft_sh.h"
 
-# include "ft_sh.h"
+void		comp_reinit_tty(int signal)
+{
+	(void)signal;
+	tputs(g_termcaps_cap[INV_OFF], 0, &ft_putchar_termcap);
+}
 
-int		builtin_history(t_process *p);
-int		builtin_export(t_process *p, int argc, char **argv, char **env);
-int		builtin_unsetenv(t_process *p, int argc, char **argv, char **env);
-int		builtin_setenv(t_process *p, int argc, char **argv, char **env);
-
-#endif
+void		comp_termcaps_set_tty(int signal)
+{
+	(void)signal;
+	tputs(g_termcaps_cap[INV_ON], 0, &ft_putchar_termcap);
+}

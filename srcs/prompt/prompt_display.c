@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/04 15:27:08 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:48:49 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void		prompt_display(t_read *info, int new)
 	ret += sh_prompt_get_host();
 	ret += sh_print_time();
 	ret += sh_current_dir(0, NULL, NULL);
-	ret += sh_prompt_git();
+	ret += sh_prompt_git(-1, 0);
 	ft_putstr_fd(" " YELLOW, g_sh.fd_tty);
 	ft_putstr_fd(PROMPT, g_sh.fd_tty);
 	ft_putstr_fd(C_DEFAULT, g_sh.fd_tty);

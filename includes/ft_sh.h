@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 20:02:55 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:59:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define __FT_SH_H
 
 
-# include "utils.h"
 # include "job_control.h"
 # include "libft.h"
 # include <termcap.h>
@@ -39,6 +38,7 @@
 # include "builtins.h"
 # include "completion.h"
 # include "sh_signal.h"
+# include "utils.h"
 
 
 /*
@@ -80,6 +80,21 @@ extern t_sh				g_sh;
 ** Variable permettant decrire les term sur le bon fd (ft_putchar_termcap)
 */
 extern int	g_termcps_fd;
+
+/*
+** Variable qui contient les fonctions a appelee pour reset la machine a etat
+**  selon l'etat dans lequelle elle est.
+*/
+
+extern char			(*const g_special_case[EDITION_MAX_STATE])(t_buf *cmd,
+		t_read *info, t_key *entry);
+
+/*
+** Fonction qui check l'etat de l'edition et qui le cas echeant le reinitialise
+**  /!\ La variable entry peut etre egal a NULL /!\
+*/
+
+void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry);
 
 # define SIZE_BUF_CMD (128)
 # define PROMPT ("✗ ")

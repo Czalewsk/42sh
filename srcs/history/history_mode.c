@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/27 13:43:55 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/07 17:50:28 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void		close_history(t_buf *cmd)
 				ft_strndup(cmd->cmd, cmd->size_actual));
 	if ((access = check_history_access(g_sh.hist_file)))
 	{
-		if (*cmd->cmd && ft_strcmp(cmd->cmd, "\n") &&
-		(fd = open(g_sh.hist_file, O_RDWR | O_APPEND | O_CREAT, 0600)) != -1)
+		if (!(fd = 0) && *cmd->cmd && ft_strcmp(cmd->cmd, "\n"))
+			while ((fd = open(g_sh.hist_file, O_RDWR
+						| O_APPEND | O_CREAT, 0600)) == -1 && errno == EINTR)
+			;
+		if (fd > 0)
 		{
 			ft_putstr_fd("#", fd);
 			ft_putstr_fd(cmd->cmd, fd);
@@ -76,10 +79,8 @@ char		history_do(t_buf *cmd, t_read *info, t_key *entry)
 	return (0);
 }
 
-static void	history_init(t_buf *cmd, t_read *info)
+static void	history_init(t_buf *cmd, t_read *info, int fd, size_t len)
 {
-	int		fd;
-	size_t	len;
 	char	*line;
 
 	len = (info->curs_char) ? info->curs_char : ft_strlen(cmd->cmd);
@@ -87,7 +88,9 @@ static void	history_init(t_buf *cmd, t_read *info)
 		g_sh.hist = ft_ldl_new_list();
 	if (check_history_access(g_sh.hist_file) && !(line = NULL))
 	{
-		if ((fd = open(g_sh.hist_file, O_RDWR)) == -1)
+		while ((fd = open(g_sh.hist_file, O_RDWR)) == -1 && errno == EINTR)
+			;
+		if (fd == -1)
 			return ;
 		while ((get_next_line(fd, &line) > 0) && history_well_formated(line))
 		{
@@ -109,7 +112,7 @@ char		history_mode(t_buf *cmd, t_read *info, t_key *entry)
 {
 	g_sh.edition_state = HISTORY;
 	if (!g_sh.hist)
-		history_init(cmd, info);
+		history_init(cmd, info, -1, 0);
 	g_sh.hist = ft_ldl_addfront(g_sh.hist, ft_strdup(cmd->cmd));
 	g_sh.hist_current = g_sh.hist->head;
 	g_sh.h_save = ft_strdup(cmd->cmd);

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 14:43:31 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:50:01 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int				ft_fill_for_jobs(t_tree *head)
 	t_tree		*tmp;
 
 	tmp = head;
-	init_closefd(g_sh.fds);
+//	init_closefd(g_sh.fds);
 	while (tmp)
 		tmp = check_run(tmp);
 	if (g_job_order)

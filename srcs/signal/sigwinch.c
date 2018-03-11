@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   sigwinch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 16:56:18 by bviala           ###   ########.fr       */
+/*   Created: 2018/03/08 14:22:54 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/08 19:24:35 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PROMPT_H
-# define __PROMPT_H
+#include "ft_sh.h"
+#include "sh_signal.h"
 
-# include "ft_sh.h"
-
-void		prompt_display(t_read *info, int new);
-char		prompt_add(char *prompt, char **line, int i);
-int			sh_prompt_git(int ret, int depth);
-#endif
+void	sigwinch(void)
+{
+	if (g_sh.edition_state == COMPLETION)
+		comp_signal(g_save_cmd, g_save_info);
+	else
+		update_display();
+}

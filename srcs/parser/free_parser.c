@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:19 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 11:28:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:49:47 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			ft_free_tree(t_tree *c)
 	while (r)
 	{
 		tmp = r;
-		free(tmp->token.str);
+		ft_strdel(&tmp->token.str);
 		r = r->right;
 		free(tmp);
 	}

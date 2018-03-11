@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 14:41:03 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:45:37 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,14 @@ typedef struct s_classic
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
 }				t_classic;
 
+typedef	struct	s_builtin
+{
+	char	*name;
+	int		(*f)(t_process *p, int argc, char **argv, char **env);
+}				t_builtin;
+
 int							clear_execute(char **path, t_process *p);
-int							check_built_in(t_process *p);
-int							do_built_in(t_process *p);
+int							do_built_in(t_process *p, char **env);
 int							set_for_pipe(t_tree *c, t_job *job);
 int							ft_leave_parse(t_token t);
 int							read_parser(char **cmd, char *cur);
@@ -114,4 +119,5 @@ t_tree						*check_or_if(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_run_v2(t_tree *c, t_job *job);
 
+void						clear_assign_word(t_tree *cur, t_tree *new);
 #endif

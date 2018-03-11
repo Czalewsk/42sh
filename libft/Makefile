@@ -6,7 +6,7 @@
 #    By: bviala <bviala@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/02/27 14:29:47 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/08 17:51:22 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  str/ft_calc_wstrlen.c str/ft_strjoin_free.c					\
 			  str/ft_strndup.c	str/ft_strsplit_whitespaces.c				\
 			  str/ft_strlen_utf8.c str/ft_strxjoin.c str/ft_strsplits.c		\
-			  str/ft_strcnt.c												\
+			  str/ft_strcnt.c str/ft_strnchr.c								\
 			  utils/ft_swap.c utils/ft_isalnum.c utils/ft_isalpha.c			\
 			  utils/ft_isascii.c utils/ft_isdigit.c							\
 			  utils/ft_islower.c utils/ft_isprint.c utils/ft_isupper.c		\
@@ -108,7 +108,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  utils/ft_strisnumber.c utils/ft_find_end_nbr.c				\
 			  utils/ft_is_escape.c utils/ft_isfile.c						\
 			  utils/ft_count_len.c utils/ft_howmany.c utils/ft_getopt.c		\
-			  utils/ft_tab2dlen.c											\
+			  utils/ft_tab2dlen.c utils/ft_isposixname.c					\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
 			  printf/solve_c.c	printf/solve_d.c							\

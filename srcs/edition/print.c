@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 17:34:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/21 00:51:42 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:34:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	display_str(t_buf *cmd, t_read *info, char *str, size_t pos_curs)
 				((info->total_char = len) || 1))
 			return ;
 		ft_strcpy(cmd->cmd, str);
+		cmd->size_actual = ft_strlen(cmd->cmd);
 	}
-	cmd->size_actual = ft_strlen(cmd->cmd);
 	if (g_sh.prompt_display)
 		cursor_back_home(info, 1);
 	else

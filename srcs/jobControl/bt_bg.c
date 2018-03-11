@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 16:04:19 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 19:08:05 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ static void		bg_launch(t_job *j)
 	free(num);
 }
 
-int				bt_bg(char **arg)
+int				bt_bg(t_process *p, int size, char **arg, char **env)
 {
 	t_job	*tmp;
 	int		i;
 	int		retour;
 
-	i = 0;
+	(void)env;
+	(void)p;
+	(void)size;
+	i = 1;
 	retour = 0;
-	if (*arg == NULL)
+	if (arg[i] == NULL)
 	{
 		tmp = get_job(NULL);
 		if (tmp == NULL)

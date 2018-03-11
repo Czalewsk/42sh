@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   ft_isposixname.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 14:43:50 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 16:56:18 by bviala           ###   ########.fr       */
+/*   Created: 2018/03/08 17:39:21 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/08 17:50:51 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PROMPT_H
-# define __PROMPT_H
+#include "libft.h"
 
-# include "ft_sh.h"
-
-void		prompt_display(t_read *info, int new);
-char		prompt_add(char *prompt, char **line, int i);
-int			sh_prompt_git(int ret, int depth);
-#endif
+int		ft_isposixname(char *name)
+{
+	if (ft_isdigit(*name) || (*name != '_' && !ft_isalpha(*name)))
+		return (0);
+	while (*(++name))
+		if (!ft_isalnum(*name) && *name != '_')
+			return (0);
+	return (1);
+}

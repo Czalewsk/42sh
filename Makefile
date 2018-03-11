@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/11 12:16:56 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/11 18:42:09 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBFT_PATH		= libft/includes/
 
 #------------------------------| SOURCE FILES |--------------------------------#
 SRCS_FILES		= ft_sh 													\
-				  termcaps/termcaps_init 									\
+				  termcaps/termcaps_init termcaps/termcaps_comp				\
 				  prompt/prompt_display prompt/prompt_add					\
 				  prompt/prompt_git											\
 				  edition/buff_handler edition/read							\
@@ -44,7 +44,9 @@ SRCS_FILES		= ft_sh 													\
 				  edition/unicode edition/print edition/curs_back			\
 				  edition/expansion_wrapper edition/wrapper_is_arg			\
 				  edition/curs_word											\
-				  builtins/builtin_history									\
+				  builtins/builtin_history builtins/history_expoint			\
+				  builtins/builtin_export builtins/builtin_unsetenv			\
+				  builtins/builtin_setenv									\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
@@ -53,6 +55,8 @@ SRCS_FILES		= ft_sh 													\
 				  completion/print_comp completion/add_select				\
 				  completion/add_dir completion/sh_first_comp				\
 				  completion/add_bin completion/add_env						\
+				  completion/prompt_comp completion/arrow_comp				\
+				  completion/signal_comp completion/comp_tools				\
 				  lexer/tokenize lexer/rules lexer/rules_fn1				\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
@@ -61,7 +65,7 @@ SRCS_FILES		= ft_sh 													\
 				  env/unset env/destroy										\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
-				  utils/sh_error											\
+				  utils/sh_error utils/fds_utils utils/update_display		\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
@@ -75,6 +79,7 @@ SRCS_FILES		= ft_sh 													\
 				  parser/modify_io parser/add_in_arguments parser/check		\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
+				  parser/clear_assign_word									\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
 				  jobControl/bt_bg											\
@@ -104,7 +109,8 @@ SRCS_FILES		= ft_sh 													\
 				  signal/signal_sigtstp										\
 				  signal/signal_sigttou										\
 				  signal/signal_sigttin										\
-				  signal/signal_handler signal/signal_sigint
+				  signal/signal_handler signal/signal_sigint signal/sigwinch\
+				  signal/signal_avoid
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

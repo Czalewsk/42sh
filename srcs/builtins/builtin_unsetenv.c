@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   assign_word.c                                      :+:      :+:    :+:   */
+/*   builtin_unsetenv.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/28 16:48:43 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/07 13:25:02 by thugo            ###   ########.fr       */
+/*   Created: 2018/03/09 07:32:03 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/09 09:38:52 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-t_tree	*assign_word(t_process *p, t_tree *c)
+int		builtin_unsetenv(t_process *p, int argc, char **argv, char **env)
 {
-	char	type;
-	char	*name;
-	char	*value;
-	t_tree	*cur;
-
-	(void)p;
-	type = ENV_LOCAL;
-	value = ft_strchr(c->token.str, '=') + 1;
-	name = ft_strndup(c->token.str, (size_t)(value - (c->token.str + 1)));
-	cur = c;
-	while (cur)
+	(void)env;
+	if (argc == 1)
 	{
-		if (cur->token.id == WORD)
-		{
-			type = ENV_TEMP;
-			break ;
-		}
-		cur = cur->right;
+		return (sh_error_bi(p->stderr, EXIT_FAILURE, 1,
+			"unsetenv: Too few arguments.\n"));
 	}
-	env_set(name, value, type);
-	free(name);
-	return (c->right);
+	while (*(++argv))
+		env_unset(*argv);
+	return (EXIT_SUCCESS);
 }
