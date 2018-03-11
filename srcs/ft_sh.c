@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/11 18:44:36 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 23:58:13 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	init_history();
-	env_init((const char **)env);
 	termcaps_init();
 	update_display_init(info, cmd);
 }
