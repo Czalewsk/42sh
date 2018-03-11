@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 15:11:03 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 12:34:58 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	if (pid == 0)
 		launch_process(tmp, p, job, env);
 	p->pid = pid;
-	if (shell_is_interactive)
+	if (g_shell_is_interactive)
 	{
 		if (job && !job->pgid)
 			job->pgid = pid;
 		setpgid (pid, pid);
 	}
 	if (!job)
-		put_job_in_foregroundv2(p, 1);
+		put_process_in_foreground(p, 1);
 	else
 	{
 		dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid);
@@ -119,7 +119,7 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 	if (job)
 		job->process = p;
 	else
-		current_execute = p;
+		g_current_execute = p;
 	if (check_built_in(p) == 0)
 	{	
 		g_sh.exitstatus = do_built_in(p);

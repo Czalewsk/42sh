@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 16:03:11 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 14:43:31 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_tree			*check_run(t_tree *c)
 	}
 	if (tmp->token.id == AND)
 	{
-		ft_create_jobs(c);
+		ft_need_jobs(c);
 		return (c->left);
 	}
 	return (check_run_v2(c, NULL));//	return (check_run_v2(c, NULL));
@@ -68,7 +68,7 @@ int				ft_fill_for_jobs(t_tree *head)
 	init_closefd(g_sh.fds);
 	while (tmp)
 		tmp = check_run(tmp);
-	if (job_order)
+	if (g_job_order)
 	{
 //		ft_printf("fill_for_jobs l:68 si tu veux pas free la list de job\n");
 //		job_order = job_order->next;

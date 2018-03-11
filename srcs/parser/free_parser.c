@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:19 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/04 11:02:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 11:28:15 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			ft_free_order(t_list *lst)
 		if (lst)
 			free(lst);
 	}
-	job_order = NULL;
-	first_job = NULL;
+	g_job_order = NULL;
+	g_first_job = NULL;
 	return (0);
 }
