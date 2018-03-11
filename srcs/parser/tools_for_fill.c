@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 19:45:22 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/11 18:01:14 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int			clear_execute(char **path, t_process *p)
 {
 	ft_free_array(path);
 	reset_fd(g_sh.fds, p);
-	DEBUG("tools_for_fill ligne 53 clear_execute\n exit=%d\n", g_sh.exitstatus);
 	ft_free_process(p);
 	return (g_sh.exitstatus);
 }
