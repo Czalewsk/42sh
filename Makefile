@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/11 18:42:09 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/11 21:14:33 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,6 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/continue_job									\
 				  jobControl/do_job_notification							\
 				  jobControl/find_job										\
-				  jobControl/format_job_info								\
 				  jobControl/get_job										\
 				  jobControl/jc_process_display								\
 				  jobControl/job_display									\
