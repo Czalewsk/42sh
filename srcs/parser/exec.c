@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/09 04:17:03 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/12 17:13:12 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ int				execute_run(t_tree *c, t_tree *stop, t_job *job)
 		current_execute = p;
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
 	if (do_built_in(p, env))
+	{
+		ft_free_process(p);
 		return (g_sh.exitstatus);
+	}
 	g_sh.exitstatus = -1;
 	return (execute(p, job, env, 0));
 }

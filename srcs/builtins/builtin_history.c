@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:00:37 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/10 00:18:08 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/12 17:30:46 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,32 @@ static int	clear_all(t_process *p)
 	ft_ldl_clear(&g_sh.history, &ft_strdel);
 	if (check_history_access(g_sh.hist_file))
 	{
-		if ((fd = open(g_sh.hist_file, O_RDWR
-						| O_TRUNC, 0600)) == -1)
-			return (sh_error_bi(p->stderr, -1, 3, "open ",
-						g_sh.hist_file, "error\n"));
+		if ((fd = open(g_sh.hist_file, O_RDWR | O_TRUNC, 0600)) == -1)
+		{
+			return (sh_error_bi(p->stderr, -1, 3,
+						"open ", g_sh.hist_file, "error\n"));
+		}
 		close(fd);
 	}
 	init_history();
 	return (EXIT_SUCCESS);
 }
 
-static int	display_history(int n, int argc, t_process *p)
+static int	display_history(int n, int argc, t_process *p, size_t len)
 {
-	size_t	len;
 	size_t	len_max;
 	t_ldl	*tmp;
 
 	if (!g_sh.history || !argc || !p)
 		return (EXIT_FAILURE);
 	if (n && (argc > 2))
+	{
 		return (sh_error_bi(p->stderr, -1, 1,
 	"builtin history: too many arguments\nusage: history [n]/[-cdps] args\n"));
+	}
 	n = n ? n : g_sh.history->length;
-	len = 1;
 	len_max = ft_count_len(g_sh.history->length);
-	tmp = g_sh.history->tail;
-	if (!tmp)
+	if (!(tmp = g_sh.history->tail))
 		return (EXIT_SUCCESS);
 	while (tmp && n--)
 	{
@@ -93,7 +93,7 @@ int			builtin_history(t_process *p, int argc, char **argv, char **env)
 		return (EXIT_FAILURE);
 	}
 	if ((n || !*res))
-		ret = display_history(n, argc, p);
+		ret = display_history(n, argc, p, 1);
 	else
 		ret = builtin2(p, argv, res);
 	ft_strdel(&res);

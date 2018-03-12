@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 22:39:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/10 00:24:51 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/12 18:42:35 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	update_history(t_process *p)
 {
 	t_ldl	*ldl;
 	int		fd;
-	
+
 	if (!g_sh.history)
 		return ;
 	if (check_history_access(g_sh.hist_file))
@@ -41,24 +41,45 @@ static void	update_history(t_process *p)
 static int	launch_clearlast(t_process *p)
 {
 	char	*av[4];
+	char	*num;
+	int		ret;
 
+	num = NULL;
 	av[0] = "history";
 	av[1] = "-d";
-	av[2] = "1";
+	num = ft_itoa(g_sh.history->length);
+	av[2] = num;
 	av[3] = NULL;
-	return (built_h_clear_one("d", av, p));
+	ret = built_h_clear_one("d", av, p);
+	ft_strdel(&num);
+	return (ret);
+}
+
+static int	built_h_clear_one2(char *str, t_process *p)
+{
+	size_t		id;
+
+	id = ft_atoi(str);
+	if (!id || (id > g_sh.history->length))
+	{
+		return (sh_error_bi(p->stderr, -1, 3, "builtin history: ",
+					str, ": history position out of range\n"));
+	}
+	ft_ldl_del_id(g_sh.history, g_sh.history->length + 1 - id, &ft_strdel);
+	return (EXIT_SUCCESS);
 }
 
 int			built_h_clear_one(char *res, char **argv, t_process *p)
 {
 	int		i;
-	size_t	id;
 
 	if (argv + 2)
 		argv = argv + 2;
 	else
-		return (sh_error_bi(p->stderr, -1, 1,
-	"builtin history: missing arguments\nusage: history [n]/[-cpds] args\n"));
+	{
+		return (sh_error_bi(p->stderr, -1, 2, "builtin history: "
+		"missing arguments\nusage: history [n]/[-cpds] args\n"));
+	}
 	if (ft_strchr(res, 'p'))
 	{
 		i = 0;
@@ -68,11 +89,8 @@ int			built_h_clear_one(char *res, char **argv, t_process *p)
 	}
 	else if (ft_strchr(res, 'd'))
 	{
-		id = ft_atoi(*argv);
-		if (!id || (id > g_sh.history->length))
-			return (sh_error_bi(p->stderr, -1, 3,
-		"builtin history: ", *argv, ": history position out of range\n"));
-		ft_ldl_del_id(g_sh.history, id, &ft_strdel);
+		if (built_h_clear_one2(*argv, p) != EXIT_SUCCESS)
+			return (EXIT_FAILURE);
 	}
 	update_history(p);
 	return (EXIT_SUCCESS);
@@ -80,24 +98,23 @@ int			built_h_clear_one(char *res, char **argv, t_process *p)
 
 int			built_h_save_one(char **argv, t_process *p)
 {
-	int 	fd;
+	int		fd;
 	char	*cmd;
 
 	launch_clearlast(p);
 	argv = argv + 2;
 	cmd = ft_strdup(*argv);
 	while (++argv && *argv)
-	{
-		cmd = ft_strjoin_free(cmd, " \0", 0);
-		cmd = ft_strjoin_free(cmd, *argv, 0);
-	}
+		cmd = ft_strjoin_free(ft_strjoin_free(cmd, " \0", 0), *argv, 0);
 	g_sh.history = ft_ldl_addfront(g_sh.history, ft_strdup(cmd));
 	if (check_history_access(g_sh.hist_file))
 	{
 		if ((fd = open(g_sh.hist_file, O_RDWR
-						| O_APPEND | O_CREAT, 0600)) == -1 )
+						| O_APPEND | O_CREAT, 0600)) == -1)
+		{
 			return (sh_error_bi(p->stderr, -1, 3, "open ",
 						g_sh.hist_file, "error\n"));
+		}
 		ft_putstr_fd("#", fd);
 		ft_putendl_fd(cmd, fd);
 		close(fd);
