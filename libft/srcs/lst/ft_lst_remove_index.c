@@ -35,6 +35,8 @@ void	ft_lst_remove_index(t_list **alst, int index,
 		*prev = cur->next;
 		if (del)
 			del(cur->content);
+		else
+			free(cur->content);
 		free(cur);
 	}
 }

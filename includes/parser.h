@@ -17,7 +17,7 @@
 
 struct	s_tree				*head_tree;
 struct	s_tree				*current;
-int							is_from_sub;
+t_list						*here_list;
 
 typedef struct				s_tree
 {
@@ -64,6 +64,7 @@ typedef struct s_classic
 	t_token_id	one;
 	t_token_id	two;
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
+	t_tree		*(*here)(t_tree *current, t_tree *new);
 }				t_classic;
 
 int							clear_execute(char **path, t_process *p);
@@ -93,6 +94,7 @@ void						reset_fd(int pdes[3], t_process *p);
 void						init_closefd(int pdes[3]);
 
 t_process					*init_process(t_process *p);
+t_tree						*here(t_tree *current, t_tree *new);
 t_tree						*init_node(t_token c, t_tree *n);
 t_tree						*subshell(t_process *p, t_tree *c);
 t_tree 						*set_data_for_fill(t_tree *c, t_process *p);

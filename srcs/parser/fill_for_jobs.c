@@ -16,67 +16,28 @@ extern	t_cmd_action	g_cmd_actions[];
 
 void			set_fd(t_process *p)
 {
-//	ft_printf("BEFORE EXEC TEST_fd == %d && fd_TTY ==  %d\n", g_sh.test_fd, g_sh.fd_tty);
-//	DEBUG("SET FD\np->stdin == %d\np->stdout ==%d\np->stderr ==%d\n", p->stdin, p->stdout, p->stderr);
 	if (p->stdin != STDIN_FILENO)
-	{
-	//		DEBUG("STDIN MIDIFIED\n", p->stdin);
-//		close(STDIN_FILENO);
-//		ft_printf("B4 p->STDIN == %d && STDIN ==  %d\n", p->stdin, STDIN_FILENO);
 		dup2(p->stdin, STDIN_FILENO);
-//		ft_printf("AFTER p->STDIN == %d && STDIN ==  %d\n", p->stdin, STDIN_FILENO);
-	}
 	if (p->stdout != STDOUT_FILENO)
 	{
-//		DEBUG("STDOUT MIDIFIED\n", p->stdout);
-//		ft_printf("B p->STDOUT == %d && STDOUT ==  %d\n", p->stdout, STDOUT_FILENO);
 		close(STDOUT_FILENO);
 		dup2(p->stdout, STDOUT_FILENO);
-//		ft_printf("AFT p->STDOUT == %d && STDOUT ==  %d\n", p->stdout, STDOUT_FILENO);
 	}
 	if (p->stderr != STDERR_FILENO)
 	{
-//			DEBUG("STDERR MIDIFIED\n", p->stderr);
 		close(STDERR_FILENO);
-//		ft_printf("B4 p->STDERR == %d && STDERR ==  %d\n", p->stderr, STDERR_FILENO);
 		dup2(p->stderr, STDERR_FILENO);
-//		ft_printf("AAFTER p->STDERR == %d && STDERR ==  %d\n", p->stderr, STDERR_FILENO);
 	}
-//	DEBUG("END SET FD\np->stdin == %d\np->stdout ==%d\np->stderr ==%d\n", p->stdin, p->stdout, p->stderr);
 }
 
 void		reset_fdd(t_process *p)
 {
-//	DEBUG("RESET FD\np->stdin == %d\np->stdout ==%d\np->stderr ==%d\n", p->stdin, p->stdout, p->stderr);
-//	DEBUG("STDstdin == %d\nSTDstdout ==%d\nSTDstderr ==%d\n", STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
-	// if (p->stdin != STDIN_FILENO)
-	// {
-	// 	ft_printf("B4 p->STDIN == %d && STDIN ==  %d\n", p->stdin, STDIN_FILENO);
-		close(p->stdin);
-		dup2(g_sh.fds[0], STDIN_FILENO);
-//		ft_printf("AFTER p->STDIN == %d && STDIN ==  %d\n", p->stdin, STDIN_FILENO);
-//	}
-	// if (p->stdout != STDOUT_FILENO)
-	// {
-	// 	ft_printf("B4 p->STDOUT == %d && STDOUT ==  %d\n", p->stdout, STDOUT_FILENO);
-		close(p->stdout);
-		dup2(g_sh.fds[1], STDOUT_FILENO);
-//		dup2(p->stdout, 1);
-	// 	if (fcntl(STDOUT_FILENO, F_GETFD) == -1)
-	// 		dup(STDOUT_FILENO);
-	// 		ft_printf("AFTER p->STDOUT == %d && STDOUT ==  %d\n", p->stdout, STDOUT_FILENO);
-	// }
-//	if (p->stderr != STDERR_FILENO)
-	//{
-//		ft_printf("B4 DUP p->STDERR == %d && STDERR ==  %d\n", p->stderr, STDERR_FILENO);
-		close(p->stderr);
-		dup2(g_sh.fds[2], STDERR_FILENO);
-		//	dup2(g_sh.fds[2], STDERR_FILENO);
-//		dup2(p->stderr, 2);
-		// close(p->stderr);
-//		ft_printf("After DUP  p->STDERR == %d && STDERR ==  %d\n", p->stderr, STDERR_FILENO);
-//	}
-//	ft_printf(" AFTER EXEC TEST_fd == %d && fd_TTY ==  %d\n", g_sh.test_fd, g_sh.fd_tty);
+	close(p->stdin);
+	dup2(g_sh.fds[0], STDIN_FILENO);
+	close(p->stdout);
+	dup2(g_sh.fds[1], STDOUT_FILENO);
+	close(p->stderr);
+	dup2(g_sh.fds[2], STDERR_FILENO);
 }
 
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
@@ -84,19 +45,15 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	pid_t		father;
 	int			i;
 
-	DEBUG("CALL TERM RESTORE\n");
 	termcaps_restore_tty();
 	if ((father = fork()) == -1)
 		exit(-1);
 	i = 0;
 	if (father == 0)
 	{
-		set_fd(p);
 		if (job)
 			setpgid(getpid(), getpid());// je suis pas sur que ca reste
-			DEBUG("EXCVE  de la CMD\n");
-			exit(execve(tmp, p->argv, env));
-//			exit(EXIT_FAILURE);
+		exit(execve(tmp, p->argv, env));
 	}
 	else
 	{
@@ -123,21 +80,14 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 		}
 	}
 	p->returned = g_sh.exitstatus;
-//	reset_fdd(p);
-	DEBUG("CALL TERM SET\n");
 	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
 
 int				exec_with_acces_no_fork(char *tmp, t_process *p, t_job *job, char **env)
 {
-
 	(void)job;
-	DEBUG("EXEC WITH NO FORK\n");
-	// termcaps_restore_tty();
-	// set_fd(p);
 	exit(execve(tmp, p->argv, env));
-	// exit(EXIT_FAILURE);
 }
 
 int		exec_in_line(t_process *p, t_job *job, char **env)
@@ -172,9 +122,6 @@ int				execute(t_process *p, t_job *job, char **env, int k)
 			else
 				exec_with_acces(exec_line, p, job, env);
 			ft_strdel(&exec_line);
-//			sh_error(0, 0, NULL, 3, "execve failed: ", p->argv[0], "\n");
-//			ft_free_array(path);
-//			exit(EXIT_FAILURE);
 			return (clear_execute(path, p));// pas de free sur process;
 		}
 		ft_strdel(&exec_line);
@@ -184,6 +131,27 @@ int				execute(t_process *p, t_job *job, char **env, int k)
 	return (clear_execute(path, p));// pas de free sur process;
 }
 
+void			close_pipe_heredoc(t_tree *c)
+{
+	int			*fd;
+	t_tree		*tmp;
+
+	tmp = c;
+	while (tmp)
+	{
+		if (tmp->token.id == DLESS)
+		{
+			fd = here_list->content;
+			close(fd[0]);
+			close(fd[1]);
+			ft_lst_remove_index(&here_list, 0, NULL);
+			return ;
+		}
+		if (tmp->token.id == PIPE)
+			return ;
+		tmp = tmp->right;
+	}
+}
 
 t_tree			*get_next_pipe(t_tree *c)
 {
@@ -223,15 +191,12 @@ int		execute_pipe_run(t_tree *c, t_job *job)
 		}
 		i++;
 	}
-	// termcaps_restore_tty();
 	set_fd(current_process);
 	if (check_built_in(current_process) == 0)
 		do_built_in(current_process);
 	else
 		execute(current_process, job, env_make(ENV_GLOBAL | ENV_TEMP), 0);
 	reset_fdd(current_process);
-	// termcaps_restore_tty();
-	// termcaps_set_tty();
 	return (current_process->returned);
 }
 
@@ -254,24 +219,30 @@ void				init_current_process(void)
 	current_process->stderr = 2;
 }
 
-/*
-void				do_pipe_child(t_tree *c, int temp[2], int p[2], int i,
-		t_job *job)
+void				test_close_for_heredoc(t_tree *c, int temp[2])
 {
-	if (i & 1)
-		dup_and_close(temp[1], STDOUT_FILENO, unused);
-	if (i & 2)
-		dup_and_close(temp[0], STDIN_FILENO, temp[1]);
-	exit(execute_pipe_run(c, job));
+	t_tree *tmp;
+
+	tmp = c;
+	while (tmp)
+	{
+		if (tmp->token.id == DLESS)
+		{
+			close(temp[0]);
+			return ;
+		}
+		if (tmp->token.id == PIPE)
+			return ;
+		tmp = tmp->right;
+	}
 }
-*/
 
 void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
 {
 	pid_t			f;
 	int				p[2];
-	t_list			*pid_list;
 	int				temp[2];
+	t_list			*pid_list;
 
 	temp[1] = -1;
 	pid_list = NULL;
@@ -281,6 +252,7 @@ void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
 		if (c != end && pipe(p) == -1)
 			return ;         // MSG d'erreur
 		temp[1] = p[1];
+		test_close_for_heredoc(c, temp);
 		if ((f = fork()) == -1)
 			return ;         // MSG d'erreur
 		if (!f)
@@ -294,6 +266,7 @@ void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
 		(close(temp[0]) || 1) && close(temp[1]);
 		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
 		temp[0] = p[0];
+		close_pipe_heredoc(c);
 		if (c == end)
 			break ;
 		c = get_next_pipe(c);
@@ -305,10 +278,24 @@ void 				do_pipe(t_tree *c, t_tree *end, t_job *job)
 
 t_tree			*new_success_or_if(t_tree *c)
 {
+	int			*fd;
+	int			a;
+
+	a = 0;
 	while (c)
 	{
+		if (c->token.id == DLESS && a == 0)
+		{
+			a = 1;
+			fd = here_list->content;
+			close(fd[0]);
+			close(fd[1]);
+			ft_lst_remove_index(&here_list, 0, NULL);
+		}
 		if (c->token.id == AND_IF)
 			return (c);
+		if (c->token.id == PIPE)
+			a = 0;
 		c = c->right;
 	}
 	return (c);
@@ -355,19 +342,16 @@ t_tree			*execute_run(t_tree *c, t_job *job)
 				return (tmp);
 		if (tmp)
 		{
-			DEBUG("current->returned = %d\ng_sh.exitstatus = %d\n", current_process->returned, g_sh.exitstatus);
 			if (tmp && tmp->token.id == AND_IF && current_process->returned != 0)
 				return ((void *)1);
 			else if (tmp->token.id == OR_IF && current_process->returned == 0)
 				tmp = new_success_or_if(tmp);
 			else
 				tmp = tmp->right;
-//			ft_free_process(current_process);
 		}
 		if (tmp)
 		{
 			n = (t_process *)ft_memalloc(sizeof(t_process));
-//			DEBUG("ADDRESEs current %p ,current->next %p\n", current_process, current_process->next);
 			current_process->next = n;
 			n->stdin = 0;
 			n->stdout = 1;
@@ -398,10 +382,12 @@ t_tree		*cmd_action(t_tree *c, t_job *job)
 		}
 		i++;
 	}
+	set_fd(current_process);
 	if (check_built_in(current_process) == 0)
 		do_built_in(current_process);
 	else
 		execute(current_process, job, env_make(ENV_GLOBAL | ENV_TEMP), 1);
+	reset_fdd(current_process);
 	return (c);
 }
 
@@ -434,9 +420,9 @@ t_tree			*split_cmd_jobs(t_tree *c)
 		tmp = tmp->right;
 	if (tmp->token.id == AND && g_sh.subshellactive == 1)
 	{
-			// ft_strdel(&tmp->token.id);
-			// tmp->token.id = ft_strdup(";");
-			tmp->token.id = SEMI;
+		// ft_strdel(&tmp->token.id);
+		// tmp->token.id = ft_strdup(";");
+		tmp->token.id = SEMI;
 	}
 //	else
 //		return (ft_create_jobs(c));
@@ -456,5 +442,7 @@ int				ft_fill_for_jobs(t_tree *head)
 			break ;
 		tmp = tmp->left;
 	}
+	if (here_list)
+		ft_lstdel(&here_list, NULL);
 	return (ft_free_tree(head));
 }
