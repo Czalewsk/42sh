@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 19:23:47 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/10 16:32:37 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/12 01:47:53 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct	s_expands_rules
 	char		(*fn)(const t_token *, t_list **);
 	int			sizeallowed;
 	t_token_id	allowed[10];
+	int			break_on_exp;
 }				t_expands_rules;
 
 char			expansions_expand(t_list **lst, const t_token *tk);
