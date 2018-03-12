@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 19:24:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/16 14:08:09 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/12 15:43:08 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char		history_to_normal_char(t_buf *cmd, t_read *info, t_key *entry)
 	(void)info;
 	ft_ldl_clear(&g_sh.hist, &ft_strdel);
 	g_sh.h_first = 0;
+	g_sh.hist_current = NULL;
 	ft_strdel(&(g_sh.h_save));
 	g_sh.edition_state = NORMAL;
 	return (1);

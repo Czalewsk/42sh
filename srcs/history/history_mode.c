@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 18:42:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/07 17:50:28 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/12 15:43:44 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 void		close_history(t_buf *cmd)
 {
 	int fd;
-	int	access;
 
 	g_sh.edition_state = NORMAL;
 	if (ft_strcmp(cmd->cmd, "\n"))
 		g_sh.history = ft_ldl_addfront(g_sh.history,
 				ft_strndup(cmd->cmd, cmd->size_actual));
-	if ((access = check_history_access(g_sh.hist_file)))
+	if (check_history_access(g_sh.hist_file))
 	{
 		if (!(fd = 0) && *cmd->cmd && ft_strcmp(cmd->cmd, "\n"))
 			while ((fd = open(g_sh.hist_file, O_RDWR
@@ -31,8 +30,6 @@ void		close_history(t_buf *cmd)
 		{
 			ft_putstr_fd("#", fd);
 			ft_putstr_fd(cmd->cmd, fd);
-			if (!ft_strchr(cmd->cmd, '\n')) // a supprimer apres avoir enlever le '\n' de cmd->cmd
-				ft_putchar_fd('\n', fd);
 			close(fd);
 		}
 		ft_ldl_clear(&g_sh.hist, &ft_strdel);
