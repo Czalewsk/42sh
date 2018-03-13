@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:49:17 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 14:40:24 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 17:50:55 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_job	*ft_create_jobs(t_tree *c)
 	if (c)
 		njob->command = get_command(njob->command, c);
 	else
-		njob->command = get_command_from_process(g_current_execute->argv);
+		njob->command = get_command_from_process(g_current_process->argv);
 	DEBUG("after recup command \n");
 	njob->num = get_id_max_job();
 	DEBUG("after recup num \n");
@@ -101,55 +101,4 @@ t_job	*ft_create_jobs(t_tree *c)
 	// 	g_first_job->process = g_current_execute;
 	// 	g_job_order = new_order;
 	// }
-}
-
-void	ft_need_jobs(t_tree *c)
-{
-	t_job	*njob;
-	// t_job	*tmp;
-	// t_list	*new_order;
-
-	// njob = (t_job *)ft_memalloc(sizeof(t_job));
-	// new_order = ft_lstnew(NULL, 0);
-	// new_order->content = njob;
-	// DEBUG("before recup command \n");
-	// if (c)
-	// 	njob->command = get_command(njob->command, c);
-	// else
-	// 	njob->command = get_command_from_process(g_current_execute->argv);
-	// DEBUG("after recup command \n");
-	// njob->num = get_id_max_job();
-	// DEBUG("after recup num \n");
-	// if (g_job_order)
-	// 	new_order->next = g_job_order;
-	// g_job_order = new_order;
-	// tmp = g_first_job;
-	// while (tmp && tmp->next)
-	// 	tmp = tmp->next;
-	// if (tmp)
-	// 	tmp->next = njob;
-	// else
-	// 	g_first_job = njob;
-	
-	// DEBUG("fin create job\n");
-	njob = ft_create_jobs(c);
-	// if (first_job)
-	// {
-	// 	tmp = job_order->content;
-	// 	new_order->next = job_order;
-	// 	njob->command = get_command(njob->command, c);
-	// 	new_order->content = njob;
-	// 	njob->num = tmp->num + 1;
-	// 	job_order = new_order;
-	// }
-	// else
-	// {
-	// 	new_order->content = njob;
-	// 	first_job = new_order->content;
-	// 	first_job->command = get_command(first_job->command, c);
-	// 	first_job->num = 1;
-	// 	job_order = new_order;
-	// }
-
-	check_run_v2(c, njob);
 }

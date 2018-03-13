@@ -66,6 +66,7 @@ void					termcaps_restore_tty(void)
 
 void					termcaps_set_tty(void)
 {
+	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	tcsetattr(0, 0, &s_termios);
 }
 

@@ -39,7 +39,7 @@ int			lessand(int fd, t_tree *c, t_process *p)
 	ofd = -1;
 	if (ft_str_isdigit(c->token.str) == 1)
 	{
-		ofd = ft_atoi(c->token.str);
+		p->stdin = ft_atoi(c->token.str);
 		if (fcntl(ofd, F_GETFD) == -1)
 		{
 			sh_error(-1, 0, NULL, 2, c->token.str,

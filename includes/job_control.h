@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 18:54:50 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 17:05:36 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_process
 	pid_t				pid;
 	int					state;
 	int					status;
+	int					returned; // A changer dans le code de max en status
 	int					stdin;
 	int					stdout;
 	int					stderr;
@@ -41,9 +42,9 @@ typedef struct	s_process
 typedef struct	s_job
 {
 	struct s_job		*next;
-	struct t_tree		*finish_or_nd_if;
-	int					returnedlast;
 	int					foni;
+	struct s_tree		*finish_oni;
+	int					returnedlast;
 	t_process			*process;
 	int					num;
 	char				*command;
@@ -54,7 +55,7 @@ typedef struct	s_job
 
 extern t_job		*g_first_job;
 extern t_list		*g_job_order;
-extern t_process	*g_current_execute;
+extern t_process	*g_current_process;
 extern pid_t		g_shell_pgid;
 extern int			g_shell_terminal;
 extern int			g_shell_is_interactive;
