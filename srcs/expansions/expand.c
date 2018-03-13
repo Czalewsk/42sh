@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 06:48:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/13 00:47:06 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/13 22:42:58 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	expand_token(t_list **lst, const t_token *tk, int i)
 	u = -1;
 	while (++u < g_expands[i].sizeallowed)
 		if (g_expands[i].allowed[u] == tk->id)
-			return(g_expands[i].fn(tk, lst));
+			return (g_expands[i].fn(tk, lst));
 	return (0);
 }
 
