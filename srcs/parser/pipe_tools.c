@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:43:53 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:40:06 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 21:25:38 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void			close_pipe_heredoc(t_tree *c)
 			ft_lst_remove_index(&here_list, 0, NULL);
 			return ;
 		}
-		if (tmp->token.id == PIPE)
+		if (tmp->token.id == PIPE || tmp->token.id  == AND_IF
+				|| tmp->token.id == OR_IF)
 			return ;
 		tmp = tmp->right;
 	}
@@ -46,7 +47,8 @@ void        test_close_for_heredoc(t_tree *c, int temp[2])
                     close(temp[0]);
                     return ;
             }
-            if (tmp->token.id == PIPE)
+		if (tmp->token.id == PIPE || tmp->token.id  == AND_IF
+				|| tmp->token.id == OR_IF)
                     return ;
             tmp = tmp->right;
     }
