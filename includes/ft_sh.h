@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/12 18:46:14 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/13 17:01:49 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct			s_sh
 	t_env			**env;
 	char			envupd;
 	int				exitstatus;
+	int				subshellactive;
 	t_comp			*comp;
 	char			comp_status;
 	int				comp_start;

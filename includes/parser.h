@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 18:45:37 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 17:36:19 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,23 @@
 
 struct	s_tree				*head_tree;
 struct	s_tree				*current;
+t_list						*here_list;
 
 typedef struct				s_tree
 {
 	struct s_tree			*father;
 	struct s_tree			*previous;
 	struct s_tree			*left;
+	struct s_tree			*save_left;
 	struct s_tree			*right;
 	struct s_token			token;
 }							t_tree;
 
-typedef struct s_check_proc
-{
-	t_token_id	one;
-	t_tree		*(*cproc)(t_tree *c, t_tree *s, t_job *job);
-}				t_check_proc;
-
-typedef struct s_fill_job
+typedef struct s_cmd_action
 {
 	t_token_id	one;
 	t_tree		*(*fjob)(t_process *p, t_tree *clist);
-}				t_fill_job;
+}				t_cmd_action;
 
 typedef struct s_valid_res
 {
@@ -62,6 +58,7 @@ typedef struct s_classic
 	t_token_id	one;
 	t_token_id	two;
 	t_tree		*(*cmp)(t_tree *current, t_tree *new);
+	t_tree		*(*here)(t_tree *current, t_tree *new);
 }				t_classic;
 
 typedef	struct	s_builtin
@@ -69,6 +66,16 @@ typedef	struct	s_builtin
 	char	*name;
 	int		(*f)(t_process *p, int argc, char **argv, char **env);
 }				t_builtin;
+void				wait_multiple_proc(t_list *pid_list);
+pid_t					init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
+void				dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
+t_tree				*new_success_or_if(t_tree *c);
+void 				do_pipe(t_tree *c, t_tree *end, t_job *job);
+void				init_current_process(void);
+void			set_fd(t_process *p);
+void			close_pipe_heredoc(t_tree *c);
+int				execute(t_process *p, t_job *job, char **env, int k);
+t_tree			*get_new_from_failure_and(t_tree *c);
 
 int							clear_execute(char **path, t_process *p);
 int							do_built_in(t_process *p, char **env);
@@ -84,19 +91,19 @@ int							ft_free_tree(t_tree *c);
 int							ft_free_process(t_process *p);
 int							add_in_classic_tree(t_tree *cur, t_tree *new);
 int							parser(char	**cmd);
-int							execute_run(t_tree *c, t_tree *stop, t_job *job);
+//int							execute_run(t_tree *c, t_tree *stop, t_job *job);
 int							ft_fill_for_jobs(t_tree *head);
 
 char						*get_command(char *ret, t_tree *chead);
 char						**get_new_argv(char **argv, char *to_add);
 char						**extract_from_tab(char **env, char *ref);
 
-void						ft_need_jobs(t_tree *c);
 t_job						*ft_create_jobs(t_tree *c);
-void						reset_fd(int pdes[3], t_process *p);
+void						reset_fdd(t_process *p);
 void						init_closefd(int pdes[3]);
 
 t_process					*init_process(t_process *p);
+t_tree						*here(t_tree *current, t_tree *new);
 t_tree						*init_node(t_token c, t_tree *n);
 t_tree						*subshell(t_process *p, t_tree *c);
 t_tree 						*set_data_for_fill(t_tree *c, t_process *p);
@@ -120,4 +127,6 @@ t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_run_v2(t_tree *c, t_job *job);
 
 void						clear_assign_word(t_tree *cur, t_tree *new);
+t_tree						*cmd_action(t_tree *c, t_job *job);
+
 #endif

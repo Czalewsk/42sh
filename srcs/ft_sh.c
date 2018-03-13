@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/13 15:19:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:18:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;
 	init_history();
-	env_init((const char **)env);
 	termcaps_init();
 	update_display_init(info, cmd);
 }
@@ -108,7 +107,6 @@ int			main(int ac, char **av, char **env)
 	t_buf		cmd;
 	t_read		info;
 	char		ret;
-	int			savefds[3];
 
 	ret = 0;
 	sh_init_prog(env, &cmd, &info);
@@ -118,15 +116,15 @@ int			main(int ac, char **av, char **env)
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
+		g_sh.fds[0] = dup(STDIN_FILENO);
+		g_sh.fds[1] = dup(STDOUT_FILENO);
+		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
+		do_job_notification();
 		if (ret != -3)
-		{
-			sh_savefds(savefds);
-			do_job_notification();
 			parser(&cmd.cmd);
-			sh_restorefds(savefds);
-		}
+		do_job_notification();
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);
