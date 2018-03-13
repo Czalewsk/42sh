@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 16:30:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/12 04:18:17 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/13 01:37:54 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,14 @@ char	expand_history_expoint(const t_token *tk, t_list **lst)
 	char	*expand;
 	char	*start;
 
-	ft_printf("DEBUG TK: '%s'\n", tk->str);
 	expoint = tk->str;
 	while (*expoint && (expoint = ft_strchr(expoint, '!')) &&
 			ft_is_escape(expoint, tk->str))
 		++expoint;
 	if (!expoint)
-		return (0);
-	ft_printf("Expoint: '%s'\n", expoint);
-	if (!(expand = history_expoint(expoint))){
-		ft_printf("ERREUR EVENT NOT FOUND\n");
-		return (0);}
+		return (sh_error(-1, 0, NULL, 2, tk->str, ": event not found\n"));
+	if (!(expand = history_expoint(expoint)))
+		return (sh_error(-1, 0, NULL, 2, expoint, ": event not found\n"));
 	if (expoint == tk->str)
 		make_tokens(lst, expand);
 	else

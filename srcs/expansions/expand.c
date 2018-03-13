@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 06:48:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/12 04:23:53 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/13 00:47:06 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,41 +72,47 @@ static char	expand_lst(t_list **lst, int i)
 	return (ret);
 }
 
+static int	expand_token(t_list **lst, const t_token *tk, int i)
+{
+	int		u;
+
+	u = -1;
+	while (++u < g_expands[i].sizeallowed)
+		if (g_expands[i].allowed[u] == tk->id)
+			return(g_expands[i].fn(tk, lst));
+	return (0);
+}
+
 /*
 **	Realise l'expansion de chaque token.
 **
 **	Retourne:
-**		1: Si une expansion a ete realise (Utiliser le contenu de la liste. Si
+**		 1: Si une expansion a ete realise (Utiliser le contenu de la liste. Si
 **			liste est NULL, supprimer le token).
-**		0: Si aucune expansion a ete realise. (Utiliser le token original)
+**		 0: Si aucune expansion a ete realise. (Utiliser le token original)
+**		-1: Si une erreur est survenue. Il faut quitter l'execution.
 */
 
 char		expansions_expand(t_list **lst, const t_token *tk)
 {
 	int		i;
-	int		u;
 	int		ret;
+	int		exp;
 
-	ft_printf("Start expansions\n");
 	i = -1;
 	*lst = NULL;
-	ret = 0;
+	exp = 0;
 	while (g_expands[++i].fn)
 	{
 		if (*lst && expand_lst(lst, i) && g_expands[i].break_on_exp)
 			return (1);
 		else if (!*lst)
 		{
-			u = -1;
-			while (++u < g_expands[i].sizeallowed)
-				if (g_expands[i].allowed[u] == tk->id)
-					if (g_expands[i].fn(tk, lst) && (ret = 1))
-					{
-						if (g_expands[i].break_on_exp)
-							return (1);
-						break ;
-					}
+			if ((ret = expand_token(lst, tk, i)) == 1)
+				exp = 1;
+			else if (ret == -1)
+				return (-1);
 		}
 	}
-	return (ret);
+	return (exp);
 }
