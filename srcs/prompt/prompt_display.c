@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/11 18:48:49 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 15:23:23 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,6 @@ void		prompt_display(t_read *info, int new)
 {
 	int				ret;
 
-	/*if (g_sh.prompt_display)
-	{
-		//info->prompt = 0;
-		//g_new_prompt = 1;
-		return ;
-	}*/
 	ret = 0;
 	new ? write(g_sh.fd_tty, "\n", 1) : 0;
 	ft_putstr_fd(!g_sh.exitstatus ? "🦆  " : "🐣  ", g_sh.fd_tty);
@@ -101,4 +95,5 @@ void		prompt_display(t_read *info, int new)
 	info->prompt = ret;
 	g_sh.prompt_display = 1;
 	g_new_prompt = 0;
+	buff_max_char_init(info);
 }
