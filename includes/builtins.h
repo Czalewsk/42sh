@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 22:41:24 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/13 19:37:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int		built_h_clear_one(char *res, char **argv, t_process *p);
 int		built_h_save_one(char **argv, t_process *p);
 int		builtin_unsetenv(t_process *p, int argc, char **argv, char **env);
 int		builtin_setenv(t_process *p, int argc, char **argv, char **env);
+int			builtin_exit(t_process *p, int argc, char **argv, char **env);
 
 #endif
