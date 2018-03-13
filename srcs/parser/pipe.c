@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:43:49 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:49:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 21:52:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 	t_list		*pid_list;
 
 	p[1][1] = -1;
+	p[1][0] = -1;
 	pid_list = NULL;
 	while (c)
 	{
