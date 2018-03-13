@@ -54,14 +54,6 @@ t_tree	*add_new_fd(t_tree *new)
 		ft_putstr_fd(hr, fd[1]);
 		ft_strdel(&hr);		
 	}
-	// while (read_hr(hr, new->token.str) != 0) // check sur e ctrl c // d
-	// {
-	// 	ft_putstr_fd(hr, fd[1]);
-	// 	ft_strdel(&hr);
-	// 	if (prompt_add("> ", &hr, 1) != -2)
-	// 		break ;
-	// 	prompt_add("> ", &hr, 1);
-	// }
 	ft_strdel(&hr);
 	ft_lst_pushend(&here_list, ft_lstnew(&fd, sizeof(int *)));
 	return (new);
@@ -73,13 +65,12 @@ t_tree	*add_current_fd(t_tree *new)
 	int		*fd;
 
 	fd = here_list->content;
-	prompt_add("> ", &hr, 1);
-	while (read_hr(hr, new->token.str) != 0) // check sur e ctrl c // d
+	while (prompt_add("> ", &hr, 1) == -2)
 	{
-		ft_putstr_fd(hr, fd[1]);
-		ft_strdel(&hr);
-		if (prompt_add("> ", &hr, 1) != -2)
+		if (read_hr(hr, new->token.str) == 0)
 			break ;
+		ft_putstr_fd(hr, fd[1]);
+		ft_strdel(&hr);		
 	}
 	ft_strdel(&hr);
 	return (new);
@@ -93,6 +84,10 @@ t_tree	*here(t_tree *current, t_tree *new)
 	while (tmp)
 	{
 		tmp = tmp->previous;
+		if (tmp && (tmp->token.id == PIPE
+			|| tmp->token.id == AND_IF
+			|| tmp->token.id == OR_IF))
+			break ;
 		if (tmp && tmp->token.id == DLESS)
 			return (add_current_fd(new));
 	}

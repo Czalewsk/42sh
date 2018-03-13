@@ -67,6 +67,17 @@ typedef struct s_classic
 	t_tree		*(*here)(t_tree *current, t_tree *new);
 }				t_classic;
 
+void				wait_multiple_proc(t_list *pid_list);
+pid_t					init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
+void				dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
+t_tree				*new_success_or_if(t_tree *c);
+void 				do_pipe(t_tree *c, t_tree *end, t_job *job);
+void				init_current_process(void);
+void			set_fd(t_process *p);
+void			close_pipe_heredoc(t_tree *c);
+int				execute(t_process *p, t_job *job, char **env, int k);
+t_tree			*get_new_from_failure_and(t_tree *c);
+
 int							clear_execute(char **path, t_process *p);
 int							check_built_in(t_process *p);
 int							do_built_in(t_process *p);
@@ -90,7 +101,7 @@ char						**get_new_argv(char **argv, char *to_add);
 char						**extract_from_tab(char **env, char *ref);
 
 void						ft_create_jobs(t_tree *c);
-void						reset_fd(int pdes[3], t_process *p);
+void						reset_fdd(t_process *p);
 void						init_closefd(int pdes[3]);
 
 t_process					*init_process(t_process *p);

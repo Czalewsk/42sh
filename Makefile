@@ -73,9 +73,10 @@ SRCS_FILES		= ft_sh 													\
 				  parser/parser parser/parser_rules parser/free_parser		\
 				  parser/fill_for_jobs parser/add_in_tree parser/fd			\
 				  parser/tools_for_fill parser/init parser/exec				\
-				  parser/modify_io parser/add_in_arguments parser/check		\
+				  parser/modify_io parser/add_in_arguments 					\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
+				  parser/exec_tools parser/pipe_tools						\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
 				  jobControl/bt_bg											\

@@ -12,55 +12,85 @@
 
 #include "ft_sh.h"
 
-// int				ft_pipe(t_tree *first, t_tree *second, t_job *job)
-// {
-// 	pid_t		f;
-// 	int			fd[2];
+extern	t_cmd_action	g_cmd_actions[];
 
-// 	if (pipe(fd) == -1 || (f = fork()) == -1)
-// 		return (-1);
-// 	else
-// 	{
-// 		if (f == 0)
-// 		{
-// 			close(fd[1]);
-// 			dup2(fd[0], STDIN_FILENO);
-// 			exit(set_for_pipe(second->right, job));
-// 		}
-// 		else
-// 		{
-// 			dup2(fd[1], STDOUT_FILENO);
-// 			close(fd[0]);
-// 			execute_run(first, second, job);
-// //			waitpid(f, &g_sh.exitstatus, 0);
-// 			return (g_sh.exitstatus);
-// 		}
-// 	}
-// 	return (g_sh.exitstatus);
-// }
+t_tree			*get_next_pipe(t_tree *c)
+{
+	t_tree		*tmp;
 
-// int				set_for_pipe(t_tree *c, t_job *job)
-// {
-// 	t_tree		*tmp;
-// 	t_tree		*first_cmd;
+	tmp = c;
+	while (tmp)
+	{
+		if (tmp->token.id == PIPE)
+		{
+			init_current_process();
+			return (tmp->right);
+		}
+		tmp = tmp->right;
+	}
+	if (tmp && tmp == c)
+	{
+		init_current_process();
+		return (tmp->right);
+	}
+	init_current_process();
+	return (tmp);
+}
 
-// 	first_cmd = c;
-// 	tmp = c;
-// 	while (tmp)
-// 	{
-// 		if (tmp->token.id == AND_IF || tmp->token.id == OR_IF)
-// 		{
-// 			g_sh.exitstatus = execute_run(first_cmd, tmp, job);
-// 			DEBUG(" exit LAST EXEC FROM PIPE  =%d\n", g_sh.exitstatus);
-// 			return (g_sh.exitstatus);
-// 		}
-// 		if (tmp->token.id == PIPE)
-// 		{
-// 			if (ft_pipe(first_cmd, tmp, job) == -1)
-// 				return (-1);
-// 			return (0);
-// 		}
-// 		tmp = tmp->right;
-// 	}
-// 	return (execute_run(first_cmd, tmp, job));
-// }
+int				execute_pipe_run(t_tree *c, t_job *job)
+{
+	t_tree		*tmp;
+	int			i;
+
+	i = 0;
+	tmp = c;
+	while (c && g_cmd_actions[i].fjob)
+	{
+		if (c && (c->token.id == PIPE || c->token.id == AND_IF || c->token.id == OR_IF))
+			break ;
+		if (c && g_cmd_actions[i].one == c->token.id)
+		{
+			c = g_cmd_actions[i].fjob(current_process, c);
+			if (c == (void *)1)
+				return (-1);
+			i = -1;
+		}
+		i++;
+	}
+	set_fd(current_process);
+	if (check_built_in(current_process) == 0)
+		do_built_in(current_process);
+	else
+		execute(current_process, job, env_make(ENV_GLOBAL | ENV_TEMP), 0);
+	reset_fdd(current_process);
+	return (current_process->returned);
+}
+
+void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
+{
+	pid_t		f;
+	int			p[2][2];
+	t_list		*pid_list;
+
+	p[1][1] = -1;
+	pid_list = NULL;
+	while (c)
+	{
+		if ((f = (init_pipe_run(f, p, c, end))) == -1)
+			return ;
+		if (!f)
+		{
+			dup_and_close_son_pipe(c, end, p, pid_list);
+ 		 	exit(execute_pipe_run(c, job));
+		}
+		(close(p[1][0]) || 1) && close(p[1][1]);
+		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
+		p[1][0] = p[0][0];
+		close_pipe_heredoc(c);
+		if (c == end)
+			break ;
+		c = get_next_pipe(c);
+	}
+	wait_multiple_proc(pid_list);
+	ft_lstdel(&pid_list, NULL);
+}
