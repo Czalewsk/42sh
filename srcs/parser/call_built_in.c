@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 19:40:26 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/14 14:51:58 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ const t_builtin	g_builtins[] = {
 	{"fg", bt_fg},
 	{"history", builtin_history},
 	{"exit", builtin_exit},
+	{"echo", builtin_echo},
 	{NULL, NULL}
 };
 
