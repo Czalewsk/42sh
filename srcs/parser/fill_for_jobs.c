@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 18:58:47 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 21:00:33 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 extern	struct termios	s_termios_backup;
 extern	t_cmd_action	g_cmd_actions[];
 
-t_tree				*check_and_do_pipe(t_tree *c, t_job *job)
+t_tree				*check_and_do_pipe(t_tree *c, t_job *job, t_list *lst)
 {
 	t_tree			*tmp;
 	t_tree			*ret;
+	t_job			*tmp2;
 
 	tmp = c;
 	while (tmp)
@@ -34,7 +35,23 @@ t_tree				*check_and_do_pipe(t_tree *c, t_job *job)
 				tmp = tmp->previous;
 			!ret->right ? ret = ret->right : 0;
 			job->finish_command = ret;
-			termcaps_restore_tty();
+
+
+			lst->next = g_job_order;
+			g_job_order = lst;
+	
+			tmp2 = g_first_job;
+			while (tmp2 && tmp2->next)
+				tmp2 = tmp2->next;
+			if (tmp2)
+				tmp2->next = job;
+			else
+				g_first_job = job;
+
+
+
+			if (job->foreground)
+				termcaps_restore_tty();
 			do_pipe(c, tmp, job);
 			termcaps_set_tty();
 			return (ret);
@@ -76,7 +93,7 @@ t_tree				*check_and_do_pipe(t_tree *c, t_job *job)
 // 	return (execute_run(c, job));
 // }
 
-t_tree				*execute_run(t_tree *c, t_job *job)
+t_tree				*execute_run(t_tree *c, t_job *job, t_list *lst)
 {
 	t_tree			*tmp;
 
@@ -84,9 +101,9 @@ t_tree				*execute_run(t_tree *c, t_job *job)
 
 	// while (tmp)
 	// {
-		tmp = check_and_do_pipe(tmp, job);
+		tmp = check_and_do_pipe(tmp, job, lst);
 		if (tmp && (tmp->token.id != AND_IF && tmp->token.id != OR_IF))
-			if ((tmp = cmd_action(tmp, job)) == ((void *)1))
+			if ((tmp = cmd_action(tmp, job, lst)) == ((void *)1))
 				return (tmp);
 		if (tmp)
 		{
@@ -110,11 +127,12 @@ t_tree				*execute_run(t_tree *c, t_job *job)
 	return (c);
 }
 
-t_tree			*cmd_action(t_tree *c, t_job *job)
+t_tree			*cmd_action(t_tree *c, t_job *job, t_list *lst)
 {
 	int			i;
 	t_tree		*tmp;
-	char		**env;
+	char		**env;	
+	t_job		*tmp2;
 
 	tmp = c;
 	i = -1;
@@ -133,13 +151,30 @@ t_tree			*cmd_action(t_tree *c, t_job *job)
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
 	job->finish_command = c;
 	set_fd(job->process);
-	if (do_built_in(job->process, env) == 0)
+	if (do_built_in(job->process, env))
+	{
+		ft_memdel((void**)&lst);
+		del_job(job); 
+	}
+	else
+	{
+		lst->next = g_job_order;
+		g_job_order = lst;
+
+		tmp2 = g_first_job;
+		while (tmp2 && tmp2->next)
+			tmp2 = tmp2->next;
+		if (tmp2)
+			tmp2->next = job;
+		else
+			g_first_job = job;
 		execute(job, env, 1); // virer le t_process vue au on a le job
+	}
 	reset_fdd(job->process);
 	return (c);
 }
 
-t_tree 			*split_and_if_pipe(t_tree *c, t_job *job)
+t_tree 			*split_and_if_pipe(t_tree *c, t_job *job, t_list *lst)
 {
 	t_tree 		*tmp;
 
@@ -148,7 +183,7 @@ t_tree 			*split_and_if_pipe(t_tree *c, t_job *job)
 	job->process->stdout = 1;
 	job->process->stderr = 2;
 	job->free_process = job->process;
-	tmp = execute_run(tmp, job);
+	tmp = execute_run(tmp, job, lst);
 	if (tmp == (void *)1)
 		return (NULL);
 	return (tmp);
@@ -169,19 +204,9 @@ t_tree			*split_cmd_jobs(t_tree *c, int if_fg)
 	job->command = get_command(job->command, c);
 	job->num = get_id_max_job();
 	job->tmodes = s_termios_backup;
+	job->next = NULL;
 
-
-	new_order->next = g_job_order;
-	g_job_order = new_order;
-
-	t_job *tmp2;
-	tmp2 = g_first_job;
-	while (tmp2 && tmp2->next)
-		tmp2 = tmp2->next;
-	if (tmp2)
-		tmp2->next = job;
-	else
-		g_first_job = job;
+	
 	// g_job_order ? (new_order->next = g_job_order) : (g_job_order = new_order);
 
 
@@ -189,18 +214,21 @@ t_tree			*split_cmd_jobs(t_tree *c, int if_fg)
 	job->foreground = 1;
 	while (tmp->right)
 		tmp = tmp->right;
-	if (if_fg == 0 && tmp->token.id == AND)
+	if (if_fg == -1 && tmp->token.id == AND)
 	{
 		if (g_sh.subshellactive == 1)
 			tmp->token.id = SEMI;
 		else
+		{
+			DEBUG("split_cmd_jobs job->foreground == 0\n");
 			job->foreground = 0;
+		}
 	}
 	if (if_fg == 0)
 		job->foreground = 0;
 	else if (if_fg == 1)
 		job->foreground = 1;
-	return (split_and_if_pipe(c, job));
+	return (split_and_if_pipe(c, job, new_order));
 }
 
 int				ft_fill_for_jobs(t_tree *head)

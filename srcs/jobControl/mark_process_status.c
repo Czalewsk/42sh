@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/14 18:53:12 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 20:49:06 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ int	mark_process(t_job *j, pid_t pid, int status)
 				p->state = PROCESS_COMPLETED;
 			}
 			put_first_in_job_order(j);
+			DEBUG("mark process 0\n");
 			return (0);
 		}
 		p = p->next;
 	}
+	DEBUG("mark process 1\n");
 	return (1);
 }
 
@@ -56,5 +58,6 @@ int	mark_process_status(pid_t pid, int status)
 			return (0);
 		tmp = tmp->next;
 	}
+	DEBUG("mark_process_status 1\n");
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:40:25 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/10 13:39:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 19:50:06 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	continue_job(t_job *j, int foreground)
 {
 	mark_job_as_running(j);
+	j->foreground = foreground;
 	if (foreground)
 		put_job_in_foreground(j, 1);
 	else

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:43:49 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 17:42:37 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 21:03:20 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,21 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 			
 		if (!f)
 		{
+			job->pgid == 0 ? setpgid(getpid(), getpid()) : setpgid(getpid(), job->pgid);
+			DEBUG("MY PGID : %d\n", getpgid(getpid()));
 			dup_and_close_son_pipe(c, end, p, pid_list);
  		 	exit(execute_pipe_run(c, job));
 		}
+		if (job->pgid == 0)
+		{
+			job->pgid = f;
+			setpgid(f, job->pgid);
+			if (job->foreground == 1)
+			{
+				DEBUG("ret du tcsetpgrp %d\n", tcsetpgrp(g_shell_terminal, job->pgid));
+			}
+		}
+		setpgid(f, job->pgid);
 		((p[1][0] >= 0 && close(p[1][0])) || 1) && p[1][1] >= 0 && close(p[1][1]);
 		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
 		p[1][0] = p[0][0];
@@ -86,6 +98,16 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 			break ;
 		c = get_next_pipe(c, job);
 	}
-	wait_multiple_proc(pid_list, job);
+	g_sh.exitstatus = 0;
+	if (job->foreground == 1)
+	{
+		//wait_multiple_proc(pid_list, job);
+		wait_for_job(job);
+		tcsetpgrp(g_shell_terminal, g_shell_pgid);
+		tcgetattr(g_shell_terminal, &job->tmodes);
+		termcaps_set_tty();
+	}
+	else
+		dprintf(g_sh.fd_tty, "[%d] NEED PID DU LAST PIPE\n", job->num);
 	ft_lstdel(&pid_list, NULL);
 }

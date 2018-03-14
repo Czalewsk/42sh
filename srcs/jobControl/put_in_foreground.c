@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/14 18:52:09 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 19:56:33 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ void	put_job_in_foreground(t_job *j, int cont)
 	if (WIFSTOPPED(j->process->status))
 	{
 		display_process_interrupt(j);
+		tmp = j->finish_command;
+		if (tmp)
+		{
+			if (tmp->token.id == AND_IF && j->process->status != 0)
+			{
+				if ((tmp = get_new_from_failure_and(tmp)) == NULL)
+					tmp = NULL;
+			}
+			else if (tmp->token.id == OR_IF && j->process->status == 0)
+				tmp = new_success_or_if(tmp);
+			else
+				tmp = tmp->right;
+			split_cmd_jobs(tmp, j->foreground);
+		}
 	}
 	// if (WIFSIGNALED(j->process->status))
 	// {

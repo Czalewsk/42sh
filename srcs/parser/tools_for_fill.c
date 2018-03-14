@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 17:46:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 19:54:45 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ char			*get_command(char *ret, t_tree *chead)
 	t_tree		*tmp;
 
 	tmp = chead;
-	while (tmp->right)
+	while (tmp)
 	{
+		if (tmp->token.id == AND_IF || tmp->token.id == OR_IF)
+			break ;
 		if (!ret)
 			ret = ft_strdup(tmp->token.str);
 		else

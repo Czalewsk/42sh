@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 18:44:55 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/14 19:37:21 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ extern t_tree				*g_current;
 extern t_list				*g_here_list;
 
 t_tree					*split_cmd_jobs(t_tree *c, int if_fg);
-t_tree				*execute_run(t_tree *c, t_job *job);
+t_tree				*execute_run(t_tree *c, t_job *job, t_list *lst);
 void					wait_multiple_proc(t_list *pid_list, t_job *job);
 pid_t					init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
 void					dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
@@ -130,6 +130,6 @@ t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_run_v2(t_tree *c, t_job *job);
 
 void						clear_assign_word(t_tree *cur, t_tree *new);
-t_tree						*cmd_action(t_tree *c, t_job *job);
+t_tree						*cmd_action(t_tree *c, t_job *job, t_list *lst);
 
 #endif
