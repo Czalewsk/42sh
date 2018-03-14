@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/13 15:23:23 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/15 00:32:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ static int	sh_prompt_get_host(void)
 	return (ret);
 }
 
-static int	sh_current_dir(int ret, char *path, char *home)
+static int	sh_current_dir(int ret, char *home)
 {
 	char	*tmp;
 
-	if (!(path = getcwd(path, 0)))
+	if (!g_sh.cwd)
 		return (0);
 	ft_putstr_fd(CYAN, g_sh.fd_tty);
 	ft_putstr_fd(T_BOLD, g_sh.fd_tty);
-	if ((home = env_get("HOME")) && !ft_strcmp(path, home))
+	if ((home = env_get("HOME")) && !ft_strcmp(g_sh.cwd, home))
 	{
 		ft_putstr_fd("~", g_sh.fd_tty);
 		ret = 1;
 	}
-	else if (!(tmp = ft_strrchr(path, '/')))
+	else if (!(tmp = ft_strrchr(g_sh.cwd, '/')))
 		ret = 0;
 	else if (!*(tmp + 1))
 	{
@@ -72,7 +72,6 @@ static int	sh_current_dir(int ret, char *path, char *home)
 		ft_putstr_fd(tmp + 1, g_sh.fd_tty);
 		ret = ft_strlen(tmp + 1);
 	}
-	ft_strdel(&path);
 	return (ret);
 }
 
@@ -86,7 +85,7 @@ void		prompt_display(t_read *info, int new)
 	ret += ft_strlen_utf8(!g_sh.exitstatus ? "🦆  " : "🐣  ");
 	ret += sh_prompt_get_host();
 	ret += sh_print_time();
-	ret += sh_current_dir(0, NULL, NULL);
+	ret += sh_current_dir(0, NULL);
 	ret += sh_prompt_git(-1, 0);
 	ft_putstr_fd(" " YELLOW, g_sh.fd_tty);
 	ft_putstr_fd(PROMPT, g_sh.fd_tty);
