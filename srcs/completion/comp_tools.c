@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 00:50:59 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 01:56:05 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/13 22:26:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char		*comp_checktilde(char *search, size_t len_search, char *home)
 	len = ft_strlen(home);
 	if (!search)
 		return (ft_strdup("./\0"));
-	path = ft_memalloc(count_tildes(search, len_search, len));
+	path = ft_strnew(count_tildes(search, len_search, len));
 	tmp = search;
 	i = 0;
 	while (tmp && *tmp)

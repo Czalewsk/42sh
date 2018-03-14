@@ -34,5 +34,6 @@ void	launch_process(char *tmp, t_process *p, t_job *j, char **env)
 		signal(SIGTTOU, SIG_DFL);
 		signal(SIGCHLD, SIG_DFL);
 	}
-	exit(g_sh.exitstatus = execve(tmp, p->argv, env));
+	g_sh.exitstatus = execve(tmp, p->argv, env);
+	exit(sh_error(g_sh.exitstatus, 0, NULL, 3, "command not found:", p->argv[0], "\n"));
 }

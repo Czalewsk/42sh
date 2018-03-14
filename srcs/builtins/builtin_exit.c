@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_for_job.c                                     :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/03 16:32:43 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/14 18:51:08 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/13 19:24:49 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/13 19:43:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void	wait_for_job(t_job *j)
+int			builtin_exit(t_process *p, int argc, char **argv, char **env)
 {
-	int		status;
-	pid_t	pid;
-
-	while (1)
-	{
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
-		DEBUG("pid find : %d\n", pid);
-		if (mark_process_status(pid, status) || job_is_running(j) == 0)
-			break ;
-	}
+	(void)p;
+	(void)env;
+	if (argc > 2)
+		return (sh_error(1, 0, NULL, 1, "exit: too many arguments"));
+	g_sh_exit = 1;
+	return (ft_atoi(argc == 2 ? argv[1] : ""));
 }

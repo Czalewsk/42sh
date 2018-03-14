@@ -48,11 +48,11 @@ int				cnewline(t_token t, char **cmd, char *cur)
 {
 	if (t.str && t.str != NULL)
 		free(t.str);
-	if (!head_tree || !current)
+	if (!g_head_tree || !g_current)
 		return (0);
-	else if (check_last_token(current) == -1)
+	else if (check_last_token(g_current) == -1)
 		return (-1);
-	else if (current->token.id == OR_IF || current->token.id == AND_IF)
+	else if (g_current->token.id == OR_IF || g_current->token.id == AND_IF)
 		return (read_from_prompt(cmd, cur));
 	return (0);
 }
@@ -69,7 +69,7 @@ int				add_in_classic_tree(t_tree *cur, t_tree *new)
 		if (cur->token.id == g_classics[i].one &&
 			new->token.id == g_classics[i].two)
 		{
-			if ((current = g_classics[i].cmp(cur, new)) == NULL)
+			if ((g_current = g_classics[i].cmp(cur, new)) == (void *)1)
 				return (ft_free_node(new));
 			if (g_classics[i].here)
 			{

@@ -45,6 +45,7 @@ int			ft_free_array(char **argv)
 	char	*t;
 
 	i = 0;
+
 	while (argv && argv[i])
 	{
 		t = argv[i++];
@@ -73,9 +74,17 @@ t_process *l;
 int			ft_free_jobs(t_job *j)
 {
 	if (j->command)
+	{
 		free(j->command);
+	}
+	if (j->process)
+	{
+		ft_free_process(j->free_process);
+	}
 	if (j)
+	{
 		free(j);
+	}
 	return (0);
 }
 
