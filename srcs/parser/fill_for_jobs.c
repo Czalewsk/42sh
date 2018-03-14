@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:50:14 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 22:00:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_tree			*cmd_action(t_tree *c, t_job *job)
 {
 	int			i;
 	t_tree		*tmp;
+	char		**env;
 
 	tmp = c;
 	i = -1;

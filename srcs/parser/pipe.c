@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:43:49 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:49:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 21:52:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int				execute_pipe_run(t_tree *c, t_job *job)
 		}
 		i++;
 	}
-	// &job->finish_command = c;
 	set_fd(job->process);
 	if (do_built_in(job->process, env_make(ENV_GLOBAL | ENV_TEMP)) == 0)
 		execute(job, env_make(ENV_GLOBAL | ENV_TEMP), 0);
@@ -79,7 +78,6 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
  		 	exit(execute_pipe_run(c, job));
 		}
 		((p[1][0] >= 0 && close(p[1][0])) || 1) && p[1][1] >= 0 && close(p[1][1]);
-		// (close(p[1][0]) || 1) && close(p[1][1]);
 		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
 		p[1][0] = p[0][0];
 		close_pipe_heredoc(c);

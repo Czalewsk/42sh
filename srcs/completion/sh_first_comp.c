@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 12:27:23 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/05 23:53:55 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/14 11:56:05 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	comp_file(char *to_search, char *tmp, size_t len)
 		}
 		g_sh.comp->search = ft_strdup(tmp);
 	}
-	add_ls(g_sh.comp, g_sh.comp->head, g_sh.comp->path);
+	add_ls(g_sh.comp, g_sh.comp->head, g_sh.comp->path, NULL);
 }
 
 static void	comp_all(char *to_search)
