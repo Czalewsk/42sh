@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:43:49 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:49:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 20:17:34 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 	{
 		if ((f = (init_pipe_run(f, p, c, end))) == -1)
 			return ;
+			
 		if (!f)
 		{
 			dup_and_close_son_pipe(c, end, p, pid_list);

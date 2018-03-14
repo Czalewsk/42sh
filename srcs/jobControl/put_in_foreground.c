@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 17:29:42 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:59:27 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,34 @@ void	display_process_interrupt(t_job *job)
 
 void	put_job_in_foreground(t_job *j, int cont)
 {
-	tcsetpgrp(g_shell_terminal, j->pgid);
+	DEBUG("\n\nput_job_in_foreground\n");
+	DEBUG("Retour de tcsetpgrp %d\n", tcsetpgrp(g_shell_terminal, j->pgid));
 	if (cont)
 	{
-		tcsetattr(g_shell_terminal, TCSADRAIN, &j->tmodes);
+		DEBUG("Retour de tcsetattr %d\n",tcsetattr(g_shell_terminal, TCSADRAIN, &j->tmodes));
 		if (kill(-j->pgid, SIGCONT) < 0)
 			sh_error(1, 0, NULL, 1, "job control: kill SIGCONT");
 	}
+	DEBUG("before wait for job\n");
+	DEBUG("PGID du job : %d\nPGID du tty : %d\nMy PGID : %d\n", j->pgid, tcgetpgrp(g_shell_terminal), g_shell_pgid);
 	wait_for_job(j);
+	DEBUG("after wait for job\n");
 	if (WIFSTOPPED(j->process->status))
+	{
 		display_process_interrupt(j);
+	}
+	if (WIFSIGNALED(j->process->status))
+	{
+		DEBUG("---------------------------------- num signal recu : %d\n", WTERMSIG(j->process->status));
+			ft_putstr_fd("Killed : 2", g_sh.fd_tty);
+		ft_putendl_fd("", g_sh.fd_tty);
+	}
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	tcgetattr(g_shell_terminal, &j->tmodes);
 	termcaps_set_tty();
 	if (job_is_completed(j))
 		del_job(j);
+	DEBUG("FIN put_job_in_foreground\n\n\n");
 }
 
 void	put_process_in_foreground(t_process *p, int cont)

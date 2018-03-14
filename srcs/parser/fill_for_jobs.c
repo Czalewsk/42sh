@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:50:14 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 20:32:43 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ t_tree				*execute_run(t_tree *c, t_job *job)
 			else
 				tmp = tmp->right;
 		}
+		// if (job)
+		// {
+		// 	g_current_process->finish_oni = tmp;
+				
+		// }
 		if (tmp)
 			init_current_process();
 	}

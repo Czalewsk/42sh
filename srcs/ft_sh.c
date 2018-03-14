@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/13 17:58:27 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:13:27 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ int			main(int ac, char **av, char **env)
 		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
-		do_job_notification();
+		//do_job_notification();
+		update_status();
 		if (ret != -3)
 			parser(&cmd.cmd);
 		do_job_notification();

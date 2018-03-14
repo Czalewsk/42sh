@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/13 17:05:36 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 19:29:15 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	s_job
 	struct s_job		*next;
 	int					foni;
 	struct s_tree		*finish_oni;
-	int					returnedlast;
+	//int					returnedlast;
 	t_process			*process;
 	int					num;
 	char				*command;

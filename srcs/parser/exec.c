@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:34:34 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 20:46:26 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 			job->pgid = pid;
 		setpgid (pid, pid);
 	}
-	if (!job)
+	if (job->foreground)
 		put_process_in_foreground(p, 1);
 	else
 	{
