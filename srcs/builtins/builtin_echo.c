@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnchar.c                                      :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/14 13:59:28 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 15:12:49 by bviala           ###   ########.fr       */
+/*   Created: 2018/03/14 12:28:50 by bviala            #+#    #+#             */
+/*   Updated: 2018/03/14 15:20:37 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_sh.h"
 
-void	ft_putnchar_fd(char const c, int n, int fd)
+int			builtin_echo(t_process *p, int argc, char **argv, char **env)
 {
-	int		i;
+	int	nonl;
 
-	if (!c || !n)
-		return ;
-	i = 0;
-	while (i++ < n)
-		write(fd, &c, 1);
-}
-
-void	ft_putnchar(char const c, int n)
-{
-	int		i;
-
-	if (!c || !n)
-		return ;
-	i = 0;
-	while (i++ < n)
-		write(1, &c, 1);
+	(void)argc;
+	(void)env;
+	nonl = 0;
+	argv++;
+	if (*argv && !ft_strcmp(*argv, "-n"))
+	{
+		argv++;
+		nonl = 1;
+	}
+	while (*argv)
+	{
+		ft_putstr_fd(*argv, p->stdout);
+		argv++;
+		if (*argv)
+			ft_putchar_fd(' ', p->stdout);
+	}
+	if (!nonl)
+		ft_putchar_fd('\n', p->stdout);
+	return (EXIT_SUCCESS);
 }

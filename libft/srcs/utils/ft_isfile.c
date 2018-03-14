@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 12:05:03 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/21 00:41:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/13 22:17:58 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	ft_is_a_bin(const char *path)
 {
 	struct stat buf;
 
-	stat(path, &buf);
+	if (stat(path, &buf))
+		return (0);
 	if (S_ISREG(buf.st_mode))
 		return (S_IXUSR & buf.st_mode);
 	return (0);

@@ -6,58 +6,142 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 18:50:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 22:00:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-// ajouter le t_list dans le pipe
-// et dans g_checkproc
+extern	t_cmd_action	g_cmd_actions[];
 
-extern	t_check_proc g_check_procs[];
-
-t_tree			*check_run_v2(t_tree *c, t_job *job)
+t_tree				*check_and_do_pipe(t_tree *c, t_job *job)
 {
-	t_tree		*tp;
-	t_tree		*sp;
+	t_tree			*tmp;
+	t_tree			*ret;
 
-	tp = c;
-	sp = c;
-	while (sp)
+	tmp = c;
+	while (tmp)
 	{
-		if (sp->token.id == AND_IF || sp->token.id == OR_IF
-			|| sp->token.id == PIPE)
+		if (tmp->token.id == AND_IF || tmp->token.id == OR_IF)
+			return (c);
+		else if (tmp->token.id == PIPE)
 		{
-			sp->token.id == AND_IF ? tp = g_check_procs[0].cproc(tp, sp, job) : tp;
-			sp->token.id == OR_IF ? tp = g_check_procs[1].cproc(tp, sp, job) : tp;
-			sp->token.id == PIPE ? tp = g_check_procs[2].cproc(tp, sp, job) : tp;
-			if (tp == (void *)1)
-				return (NULL);
-			sp = tp;
+			while (tmp && tmp->right && (tmp->token.id != AND_IF && tmp->token.id != OR_IF))
+				tmp = tmp->right;
+			ret = tmp;
+			while (tmp && tmp->previous && tmp->previous->token.id != PIPE)
+				tmp = tmp->previous;
+			termcaps_restore_tty();
+			do_pipe(c, tmp, job);
+			termcaps_set_tty();
+			!ret->right ? ret = ret->right : 0;
+			return (ret);
 		}
-		if (sp && sp->right == NULL)
-			g_sh.exitstatus = execute_run(tp, sp->right, job);
-		sp ? sp = sp->right : sp;
+		tmp = tmp->right;
 	}
-	return (c->left);
+	return (c);
 }
 
-t_tree			*check_run(t_tree *c)
+t_tree				*execute_run(t_tree *c, t_job *job)
+{
+	t_tree			*tmp;
+
+	tmp = c;
+	while (tmp)
+	{
+		tmp = check_and_do_pipe(tmp, job);
+		if (tmp && (tmp->token.id != AND_IF && tmp->token.id != OR_IF))
+			if ((tmp = cmd_action(tmp, job)) == ((void *)1))
+				return (tmp);
+		if (tmp)
+		{
+			if (tmp && tmp->token.id == AND_IF && g_current_process->returned != 0)
+			{
+				if ((tmp = get_new_from_failure_and(tmp)) == NULL)
+					return (tmp);
+			}
+			else if (tmp->token.id == OR_IF && g_current_process->returned == 0)
+				tmp = new_success_or_if(tmp);
+			else
+				tmp = tmp->right;
+		}
+		if (tmp)
+			init_current_process();
+	}
+	return (c);
+}
+
+t_tree			*cmd_action(t_tree *c, t_job *job)
+{
+	int			i;
+	t_tree		*tmp;
+	char		**env;
+
+	tmp = c;
+	i = -1;
+	while (c && g_cmd_actions[++i].fjob)
+	{
+		if (c && (c->token.id == OR_IF || c->token.id == AND_IF))
+			break ;
+		if (c && g_cmd_actions[i].one == c->token.id)
+		{
+			c = g_cmd_actions[i].fjob(g_current_process, c);
+			if (c == (void *)1)
+				return ((void *)1);
+			i = -1;
+		}
+	}
+	set_fd(g_current_process);
+	env = env_make(ENV_GLOBAL | ENV_TEMP);
+	if (do_built_in(g_current_process, env) == 0)
+		execute(g_current_process, job, env, 1);
+	reset_fdd(g_current_process);
+	return (c);
+}
+
+t_tree 			*split_and_if_pipe(t_tree *c, t_job *job)
+{
+	t_process	*free_process; // a mettre en global
+	t_tree 		*tmp;
+
+	// METTRE CURRENT_PROCESS EN TMP SAVE DANS SUBSHELL
+	tmp = c;
+	g_current_process = (t_process *)ft_memalloc(sizeof(t_process));
+	g_current_process->stdin = 0;
+	g_current_process->stdout = 1;
+	g_current_process->stderr = 2;
+	job ? job->process = g_current_process : g_current_process;
+	free_process = g_current_process;
+	tmp = execute_run(tmp, job);
+	ft_free_process(free_process);
+	if (tmp == (void *)1)
+		return (NULL);
+	return (tmp);
+}
+
+t_tree			*split_cmd_jobs(t_tree *c)
 {
 	t_tree		*tmp;
 
 	tmp = c;
 	while (tmp->right)
-	{
 		tmp = tmp->right;
-	}
 	if (tmp->token.id == AND)
 	{
-		ft_need_jobs(c);
-		return (c->left);
+		if (g_sh.subshellactive == 1)
+		{
+			// ft_strdel(&tmp->token.id);
+			// tmp->token.id = ft_strdup(";");
+			tmp->token.id = SEMI;
+		}
+		else
+		{
+			return (split_and_if_pipe(c, ft_create_jobs(c)));
+			// ft_need_jobs(c);
+			// return (c->left);
+		}
 	}
-	return (check_run_v2(c, NULL));//	return (check_run_v2(c, NULL));
+	return (split_and_if_pipe(c, NULL));
 }
 
 int				ft_fill_for_jobs(t_tree *head)
@@ -65,14 +149,13 @@ int				ft_fill_for_jobs(t_tree *head)
 	t_tree		*tmp;
 
 	tmp = head;
-//	init_closefd(g_sh.fds);
 	while (tmp)
-		tmp = check_run(tmp);
-	if (g_job_order)
 	{
-//		ft_printf("fill_for_jobs l:68 si tu veux pas free la list de job\n");
-//		job_order = job_order->next;
-//		ft_free_order(job_order);
+		if ((split_cmd_jobs(tmp)) == (void *)1)
+			break ;
+		tmp = tmp->left;
 	}
+	if (here_list)
+		ft_lstdel(&here_list, NULL);
 	return (ft_free_tree(head));
 }

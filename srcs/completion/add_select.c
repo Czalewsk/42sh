@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 17:08:42 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 01:50:18 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/14 11:54:18 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,23 @@ t_select	*new_select(char *name, char *path)
 	return (select);
 }
 
-void		add_ls(t_comp *comp, t_ldl_head *head, char *search)
+void		add_ls(t_comp *comp, t_ldl_head *head, char *search, char *path)
 {
 	DIR				*dir_stream;
 	struct dirent	*dir;
 	t_ldl			*ldl;
-	char			*path;
 
 	path = comp_checktilde(search, ft_strlen(search), env_get("HOME"));
 	if (!(dir_stream = opendir(path)))
 	{
 		sh_error(0, 1, NULL, 3, "Fail opendir : ", path, "\n");
+		ft_strdel(&path);
 		return ;
 	}
 	while ((dir = readdir(dir_stream)) != NULL)
 	{
-		if (((dir->d_name[0] != '.') || !ft_strcmp(comp->search, "."))
+		if ((dir->d_name[0] != '.' || !ft_strcmp(comp->search, ".") ||
+		(dir->d_name[0] == '.' && comp->search && comp->search[0] == '.'))
 				&& ((!comp->search) ||
 				(comp->search && !(ft_strncmp(comp->search, dir->d_name,
 										ft_strlen_utf8(comp->search))))))

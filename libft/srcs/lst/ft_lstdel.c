@@ -23,6 +23,8 @@ void	ft_lstdel(t_list **alst, void (*del) (void *, size_t))
 		next = elem->next;
 		if (del)
 			del(elem->content, elem->content_size);
+		else
+			free(elem->content);
 		free(elem);
 		elem = next;
 	}

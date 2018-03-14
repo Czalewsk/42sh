@@ -6,32 +6,15 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/11 18:49:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 17:47:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-void		init_closefd(int fds[3])
+char			*get_command(char *ret, t_tree *chead)
 {
-	fds[0] = STDIN_FILENO;
-	fds[1] = STDOUT_FILENO;
-	fds[2] = STDERR_FILENO;
-}
-
-void		reset_fd(int fds[3], t_process *p)
-{
-	close(fds[0]);
-	close(fds[1]);
-	close(fds[2]);
-	dup2(p->stdin, fds[0]);
-	dup2(p->stdout, fds[1]);
-	dup2(p->stderr, fds[2]);
-}
-
-char		*get_command(char *ret, t_tree *chead)
-{
-	t_tree	*tmp;
+	t_tree		*tmp;
 
 	tmp = chead;
 	while (tmp->right)
@@ -46,10 +29,49 @@ char		*get_command(char *ret, t_tree *chead)
 	return (ret);
 }
 
-int			clear_execute(char **path, t_process *p)
+t_tree			*get_new_from_failure_and(t_tree *c)
 {
-	ft_free_array(path);
-//	reset_fd(g_sh.fds, p);
-	ft_free_process(p);
-	return (g_sh.exitstatus);
+	t_tree		*tmp;
+
+	tmp = c;
+	while (tmp)
+	{
+		if (tmp->token.id == OR_IF)
+			return (tmp->right);
+		tmp = tmp->right;
+	}
+	return (tmp);
+}
+
+t_tree			*new_success_or_if(t_tree *c)
+{
+	int			*fd;
+	int			a;
+
+	a = 0;
+	while (c)
+	{
+		if (c->token.id == DLESS && a == 0)
+		{
+			a = 1;
+			fd = here_list->content;
+			close(fd[0]);
+			close(fd[1]);
+			ft_lst_remove_index(&here_list, 0, NULL);
+		}
+		if (c->token.id == AND_IF)
+			return (c);
+		if (c->token.id == PIPE)
+			a = 0;
+		c = c->right;
+	}
+	return (c);
+}
+
+void			init_current_process(void)
+{
+	g_current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
+	g_current_process = g_current_process->next;
+	g_current_process->stdout = 1;
+	g_current_process->stderr = 2;
 }

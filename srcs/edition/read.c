@@ -23,8 +23,11 @@ char			read_key(t_key *entry)
 	{
 		ft_bzero(entry, sizeof(t_key));
 		if (errno != EINTR)
+		{
+			DEBUG("Erreur read=%s|\n", strerror(errno));
 			exit(sh_error(EXIT_FAILURE, 1, &termcaps_restore_tty, 1,
 						"Error in read\n"));
+		}
 		return (-3);
 	}
 	else

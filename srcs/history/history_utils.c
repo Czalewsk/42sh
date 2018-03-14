@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:26:34 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/08 22:02:27 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/09 23:57:07 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ void	init_history(void)
 	line = NULL;
 	if (check_history_access(g_sh.hist_file))
 	{
-		while ((fd = open(g_sh.hist_file, O_RDWR)) == -1 && errno == EINTR)
-			;
-		if (fd == -1)
+		if ((fd = open(g_sh.hist_file, O_RDWR)) == -1)
 			return ;
 		while (get_next_line(fd, &line) > 0 && history_well_formated(line))
 		{

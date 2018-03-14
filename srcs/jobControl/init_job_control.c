@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 19:38:14 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 16:03:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 17:51:32 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_job			*g_first_job;
 t_list			*g_job_order;
-t_process		*g_current_execute;
+t_process		*g_current_process;
 pid_t			g_shell_pgid;
 int				g_shell_terminal;
 int				g_shell_is_interactive;

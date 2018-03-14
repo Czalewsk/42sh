@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:15:01 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/11 18:59:08 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 19:22:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct			s_sh
 	t_env			**env;
 	char			envupd;
 	int				exitstatus;
+	int				subshellactive;
 	t_comp			*comp;
 	char			comp_status;
 	int				comp_start;
@@ -88,6 +89,8 @@ extern int	g_termcps_fd;
 
 extern char			(*const g_special_case[EDITION_MAX_STATE])(t_buf *cmd,
 		t_read *info, t_key *entry);
+
+extern char			g_sh_exit;
 
 /*
 ** Fonction qui check l'etat de l'edition et qui le cas echeant le reinitialise

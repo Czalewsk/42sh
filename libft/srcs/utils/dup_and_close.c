@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   dup_and_close.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/11 16:51:09 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:26:21 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/11 12:54:31 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/11 12:57:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sh.h"
+#include "libft.h"
 
-t_tree		*init_node(t_token c, t_tree *n)
+void		dup_and_close(int new, int old, int closed)
 {
-	n = (t_tree *)ft_memalloc(sizeof(t_tree));
-	n->token = c;
-	return (n);
+	dup2(new, old);
+	close(closed);
 }

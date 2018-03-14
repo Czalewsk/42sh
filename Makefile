@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/11 21:33:35 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/14 18:03:57 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRCS_FILES		= ft_sh 													\
 				  edition/curs_word											\
 				  builtins/builtin_history builtins/history_expoint			\
 				  builtins/builtin_export builtins/builtin_unsetenv			\
-				  builtins/builtin_setenv									\
+				  builtins/builtin_setenv builtins/builtin_history2			\
+				  builtins/builtin_exit builtins/builtin_echo				\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\
@@ -77,10 +78,11 @@ SRCS_FILES		= ft_sh 													\
 				  parser/parser parser/parser_rules parser/free_parser		\
 				  parser/fill_for_jobs parser/add_in_tree parser/fd			\
 				  parser/tools_for_fill parser/init parser/exec				\
-				  parser/modify_io parser/add_in_arguments parser/check		\
+				  parser/modify_io parser/add_in_arguments 					\
 				  parser/read_from_prompt parser/pipe parser/jobs			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  parser/clear_assign_word									\
+				  parser/exec_tools parser/pipe_tools						\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
 				  jobControl/bt_bg											\
@@ -92,11 +94,11 @@ SRCS_FILES		= ft_sh 													\
 				  jobControl/get_job										\
 				  jobControl/jc_process_display								\
 				  jobControl/job_display									\
-				  jobControl/job_status								\
+				  jobControl/job_status										\
 				  jobControl/mark_job_as_running							\
 				  jobControl/mark_process_status							\
 				  jobControl/put_job_in_background							\
-				  jobControl/put_in_foreground							\
+				  jobControl/put_in_foreground								\
 				  jobControl/update_status									\
 				  jobControl/wait_for_job									\
 				  jobControl/init_job_control								\

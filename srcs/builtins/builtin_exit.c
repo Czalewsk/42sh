@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/11 16:51:09 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:26:21 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/13 19:24:49 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/13 19:43:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-t_tree		*init_node(t_token c, t_tree *n)
+int			builtin_exit(t_process *p, int argc, char **argv, char **env)
 {
-	n = (t_tree *)ft_memalloc(sizeof(t_tree));
-	n->token = c;
-	return (n);
+	(void)p;
+	(void)env;
+	if (argc > 2)
+		return (sh_error(1, 0, NULL, 1, "exit: too many arguments"));
+	g_sh_exit = 1;
+	return (ft_atoi(argc == 2 ? argv[1] : ""));
 }
