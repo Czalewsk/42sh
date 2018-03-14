@@ -15,16 +15,11 @@
 
 #include "ft_sh.h"
 
-struct	s_tree				*head_tree;
-struct	s_tree				*current;
-t_list						*here_list;
-
 typedef struct				s_tree
 {
 	struct s_tree			*father;
 	struct s_tree			*previous;
 	struct s_tree			*left;
-	struct s_tree			*save_left;
 	struct s_tree			*right;
 	struct s_token			token;
 }							t_tree;
@@ -66,16 +61,24 @@ typedef	struct	s_builtin
 	char	*name;
 	int		(*f)(t_process *p, int argc, char **argv, char **env);
 }				t_builtin;
-void				wait_multiple_proc(t_list *pid_list);
+
+extern t_tree				*g_head_tree;
+extern t_tree				*g_current;
+extern t_list				*g_here_list;
+
+
+t_tree				*execute_run(t_tree *c, t_job *job);
+void					wait_multiple_proc(t_list *pid_list, t_job *job);
 pid_t					init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
-void				dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
-t_tree				*new_success_or_if(t_tree *c);
-void 				do_pipe(t_tree *c, t_tree *end, t_job *job);
-void				init_current_process(void);
-void			set_fd(t_process *p);
-void			close_pipe_heredoc(t_tree *c);
-int				execute(t_process *p, t_job *job, char **env, int k);
-t_tree			*get_new_from_failure_and(t_tree *c);
+void					dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
+t_tree					*new_success_or_if(t_tree *c);
+int						get_id_max_job();
+void 					do_pipe(t_tree *c, t_tree *end, t_job *job);
+void					init_current_process(t_tree *c, t_job *job);
+void					set_fd(t_process *p);
+void					close_pipe_heredoc(t_tree *c);
+int						execute(t_job *job, char **env, int k);
+t_tree					*get_new_from_failure_and(t_tree *c);
 
 int							clear_execute(char **path, t_process *p);
 int							do_built_in(t_process *p, char **env);

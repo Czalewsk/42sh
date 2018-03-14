@@ -59,8 +59,8 @@ t_job	*ft_create_jobs(t_tree *c)
 	DEBUG("before recup command \n");
 	if (c)
 		njob->command = get_command(njob->command, c);
-	else
-		njob->command = get_command_from_process(g_current_process->argv);
+	// else
+	// 	njob->command = get_command_from_process(g_current_process->argv);
 	DEBUG("after recup command \n");
 	njob->num = get_id_max_job();
 	DEBUG("after recup num \n");

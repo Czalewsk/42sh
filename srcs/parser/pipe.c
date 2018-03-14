@@ -14,7 +14,7 @@
 
 extern	t_cmd_action	g_cmd_actions[];
 
-t_tree			*get_next_pipe(t_tree *c)
+t_tree			*get_next_pipe(t_tree *c, t_job *job)
 {
 	t_tree		*tmp;
 
@@ -23,17 +23,13 @@ t_tree			*get_next_pipe(t_tree *c)
 	{
 		if (tmp->token.id == PIPE)
 		{
-			init_current_process();
+			init_current_process(tmp, job);
 			return (tmp->right);
 		}
 		tmp = tmp->right;
+		if (tmp && (tmp->token.id == OR_IF || tmp->token.id == AND_IF))
+			break ;
 	}
-	if (tmp && tmp == c)
-	{
-		init_current_process();
-		return (tmp->right);
-	}
-	init_current_process();
 	return (tmp);
 }
 
@@ -50,18 +46,19 @@ int				execute_pipe_run(t_tree *c, t_job *job)
 			break ;
 		if (c && g_cmd_actions[i].one == c->token.id)
 		{
-			c = g_cmd_actions[i].fjob(g_current_process, c);
+			c = g_cmd_actions[i].fjob(job->process, c);
 			if (c == (void *)1)
 				return (-1);
 			i = -1;
 		}
 		i++;
 	}
-	set_fd(g_current_process);
-	if (do_built_in(g_current_process, env_make(ENV_GLOBAL | ENV_TEMP)) == 0)
-		execute(g_current_process, job, env_make(ENV_GLOBAL | ENV_TEMP), 0);
-	reset_fdd(g_current_process);
-	return (g_current_process->returned);
+	// &job->finish_command = c;
+	set_fd(job->process);
+	if (do_built_in(job->process, env_make(ENV_GLOBAL | ENV_TEMP)) == 0)
+		execute(job, env_make(ENV_GLOBAL | ENV_TEMP), 0);
+	reset_fdd(job->process);
+	return (job->process->status);
 }
 
 void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
@@ -70,7 +67,7 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 	int			p[2][2];
 	t_list		*pid_list;
 
-	p[1][1] = -1;
+	ft_memset(p, -1, sizeof(p));
 	pid_list = NULL;
 	while (c)
 	{
@@ -81,14 +78,15 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 			dup_and_close_son_pipe(c, end, p, pid_list);
  		 	exit(execute_pipe_run(c, job));
 		}
-		(close(p[1][0]) || 1) && close(p[1][1]);
+		((p[1][0] >= 0 && close(p[1][0])) || 1) && p[1][1] >= 0 && close(p[1][1]);
+		// (close(p[1][0]) || 1) && close(p[1][1]);
 		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
 		p[1][0] = p[0][0];
 		close_pipe_heredoc(c);
 		if (c == end)
 			break ;
-		c = get_next_pipe(c);
+		c = get_next_pipe(c, job);
 	}
-	wait_multiple_proc(pid_list);
+	wait_multiple_proc(pid_list, job);
 	ft_lstdel(&pid_list, NULL);
 }

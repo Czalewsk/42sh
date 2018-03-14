@@ -29,15 +29,26 @@ char			*get_command(char *ret, t_tree *chead)
 	return (ret);
 }
 
-t_tree			*get_new_from_failure_and(t_tree *c)
+t_tree			*get_new_from_failure_and(t_tree *tmp)
 {
-	t_tree		*tmp;
+	int			a;
+	int			*fd;
 
-	tmp = c;
+	a = 0;
 	while (tmp)
 	{
+		if (tmp->token.id == DLESS && a == 0)
+		{
+			a = 1;
+			fd = g_here_list->content;
+			close(fd[0]);
+			close(fd[1]);
+			ft_lst_remove_index(&g_here_list, 0, NULL);
+		}
 		if (tmp->token.id == OR_IF)
 			return (tmp->right);
+		if (tmp->token.id == PIPE || tmp->token.id == AND_IF)
+			a = 0;
 		tmp = tmp->right;
 	}
 	return (tmp);
@@ -54,24 +65,27 @@ t_tree			*new_success_or_if(t_tree *c)
 		if (c->token.id == DLESS && a == 0)
 		{
 			a = 1;
-			fd = here_list->content;
+			fd = g_here_list->content;
 			close(fd[0]);
 			close(fd[1]);
-			ft_lst_remove_index(&here_list, 0, NULL);
+			ft_lst_remove_index(&g_here_list, 0, NULL);
 		}
 		if (c->token.id == AND_IF)
 			return (c);
-		if (c->token.id == PIPE)
+		if (c->token.id == PIPE || c->token.id == OR_IF)
 			a = 0;
 		c = c->right;
 	}
 	return (c);
 }
 
-void			init_current_process(void)
+void			init_current_process(t_tree *c, t_job *job)
 {
-	g_current_process->next = (t_process *)ft_memalloc(sizeof(t_process));
-	g_current_process = g_current_process->next;
-	g_current_process->stdout = 1;
-	g_current_process->stderr = 2;
+	job->process->next = (t_process *)ft_memalloc(sizeof(t_process));
+	if (job->command)
+		ft_strdel(&job->command);
+	job->command = get_command(job->command, c);
+	job->process = job->process->next;
+	job->process->stdout = 1;
+	job->process->stderr = 2;
 }

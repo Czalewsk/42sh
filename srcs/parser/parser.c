@@ -13,25 +13,28 @@
 #include "ft_sh.h"
 
 extern t_valid_res	g_valid_ress[];
+t_tree	*g_head_tree;
+t_tree	*g_current;
+t_list	*g_here_list;
 
 int			place_token(t_token t)
 {
 	t_tree	*n;
 
 	n = NULL;
-	if (!head_tree)
+	if (!g_head_tree)
 	{
 		if (t.id == NEWLINE)
 			return (0);
 		if (t.id != WORD && t.id != LPAR && t.id != IO_NUMBER && t.id != SUBSH
 				&& t.id != ASSIGNMENT_WORD)
 			return (-1);
-		else if ((head_tree = init_node(t, head_tree)) == NULL)
+		else if ((g_head_tree = init_node(t, g_head_tree)) == NULL)
 			return (-3);
-		current = head_tree;
+		g_current = g_head_tree;
 		return (0);
 	}
-	return (add_in_classic_tree(current, n = init_node(t, n)));
+	return (add_in_classic_tree(g_current, n = init_node(t, n)));
 }
 
 int			ft_leave_parse(t_token t)
@@ -101,14 +104,14 @@ int			parser(char **cmd)
 	int		i;
 
 	cur = *cmd;
-	head_tree = NULL;
+	g_head_tree = NULL;
 	i = read_parser(cmd, cur);
 	if (i == -1 || i == -2)
 	{
-		ft_free_tree(head_tree);
+		ft_free_tree(g_head_tree);
 		return (-1);
 	}
-	if (head_tree)
-		return (ft_fill_for_jobs(head_tree));
+	if (g_head_tree)
+		return (ft_fill_for_jobs(g_head_tree));
 	return (0);
 }

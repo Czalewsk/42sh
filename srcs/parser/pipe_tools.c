@@ -22,10 +22,10 @@ void			close_pipe_heredoc(t_tree *c)
 	{
 		if (tmp->token.id == DLESS)
 		{
-			fd = here_list->content;
+			fd = g_here_list->content;
 			close(fd[1]);
 			close(fd[0]);
-			ft_lst_remove_index(&here_list, 0, NULL);
+			ft_lst_remove_index(&g_here_list, 0, NULL);
 			return ;
 		}
 		if (tmp->token.id == PIPE || tmp->token.id  == AND_IF
@@ -44,8 +44,8 @@ void        test_close_for_heredoc(t_tree *c, int temp[2])
     {
             if (tmp->token.id == DLESS)
             {
-                    close(temp[0]);
-                    return ;
+                (temp[0] >= 0 && close(temp[0]));
+                return ;
             }
 		if (tmp->token.id == PIPE || tmp->token.id  == AND_IF
 				|| tmp->token.id == OR_IF)
@@ -54,12 +54,11 @@ void        test_close_for_heredoc(t_tree *c, int temp[2])
     }
 }
 
-void			wait_multiple_proc(t_list *pid_list)
+void			wait_multiple_proc(t_list *pid_list, t_job *job)
 {
 	while (pid_list)
 	{
-		if (waitpid(*(pid_t*)pid_list->content,
-					&g_current_process->returned, 0) == -1)
+		if (waitpid(*(pid_t*)pid_list->content, &job->process->status, 0) == -1)
 			DEBUG("Erreur waitpid %s| 2\n", strerror(errno)) //utiliser sh_error
 				pid_list = pid_list->next;
 	}
@@ -67,7 +66,7 @@ void			wait_multiple_proc(t_list *pid_list)
 
 pid_t			init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e)
 {
-	close(p[1][1]);
+	(p[1][1] >= 0 && close(p[1][1]));
 	if (c != e && pipe(p[0]) == -1)
 		return (-1);         // MSG d'erreur
 	test_close_for_heredoc(c, p[1]);
