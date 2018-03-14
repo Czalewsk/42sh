@@ -12,14 +12,79 @@
 
 #include "ft_sh.h"
 
-// reussir a lire l info dans le pipe et a la retranscrire en char **; voir en char * et la split;
+char		*add_it_spaced(char *dst, char *src)
+{
+	char	*new;
+
+	new = NULL;
+	if (!dst)
+		dst = ft_strdup(src);
+	else
+	{
+		new = ft_strxjoin(4, dst, " ", src, "\0");
+		free(dst);
+		return (new);
+	}
+	return (dst);
+}
+
+char		**concat_tab_for_sub(char **argv, char **k, int size)
+{
+	char	**ret;
+	int		i;
+	int		a;
+
+	if (!argv)
+		return (k);
+	i = 0;
+	a = 0;
+	ret = (char **)ft_memalloc(sizeof(char *) * (size + 2));
+	while (argv && argv[i])
+	{
+			ret[i] = ft_strdup(argv[i]);
+			i++;
+	}
+	i > 1 ? i-- : i;
+	while (k && k[a])
+	{
+		if (ret[i])
+			ret[i] = ft_strjoin_free(ret[i], k[a++], 0);
+		else
+			ret[i] = ft_strdup(k[a++]);
+		ret[++i] = NULL;
+	}
+	ft_free_array(argv);
+	ft_free_array(k);
+	return (ret);
+}
+
+char		**add_to_argv(char **argv, char *to_add)
+{
+	char	**k;
+	int		i;
+	int		a;
+
+	i = 0;
+	a = 0;
+	k = ft_strsplit_whitespaces(to_add);
+	while (k && k[i])
+		i++;
+	while (argv && argv[a])
+		a++;
+	i = a + i;
+	free(to_add);
+	return (concat_tab_for_sub(argv, k, i));
+}
 
 char		**how_to_do(char **argv, char *cmd)
 {
 	int		fd[2];
 	pid_t 	father;
-	char	str[2048];
+	char	*sub_out;
+	char	*line;
 
+	sub_out = NULL;
+	line = NULL;
 	if (pipe(fd) == -1 || (father = fork()) == -1)
 		return (NULL);
 	else
@@ -27,32 +92,27 @@ char		**how_to_do(char **argv, char *cmd)
 		if (father == 0)
 		{
 			dup2(fd[1], STDOUT_FILENO);
-		// g_sh.exitstatus = parser(&cmd);
 			close(fd[0]);
 			if (parser(&cmd) == -1)
-			{
-				DEBUG("ASDFGHJK\n");
 				_exit(EXIT_FAILURE);
-			}
 			exit(EXIT_SUCCESS);
 		}
 		else
 		{
 			waitpid(father, &g_sh.exitstatus, WUNTRACED | WCONTINUED);
 			close(fd[1]);
-				DEBUG("Exit normaly=%d | sExit status =%d\n", WIFEXITED(g_sh.exitstatus), WEXITSTATUS(g_sh.exitstatus));
-			if ((WIFEXITED(g_sh.exitstatus) == 1 && WEXITSTATUS(g_sh.exitstatus) == EXIT_SUCCESS))
-				while (read(fd[0], str, 2048) > 0)
-				{
-					DEBUG("JE RENTRE ICI\n");
-						DEBUG("RETURN: [%s]\n", str);
-				}
-			// read fd[0] puis add chaque mot en tant qu qrgument;
+		}
+		if ((WIFEXITED(g_sh.exitstatus) == 1 && WEXITSTATUS(g_sh.exitstatus) == EXIT_SUCCESS))
+		{
+			while (get_next_line(fd[0], &line) > 0)
+			{
+				sub_out = add_it_spaced(sub_out, line);
+				ft_strdel(&line);
+			}
+			ft_strdel(&line);
 		}
 	}
-	//if (g_sh.exitstatus != 0)
-		//ft_free_array(argv);
-	return (argv);
+	return (add_to_argv(argv, sub_out));
 }
 
 char	**sub_shell_main(char **argv, char *cmd)
@@ -97,7 +157,6 @@ t_tree	*subshell(t_process *p, t_tree *c)
 	save_head_tree = head_tree;
 	new = (char *)ft_memalloc(sizeof(char) * ft_strlen(c->token.str));
 	new = extrac_from_quote(new, c->token.str);
-	printf("extrac == %s\n", new);
 	if (new && new[0] != '\0')
 		p->argv = sub_shell_main(p->argv, new);
 	free(new);

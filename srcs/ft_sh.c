@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 22:30:34 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/14 18:04:38 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char			(*const g_special_case[EDITION_MAX_STATE])
 };
 
 t_sh		g_sh;
+char		g_sh_exit;
 
 inline void	info_init(t_read *info)
 {
@@ -43,13 +44,13 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_strdel(&cmd->cmd);
 	ft_strdel(&g_sh.pasted);
 	termcaps_restore_tty();
-	write(g_sh.fd_tty, "\n", 1);
 	close(g_sh.fd_tty);
 	close(g_sh.test_fd);
 }
 
 static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 {
+	init_job_control();
 	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
@@ -62,7 +63,6 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	init_history();
 	termcaps_init();
 	update_display_init(info, cmd);
-	signal_handler_init();
 }
 
 inline void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry)
@@ -107,26 +107,26 @@ int			main(int ac, char **av, char **env)
 	t_buf		cmd;
 	t_read		info;
 	char		ret;
-	int			savefds[3];
 
 	ret = 0;
 	sh_init_prog(env, &cmd, &info);
-	while (ac || av)
+	while (!g_sh_exit && (ac || av))
 	{
 		sh_reinit_edition_state(&cmd, &info, NULL);
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
+		g_sh.fds[0] = dup(STDIN_FILENO);
+		g_sh.fds[1] = dup(STDOUT_FILENO);
+		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
+		do_job_notification();
 		if (ret != -3)
-		{
-			sh_savefds(savefds);
 			parser(&cmd.cmd);
-			sh_restorefds(savefds);
-		}
+		do_job_notification();
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);
-	return (ret);
+	return (g_sh.exitstatus);
 }

@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:48 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/03 16:46:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/13 01:16:58 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		rules_word(t_token *tk, char **cur, char *escape)
 	}
 	else
 	{
-		if (!tk->size)
+		if (!tk->str)
 		{
 			tk->id = WORD;
 			tk->str = *cur;
@@ -80,27 +80,15 @@ int		rules_subsh(t_token *tk, char **cur, char *escape)
 	return (0);
 }
 
-/*
-**OLD VERSION
-**int		rules_param_exp(t_token *tk, char **cur, char *escape)
-**{
-**	int		i;
-**
-**	if (*escape & ~(char)2 || **cur != '$')
-**		return (0);
-**	i = 1;
-**	while (*cur + i && (ft_isalnum(*(*cur + i)) || *(*cur + i) == '_'))
-**		++i;
-**	if (i > 1)
-**	{
-**		if (tk->size)
-**			return (1);
-**		tk->size = i;
-**		tk->str = *cur;
-**		tk->id = PARAM_EXP;
-**		*cur += i;
-**		return (1);
-**	}
-**	return (0);
-**}
-*/
+int		rules_history_expoint(t_token *tk, char **cur, char *escape)
+{
+	if (*escape & (1 | 4))
+		return (0);
+	if (**cur == '!')
+	{
+		if (!tk->str)
+			tk->str = *cur;
+		tk->id = HISTORY_EXPOINT;
+	}
+	return (0);
+}

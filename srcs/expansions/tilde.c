@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 07:19:33 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/01 19:08:49 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/12 04:29:02 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,14 @@ static char		*tilde_concat(const t_token *tk, char *expand, int loginsize,
 static char		*tilde_getlogindir(char *tilde, int loginsize)
 {
 	char			*dir;
-	char			backup;
+	char			*login;
 	struct passwd	*pwd;
 
 	dir = NULL;
-	backup = '\0';
-	ft_swap((void **)&backup, (void **)(tilde + loginsize + 1));
-	if ((pwd = getpwnam(tilde + 1)))
+	login = ft_strndup(tilde + 1, loginsize);
+	if ((pwd = getpwnam(login)))
 		dir = pwd->pw_dir;
-	ft_swap((void **)&backup, (void **)(tilde + loginsize + 1));
+	free(login);
 	return (dir);
 }
 

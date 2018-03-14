@@ -6,13 +6,13 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 21:15:11 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/08 22:30:19 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/09 15:15:15 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static char *expoint_contain(char *str)
+static char	*expoint_contain(char *str)
 {
 	char	*new;
 	t_ldl	*ldl;
@@ -26,7 +26,7 @@ static char *expoint_contain(char *str)
 	return (new);
 }
 
-static char *expoint_start(char *str)
+static char	*expoint_start(char *str)
 {
 	char	*new;
 	size_t	len;
@@ -42,7 +42,7 @@ static char *expoint_start(char *str)
 	return (new);
 }
 
-static char *expoint_isnumber(char *str)
+static char	*expoint_isnumber(char *str)
 {
 	char	*new;
 	t_ldl	*ldl;

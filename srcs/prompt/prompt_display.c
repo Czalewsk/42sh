@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_display.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:40:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/07 16:56:01 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/13 15:23:23 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ void		prompt_display(t_read *info, int new)
 	info->prompt = ret;
 	g_sh.prompt_display = 1;
 	g_new_prompt = 0;
+	buff_max_char_init(info);
 }

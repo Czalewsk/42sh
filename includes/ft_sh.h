@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sh.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 16:37:55 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/14 22:57:05 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/14 23:22:32 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __FT_SH_H
 # define __FT_SH_H
 
+
+# include "job_control.h"
 # include "libft.h"
 # include <termcap.h>
 # include <curses.h>
@@ -27,16 +29,17 @@
 # include "edition.h"
 # include "termcaps.h"
 # include "prompt.h"
-# include "job_control.h"
 # include "expansions.h"
 # include "lexer.h"
 # include "lexer_types.h"
 # include "env.h"
 # include "parser.h"
-# include "utils.h"
 # include "history.h"
 # include "builtins.h"
 # include "completion.h"
+# include "sh_signal.h"
+# include "utils.h"
+
 
 /*
 ** Structure globale, comprenant les informations relatives a :
@@ -62,6 +65,7 @@ typedef struct			s_sh
 	char			envupd;
 	char			*cwd;
 	int				exitstatus;
+	int				subshellactive;
 	t_comp			*comp;
 	char			comp_status;
 	int				comp_start;
@@ -86,6 +90,8 @@ extern int	g_termcps_fd;
 
 extern char			(*const g_special_case[EDITION_MAX_STATE])(t_buf *cmd,
 		t_read *info, t_key *entry);
+
+extern char			g_sh_exit;
 
 /*
 ** Fonction qui check l'etat de l'edition et qui le cas echeant le reinitialise

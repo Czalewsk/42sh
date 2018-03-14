@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 23:53:27 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/13 19:48:44 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char					sh_quit(t_buf *cmd, t_read *info, t_key *entry)
 	close_history(cmd);
 	(void)info;
 	(void)entry;
+	write(g_sh.fd_tty, "\n", 1);
 	return (-1);
 }
 

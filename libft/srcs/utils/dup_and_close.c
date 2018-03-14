@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_is_stopped.c                                   :+:      :+:    :+:   */
+/*   dup_and_close.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
+/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/03 13:35:32 by scorbion          #+#    #+#             */
-/*   Updated: 2017/12/03 13:42:29 by scorbion         ###   ########.fr       */
+/*   Created: 2018/03/11 12:54:31 by czalewsk          #+#    #+#             */
+/*   Updated: 2018/03/11 12:57:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/job_control.h"
+#include "libft.h"
 
-int	job_is_stopped(t_job *j)
+void		dup_and_close(int new, int old, int closed)
 {
-	t_process	*p;
-
-	p = j->first_process;
-	while (p != NULL)
-	{
-		if (p->completed != 0 && p->stopped != 0)
-			return (0);
-	}
-	return (1);
+	dup2(new, old);
+	close(closed);
 }

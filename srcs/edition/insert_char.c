@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:42:37 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/06 14:17:50 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/12 15:47:47 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ char		delete_char(t_buf *cmd, t_read *info, t_key *entry)
 {
 	char		*curs;
 
-	(void)entry;
 	if (!cmd->cmd || !info->curs_char)
 		return (0);
+	if (g_sh.edition_state == HISTORY)
+		history_to_normal_char(cmd, info, entry);
 	curs = cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char, 1);
 	ft_memmove(cmd->cmd + sh_curs_unicode(cmd->cmd, info->curs_char - 1, 0),
 			curs, ft_strlen(curs) + 1);

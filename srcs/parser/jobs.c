@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   jobs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:49:17 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/24 20:49:18 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/13 17:50:55 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-char		*get_command_from_process(char **argv_p)
+char	*get_command_from_process(char **argv_p)
 {
 	int		i;
 	int		e;
@@ -29,7 +29,25 @@ char		*get_command_from_process(char **argv_p)
 	return (ret);
 }
 
-void		ft_add_jobs(void)
+int		get_id_max_job()
+{
+	t_list	*tmp;
+	t_job	*j;
+	int		res;
+
+	tmp = g_job_order;
+	res = 1;
+	while (tmp)
+	{
+		j = (t_job*)(tmp->content);
+		if (j && j->num >= res)
+			res = j->num + 1;
+		tmp = tmp->next;
+	}
+	return (res);
+}	
+
+t_job	*ft_create_jobs(t_tree *c)
 {
 	t_job	*njob;
 	t_job	*tmp;
@@ -37,50 +55,50 @@ void		ft_add_jobs(void)
 
 	njob = (t_job *)ft_memalloc(sizeof(t_job));
 	new_order = ft_lstnew(NULL, 0);
-	if (first_job)
-	{
-		tmp = job_order->content;
-		new_order->next = job_order;
-		njob->command = get_command_from_process(current_execute->argv);
-		new_order->content = njob;
-		njob->num = tmp->num + 1;
-		njob->process = current_execute;
-		job_order = new_order;
-	}
-	else
-	{
-		new_order->content = njob;
-		first_job = new_order->content;
-		first_job->num = 1;
-		first_job->process = current_execute;
-		job_order = new_order;
-	}
-}
-
-void		ft_create_jobs(t_tree *c)
-{
-	t_job	*njob;
-	t_job	*tmp;
-	t_list	*new_order;
-
-	njob = (t_job *)ft_memalloc(sizeof(t_job));
-	new_order = ft_lstnew(NULL, 0);
-	if (first_job)
-	{
-		tmp = job_order->content;
-		new_order->next = job_order;
+	new_order->content = njob;
+	DEBUG("before recup command \n");
+	if (c)
 		njob->command = get_command(njob->command, c);
-		new_order->content = njob;
-		njob->num = tmp->num + 1;
-		job_order = new_order;
-	}
 	else
-	{
-		new_order->content = njob;
-		first_job = new_order->content;
-		first_job->command = get_command(first_job->command, c);
-		first_job->num = 1;
-		job_order = new_order;
-	}
-	check_run_v2(c, njob);
+		njob->command = get_command_from_process(g_current_process->argv);
+	DEBUG("after recup command \n");
+	njob->num = get_id_max_job();
+	DEBUG("after recup num \n");
+	if (g_job_order)
+		new_order->next = g_job_order;
+	g_job_order = new_order;
+	tmp = g_first_job;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	if (tmp)
+		tmp->next = njob;
+	else
+		g_first_job = njob;
+	
+	DEBUG("fin create job\n");
+	return (njob);
+	// t_job	*njob;
+	// t_job	*tmp;
+	// t_list	*new_order;
+
+	// njob = (t_job *)ft_memalloc(sizeof(t_job));
+	// new_order = ft_lstnew(NULL, 0);
+	// if (g_first_job)
+	// {
+	// 	tmp = g_job_order->content;
+	// 	new_order->next = g_job_order;
+	// 	njob->command = get_command_from_process(g_current_execute->argv);
+	// 	new_order->content = njob;
+	// 	njob->num = tmp->num + 1;
+	// 	njob->process = g_current_execute;
+	// 	g_job_order = new_order;
+	// }
+	// else
+	// {
+	// 	new_order->content = njob;
+	// 	g_first_job = new_order->content;
+	// 	g_first_job->num = 1;
+	// 	g_first_job->process = g_current_execute;
+	// 	g_job_order = new_order;
+	// }
 }
