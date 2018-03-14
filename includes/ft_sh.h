@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 16:37:55 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 21:43:29 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/14 22:57:05 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct			s_sh
 	int				fds[3];
 	t_env			**env;
 	char			envupd;
+	char			*cwd;
 	int				exitstatus;
 	t_comp			*comp;
 	char			comp_status;
