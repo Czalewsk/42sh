@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:23:18 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 17:08:57 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/14 18:04:19 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,6 @@ void	ft_clear_prompt(t_read *info, int first, size_t pos, char *new);
 */
 char	history_to_completion(t_buf *cmd, t_read *info, t_key *entry);
 char	history_to_normal_char(t_buf *cmd, t_read *info, t_key *entry);
+
+char	*history_expoint(char *str);
 #endif

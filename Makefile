@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/14 12:28:02 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/14 18:03:57 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRCS_FILES		= ft_sh 													\
 				  lexer/rules_fn2											\
 				  expansions/expand expansions/parameters					\
 				  expansions/tilde expansions/globing						\
+				  expansions/history_expoint								\
 				  env/init env/assign_word env/get env/set env/make env/len	\
 				  env/unset env/destroy										\
 				  utils/escape/escape_functions utils/escape/sh_escape		\

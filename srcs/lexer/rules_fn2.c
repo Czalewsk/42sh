@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:48 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/10 16:11:25 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/13 01:16:58 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		rules_word(t_token *tk, char **cur, char *escape)
 	}
 	else
 	{
-		if (!tk->size)
+		if (!tk->str)
 		{
 			tk->id = WORD;
 			tk->str = *cur;
@@ -86,11 +86,8 @@ int		rules_history_expoint(t_token *tk, char **cur, char *escape)
 		return (0);
 	if (**cur == '!')
 	{
-		if (!tk->size)
-		{
+		if (!tk->str)
 			tk->str = *cur;
-			tk->size = 1;
-		}
 		tk->id = HISTORY_EXPOINT;
 	}
 	return (0);
