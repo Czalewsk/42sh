@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/14 18:04:38 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/15 00:16:57 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	sh_quit_prog(t_buf *cmd)
 	ft_ldl_clear(&g_sh.history, &ft_strdel);
 	ft_strdel(&(g_sh.hist_file));
 	ft_strdel(&(g_sh.h_save));
+	cwd_destroy();
 	env_destroy();
 	ft_strdel(&cmd->cmd);
 	ft_strdel(&g_sh.pasted);
@@ -54,9 +55,10 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
+	env_init((const char **)env);
+	cwd_init();
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
-	env_init((const char **)env);
 	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
 	g_sh.test_fd = open(ttyname(0), O_RDONLY);
 	g_termcps_fd = g_sh.fd_tty;

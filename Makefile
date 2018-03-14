@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/14 23:20:18 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/15 00:19:49 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ SRCS_FILES		= ft_sh 													\
 				  utils/escape/escape_functions utils/escape/sh_escape		\
 				  utils/escape/escape_dquote utils/escape/escape_it			\
 				  utils/sh_error utils/fds_utils utils/update_display		\
-				  utils/stats.c												\
+				  utils/stats_check utils/cwd								\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\

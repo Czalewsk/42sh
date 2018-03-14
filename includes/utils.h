@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 21:58:39 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/14 21:24:06 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/15 00:13:18 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void		sh_savefds(int savefds[3]);
 void		sh_restorefds(int savefds[3]);
 void		update_display_init(t_read *info, t_buf *cmd);
 void		update_display(void);
-int			stats_check(const char *path);
+char		stats_check(const char *path);
+int			stats_filecmp(const char *p1, const char *p2);
+void		cwd_init(void);
+void		cwd_change(const char *path);
+void		cwd_destroy(void);
 
 #endif
