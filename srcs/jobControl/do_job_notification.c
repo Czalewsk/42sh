@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/15 09:50:28 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 10:37:49 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ void	do_job_notification(void)
 	tmp = g_first_job;
 	while (tmp)
 	{
-		// DEBUG("Val status process : %d\n", tmp->process->status)
+		DEBUG("Val status process : %d\n", tmp->process->status)
 		if (job_is_running(tmp) == 0 && tmp->notified == 0)
 		{
-			// DEBUG("JOB IS NOT RUNNING\n");
+			DEBUG("JOB IS NOT RUNNING\n");
 			tmp2 = tmp->finish_command;
 			if (tmp2)
 			{
 				if (tmp2->token.id == AND_IF && tmp->process->status != 0)
 				{
-					// DEBUG("TOKEM IS AN AND\n");
+					DEBUG("TOKEM IS AN AND\n");
 					tmp2 = get_new_from_failure_and(tmp2);
 				}
 				else if (tmp2->token.id == OR_IF && tmp->process->status == 0)

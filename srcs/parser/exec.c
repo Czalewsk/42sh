@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:54:12 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 18:07:09 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 11:21:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	else
 	{
 		//put_job_in_background (j, 0);
-		dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid);
+		DEBUG("\n\nDPRINTF A CHANGER exec.c ligne 40\n\n");
+		dprintf(g_sh.fd_tty, "[%d] %d\n", job->num, pid); //LI CONNARD AVANT DE FAIRE LA NORME NEED CHANGER AUTRE QUE DPRINTF
 		g_sh.exitstatus = 0;
 	}
 	
@@ -96,6 +97,8 @@ int				execute(t_job *job, char **env, int k)
 		ft_strdel(&exec_line);
 	}
 	sh_error(0, 0, NULL, 3, "command not found: ", job->process->argv[0], "\n");
-	job->process->status = -1;
-	return (clear_execute(path, job->process));// pas de free sur process;
+	clear_execute(path, job->process);
+	del_job(job);
+	//job->process->status = -1;
+	return (-1);// pas de free sur process;
 }

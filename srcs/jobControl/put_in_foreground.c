@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/15 09:51:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 11:08:46 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	put_job_in_foreground(t_job *j, int cont)
 	{
 		display_process_interrupt(j);
 		tmp = j->finish_command;
+		j->finish_command = NULL;
 		if (tmp)
 		{
 			if (tmp->token.id == AND_IF && j->process->status != 0)
@@ -79,6 +80,8 @@ void	put_job_in_foreground(t_job *j, int cont)
 	{
 		// DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
 		tmp = j->finish_command;
+
+		j->finish_command = NULL;
 		job_ret = j->process->status;
 		del_job(j);
 		if (tmp)

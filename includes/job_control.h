@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/14 20:59:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 11:16:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 typedef struct	s_process
 {
-	struct s_process	*next;
+	struct s_process	*next; //liste des process pour les pipes 
 	char				**argv;
 	pid_t				pid;
 	int					state;
@@ -43,7 +43,7 @@ typedef struct	s_job
 	struct s_job		*next;
 	struct s_tree		*finish_command;
 	int					returnedlast;
-	t_process			*free_process;
+	t_process			*free_process; // useless need liste de process dans job->process->next pour pipe
 	t_process			*process;
 	int					num;
 	char				*command;

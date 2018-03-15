@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:08:50 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 19:05:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 11:19:19 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	bt_fg(t_process *p, int size, char **arg, char **env)
 			sh_error(0, 0, NULL, 3, "fg: ", *arg, ": no such job\n");
 		return (1);
 	}
-	printf("%s\n", tmp->command);
+	ft_printf("%s\n", tmp->command);
 	continue_job(tmp, 1);
 	return (0);
 }

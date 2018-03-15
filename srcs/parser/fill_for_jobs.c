@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/15 09:38:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 10:34:07 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,9 @@ t_tree			*split_cmd_jobs(t_tree *c, int if_fg)
 	DEBUG("split_cmd_jobs : %s\n", c->token.str);
 	job->foreground = 1;
 	while (tmp->right)
+	{
 		tmp = tmp->right;
+	}
 	if (if_fg == -1 && tmp->token.id == AND)
 	{
 		if (g_sh.subshellactive == 1)

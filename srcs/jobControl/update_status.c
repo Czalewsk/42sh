@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:32:11 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 11:18:36 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 10:54:48 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	update_status(void)
 	while (tmp)
 	{
 		status = 0;
-		if (waitpid(tmp->pgid, &status, WUNTRACED | WNOHANG) > 0)
+		if (waitpid(tmp->pgid, &status, WUNTRACED | WNOHANG | WCONTINUED) > 0)
 			mark_process_status(tmp->pgid, status);
 		tmp = tmp->next;
 	}
