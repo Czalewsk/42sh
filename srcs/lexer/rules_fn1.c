@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:16 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/19 19:04:52 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/15 13:24:23 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,6 @@ int		rules_operator(t_token *tk, char **cur, char *escape)
 			tk->str = *cur;
 			tk->size = size;
 			tk->id = g_token_operator[i].id;
-			*cur += size;
-			return (1);
-		}
-		++i;
-	}
-	return (0);
-}
-
-int		rules_reserved(t_token *tk, char **cur, char *escape)
-{
-	int		i;
-	size_t	size;
-
-	if (tk->size || *escape)
-		return (0);
-	i = 0;
-	while (g_token_reserved[i].op)
-	{
-		size = ft_strlen(g_token_reserved[i].op);
-		if (!ft_strncmp(*cur, g_token_reserved[i].op, size))
-		{
-			tk->str = *cur;
-			tk->size = size;
-			tk->id = g_token_reserved[i].id;
 			*cur += size;
 			return (1);
 		}

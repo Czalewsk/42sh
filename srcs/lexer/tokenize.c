@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:41:53 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/13 17:34:54 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 13:25:20 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static	int (*g_rules[])(t_token *, char **, char *) = {
 	rules_escape,
 	rules_comment,
 	rules_operator,
-	rules_reserved,
 	rules_io_number,
 	rules_assignment_word,
 	rules_history_expoint,
