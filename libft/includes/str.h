@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:57 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/04 14:53:16 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/15 02:48:56 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ int					ft_strnlen_utf8(char *str, int n);
 char				*ft_strxjoin(int nb_elemt, ...);
 char				*ft_strcnt(const char *s, const char *sfind);
 char				*ft_strnchr(const char *str, int c, size_t len);
+char				*ft_strnfdup(char *s, size_t len);
 
 #endif

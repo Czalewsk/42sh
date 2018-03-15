@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/03/13 17:37:08 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/15 02:49:17 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  str/ft_calc_wstrlen.c str/ft_strjoin_free.c					\
 			  str/ft_strndup.c	str/ft_strsplit_whitespaces.c				\
 			  str/ft_strlen_utf8.c str/ft_strxjoin.c str/ft_strsplits.c		\
-			  str/ft_strcnt.c str/ft_strnchr.c								\
+			  str/ft_strcnt.c str/ft_strnchr.c str/ft_strnfdup.c			\
 			  utils/ft_swap.c utils/ft_isalnum.c utils/ft_isalpha.c			\
 			  utils/ft_isascii.c utils/ft_isdigit.c							\
 			  utils/ft_islower.c utils/ft_isprint.c utils/ft_isupper.c		\
