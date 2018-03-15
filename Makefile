@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/15 01:10:33 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/15 20:17:27 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SRCS_FILES		= ft_sh 													\
 				  builtins/builtin_export builtins/builtin_unsetenv			\
 				  builtins/builtin_setenv builtins/builtin_history2			\
 				  builtins/builtin_exit builtins/builtin_echo				\
-				  builtins/builtin_cd										\
+				  builtins/builtin_cd builtins/builtin_env					\
 				  history/history_mode history/history_noaccess				\
 				  history/history_utils	history/history_search				\
 				  history/history_ctrlr	history/history_ctrlr_tools			\

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/14 23:21:05 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/15 13:37:53 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int		builtin_setenv(t_process *p, int argc, char **argv, char **env);
 int		builtin_cd(t_process *p, int argc, char **argv, char **env);
 int		builtin_exit(t_process *p, int argc, char **argv, char **env);
 int		builtin_echo(t_process *p, int argc, char **argv, char **env);
+int		builtin_env(t_process *p, int argc, char **argv, char **env);
 
 #endif
