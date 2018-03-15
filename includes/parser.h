@@ -74,12 +74,15 @@ void					dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_l
 t_tree					*new_success_or_if(t_tree *c);
 int						get_id_max_job();
 void 					do_pipe(t_tree *c, t_tree *end, t_job *job);
+t_job			*create_new_job(t_tree *c);
 void					init_current_process(t_tree *c, t_job *job);
 void					set_fd(t_process *p);
 void					close_pipe_heredoc(t_tree *c);
 int						execute(t_job *job, char **env, int k);
 t_tree					*get_new_from_failure_and(t_tree *c);
 
+int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env);
+void			execute_job_with_fork(t_job *j, char **env);
 int							clear_execute(char **path, t_process *p);
 int							do_built_in(t_process *p, char **env);
 int							set_for_pipe(t_tree *c, t_job *job);

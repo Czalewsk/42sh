@@ -120,7 +120,7 @@ void	do_job_notification(void)
 					tmp2 = tmp2->right;
 				// DEBUG("TMP2 ID : %d\n", tmp2->token.id);
 				// DEBUG("AVANT SPLIT CMD JOB\n");
-				split_cmd_jobs(tmp2, tmp->foreground);
+				//split_cmd_jobs(tmp2, tmp->foreground);
 			}
 		}
 		tmp = tmp->next;

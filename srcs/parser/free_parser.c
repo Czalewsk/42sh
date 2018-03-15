@@ -77,10 +77,10 @@ int			ft_free_jobs(t_job *j)
 	{
 		free(j->command);
 	}
-	if (j->process)
-	{
-		ft_free_process(j->free_process);
-	}
+	// if (j->process)
+	// {
+	// 	ft_free_process(j->free_process);
+	// }
 	if (j)
 	{
 		free(j);

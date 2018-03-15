@@ -25,6 +25,7 @@
 # define PROCESS_RUNNING 0
 # define PROCESS_STOPPED 1
 # define PROCESS_COMPLETED 2
+# define PROCESS_NOT_FOUND 4
 
 typedef struct	s_process
 {
@@ -43,7 +44,6 @@ typedef struct	s_job
 	struct s_job		*next;
 	struct s_tree		*finish_command;
 	int					returnedlast;
-	t_process			*free_process; // useless need liste de process dans job->process->next pour pipe
 	t_process			*process;
 	int					num;
 	char				*command;

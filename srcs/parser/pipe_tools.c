@@ -12,28 +12,28 @@
 
 #include "ft_sh.h"
 
-void			close_pipe_heredoc(t_tree *c)
-{
-	int			*fd;
-	t_tree		*tmp;
+// void			close_pipe_heredoc(t_tree *c)
+// {
+// 	int			*fd;
+// 	t_tree		*tmp;
 
-	tmp = c;
-	while (tmp)
-	{
-		if (tmp->token.id == DLESS)
-		{
-			fd = g_here_list->content;
-			close(fd[1]);
-			close(fd[0]);
-			ft_lst_remove_index(&g_here_list, 0, NULL);
-			return ;
-		}
-		if (tmp->token.id == PIPE || tmp->token.id  == AND_IF
-				|| tmp->token.id == OR_IF)
-			return ;
-		tmp = tmp->right;
-	}
-}
+// 	tmp = c;
+// 	while (tmp)
+// 	{
+// 		if (tmp->token.id == DLESS)
+// 		{
+// 			fd = g_here_list->content;
+// 			close(fd[1]);
+// 			close(fd[0]);
+// 			ft_lst_remove_index(&g_here_list, 0, NULL);
+// 			return ;
+// 		}
+// 		if (tmp->token.id == PIPE || tmp->token.id  == AND_IF
+// 				|| tmp->token.id == OR_IF)
+// 			return ;
+// 		tmp = tmp->right;
+// 	}
+// }
 
 void        test_close_for_heredoc(t_tree *c, int temp[2])
 {
@@ -68,11 +68,11 @@ pid_t			init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e)
 {
 	(p[1][1] >= 0 && close(p[1][1]));
 	if (c != e && pipe(p[0]) == -1)
-		return (-1);         // MSG d'erreur
+		return (-1);		// MSG d'erreur
 	test_close_for_heredoc(c, p[1]);
 	p[1][1] = p[0][1];
 	if ((f = fork()) == -1)
-		return (-1);        // MSG d'erreur	
+		return (-1);		// MSG d'erreur
 	return (f);
 }
 

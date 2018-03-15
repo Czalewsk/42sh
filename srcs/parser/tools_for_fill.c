@@ -37,6 +37,8 @@ t_tree			*get_new_from_failure_and(t_tree *tmp)
 	int			*fd;
 
 	a = 0;
+	if (tmp)
+		DEBUG("*get_new_from_failure_and == %s\n", tmp->token.str);
 	while (tmp)
 	{
 		if (tmp->token.id == DLESS && a == 0)
@@ -53,6 +55,8 @@ t_tree			*get_new_from_failure_and(t_tree *tmp)
 			a = 0;
 		tmp = tmp->right;
 	}
+	if (tmp)
+		DEBUG("*get_new_from_failure_and == %s\n", tmp->token.str);
 	return (tmp);
 }
 
@@ -62,6 +66,7 @@ t_tree			*new_success_or_if(t_tree *c)
 	int			a;
 
 	a = 0;
+	DEBUG("*new_success_or_if token == %s\n", c->token.str);
 	while (c)
 	{
 		if (c->token.id == DLESS && a == 0)
@@ -73,11 +78,13 @@ t_tree			*new_success_or_if(t_tree *c)
 			ft_lst_remove_index(&g_here_list, 0, NULL);
 		}
 		if (c->token.id == AND_IF)
-			return (c);
+			return (c->right);
 		if (c->token.id == PIPE || c->token.id == OR_IF)
 			a = 0;
 		c = c->right;
 	}
+	if (c)
+		DEBUG("*new_success_or_if token == %s\n", c->token.str);
 	return (c);
 }
 

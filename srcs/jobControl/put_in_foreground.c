@@ -36,7 +36,7 @@ void	put_job_in_foreground(t_job *j, int cont)
 {
 	t_tree	*tmp;
 	int		job_ret;
-	
+
 	tcsetpgrp(g_shell_terminal, j->pgid);
 	if (cont)
 	{
@@ -47,25 +47,29 @@ void	put_job_in_foreground(t_job *j, int cont)
 	wait_for_job(j);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	tcgetattr(g_shell_terminal, &j->tmodes);
+	reset_fdd(j->process);
 	termcaps_set_tty();
 	DEBUG("PGID ayant le shell : %d ----- PGID du shell %d ----- PGID du job %d\n", tcgetpgrp(g_shell_terminal), g_shell_pgid, j->pgid);
+	(void)job_ret;
+	(void)tmp;
 	if (WIFSTOPPED(j->process->status))
 	{
 		display_process_interrupt(j);
-		tmp = j->finish_command;
-		j->finish_command = NULL;
-		if (tmp)
-		{
-			if (tmp->token.id == AND_IF && j->process->status != 0)
-				tmp = get_new_from_failure_and(tmp);
-			else if (tmp->token.id == OR_IF && j->process->status == 0)
-				tmp = new_success_or_if(tmp);
-			else
-				tmp = tmp->right;
-			if (tmp)
-				DEBUG("token : %s\n", tmp->token.str);
-			split_cmd_jobs(tmp, j->foreground);
-		}
+		// tmp = j->finish_command;
+		// j->finish_command = NULL;
+		// if (tmp)
+		// {
+
+		// 	if (tmp->token.id == AND_IF && j->process->status != 0)
+		// 		tmp = get_new_from_failure_and(tmp);
+		// 	else if (tmp->token.id == OR_IF && j->process->status == 0)
+		// 		tmp = new_success_or_if(tmp);
+		// 	else
+		// 		tmp = tmp->right;
+		// 	if (tmp)
+		// 		DEBUG("token : %s\n", tmp->token.str);
+		// 	split_cmd_jobs(tmp, j->foreground);
+		// }
 	}
 	// if (WIFSIGNALED(j->process->status))
 	// {
@@ -79,23 +83,30 @@ void	put_job_in_foreground(t_job *j, int cont)
 	if (job_is_completed(j))
 	{
 		// DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
-		tmp = j->finish_command;
+		// tmp = j->finish_command;
 
-		j->finish_command = NULL;
-		job_ret = j->process->status;
-		del_job(j);
-		if (tmp)
-		{
-			if (tmp->token.id == AND_IF && job_ret != 0)
-			{
-				tmp = get_new_from_failure_and(tmp);
-			}
-			else if (tmp->token.id == OR_IF && job_ret == 0)
-				tmp = new_success_or_if(tmp);
-			else
-				tmp = tmp->right;
-			split_cmd_jobs(tmp, j->foreground);
-		}
+		// j->finish_command = NULL;
+		// job_ret = j->process->status;
+//		del_job(j);
+		// DEBUG("Job is complete if %s\n", tmp->token.str);
+		// if (tmp)
+		// {
+		// 	DEBUG("job_ret = %d || IF TMP  == %s\n", job_ret, tmp->token.str);
+		// 	if (tmp->token.id == AND_IF && job_ret != 0)
+		// 	{
+		// 		tmp = get_new_from_failure_and(tmp);
+		// 	}
+		// 	else if (tmp->token.id == OR_IF && job_ret == 0)
+		// 		tmp = new_success_or_if(tmp);
+		// 	else
+		// 	{
+		// 		tmp = tmp->right;
+		// 		DEBUG("job_ret = %d || TMP ELSE  == %s\n", job_ret, tmp->token.str);
+		// 	}
+		// 	if (tmp)
+		// 		DEBUG("Call split_cmd_jobs %s\n", tmp->token.str);
+		// 	split_cmd_jobs(tmp, j->foreground);
+//		}
 	}
 }
 
@@ -104,6 +115,7 @@ void	put_process_in_foreground(t_process *p, int cont)
 	t_job	*newjob;
 
 	tcsetpgrp(g_shell_terminal, p->pid);
+	DEBUG("put foreground \n");
 	if (cont)
 	{
 		if (kill(-p->pid, SIGCONT) < 0)

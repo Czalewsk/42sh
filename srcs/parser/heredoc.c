@@ -26,10 +26,8 @@ t_tree		*here_doc(t_process *p, t_tree *c)
 	int		*fd;
 
 	fd = g_here_list->content;
-	close(STDIN_FILENO);
 	close(fd[1]);
-	p->stdin = dup(fd[0]);
-	close(fd[0]);
+	p->stdin = fd[0];
 	c = c->right->right;
 	while (c && c->token.id == DLESS)
 		c = c->right->right;

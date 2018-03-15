@@ -17,7 +17,11 @@ t_tree	*ft_great(t_process *p, t_tree *c)
 
 	if ((p->stdout = open(c->right->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
-		return ((void *)1);
+	{
+		sh_error(0, 0, NULL, 3, "Error: ",
+			c->right->token.str, " open failed\n");		
+		return ((void *)1);	
+	}
 	return (c->right->right);
 }
 

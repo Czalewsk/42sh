@@ -27,7 +27,7 @@ int			greatand(int fd, t_tree *c, t_process *p)
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 		return (-1);
 	if (ofd != -1)
-		dup2(dup2(ofd, fd), STDERR_FILENO);
+		p->stderr = dup2(ofd, fd);
 	return (0);
 }
 

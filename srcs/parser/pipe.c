@@ -93,7 +93,7 @@ void 			do_pipe(t_tree *c, t_tree *end, t_job *job)
 		((p[1][0] >= 0 && close(p[1][0])) || 1) && p[1][1] >= 0 && close(p[1][1]);
 		ft_lst_pushend(&pid_list, ft_lstnew(&f, sizeof(pid_t)));
 		p[1][0] = p[0][0];
-		close_pipe_heredoc(c);
+		//close_pipe_heredoc(c);
 		if (c == end)
 			break ;
 		c = get_next_pipe(c, job);
