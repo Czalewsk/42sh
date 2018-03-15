@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/27 14:20:02 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/15 01:44:27 by thugo            ###   ########.fr       */
+/*   Created: 2018/03/15 22:01:26 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/15 22:44:16 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,40 +92,38 @@ static int	changedir(t_process *p, char *path, char *cmd, char **env)
 	if (!can_change_dir(p, cmd ? cmd : path))
 		return (1);
 	if (!ft_getenv(env, "PWD"))
-		env_set("OLDPWD", getcwd(cwd, MAXPATHLEN), ENV_LOCAL);
+		env_set("OLDPWD", getcwd(cwd, MAXPATHLEN), ENV_GLOBAL);
 	else
-		env_set("OLDPWD", ft_getenv(env, "PWD"), ENV_LOCAL);
+		env_set("OLDPWD", ft_getenv(env, "PWD"), ENV_GLOBAL);
 	cwd_change(path);
 	return (0);
 }
 
 int			builtin_cd(t_process *p, int argc, char **argv, char **env)
 {
-	char	*path;
-	char	*lpath;
-	char	*options;
+	char	*path[2];
+	char	*opt;
 	int		index;
 	int		ret;
 
-	if ((index = ft_getopt(argc, argv, "LP", &options)) == -1)
+	if ((index = ft_getopt(argc, argv, "LP", &opt)) == -1)
 	{
-		free(options);
-		return (sh_error_bi(p->stderr, EXIT_FAILURE, 3, "cd: bad option: -",
-			options, "\n"));
+		free(opt);
+		return (sh_error_bi(p->stderr, 1, 3, "cd: bad option: -", opt, "\n"));
 	}
-	if (!(path = resolve_path(p, argv + index, env)))
+	if (!(path[0] = resolve_path(p, argv + index, env)))
 	{
-		free(options);
+		free(opt);
 		return (1);
 	}
-	if (ft_strchr(options, 'P'))
-		ret = changedir(p, path, NULL, env);
+	if (ft_strchr(opt, 'P'))
+		ret = changedir(p, path[0], NULL, env);
 	else
 	{
-		lpath = get_lpath(path, env);
-		ret = changedir(p, lpath, path, env);
-		free(lpath);
+		path[1] = get_lpath(path[0], env);
+		ret = changedir(p, path[1], path[0], env);
+		free(path[1]);
 	}
-	free(options);
+	free(opt);
 	return (ret);
 }
