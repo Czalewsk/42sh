@@ -6,7 +6,8 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/14 23:21:05 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/15 17:33:58 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/15 17:20:38 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +25,6 @@ int		builtin_setenv(t_process *p, int argc, char **argv, char **env);
 int		builtin_cd(t_process *p, int argc, char **argv, char **env);
 int		builtin_exit(t_process *p, int argc, char **argv, char **env);
 int		builtin_echo(t_process *p, int argc, char **argv, char **env);
-
+char	*change_expoint_h(char *str, char *old, char *new);
+void	update_expoint_h(t_ldl_head *history, char *save);	
 #endif

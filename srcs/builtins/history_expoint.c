@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 21:15:11 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 15:15:15 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/15 17:31:57 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ static char	*expoint_isnumber(char *str)
 char		*history_expoint(char *str)
 {
 	char	*new;
+	char	*save;
 
 	new = NULL;
 	if (!str || str[0] != '!' || !g_sh.history || !g_sh.history->head)
 		return (NULL);
-	else if (str[1] && (str[1] == '!'))
+	save = ft_strdup(g_sh.history->head->content);
+	ft_ldl_del_id(g_sh.history, 1, &ft_strdel);
+	if (str[1] && str[1] == '!' && g_sh.history && g_sh.history->head)
 		new = ft_strdup(g_sh.history->head->content);
 	else if (ft_strisnumber(str + 1))
 		new = expoint_isnumber(str + 1);
@@ -83,5 +86,12 @@ char		*history_expoint(char *str)
 		new = expoint_contain(str + 2);
 	else if (str[1])
 		new = expoint_start(str + 1);
+	if (new)
+	{
+		save = change_expoint_h(save, str, new);
+		update_expoint_h(g_sh.history, save);
+	}
+	else
+		update_expoint_h(g_sh.history, save);
 	return (new);
 }
