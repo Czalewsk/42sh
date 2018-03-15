@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 22:01:26 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/15 22:38:13 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/15 22:44:16 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ static int	changedir(t_process *p, char *path, char *cmd, char **env)
 	if (!can_change_dir(p, cmd ? cmd : path))
 		return (1);
 	if (!ft_getenv(env, "PWD"))
-		env_set("OLDPWD", getcwd(cwd, MAXPATHLEN), ENV_LOCAL);
+		env_set("OLDPWD", getcwd(cwd, MAXPATHLEN), ENV_GLOBAL);
 	else
-		env_set("OLDPWD", ft_getenv(env, "PWD"), ENV_LOCAL);
+		env_set("OLDPWD", ft_getenv(env, "PWD"), ENV_GLOBAL);
 	cwd_change(path);
 	return (0);
 }
