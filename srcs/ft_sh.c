@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/14 17:42:17 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 10:03:31 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void	sh_quit_prog(t_buf *cmd)
 
 static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 {
+	tputs(tgetstr("rs", NULL), 0, &ft_putchar_termcap);
 	init_job_control();
-	tputs(tgetstr("rs", NULL), 1, &ft_putchar_termcap);
 	ft_bzero(&g_sh, sizeof(t_sh));
 	g_termcps_fd = g_sh.fd_tty;
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");

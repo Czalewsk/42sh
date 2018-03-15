@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:32:43 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/14 20:53:34 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 09:18:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	wait_for_job(t_job *j)
 
 	while (1)
 	{
-		// pid = waitpid(WAIT_ANY, &status, WUNTRACED);
-		pid = waitpid(WAIT_ANY, &status, 0);
+		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
 		DEBUG("pid find : %d\n", pid);
 		if (mark_process_status(pid, status) || job_is_running(j) == 0)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/14 19:56:33 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 09:51:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	display_process_interrupt(t_job *job)
 void	put_job_in_foreground(t_job *j, int cont)
 {
 	t_tree	*tmp;
+	int		job_ret;
 	
 	tcsetpgrp(g_shell_terminal, j->pgid);
 	if (cont)
@@ -43,8 +44,11 @@ void	put_job_in_foreground(t_job *j, int cont)
 		if (kill(-j->pgid, SIGCONT) < 0)
 			sh_error(1, 0, NULL, 1, "job control: kill SIGCONT");
 	}
-	DEBUG("pid du process : %d\n", j->process->pid);
 	wait_for_job(j);
+	tcsetpgrp(g_shell_terminal, g_shell_pgid);
+	tcgetattr(g_shell_terminal, &j->tmodes);
+	termcaps_set_tty();
+	DEBUG("PGID ayant le shell : %d ----- PGID du shell %d ----- PGID du job %d\n", tcgetpgrp(g_shell_terminal), g_shell_pgid, j->pgid);
 	if (WIFSTOPPED(j->process->status))
 	{
 		display_process_interrupt(j);
@@ -52,14 +56,13 @@ void	put_job_in_foreground(t_job *j, int cont)
 		if (tmp)
 		{
 			if (tmp->token.id == AND_IF && j->process->status != 0)
-			{
-				if ((tmp = get_new_from_failure_and(tmp)) == NULL)
-					tmp = NULL;
-			}
+				tmp = get_new_from_failure_and(tmp);
 			else if (tmp->token.id == OR_IF && j->process->status == 0)
 				tmp = new_success_or_if(tmp);
 			else
 				tmp = tmp->right;
+			if (tmp)
+				DEBUG("token : %s\n", tmp->token.str);
 			split_cmd_jobs(tmp, j->foreground);
 		}
 	}
@@ -69,31 +72,27 @@ void	put_job_in_foreground(t_job *j, int cont)
 	// 		ft_putstr_fd("Killed : 2", g_sh.fd_tty);
 	// 	ft_putendl_fd("", g_sh.fd_tty);
 	// }
-	tcsetpgrp(g_shell_terminal, g_shell_pgid);
-	tcgetattr(g_shell_terminal, &j->tmodes);
-	termcaps_set_tty();
+	
 
-	DEBUG("ret job complet : %d\n", job_is_completed(j));
+	// DEBUG("ret job complet : %d\n", job_is_completed(j));
 	if (job_is_completed(j))
 	{
-		DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
+		// DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
 		tmp = j->finish_command;
+		job_ret = j->process->status;
+		del_job(j);
 		if (tmp)
 		{
-			if (tmp->token.id == AND_IF && j->process->status != 0)
+			if (tmp->token.id == AND_IF && job_ret != 0)
 			{
-				if ((tmp = get_new_from_failure_and(tmp)) == NULL)
-					tmp = NULL;
+				tmp = get_new_from_failure_and(tmp);
 			}
-			else if (tmp->token.id == OR_IF && j->process->status == 0)
+			else if (tmp->token.id == OR_IF && job_ret == 0)
 				tmp = new_success_or_if(tmp);
 			else
 				tmp = tmp->right;
 			split_cmd_jobs(tmp, j->foreground);
 		}
-
-		
-		del_job(j);
 	}
 }
 

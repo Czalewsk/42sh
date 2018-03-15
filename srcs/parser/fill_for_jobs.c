@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 21:00:33 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/15 09:38:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ t_tree			*split_cmd_jobs(t_tree *c, int if_fg)
 	// g_job_order ? (new_order->next = g_job_order) : (g_job_order = new_order);
 
 
-
+	DEBUG("split_cmd_jobs : %s\n", c->token.str);
 	job->foreground = 1;
 	while (tmp->right)
 		tmp = tmp->right;
@@ -220,7 +220,6 @@ t_tree			*split_cmd_jobs(t_tree *c, int if_fg)
 			tmp->token.id = SEMI;
 		else
 		{
-			DEBUG("split_cmd_jobs job->foreground == 0\n");
 			job->foreground = 0;
 		}
 	}
@@ -243,5 +242,6 @@ int				ft_fill_for_jobs(t_tree *head)
 		tmp = tmp->left;
 	}
 	//ft_free_order(g_job_order);
-	return (ft_free_tree(head));
+	//return (ft_free_tree(head));
+	return (0);
 }
