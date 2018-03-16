@@ -185,7 +185,6 @@ t_tree			*cpy_from_tree(t_tree *c)
 	new = NULL;
 	while (c)
 	{
-		tmp = c;
 		if (!new)
 		{
 			new = (t_tree *)ft_memalloc(sizeof(t_tree));
