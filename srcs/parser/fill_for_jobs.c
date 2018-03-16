@@ -66,10 +66,6 @@ void			modify_io_child(t_process *p, int pipe[2][2], int premier, int dernier)
 	// }
 	if (dernier && premier)
 	{
-		DEBUG("\t\t\t\tDERNIER  PREMIER\n");
-		DEBUG("p->stdin = %d, p->stdout = %d, p->stderr = %d\n", p->stdin, p->stdout, p->stderr);
-		DEBUG("pipe[0][0] = %d, pipe[0][1] = %d\n", pipe[0][0], pipe[0][1]);
-		DEBUG("pipe[1][0] = %d, pipe[1][1] = %d\n", pipe[1][0], pipe[1][1]);
 		if (p->stdin != STDIN_FILENO)
 			dup2(p->stdin, STDIN_FILENO);
 		if (p->stdout != STDOUT_FILENO)
@@ -80,28 +76,20 @@ void			modify_io_child(t_process *p, int pipe[2][2], int premier, int dernier)
 	if (!dernier)
 	{
 		if (p->stdout != STDOUT_FILENO)
-		{
 			dup2(p->stdout, STDOUT_FILENO);
-			close(pipe[1][1]);
-		}
 		else
 			dup2(pipe[1][1], STDOUT_FILENO);
 		if (p->stdin != STDIN_FILENO)
 			dup2(p->stdin, STDIN_FILENO);
-		close(pipe[0][0]);
 	}
 	if (!premier)	
 	{
 		if (p->stdin != STDIN_FILENO)
-		{
 			dup2(p->stdin, STDIN_FILENO);
-			close(pipe[1][0]);
-		}
 		else
 			dup2(pipe[1][0], STDIN_FILENO);
 		if (p->stdout != STDOUT_FILENO)
 			dup2(p->stdout, STDOUT_FILENO);
-		close(pipe[0][1]);
 	}
 	 close(pipe[0][0]);
 	 close(pipe[0][1]);
@@ -222,7 +210,7 @@ t_tree			*fill_process(t_tree *c, t_process *p)
 	p->stdout = STDOUT_FILENO;
 	p->stderr = STDERR_FILENO;
 	while (c && (c->token.id != AND_IF && c->token.id != OR_IF
-		 && c->token.id != PIPE))
+		 && c->token.id != PIPE) && c->token.id != SEMI)
 	{
 		i = -1;
 		while (c && g_cmd_actions[++i].fjob)
@@ -245,7 +233,7 @@ int				fill_job(t_tree *c, t_job *j)
 	t_process	**tmp;
 
 	tmp = &j->process;
-	while (c && (c->token.id != AND_IF && c->token.id != OR_IF))
+	while (c && (c->token.id != AND_IF && c->token.id != OR_IF) && c->token.id != SEMI)
 	{
 		if (c->token.id == PIPE)
 			c = c->right;
