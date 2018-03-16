@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/15 10:34:07 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 12:26:40 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,20 +181,22 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	termcaps_restore_tty();
 	launch_process(tmp, p, job, env);
-	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
 
 void			modify_io_child(t_process *p, int in_outfile[2], int premier, int dernier)
 {
+	DEBUG("Process = %s | Premier=%d | Dernier = %d|\n", p->argv[0], premier, dernier);
+	DEBUG("p->stdin=%d | p->stdout=%d|\n", p->stdin, p->stdout);
+	DEBUG("in[0]=%d | out[1]=%d\n", in_outfile[0], in_outfile[1]);
 	if (in_outfile[0] != p->stdin)
 		close(in_outfile[0]);
 	if (in_outfile[1] != p->stdout)
 		close(in_outfile[1]);
-	if (premier)
-		dup_and_close(p->stdin, STDIN_FILENO, in_outfile[1]);
-	if (dernier)
-		dup_and_close(p->stdout, STDOUT_FILENO, in_outfile[0]);
+//	if (!premier && p->stdout != STDOUT_FILENO)
+//		dup_and_close(p->stdout, STDOUT_FILENO, in_outfile[0]);
+//	if (!dernier && p->stdin != STDIN_FILENO)
+//		dup_and_close(p->stdin, STDIN_FILENO, in_outfile[1]);
 }
 
 int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
@@ -233,14 +235,17 @@ int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
 
 void			clean_up_io(t_process *p, int fd[2])
 {
+	DEBUG("fd[0] = %d | fd[1] = %d|\n",fd[0], fd[1]);
 	if (p->stdin != STDIN_FILENO)
 		close(p->stdin);
 	if (p->stdout != STDOUT_FILENO)
 		close(p->stdout);
 	if (p->stderr != STDERR_FILENO)
 		close(p->stderr);
-	close(fd[0]);
-	close(fd[1]);
+	if (fd[0] != STDIN_FILENO)
+		close(fd[0]);
+	if (fd[1] != STDOUT_FILENO)
+		close(fd[1]);
 }
 
 void			execute_job(t_job *job)
@@ -315,6 +320,9 @@ t_tree			*fill_process(t_tree *c, t_process *p)
 {
 	int			i;
 
+	p->stdin = STDIN_FILENO;
+	p->stdout = STDOUT_FILENO;
+	p->stderr = STDERR_FILENO;
 	while (c && (c->token.id != AND_IF && c->token.id != OR_IF
 		 && c->token.id != PIPE))
 	{
@@ -426,6 +434,7 @@ int				ft_fill_for_jobs(t_tree *head)
 		{
 			execute_job(tmp2);
 			ret = wait_osef_exec(tmp2->process);
+			termcaps_set_tty();
 			DEBUG("tkkn=%s|\n", tmp2->process->argv[0]);
 //			sleep(5);
 			tmp2 = get_new_job(tmp2->finish_command, ret, 1);
