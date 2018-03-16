@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:47:00 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/06 14:49:11 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:09:31 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ char		**ft_strsplit(const char *str, char c)
 
 	if (!str)
 		return (NULL);
-	if (!(tab = (char **)malloc(sizeof(*tab) * (ft_countwords(str, c) + 1))))
-		return (NULL);
+	tab = (char **)ft_memalloc(sizeof(*tab) * (ft_countwords(str, c) + 1));
 	i = 0;
 	while (*str && *str == c)
 		++str;

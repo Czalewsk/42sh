@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 02:43:16 by thugo             #+#    #+#             */
-/*   Updated: 2018/01/27 17:42:07 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/16 15:09:59 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ char			**ft_strsplits(char const *s, char *c)
 	if (s == NULL)
 		return (NULL);
 	count = count_split(s, c);
-	if (!(tab = (char **)malloc(sizeof(char *) * ((size_t)count + 1))))
-		return (NULL);
+	tab = (char **)ft_memalloc(sizeof(char *) * ((size_t)count + 1));
 	tab[count] = NULL;
 	if (!split(tab, s, c))
 		return (NULL);

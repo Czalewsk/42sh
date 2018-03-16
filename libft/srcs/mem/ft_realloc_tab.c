@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/23 16:42:56 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/14 17:38:57 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/16 15:18:31 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ char	**ft_realloc_tab(size_t size, char **tab)
 	char	**new_tab;
 	size_t	i;
 
-	if (!(new_tab = (char **)ft_memalloc(sizeof(char *) * (size + 1))))
-		return (NULL);
+	new_tab = (char **)ft_memalloc(sizeof(char *) * (size + 1));
 	i = 0;
 	while (tab && tab[i] && i < size)
 	{

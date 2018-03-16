@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 14:57:03 by bviala            #+#    #+#             */
-/*   Updated: 2017/07/18 14:57:06 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:10:07 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ char		*ft_strsub(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	i = 0;
-	if (!(cpy = (char*)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	cpy = (char*)ft_memalloc(sizeof(char) * (len + 1));
 	while (i < len)
 	{
 		cpy[i] = s[start];

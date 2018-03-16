@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 14:53:06 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/06 20:58:48 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:08:10 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ char		*ft_strdup(const char *src)
 
 	if (!src)
 		return (NULL);
-	if (!(dest = (char*)malloc((ft_strlen(src) + 1) * sizeof(char))))
-		return (NULL);
+	dest = (char*)ft_memalloc((ft_strlen(src) + 1) * sizeof(char));
 	ft_strcpy(dest, src);
 	return (dest);
 }

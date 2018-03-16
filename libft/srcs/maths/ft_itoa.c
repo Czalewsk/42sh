@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:18:16 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/09 23:04:48 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:07:02 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ char		*ft_itoa(ssize_t nbr)
 
 	neg = (nbr < 0) ? 1 : 0;
 	len = ft_count(nbr) + neg;
-	if (!(s = (char*)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	s = (char*)ft_memalloc(sizeof(char) * (len + 1));
 	s[len] = '\0';
 	*s = '0';
 	while (nbr != 0)

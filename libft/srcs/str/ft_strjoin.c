@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 14:53:55 by bviala            #+#    #+#             */
-/*   Updated: 2017/07/18 14:53:57 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:08:23 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	if (!(cpy = (char*)malloc(sizeof(char) *
-					((ft_strlen((char*)s1) + ft_strlen((char*)s2) + 1)))))
-		return (NULL);
+	cpy = (char*)ft_memalloc(sizeof(char) *
+					((ft_strlen((char*)s1) + ft_strlen((char*)s2) + 1)));
 	while (s1[i])
 	{
 		cpy[i] = s1[i];

@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 15:47:33 by bviala            #+#    #+#             */
-/*   Updated: 2017/11/14 15:53:29 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:06:45 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ char	**ft_ldl_to_tab(t_ldl_head *ldl_head)
 		return (NULL);
 	ldl = ldl_head->head;
 	size = ldl_head->length;
-	if (!(tab = (char **)malloc(sizeof(char *) * (size + 1))))
-		return (NULL);
+	tab = (char **)ft_memalloc(sizeof(char *) * (size + 1));
 	index = 0;
 	while (ldl)
 	{

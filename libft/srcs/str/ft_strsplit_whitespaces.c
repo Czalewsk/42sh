@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 20:11:26 by bviala            #+#    #+#             */
-/*   Updated: 2017/09/06 20:50:36 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:09:46 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ char		**ft_strsplit_whitespaces(const char *str)
 
 	if (!str)
 		return (NULL);
-	if (!(tab = (char **)malloc(sizeof(*tab) * (ft_countwords(str) + 1))))
-		return (NULL);
+	tab = (char **)ft_memalloc(sizeof(*tab) * (ft_countwords(str) + 1));
 	i = 0;
 	while (*str && ft_isspace(*str))
 		++str;

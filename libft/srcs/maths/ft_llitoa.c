@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/15 14:32:59 by bviala            #+#    #+#             */
-/*   Updated: 2017/08/16 19:34:10 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/16 15:18:45 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ char		*ft_llitoa(long long int nbr)
 	len = neg;
 	while (++len && n)
 		n /= 10;
-	if (!(s = (char*)malloc(sizeof(char) * (len))))
-		return (NULL);
+	s = (char*)ft_memalloc(sizeof(char) * (len));
 	s[--len] = '\0';
 	*s = '0';
 	while (nbr != 0)
@@ -48,8 +47,7 @@ char		*ft_ullitoa(unsigned long long int nbr)
 	len = 0;
 	while (++len && n)
 		n /= 10;
-	if (!(s = (char*)malloc(sizeof(char) * (len))))
-		return (NULL);
+	s = (char*)ft_memalloc(sizeof(char) * (len));
 	s[--len] = '\0';
 	*s = '0';
 	while (nbr != 0)
