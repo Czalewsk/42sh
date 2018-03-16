@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 12:16:54 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:28:06 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ void	del_job_in_first(t_job *j)
 
 void	free_job(t_job *j)
 {
+	DEBUG("START FREE JOB\n");
 	ft_memdel((void**)&(j->command));
 	ft_free_process(j->process);
 	ft_memdel((void**)&(j));
+	DEBUG("FIN FREE JOB\n");
 }
 
 void	do_job_notification(void)
@@ -77,7 +79,9 @@ void	do_job_notification(void)
 	t_job	*tmp;
 	t_job	*last_job;
 	t_job	*next_job;
-	//t_tree	*tmp2;
+	t_job	*tmp2;
+	t_job	*trash;
+	t_list	*res;
 
 	update_status();
 	tmp = g_first_job;
@@ -85,44 +89,56 @@ void	do_job_notification(void)
 	while (tmp)
 	{
 		next_job = tmp->next;
-		if (job_is_completed(tmp) == 1)
-			jobs_display(tmp, 0);
-		else if (job_is_stopped(tmp) == 1 && !tmp->notified)
+		if (tmp->foreground == 0)
 		{
-			jobs_display(tmp, 0);
-			tmp->notified = 1;
+			if (job_is_completed(tmp) == 1)// && next_on_tree(tmp->finish_command, tmp->status_last_process) == NULL)
+				jobs_display(tmp, 0);
+			else if (job_is_stopped(tmp) == 1 && !tmp->notified)
+			{
+				jobs_display(tmp, 0);
+				tmp->notified = 1;
+			}
 		}
 		tmp = next_job;
 	}
 
 	
-	// DEBUG("AVANT boucle qui relance les jobs\n");
-	// tmp = g_first_job;
-	// while (tmp)
-	// {
-	// 	if (job_is_running(tmp) == 0 && tmp->notified == 0)
-	// 	{
-	// 		tmp2 = tmp->finish_command;
-	// 		if (tmp2)
-	// 		{
-	// 			if (tmp2->token.id == AND_IF && tmp->process->status != 0)
-	// 			{
-	// 				tmp2 = get_new_from_failure_and(tmp2);
-	// 			}
-	// 			else if (tmp2->token.id == OR_IF && tmp->process->status == 0)
-	// 			{
-	// 				// DEBUG("TOKEM IS AN OR\n");
-	// 				tmp2 = new_success_or_if(tmp2);
-	// 			}
-	// 			else
-	// 				tmp2 = tmp2->right;
-	// 			// DEBUG("TMP2 ID : %d\n", tmp2->token.id);
-	// 			// DEBUG("AVANT SPLIT CMD JOB\n");
-	// 			//split_cmd_jobs(tmp2, tmp->foreground);
-	// 		}
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// DEBUG("APRES boucle qui relance les jobs\n");
+	DEBUG("AVANT boucle qui relance les jobs\n");
+	tmp = g_first_job;
+	while (tmp)
+	{
+		if (job_is_running(tmp) == 0 && job_is_stopped(tmp) == 0)
+		{
+			if (job_is_completed(tmp))
+			{
+				DEBUG("job cmd : %s\n", tmp->command)
+				res = pop_job_from_job_order(tmp);
+				if (res)
+					ft_memdel((void**)&res);
+				pop_job_from_first_job(tmp);
+			}
+			else
+				DEBUG("job PAS COMPLET\n")
+			//print_job_order();
+			tmp2 = get_new_job(tmp->finish_command, tmp->status_last_process, tmp->foreground);
+			//DEBUG("ft_fill_for_jobs : BESOIN DE FREE sur la ligne ref->finish_command = NULL;\n")
+			tmp->finish_command = NULL;
+			trash = tmp;
+			tmp = tmp->next;
+			// if (job_is_completed(trash))
+			// {
+			// 	DEBUG("cmd trash : %s\n", trash->command);
+			// 	//del_job(trash);
+
+			// }
+			if (!tmp2)
+				DEBUG("tmp2  null\n")
+			else
+				execute_job(tmp2);
+		}
+		else
+			tmp = tmp->next;
+	}
+	DEBUG("APRES boucle qui relance les jobs\n");
 	clear_completed_job();
 }

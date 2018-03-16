@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/13 17:48:24 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:24:04 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void					signal_handler(int sig, siginfo_t *siginfo,
 {
 	(void)siginfo;
 	(void)context;
+	DEBUG("JE SUIS DANS LE SIGNAL HANDLER SIG =[%d]\n", sig);
 	if (g_signal_fct[sig])
 		g_signal_fct[sig]();
 	else

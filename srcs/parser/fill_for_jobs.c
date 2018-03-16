@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/16 12:29:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:19:23 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 extern	struct termios	s_termios_backup;
 extern	t_cmd_action	g_cmd_actions[];
 
-void	print_process(t_process *p);
+
 // t_tree				*check_and_do_pipe(t_tree *c, t_job *job, t_list *lst)
 // {
 // 	t_tree			*tmp;
@@ -180,22 +180,27 @@ void	print_process(t_process *p);
 
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
-	termcaps_restore_tty();
+	if (job->foreground)
+		termcaps_restore_tty();
 	launch_process(tmp, p, job, env);
-	termcaps_set_tty();
 	return (g_sh.exitstatus);
 }
 
 void			modify_io_child(t_process *p, int in_outfile[2], int premier, int dernier)
 {
+	// DEBUG("Process = %s | Premier=%d | Dernier = %d|\n", p->argv[0], premier, dernier);
+	// DEBUG("p->stdin=%d | p->stdout=%d|\n", p->stdin, p->stdout);
+	// DEBUG("in[0]=%d | out[1]=%d\n", in_outfile[0], in_outfile[1]);
+	(void)premier;
+	(void)dernier;
 	if (in_outfile[0] != p->stdin)
 		close(in_outfile[0]);
 	if (in_outfile[1] != p->stdout)
 		close(in_outfile[1]);
-	if (premier)
-		dup_and_close(p->stdin, STDIN_FILENO, in_outfile[1]);
-	if (dernier)
-		dup_and_close(p->stdout, STDOUT_FILENO, in_outfile[0]);
+//	if (!premier && p->stdout != STDOUT_FILENO)
+//		dup_and_close(p->stdout, STDOUT_FILENO, in_outfile[0]);
+//	if (!dernier && p->stdin != STDIN_FILENO)
+//		dup_and_close(p->stdin, STDIN_FILENO, in_outfile[1]);
 }
 
 int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
@@ -235,29 +240,43 @@ int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
 
 void			clean_up_io(t_process *p, int fd[2])
 {
+	//DEBUG("fd[0] = %d | fd[1] = %d|\n",fd[0], fd[1]);
 	if (p->stdin != STDIN_FILENO)
 		close(p->stdin);
 	if (p->stdout != STDOUT_FILENO)
 		close(p->stdout);
 	if (p->stderr != STDERR_FILENO)
 		close(p->stderr);
-	close(fd[0]);
-	close(fd[1]);
+	if (fd[0] != STDIN_FILENO)
+		close(fd[0]);
+	if (fd[1] != STDOUT_FILENO)
+		close(fd[1]);
 }
 
 void			execute_job(t_job *job)
 {
 	char		**env;
+	// t_job		*tmp;
 
+	if (job == NULL)
+		return ;
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
-	if (!job->process->next && do_built_in(job->process, env))
+	if (!job->process->next  && job->foreground && do_built_in(job->process, env))
 	{
 		//A ta sauce le roux
-		DEBUG("execute_job : built in executer\n")
+		// DEBUG("execute_job : built in executer\n");
+		job->is_buildin = 1;
+		job->status_last_process = g_sh.exitstatus;
+		// tmp = get_new_job(job->finish_command, job->status_last_process, job->foreground);
+		// DEBUG("ft_fill_for_jobs : BESOIN DE FREE sur la ligne ref->finish_command = NULL;\n")
+		// job->finish_command = NULL;
+		
 	}
 	else
 	{
 		DEBUG("execute_job : Avant l'appel de execute_job_with_fork\n");
+		put_job_at_head_in_job_order(job);
+		put_job_at_end_in_first_job(job);
 		execute_job_with_fork(job, env);
 	}
 }
@@ -312,7 +331,7 @@ t_job			*get_new_job(t_tree *c, int exit_status, int fg)
 	if ((c = next_on_tree(c, exit_status)) == NULL)
 		return (NULL);
 	job = create_new_job(c);
-	job->foreground = fg;
+	(void)fg;
 	return (job);
 }
 
@@ -396,39 +415,17 @@ t_job			*create_new_job(t_tree *c)
 		return (NULL);
 	tmp = c;
 	job = (t_job *)ft_memalloc(sizeof(t_job));
-	// new_order = ft_lstnew(NULL, 0);
-	// new_order->content = job;
-	// new_order->next = g_job_order;
-	// g_job_order = new_order;
-	put_job_at_head_in_job_order(job);
-	put_job_at_end_in_first_job(job);
 	job->command = get_command(job->command, c);
 	job->num = get_id_max_job();
 	job->tmodes = s_termios_backup;
 	job->foreground = 1;
-	while (tmp->right)
+	while (tmp->right && tmp->token.id != AND_IF && tmp->token.id != OR_IF)
 		tmp = tmp->right;
 	if (tmp->token.id == AND && g_sh.subshellactive == 1)
 		tmp->token.id = SEMI;
 	else if (tmp->token.id == AND)
 		job->foreground = 0;
 	fill_job(c, job);
-// 	t_process *tmp8;
-
-// 	tmp8 = job->process;
-// 	int i;
-// 	while (tmp8)
-// 	{
-// 		i = 0;
-// 		while (tmp8->argv[i])
-// 		{
-// 			DEBUG("[%d][%s]\n", i, tmp8->argv[i]);
-// 			i++;
-// 		}
-// //		DEBUG("\n");
-// 		tmp8 = tmp8->next;
-// 	}
-// 	DEBUG("SORTIE\n");
 	return (job);
 }
 
@@ -539,32 +536,48 @@ int				ft_fill_for_jobs(t_tree *head)
 {
 	t_tree		*tmp;
 	t_job		*tmp2;
+	t_job		*tmp3;
 
 	tmp = head;
 	while (tmp)
 	{
 		tmp2 = create_new_job(tmp);
-		print_job_order();
-		print_first_job();
 		while (tmp2)
 		{
+			DEBUG("avant execute\n");
 			execute_job(tmp2);
-			//ret = wait_osef_exec(tmp2->process);
 			if (!g_shell_is_interactive)
 				wait_for_job (tmp2);
-			else if (tmp2->foreground)
+			else if (tmp2->is_buildin == 0 && tmp2->foreground)
+			{
 				put_job_in_foreground(tmp2, 0);
-			else
+				tmp2 = NULL;
+			}
+			else if (tmp2->is_buildin == 0)
+			{
+				dprintf(g_sh.fd_tty, "[%d] %d\n", tmp2->num, tmp2->process->pid); //LI CONNARD AVANT DE FAIRE LA NORME NEED CHANGER AUTRE QUE DPRINTF
+				g_sh.exitstatus = 0;
 				put_job_in_background(tmp2, 0);
-			DEBUG("tkkn=%s|\n", tmp2->process->argv[0]);
-//			sleep(5);
-			
-			tmp2 = get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
-			
+				tmp2 = NULL;
+			}
+			else if (tmp2->is_buildin == 1)
+			{
+				DEBUG("PRE ENCHAINEMENT\n");
+				tmp3 = get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
+				DEBUG("%s\n", tmp2->command)
+				tmp2->finish_command = NULL;
+				if (job_is_completed(tmp2))
+					free_job(tmp2);
+				tmp2 = tmp3;
+				DEBUG("POST ENCHAINEMENT\n")
+
+			}			
 		}
+		DEBUG("fin boucle interne\n");
 		tmp = tmp->left;
 	}
 	//ft_free_order(g_job_order);
 	//return (ft_free_tree(head));
+
 	return (0);
 }

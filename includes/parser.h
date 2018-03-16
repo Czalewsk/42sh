@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/16 11:29:57 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 19:54:59 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,15 @@ extern t_list				*g_here_list;
 
 
 int				exec_in_line(t_job *job, char **env);
+void	print_process(t_process *p);
+void	put_job_at_head_in_job_order(t_job *job);
+void	put_job_at_end_in_first_job(t_job *job);
+void	print_first_job();
+void	print_job_order();
+void	print_job(t_job *job);
+t_job			*get_new_job(t_tree *c, int exit_status, int fg);
+void			execute_job(t_job *job);
+t_tree			*next_on_tree(t_tree *c, int exit_status);
 
 t_tree					*split_cmd_jobs(t_tree *c, int if_fg);
 t_tree				*execute_run(t_tree *c, t_job *job, t_list *lst);

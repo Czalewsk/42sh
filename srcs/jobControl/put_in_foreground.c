@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 11:53:00 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:23:30 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void	display_process_interrupt(t_job *job)
 
 void	put_job_in_foreground(t_job *j, int cont)
 {
-	t_tree	*tmp;
-	int		job_ret;
-
+	t_job	*next;
+	
 	tcsetpgrp(g_shell_terminal, j->pgid);
 	if (cont)
 	{
@@ -47,13 +46,17 @@ void	put_job_in_foreground(t_job *j, int cont)
 	wait_for_job(j);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	tcgetattr(g_shell_terminal, &j->tmodes);
-	//reset_fdd(j->process);
 	termcaps_set_tty();
-	(void)job_ret;
-	(void)tmp;
-	if (WIFSTOPPED(j->process->status))
+	if (WIFSTOPPED(j->status_last_process))
 	{
+
 		display_process_interrupt(j);
+		// DEBUG("j->status_last_process = %d\n", WEXITSTATUS(j->status_last_process));
+		// if (j->finish_command)
+		// 	DEBUG("\n\n\n\n\n\n\n j->finish_command : %s\n\n\n\n\n\n\n", j->finish_command->token.str)
+		// next = get_new_job(j->finish_command, j->status_last_process, j->foreground);
+		// if (j->finish_command)
+		// 	DEBUG("\n\n\n\n\n\n\n j->finish_command : %s\n\n\n\n\n\n\n", j->finish_command->token.str)
 		// tmp = j->finish_command;
 		// j->finish_command = NULL;
 		// if (tmp)
@@ -69,6 +72,7 @@ void	put_job_in_foreground(t_job *j, int cont)
 		// 		DEBUG("token : %s\n", tmp->token.str);
 		// 	split_cmd_jobs(tmp, j->foreground);
 		// }
+		//return (next);
 	}
 	// if (WIFSIGNALED(j->process->status))
 	// {
@@ -81,12 +85,20 @@ void	put_job_in_foreground(t_job *j, int cont)
 	// DEBUG("ret job complet : %d\n", job_is_completed(j));
 	if (job_is_completed(j))
 	{
+		DEBUG("WEXITSTATUS(j->status_last_process) : %d\n", WEXITSTATUS(j->status_last_process))
+		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
+		DEBUG("toto\n");
+		print_job(next);
+		
+		execute_job(next);
+		sleep(5);
 		// DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
 		// tmp = j->finish_command;
 
 		// j->finish_command = NULL;
 		// job_ret = j->process->status;
-//		del_job(j);
+		//get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
+		del_job(j);
 		// DEBUG("Job is complete if %s\n", tmp->token.str);
 		// if (tmp)
 		// {

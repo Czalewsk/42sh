@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/15 10:03:31 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:24:28 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,11 @@ int			main(int ac, char **av, char **env)
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
-		g_sh.fds[0] = dup(STDIN_FILENO);
-		g_sh.fds[1] = dup(STDOUT_FILENO);
-		g_sh.fds[2] = dup(STDERR_FILENO);
+//		g_sh.fds[0] = dup(STDIN_FILENO);
+//		g_sh.fds[1] = dup(STDOUT_FILENO);
+//		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
-		//do_job_notification();
 		update_status();
 		if (ret != -3)
 			parser(&cmd.cmd);

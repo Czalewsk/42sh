@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 11:48:40 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 20:45:54 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct	s_job
 	char				notified;
 	pid_t				pgid;
 	struct termios		tmodes;
+	int					is_buildin;
 }				t_job;
 
 extern t_job		*g_first_job;
@@ -84,7 +85,6 @@ void			do_job_notification (void);
 void			update_status (void);
 
 int				mark_process_status (pid_t pid, int status);
-void			update_status (void);
 
 int				job_is_completed(t_job *j);
 int				job_is_stopped(t_job *j);
@@ -95,7 +95,8 @@ t_process		*cpy_profonde_process(t_process *src);
 t_list			*pop_job_from_job_order(t_job *j);
 void			del_job(t_job *j);
 void			clear_completed_job();
-
+void			pop_job_from_first_job(t_job *j);
+t_list			*pop_job_from_job_order(t_job *j);
 void			init_job_control(void);
 
 void			launch_process(char *tmp, t_process *p, t_job *j, char **env);
