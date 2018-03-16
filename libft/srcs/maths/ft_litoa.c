@@ -6,7 +6,7 @@
 /*   By: bviala <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/15 14:04:03 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/16 15:07:50 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/16 15:59:02 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char		*ft_litoa(long int nbr)
 	while (++len && n)
 		n /= 10;
 	s = (char*)ft_memalloc(sizeof(char) * (len));
-		return (NULL);
 	s[--len] = '\0';
 	*s = '0';
 	while (nbr != 0)
