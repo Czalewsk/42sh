@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 21:23:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:52:42 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	display_process_interrupt(t_job *job)
 	job->notified = 1;
 }
 
-void	put_job_in_foreground(t_job *j, int cont)
+t_job	*put_job_in_foreground(t_job *j, int cont)
 {
 	t_job	*next;
 	
@@ -85,13 +85,9 @@ void	put_job_in_foreground(t_job *j, int cont)
 	// DEBUG("ret job complet : %d\n", job_is_completed(j));
 	if (job_is_completed(j))
 	{
-		DEBUG("WEXITSTATUS(j->status_last_process) : %d\n", WEXITSTATUS(j->status_last_process))
 		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
-		DEBUG("toto\n");
-		print_job(next);
 		
-		execute_job(next);
-		sleep(5);
+		
 		// DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
 		// tmp = j->finish_command;
 
@@ -118,7 +114,9 @@ void	put_job_in_foreground(t_job *j, int cont)
 		// 		DEBUG("Call split_cmd_jobs %s\n", tmp->token.str);
 		// 	split_cmd_jobs(tmp, j->foreground);
 //		}
+		return (next);
 	}
+	return (NULL);
 }
 
 void	put_process_in_foreground(t_process *p, int cont)

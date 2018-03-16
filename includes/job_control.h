@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 20:45:54 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 21:51:33 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_job			*get_job_minus();
 t_job			*get_job_id(int id);
 void			continue_job (t_job *j, int foreground);
 void			mark_job_as_running (t_job *j);
-void			put_job_in_foreground(t_job *j, int cont);
+t_job			*put_job_in_foreground(t_job *j, int cont);
 void			put_job_in_background(t_job *j, int cont);
 void			put_process_in_foreground(t_process *p, int cont);
 
