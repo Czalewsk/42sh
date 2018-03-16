@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/16 21:51:48 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 22:03:25 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,17 @@ void			execute_job_with_fork(t_job *j, char **env)
 		p[1][1] = p[0][1];
 		if ((pr->pid = fork()) == -1)
 			return ; // MESSAGE ERREUR
+		if (pr->pid && !j->pgid)
+		{
+			j->pgid = pr->pid;
+			setpgid(pr->pid, j->pgid);
+			DEBUG("isatty : %d\n", isatty(g_shell_terminal));
+			if (j->foreground == 1 && tcsetpgrp(g_shell_terminal, j->pgid) == -1)
+				exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
+		}
+		setpgid(pr->pid, j->pgid);	
 		if (!pr->pid)
 			executor(j, pr, p, env);
-		if (!j->pgid)
-			j->pgid = pr->pid;
 		if (pr != j->process)
 			close(p[1][0]);
 		p[1][0] = p[0][0];

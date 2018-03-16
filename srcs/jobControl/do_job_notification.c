@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 21:28:06 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 22:16:03 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	do_job_notification(void)
 		}
 		tmp = next_job;
 	}
-
 	
 	DEBUG("AVANT boucle qui relance les jobs\n");
 	tmp = g_first_job;
