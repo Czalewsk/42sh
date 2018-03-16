@@ -116,9 +116,9 @@ int			main(int ac, char **av, char **env)
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
-//		g_sh.fds[0] = dup(STDIN_FILENO);
-//		g_sh.fds[1] = dup(STDOUT_FILENO);
-//		g_sh.fds[2] = dup(STDERR_FILENO);
+		g_sh.fds[0] = dup(STDIN_FILENO);
+		g_sh.fds[1] = dup(STDOUT_FILENO);
+		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
 		//do_job_notification();

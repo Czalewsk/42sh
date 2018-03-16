@@ -212,16 +212,20 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 void			modify_io_child(t_process *p, int pipe[2], int stdin, int stdout, int premier, int dernier)
 {
 	(void)p;
-	if (!premier)	
-	{
-			dup2(stdin, STDIN_FILENO);	
-			close(pipe[0]);
-	}
 	if (!dernier)
 	{
-			dup2(stdout, STDOUT_FILENO);
-			close(pipe[1]);		
+			DEBUG("dernier Dup2=%d|\n", dup2(stdout, STDOUT_FILENO));
+			DEBUG("dernier Dup2=%d|\n", close(pipe[0]));		
 	}
+	if (!premier)	
+	{
+			DEBUG("1er Dup2=%d|\n", dup2(stdin, STDIN_FILENO));	
+			DEBUG("1er Close=%d|\n", close(pipe[1]));
+	}
+	 close(pipe[0]);
+	 close(pipe[1]);
+	 close(stdin);
+	 close(stdout);
 }
 
 int				executor(t_job *j, t_process *p, int pipe[2], int stdin, int stdout, char **env)
@@ -319,12 +323,12 @@ void			execute_job_with_fork(t_job *j, char **env)
 		}
 		if (!j->pgid)
 			j->pgid = pr->pid;
+		if (pr != j->process)
+			close(stdin);
 		stdin = p[0];
 		pr = pr->next;
 	}
-	close(stdout);
-	close(p[1]);
-	close(p[0]);
+
 }
 
 t_tree			*next_on_tree(t_tree *c, int exit_status)
@@ -450,6 +454,7 @@ int 			wait_osef_exec(t_process *p)
 	ret = -1;
 	while (p)
 	{
+		DEBUG("J'attend [%s]\n", p->argv[0]);
 		waitpid(p->pid, &ret, 0);
 		p = p->next;
 	}
