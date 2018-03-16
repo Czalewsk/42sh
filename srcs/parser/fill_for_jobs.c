@@ -177,6 +177,32 @@ extern	t_cmd_action	g_cmd_actions[];
 	
 // }
 
+t_tree			*cpy_from_tree(t_tree *c)
+{
+	t_tree		*new;
+	t_tree		*save;
+
+	new = NULL;
+	while (c)
+	{
+		tmp = c;
+		if (!new)
+		{
+			new = (t_tree *)ft_memalloc(sizeof(t_tree));
+			ft_memcpy(&new->token, &c->token, sizeof(t_token));
+			save = new;
+		}
+		else
+		{
+			new->right = (t_tree *)ft_memalloc(sizeof(t_tree));
+			ft_memcpy(&new->right->token, &c->token, sizeof(t_token));
+			new = new->right;
+		}
+		c = c->right;
+	}
+	return (save);
+}
+
 int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 {
 	termcaps_restore_tty();
@@ -356,7 +382,7 @@ int				fill_job(t_tree *c, t_job *j)
 		tmp = &new->next;
 		c = fill_process(c, new);
 		if (c && c->token.id != PIPE)
-			j->finish_command = c; // A remplacer par une copie de l'arbre
+			j->finish_command = cpy_from_tree(c); // A remplacer par une copie de l'arbre
 		else
 			j->finish_command = NULL;
 	}
