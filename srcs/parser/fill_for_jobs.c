@@ -50,14 +50,57 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 void			modify_io_child(t_process *p, int pipe[2][2], int premier, int dernier)
 {
 	(void)p;
+	// if (!premier)
+	// {
+	// 	DEBUG("\t\t\t\tPREMIER\n");
+	// 	DEBUG("p->stdin = %d, p->stdout = %d, p->stderr = %d\n", p->stdin, p->stdout, p->stderr);
+	// 	DEBUG("pipe[0][0] = %d, pipe[0][1] = %d\n", pipe[0][0], pipe[0][1]);
+	// 	DEBUG("pipe[1][0] = %d, pipe[1][1] = %d\n", pipe[1][0], pipe[1][1]);
+	// }
+	// if (!dernier)
+	// {
+	// 	DEBUG("\t\t\t\tDERNIER\n");
+	// 	DEBUG("p->stdin = %d, p->stdout = %d, p->stderr = %d\n", p->stdin, p->stdout, p->stderr);
+	// 	DEBUG("pipe[0][0] = %d, pipe[0][1] = %d\n", pipe[0][0], pipe[0][1]);
+	// 	DEBUG("pipe[1][0] = %d, pipe[1][1] = %d\n", pipe[1][0], pipe[1][1]);
+	// }
+	if (dernier && premier)
+	{
+		DEBUG("\t\t\t\tDERNIER  PREMIER\n");
+		DEBUG("p->stdin = %d, p->stdout = %d, p->stderr = %d\n", p->stdin, p->stdout, p->stderr);
+		DEBUG("pipe[0][0] = %d, pipe[0][1] = %d\n", pipe[0][0], pipe[0][1]);
+		DEBUG("pipe[1][0] = %d, pipe[1][1] = %d\n", pipe[1][0], pipe[1][1]);
+		if (p->stdin != STDIN_FILENO)
+			dup2(p->stdin, STDIN_FILENO);
+		if (p->stdout != STDOUT_FILENO)
+			dup2(p->stdout, STDOUT_FILENO);
+		if (p->stderr != STDERR_FILENO)
+			dup2(p->stderr, STDERR_FILENO);
+	}
 	if (!dernier)
 	{
-		dup2(pipe[1][1], STDOUT_FILENO);
+		if (p->stdout != STDOUT_FILENO)
+		{
+			dup2(p->stdout, STDOUT_FILENO);
+			close(pipe[1][1]);
+		}
+		else
+			dup2(pipe[1][1], STDOUT_FILENO);
+		if (p->stdin != STDIN_FILENO)
+			dup2(p->stdin, STDIN_FILENO);
 		close(pipe[0][0]);
 	}
 	if (!premier)	
 	{
-		dup2(pipe[1][0], STDIN_FILENO);
+		if (p->stdin != STDIN_FILENO)
+		{
+			dup2(p->stdin, STDIN_FILENO);
+			close(pipe[1][0]);
+		}
+		else
+			dup2(pipe[1][0], STDIN_FILENO);
+		if (p->stdout != STDOUT_FILENO)
+			dup2(p->stdout, STDOUT_FILENO);
 		close(pipe[0][1]);
 	}
 	 close(pipe[0][0]);
@@ -118,6 +161,7 @@ void			execute_job_with_fork(t_job *j, char **env)
 	int			p[2][2];
 
 	pr = j->process;
+//	p[1][0] = pr->stdin;
 	while (pr)
 	{
 		if (pr != j->process)
@@ -137,9 +181,12 @@ void			execute_job_with_fork(t_job *j, char **env)
 		if (pr != j->process)
 			close(p[1][0]);
 		p[1][0] = p[0][0];
+	// if (STDIN_FILENO != pr->stdin)
+	// 	close(pr->stdin);
+	// if (STDOUT_FILENO != pr->stdout)
+	// 	close(pr->stdout);
 		pr = pr->next;
 	}
-
 }
 
 t_tree			*next_on_tree(t_tree *c, int exit_status)
