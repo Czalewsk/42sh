@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/03/15 02:49:17 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/16 15:51:07 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  output/ft_putchar_fd.c output/ft_putnbr_base.c				\
 			  output/ft_print_wordtab.c	output/ft_putnstr.c 				\
 			  output/ft_putchar_termcap.c output/ft_putnchar.c				\
+			  output/ft_putstrx_fd.c										\
 			  str/ft_strcat.c str/ft_strchr.c str/ft_strclr.c				\
 			  str/ft_strcmp.c str/ft_strcpy.c str/ft_strdel.c				\
 			  str/ft_strdup.c str/ft_strequ.c str/ft_strlen.c				\
