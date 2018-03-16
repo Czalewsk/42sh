@@ -214,10 +214,26 @@ void			modify_io_child(t_process *p, int in_outfile[2], int premier, int dernier
 	DEBUG("Process = %s | Premier=%d | Dernier = %d|\n", p->argv[0], premier, dernier);
 	DEBUG("p->stdin=%d | p->stdout=%d|\n", p->stdin, p->stdout);
 	DEBUG("in[0]=%d | out[1]=%d\n", in_outfile[0], in_outfile[1]);
-	if (in_outfile[0] != p->stdin)
-		close(in_outfile[0]);
-	if (in_outfile[1] != p->stdout)
-		close(in_outfile[1]);
+	// if (in_outfile[0] != p->stdin)
+	// 	{
+	// 		close(in_outfile[0]);
+	// 		dup2(p->stdin, STDIN_FILENO);		
+	// 	}
+	if  (in_outfile[0] != STDIN_FILENO)
+	{
+		dup2(in_outfile[0], STDIN_FILENO);
+	}
+
+
+	// if (in_outfile[1] != p->stdout)
+	// 	{
+	// 		close(in_outfile[1]);
+	// 		dup2(p->stdout, STDOUT_FILENO);		
+	// 	}	
+	if (in_outfile[1] != STDOUT_FILENO)
+		dup2(in_outfile[1], STDOUT_FILENO);
+//		close(in_outfile[1]);
+
 //	if (!premier && p->stdout != STDOUT_FILENO)
 //		dup_and_close(p->stdout, STDOUT_FILENO, in_outfile[0]);
 //	if (!dernier && p->stdin != STDIN_FILENO)
@@ -294,6 +310,7 @@ void			execute_job_with_fork(t_job *j, char **env)
 	pr = j->process;
 	ft_memset(p, -1, sizeof(p));
 	p[1][0] = pr->stdin;
+	DEBUG("\n\n\np->stdin/p[1][0] = %d|\n", pr->stdin);
 	while (pr)
 	{
 		if (pr->next)
@@ -301,9 +318,13 @@ void			execute_job_with_fork(t_job *j, char **env)
 			if (pipe(p[0]) == -1)
 				return ; //MESSAGE ERREUR;
 			p[1][1] = p[0][1];
+			DEBUG(" after pipe p[1][1]==p[0][1] = %d|\n", p[1][1]);
 		}
 		else
+		{
 			p[1][1] = pr->stdout;
+			DEBUG("p[1][1]=p->stdout = %d|\n", p[1][1]);
+		}
 		if ((pr->pid = fork()) == -1)
 			return ; // MESSAGE ERREUR
 		if (!pr->pid)
