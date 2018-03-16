@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 09:55:58 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/15 10:39:45 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 11:51:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	job_is_completed(t_job *j)
 	p = j->process;
 	while (p != NULL)
 	{
-		DEBUG("status process pid : %d --- %d\n", p->pid, p->state);
 		if (p->state != PROCESS_COMPLETED)
 			return (0);
 		p = p->next;

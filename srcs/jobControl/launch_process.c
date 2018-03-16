@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:26:09 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 11:16:58 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 12:20:48 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 void	launch_process(char *tmp, t_process *p, t_job *j, char **env)
 {
 	pid_t	pid;
-	pid_t	pgid;
 
+	DEBUG("\n\nSTART launch_process\n\n");
 	if (g_shell_is_interactive)
 	{
 		pid = getpid();
-		if (j && j->pgid == 0)
+		if (j->pgid == 0)
 			j->pgid = pid;
-		else
-			pgid = pid;
-		setpgid(pid, j ? j->pgid : pgid);
-		if (!j && tcsetpgrp(g_shell_terminal, pgid) == -1)
-			exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
+		DEBUG("val j->pgid : %d\n", j->pgid);
+		DEBUG("Retour setpgid : %d\n", setpgid(pid, j->pgid));
+		DEBUG("Val g_shell_terminal : %d\n", g_shell_terminal);
+		DEBUG("Val retour isatty : %d\n", isatty(g_shell_terminal));
+		if (j->foreground)
+			if (tcsetpgrp(g_shell_terminal, j->pgid) == -1)
+				exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGTSTP, SIG_DFL);
@@ -34,6 +36,8 @@ void	launch_process(char *tmp, t_process *p, t_job *j, char **env)
 		signal(SIGTTOU, SIG_DFL);
 		signal(SIGCHLD, SIG_DFL);
 	}
+	DEBUG("\n\nEND launch_process\n\n");
 	g_sh.exitstatus = execve(tmp, p->argv, env);
-	exit(sh_error(g_sh.exitstatus, 0, NULL, 3, "command not found:", p->argv[0], "\n"));
+	sh_error(g_sh.exitstatus, 0, NULL, 3, "command not found:", p->argv[0], "\n");
+	exit(g_sh.exitstatus);
 }

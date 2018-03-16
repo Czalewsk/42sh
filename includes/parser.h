@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 19:37:21 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 11:29:57 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ typedef	struct	s_builtin
 extern t_tree				*g_head_tree;
 extern t_tree				*g_current;
 extern t_list				*g_here_list;
+
+
+int				exec_in_line(t_job *job, char **env);
 
 t_tree					*split_cmd_jobs(t_tree *c, int if_fg);
 t_tree				*execute_run(t_tree *c, t_job *job, t_list *lst);

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/15 11:08:46 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 11:53:00 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ void	put_job_in_foreground(t_job *j, int cont)
 	wait_for_job(j);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	tcgetattr(g_shell_terminal, &j->tmodes);
-	reset_fdd(j->process);
+	//reset_fdd(j->process);
 	termcaps_set_tty();
-	DEBUG("PGID ayant le shell : %d ----- PGID du shell %d ----- PGID du job %d\n", tcgetpgrp(g_shell_terminal), g_shell_pgid, j->pgid);
 	(void)job_ret;
 	(void)tmp;
 	if (WIFSTOPPED(j->process->status))

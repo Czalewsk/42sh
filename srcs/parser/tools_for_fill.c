@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/14 19:54:45 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 12:01:16 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_tree			*get_new_from_failure_and(t_tree *tmp)
 	int			*fd;
 
 	a = 0;
-	if (tmp)
-		DEBUG("*get_new_from_failure_and == %s\n", tmp->token.str);
+	// if (tmp)
+	// 	DEBUG("*get_new_from_failure_and == %s\n", tmp->token.str);
 	while (tmp)
 	{
 		if (tmp->token.id == DLESS && a == 0)
@@ -55,8 +55,8 @@ t_tree			*get_new_from_failure_and(t_tree *tmp)
 			a = 0;
 		tmp = tmp->right;
 	}
-	if (tmp)
-		DEBUG("*get_new_from_failure_and == %s\n", tmp->token.str);
+	// if (tmp)
+	// 	DEBUG("*get_new_from_failure_and == %s\n", tmp->token.str);
 	return (tmp);
 }
 
@@ -66,7 +66,7 @@ t_tree			*new_success_or_if(t_tree *c)
 	int			a;
 
 	a = 0;
-	DEBUG("*new_success_or_if token == %s\n", c->token.str);
+	// DEBUG("*new_success_or_if token == %s\n", c->token.str);
 	while (c)
 	{
 		if (c->token.id == DLESS && a == 0)
@@ -83,8 +83,8 @@ t_tree			*new_success_or_if(t_tree *c)
 			a = 0;
 		c = c->right;
 	}
-	if (c)
-		DEBUG("*new_success_or_if token == %s\n", c->token.str);
+	// if (c)
+	// 	DEBUG("*new_success_or_if token == %s\n", c->token.str);
 	return (c);
 }
 

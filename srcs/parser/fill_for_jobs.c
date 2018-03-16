@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/15 10:34:07 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 12:29:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 extern	struct termios	s_termios_backup;
 extern	t_cmd_action	g_cmd_actions[];
 
+void	print_process(t_process *p);
 // t_tree				*check_and_do_pipe(t_tree *c, t_job *job, t_list *lst)
 // {
 // 	t_tree			*tmp;
@@ -208,11 +209,12 @@ int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
 	if (!p->argv)
 		exit(EXIT_FAILURE);
 	modify_io_child(p, in_outfile, j->process == p, !p->next);
+	(void)in_outfile;
 	if (do_built_in(p, env))
 		(void)1;
-	// if (ft_strstr(p->argv[0], "/") != NULL)
-	// 	if (exec_in_line(j, env) == 0)
-	// 		exit(EXIT_FAILURE);
+	if (ft_strstr(p->argv[0], "/") != NULL)
+		if (exec_in_line(j, env) == 0)
+			exit(EXIT_FAILURE);
 	path = ft_strsplit(ft_getenv(env, "PATH"), ':');
 	while (path && path[i])
 	{
@@ -250,10 +252,14 @@ void			execute_job(t_job *job)
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
 	if (!job->process->next && do_built_in(job->process, env))
 	{
-		//A ta sauce le roux 
+		//A ta sauce le roux
+		DEBUG("execute_job : built in executer\n")
 	}
 	else
+	{
+		DEBUG("execute_job : Avant l'appel de execute_job_with_fork\n");
 		execute_job_with_fork(job, env);
+	}
 }
 
 void			execute_job_with_fork(t_job *j, char **env)
@@ -315,8 +321,11 @@ t_tree			*fill_process(t_tree *c, t_process *p)
 {
 	int			i;
 
+	p->stdin = STDIN_FILENO;
+	p->stdout = STDOUT_FILENO;
+	p->stderr = STDERR_FILENO;
 	while (c && (c->token.id != AND_IF && c->token.id != OR_IF
-		 && c->token.id != PIPE))
+		 && c->token.id != PIPE && c->token.id != AND))
 	{
 		i = -1;
 		while (c && g_cmd_actions[++i].fjob)
@@ -339,7 +348,7 @@ int				fill_job(t_tree *c, t_job *j)
 	t_process	**tmp;
 
 	tmp = &j->process;
-	while (c && (c->token.id != AND_IF && c->token.id != OR_IF))
+	while (c && (c->token.id != AND_IF && c->token.id != OR_IF && c->token.id != AND))
 	{
 		if (c->token.id == PIPE)
 			c = c->right;
@@ -355,20 +364,44 @@ int				fill_job(t_tree *c, t_job *j)
 	return (0);
 }
 
+void			put_job_at_head_in_job_order(t_job *job)
+{
+	t_list	*new;
+
+	new = ft_lstnew(NULL, 0);
+	new->next = g_job_order;
+	g_job_order = new;
+	new->content = job;
+}
+
+void			put_job_at_end_in_first_job(t_job *job)
+{
+	t_job	*tmp;
+
+	tmp = g_first_job;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	if (tmp)
+		tmp->next = job;
+	else
+		g_first_job = job;
+}
+
 t_job			*create_new_job(t_tree *c)
 {
 	t_job 		*job;
-	t_list		*new_order;
 	t_tree		*tmp;
 
 	if (c == NULL || c == (void *)1)
 		return (NULL);
 	tmp = c;
 	job = (t_job *)ft_memalloc(sizeof(t_job));
-	new_order = ft_lstnew(NULL, 0);
-	new_order->content = job;
-	new_order->next = g_job_order;
-	g_job_order = new_order;
+	// new_order = ft_lstnew(NULL, 0);
+	// new_order->content = job;
+	// new_order->next = g_job_order;
+	// g_job_order = new_order;
+	put_job_at_head_in_job_order(job);
+	put_job_at_end_in_first_job(job);
 	job->command = get_command(job->command, c);
 	job->num = get_id_max_job();
 	job->tmodes = s_termios_backup;
@@ -412,23 +445,122 @@ int 			wait_osef_exec(t_process *p)
 	return (ret);
 }
 
+void	print_process(t_process *p)
+{
+	int		i;
+
+	if (p == NULL)
+	{
+		DEBUG("		process p est NULL\n");
+		return ;
+	}
+	DEBUG("		process p a un next : %s\n", p->next != NULL ? "oui" : "non");
+	DEBUG("		pid du process : %d\n", p->pid);
+	DEBUG("		state du process : %d\n", p->state);
+	DEBUG("		status du process : %d\n", p->status);
+	DEBUG("		stdin du process : %d\n", p->stdin);
+	DEBUG("		stdout du process : %d\n", p->stdout);
+	DEBUG("		stderr du process : %d\n", p->stderr);
+	DEBUG("		ARGV du process :\n");
+	DEBUG("			");
+	i = 0;
+	while (p->argv[i])
+	{
+		DEBUG("%s ", p->argv[i]);
+		i++;
+	}
+	DEBUG("\n");
+}
+
+void	print_job(t_job *job)
+{
+	t_process	*tmp;
+
+	if (job == NULL)
+	{
+		DEBUG("job est NULL\n");
+		return ;
+	}
+	DEBUG("\n\nJOB\n");
+	DEBUG("job status_last_process : %d\n", job->status_last_process);
+	DEBUG("job num : %d\n", job->num);
+	DEBUG("job command : %s\n", job->command);
+	DEBUG("job foreground : %d\n", job->foreground);
+	DEBUG("job PGID : %d\n", job->pgid);
+	DEBUG("job have tree : %s\n", job->finish_command != NULL ? "oui" : "non");
+	tmp = job->process;
+	while (tmp)
+	{
+		print_process(tmp);
+		tmp = tmp->next;
+	}
+	DEBUG("\n\n");
+}
+
+void	print_first_job()
+{
+	t_job	*tmp;
+
+	tmp = g_first_job;
+	if (tmp == NULL)
+	{
+		DEBUG("g_first_job est NULL\n");
+		return ;
+	}
+	DEBUG("\n\n\n			PRINT FIRST JOB\n");
+	while (tmp)
+	{
+		print_job(tmp);
+		tmp = tmp->next;
+	}
+	DEBUG("			PRINT FIRST JOB\n\n\n\n");
+}
+
+void	print_job_order()
+{
+	t_list	*tmp;
+
+	tmp = g_job_order;
+	if (tmp == NULL)
+	{
+		DEBUG("g_job_order est NULL\n");
+		return ;
+	}
+	DEBUG("\n\n\n			PRINT JOB ORDER\n");
+	while (tmp)
+	{
+		print_job(tmp->content);
+		tmp = tmp->next;
+	}
+	DEBUG("			PRINT JOB ORDER\n\n\n\n");
+}
+
 int				ft_fill_for_jobs(t_tree *head)
 {
 	t_tree		*tmp;
 	t_job		*tmp2;
-	int 		ret;
 
 	tmp = head;
 	while (tmp)
 	{
 		tmp2 = create_new_job(tmp);
+		print_job_order();
+		print_first_job();
 		while (tmp2)
 		{
 			execute_job(tmp2);
-			ret = wait_osef_exec(tmp2->process);
+			//ret = wait_osef_exec(tmp2->process);
+			if (!g_shell_is_interactive)
+				wait_for_job (tmp2);
+			else if (tmp2->foreground)
+				put_job_in_foreground(tmp2, 0);
+			else
+				put_job_in_background(tmp2, 0);
 			DEBUG("tkkn=%s|\n", tmp2->process->argv[0]);
 //			sleep(5);
-			tmp2 = get_new_job(tmp2->finish_command, ret, 1);
+			
+			tmp2 = get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
+			
 		}
 		tmp = tmp->left;
 	}

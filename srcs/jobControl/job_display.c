@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/15 10:39:12 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 11:51:37 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	jobs_display(t_job *j, int long_flag)
 		process_display_short(j->process, j->command);
 	if (job_is_stopped(j))
 	{
-		DEBUG("JOB NOTIFIED dans job display\n");
 		j->notified = 1;
 	}
 	return (0);
