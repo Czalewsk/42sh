@@ -209,38 +209,22 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 	return (g_sh.exitstatus);
 }
 
-void			modify_io_child(t_process *p, int in_outfile[2], int premier, int dernier)
+void			modify_io_child(t_process *p, int pipe[2], int stdin, int stdout, int premier, int dernier)
 {
-	DEBUG("Process = %s | Premier=%d | Dernier = %d|\n", p->argv[0], premier, dernier);
-	DEBUG("p->stdin=%d | p->stdout=%d|\n", p->stdin, p->stdout);
-	DEBUG("in[0]=%d | out[1]=%d\n", in_outfile[0], in_outfile[1]);
-	// if (in_outfile[0] != p->stdin)
-	// 	{
-	// 		close(in_outfile[0]);
-	// 		dup2(p->stdin, STDIN_FILENO);		
-	// 	}
-	if  (in_outfile[0] != STDIN_FILENO)
+	(void)p;
+	if (!premier)	
 	{
-		dup2(in_outfile[0], STDIN_FILENO);
+			dup2(stdin, STDIN_FILENO);	
+			close(pipe[0]);
 	}
-
-
-	// if (in_outfile[1] != p->stdout)
-	// 	{
-	// 		close(in_outfile[1]);
-	// 		dup2(p->stdout, STDOUT_FILENO);		
-	// 	}	
-	if (in_outfile[1] != STDOUT_FILENO)
-		dup2(in_outfile[1], STDOUT_FILENO);
-//		close(in_outfile[1]);
-
-//	if (!premier && p->stdout != STDOUT_FILENO)
-//		dup_and_close(p->stdout, STDOUT_FILENO, in_outfile[0]);
-//	if (!dernier && p->stdin != STDIN_FILENO)
-//		dup_and_close(p->stdin, STDIN_FILENO, in_outfile[1]);
+	if (!dernier)
+	{
+			dup2(stdout, STDOUT_FILENO);
+			close(pipe[1]);		
+	}
 }
 
-int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
+int				executor(t_job *j, t_process *p, int pipe[2], int stdin, int stdout, char **env)
 {
 	char		**path;
 	char		*exec_line;
@@ -250,7 +234,7 @@ int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
 
 	if (!p->argv)
 		exit(EXIT_FAILURE);
-	modify_io_child(p, in_outfile, j->process == p, !p->next);
+	modify_io_child(p, pipe, stdin, stdout, j->process == p, !p->next);
 	if (do_built_in(p, env))
 		(void)1;
 	// if (ft_strstr(p->argv[0], "/") != NULL)
@@ -276,16 +260,17 @@ int				executor(t_job *j, t_process *p, int in_outfile[2], char **env)
 
 void			clean_up_io(t_process *p, int fd[2])
 {
-	DEBUG("fd[0] = %d | fd[1] = %d|\n",fd[0], fd[1]);
-	if (p->stdin != STDIN_FILENO)
-		close(p->stdin);
-	if (p->stdout != STDOUT_FILENO)
-		close(p->stdout);
-	if (p->stderr != STDERR_FILENO)
-		close(p->stderr);
-	if (fd[0] != STDIN_FILENO)
+	DEBUG("CLEAN UP // fd[0] = %d | fd[1] = %d|\n",fd[0], fd[1]);
+	// if (p->stdin != STDIN_FILENO)
+	// 	close(p->stdin);
+	// if (p->stdout != STDOUT_FILENO)
+	// 	close(p->stdout);
+	// if (p->stderr != STDERR_FILENO)
+	// 	close(p->stderr);
+	(void)p;
+	if (fd[0] > 0)
 		close(fd[0]);
-	if (fd[1] != STDOUT_FILENO)
+	if (fd[1] > 0)
 		close(fd[1]);
 }
 
@@ -305,36 +290,41 @@ void			execute_job(t_job *job)
 void			execute_job_with_fork(t_job *j, char **env)
 {
 	t_process	*pr;
-	int			p[2][2];
+	int			p[2];
+	int 		stdin;
+	int 		stdout;
 
 	pr = j->process;
-	ft_memset(p, -1, sizeof(p));
-	p[1][0] = pr->stdin;
-	DEBUG("\n\n\np->stdin/p[1][0] = %d|\n", pr->stdin);
 	while (pr)
 	{
+		if (pr != j->process)
+			close(stdout);
 		if (pr->next)
 		{
-			if (pipe(p[0]) == -1)
+			if (pipe(p) == -1)
+			{
+				DEBUG("\n\tYolooooo pipe\n");
 				return ; //MESSAGE ERREUR;
-			p[1][1] = p[0][1];
-			DEBUG(" after pipe p[1][1]==p[0][1] = %d|\n", p[1][1]);
+			}
+			else
+				DEBUG("Pipe[0]=%d | [1]=%d|\n", p[0], p[1]);
 		}
-		else
-		{
-			p[1][1] = pr->stdout;
-			DEBUG("p[1][1]=p->stdout = %d|\n", p[1][1]);
-		}
+		stdout = p[1];
 		if ((pr->pid = fork()) == -1)
 			return ; // MESSAGE ERREUR
 		if (!pr->pid)
-			executor(j, pr, p[1], env);
+		{
+			executor(j, pr, p, stdin, stdout, env);
+			DEBUG("\t\nYolo\n")
+		}
 		if (!j->pgid)
 			j->pgid = pr->pid;
-		clean_up_io(pr, p[1]);
-		p[1][0] = p[0][0];
+		stdin = p[0];
 		pr = pr->next;
 	}
+	close(stdout);
+	close(p[1]);
+	close(p[0]);
 }
 
 t_tree			*next_on_tree(t_tree *c, int exit_status)
