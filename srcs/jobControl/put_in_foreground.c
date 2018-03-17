@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 22:19:42 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 15:01:03 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	display_process_interrupt(t_job *job)
 t_job	*put_job_in_foreground(t_job *j, int cont)
 {
 	t_job	*next;
+	t_list	*res;
 	
 	tcsetpgrp(g_shell_terminal, j->pgid);
 	if (cont)
@@ -53,6 +54,8 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 	{
 
 		display_process_interrupt(j);
+		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
+		j->finish_command = NULL;
 		// DEBUG("j->status_last_process = %d\n", WEXITSTATUS(j->status_last_process));
 		// if (j->finish_command)
 		// 	DEBUG("\n\n\n\n\n\n\n j->finish_command : %s\n\n\n\n\n\n\n", j->finish_command->token.str)
@@ -74,7 +77,7 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 		// 		DEBUG("token : %s\n", tmp->token.str);
 		// 	split_cmd_jobs(tmp, j->foreground);
 		// }
-		//return (next);
+		return (next);
 	}
 	// if (WIFSIGNALED(j->process->status))
 	// {
@@ -87,6 +90,10 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 	// DEBUG("ret job complet : %d\n", job_is_completed(j));
 	if (job_is_completed(j))
 	{
+		res = pop_job_from_job_order(j);
+		if (res)
+			ft_memdel((void**)&res);
+		pop_job_from_first_job(j);
 		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
 		
 		
@@ -96,7 +103,8 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 		// j->finish_command = NULL;
 		// job_ret = j->process->status;
 		//get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
-		del_job(j);
+		free_job(j);
+		//del_job(j);
 		// DEBUG("Job is complete if %s\n", tmp->token.str);
 		// if (tmp)
 		// {
