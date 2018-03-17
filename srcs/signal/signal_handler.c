@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/16 22:28:13 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 19:04:30 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static unsigned	long	g_signal_mask;
 	[SIGTSTP] = 7,
 	[SIGTTIN] = 77,
 	[SIGWINCH] = 1,
+	[SIGCONT] = 7,
 	[SIGQUIT] = 1};
 
 /*
@@ -39,6 +40,7 @@ static unsigned	long	g_signal_mask;
 	[SIGTSTP] = &signal_sigtstp,
 	[SIGTTIN] = &signal_sigttin,
 	[SIGWINCH] = &sigwinch,
+	[SIGCONT] = &signal_sigcont,
 	[SIGQUIT] = &signal_avoid};
 
 /*

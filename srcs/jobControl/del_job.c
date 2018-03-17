@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 17:27:11 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 11:15:09 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 16:54:50 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,6 @@ void	pop_job_from_first_job(t_job *j)
 	}
 }
 
-void	free_job2(t_job *j)
-{
-	ft_memdel((void**)&(j->command));
-	ft_free_process(j->process);
-	ft_memdel((void**)&(j));
-}
-
 void	del_job(t_job *j)
 {
 	t_list	*res;
@@ -78,7 +71,7 @@ void	del_job(t_job *j)
 	if (res)
 		ft_memdel((void**)&res);
 	pop_job_from_first_job(j);
-	free_job2(j);
+	free_job(j);
 }
 
 void	clear_completed_job(void)
@@ -92,6 +85,20 @@ void	clear_completed_job(void)
 		next = tmp->next;
 		if (job_is_completed(tmp) == 1)
 			del_job(tmp);
+		tmp = next;
+	}
+}
+
+void	clear_job(void)
+{
+	t_job	*tmp;
+	t_job	*next;
+
+	tmp = g_first_job;
+	while (tmp)
+	{
+		next = tmp->next;
+		del_job(tmp);
 		tmp = next;
 	}
 }

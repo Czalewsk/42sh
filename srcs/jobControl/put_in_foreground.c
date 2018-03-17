@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/17 15:01:03 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 17:27:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 
 		display_process_interrupt(j);
 		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
-		j->finish_command = NULL;
+		ft_free_tree(j->finish_command);
 		// DEBUG("j->status_last_process = %d\n", WEXITSTATUS(j->status_last_process));
 		// if (j->finish_command)
 		// 	DEBUG("\n\n\n\n\n\n\n j->finish_command : %s\n\n\n\n\n\n\n", j->finish_command->token.str)
@@ -94,15 +94,20 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 		if (res)
 			ft_memdel((void**)&res);
 		pop_job_from_first_job(j);
-		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
-		
+		//next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
+		next = get_new_job(j->finish_command, WIFEXITED(j->status_last_process) ? WEXITSTATUS(j->status_last_process) : 1, j->foreground);
+		g_sh.exitstatus = WIFEXITED(j->status_last_process) ? WEXITSTATUS(j->status_last_process) : 1;
 		
 		// DEBUG("cmd %s, val retour %d\n", j->command, j->process->status);
 		// tmp = j->finish_command;
 
+		
 		// j->finish_command = NULL;
 		// job_ret = j->process->status;
 		//get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
+		ft_free_tree(j->finish_command);
+		DEBUG("TOTO\n");
+		j->finish_command = NULL;
 		free_job(j);
 		//del_job(j);
 		// DEBUG("Job is complete if %s\n", tmp->token.str);

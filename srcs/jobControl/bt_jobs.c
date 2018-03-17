@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 14:27:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 19:28:29 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,10 @@ int			bt_jobs(t_process *p, int size, char **arg, char **env)
 	(void)env;
 	(void)p;
 	(void)size;
-	i = 1;
+	i = 0;
 	info = 0;
 	run_or_stop = 0;
-	while (arg[i] && (j = 0) == 0 && arg[i][0] == '-')
-	{
+	while (arg[++i] && (j = 0) == 0 && arg[i][0] == '-')
 		while (arg[i][++j])
 			if (arg[i][j] == 'l' || arg[i][j] == 'p')
 				info = arg[i][j];
@@ -97,8 +96,6 @@ int			bt_jobs(t_process *p, int size, char **arg, char **env)
 				run_or_stop = arg[i][j];
 			else
 				return (jobs_usage(arg[i][j]));
-		i++;
-	}
 	if (arg == NULL || arg[i] == NULL)
 		jobs_display_no_jobspec(info, run_or_stop);
 	else

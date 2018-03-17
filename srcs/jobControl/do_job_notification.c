@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 22:16:03 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 17:18:36 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ void	free_job(t_job *j)
 {
 	DEBUG("START FREE JOB\n");
 	ft_memdel((void**)&(j->command));
+	if (j->finish_command)
+	{
+		DEBUG("j->finish_command    : %s\n", j->finish_command->token.str)
+//		ft_free_tree(j->finish_command);
+	}
 	ft_free_process(j->process);
 	ft_memdel((void**)&(j));
 	DEBUG("FIN FREE JOB\n");
@@ -124,16 +129,14 @@ void	do_job_notification(void)
 			tmp->finish_command = NULL;
 			trash = tmp;
 			tmp = tmp->next;
+			free_job(trash);
 			// if (job_is_completed(trash))
 			// {
 			// 	DEBUG("cmd trash : %s\n", trash->command);
 			// 	//del_job(trash);
 
 			// }
-			if (!tmp2)
-				DEBUG("tmp2  null\n")
-			else
-				execute_job(tmp2);
+			execute_job(tmp2);
 		}
 		else
 			tmp = tmp->next;

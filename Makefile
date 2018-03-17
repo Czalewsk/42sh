@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/14 12:28:02 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/17 18:50:52 by scorbion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS			= -Wall -Wextra -Werror -g#3 -fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -111,7 +111,7 @@ SRCS_FILES		= ft_sh 													\
 				  signal/signal_sigttou										\
 				  signal/signal_sigttin										\
 				  signal/signal_handler signal/signal_sigint signal/sigwinch\
-				  signal/signal_avoid
+				  signal/signal_avoid signal/signal_sigcont
 #------------------------------------------------------------------------------#
 
 #-------------------------------| HEADER FILES |-------------------------------#

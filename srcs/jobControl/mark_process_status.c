@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 22:18:36 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 19:29:58 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	mark_process(t_job *j, pid_t pid, int status)
 	{
 		if (p->pid == pid)
 		{
-			DEBUG("PID TROUVER : %D\n", pid);
 			p->status = status;
 			if (p->next == NULL)
 				j->status_last_process = status;
@@ -31,13 +30,9 @@ int	mark_process(t_job *j, pid_t pid, int status)
 				j->notified = 0;
 			}
 			else if (WIFCONTINUED(status))
-			{
 				p->state = PROCESS_RUNNING;
-			}
 			else
-			{
 				p->state = PROCESS_COMPLETED;
-			}
 			put_first_in_job_order(j);
 			return (0);
 		}

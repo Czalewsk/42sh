@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 21:51:33 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 16:55:08 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void			process_display_long(t_process *process, char *cmd);
 int				jobs_display_only_id(t_job *j);
 void			del_job_in_first(t_job *j);
 void			free_job(t_job *j);
+void			clear_job(void);
 int				bt_jobs(t_process *p, int size, char **arg, char **env);
 
 void			do_job_notification (void);

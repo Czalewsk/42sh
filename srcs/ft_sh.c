@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/17 15:18:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 16:55:20 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	sh_quit_prog(t_buf *cmd)
 	termcaps_restore_tty();
 	close(g_sh.fd_tty);
 	close(g_sh.test_fd);
+	clear_job();
 }
 
 static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
@@ -125,7 +126,9 @@ int			main(int ac, char **av, char **env)
 		//update_status();
 		if (ret != -3)
 			parser(&cmd.cmd);
-		do_job_notification();
+		//do_job_notification();
+
+		nanosleep((const struct timespec[]){{0, 30000000L}}, NULL);
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:26:09 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 22:02:14 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 19:30:54 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ void	launch_process(char *tmp, t_process *p, t_job *j, char **env)
 		if (j->pgid == 0)
 			j->pgid = pid;
 		setpgid(pid, j->pgid);
-		//DEBUG("isatty : %d\n", isatty(g_shell_terminal));
-		// if (j->foreground)
-		// 	if (tcsetpgrp(g_shell_terminal, j->pgid) == -1)
-		// 		exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGTSTP, SIG_DFL);
@@ -34,6 +30,7 @@ void	launch_process(char *tmp, t_process *p, t_job *j, char **env)
 		signal(SIGCHLD, SIG_DFL);
 	}
 	g_sh.exitstatus = execve(tmp, p->argv, env);
-	sh_error(g_sh.exitstatus, 0, NULL, 3, "command not found:", p->argv[0], "\n");
+	sh_error(g_sh.exitstatus, 0, NULL, 3,
+		"command not found:", p->argv[0], "\n");
 	exit(g_sh.exitstatus);
 }

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 19:08:05 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 19:25:24 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,15 @@ int				bt_bg(t_process *p, int size, char **arg, char **env)
 	retour = 0;
 	if (arg[i] == NULL)
 	{
-		tmp = get_job(NULL);
-		if (tmp == NULL)
+		if ((tmp = get_job(NULL)) == NULL)
 			retour = sh_error(1, 0, NULL, 1, "bg: current: no such job\n");
 		else
 			bg_launch(tmp);
 	}
 	while (arg[i])
 	{
-		tmp = get_job(arg[i]);
-		if (tmp == NULL)
-			retour = sh_error(1, 0, NULL, 3, "bg: ", *arg, ": no such job\n");
+		if ((tmp = get_job(arg[i])) == NULL)
+			retour = sh_error(1, 0, NULL, 3, "bg: ", arg[i], ": no such job\n");
 		else
 			bg_launch(tmp);
 		i++;

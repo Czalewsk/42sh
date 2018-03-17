@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/17 15:18:17 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 19:19:27 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,38 @@ extern	t_cmd_action	g_cmd_actions[];
 t_tree			*cpy_from_tree(t_tree *c)
 {
 	t_tree		*new;
+	t_tree		*trash;
 	t_tree		*save;
 
 	new = NULL;
+	DEBUG("					Val token avant cpy : %s\n", c->token.str)
 	while (c)
 	{
 		if (!new)
 		{
 			new = (t_tree *)ft_memalloc(sizeof(t_tree));
-			ft_memcpy(&new->token, &c->token, sizeof(t_token));
+			new->token.str = ft_strdup(c->token.str);
+			new->token.id = c->token.id;
+			new->token.size = c->token.size;
 			save = new;
+//			DEBUG("OLD = %p, NEW = %p\n", c, new);
+			
 		}
 		else
 		{
 			new->right = (t_tree *)ft_memalloc(sizeof(t_tree));
-			ft_memcpy(&new->right->token, &c->token, sizeof(t_token));
+			new->right->token.str = ft_strdup(c->token.str);
+			new->right->token.id = c->token.id;
+			new->right->token.size = c->token.size;
+//			new->token = c->token;
 			new = new->right;
 		}
+		DEBUG("OLD = %p, NEW = %p\n", c, new);
+		//		DEBUG("OLD = %p, NEW = %p\n", c, new);
+		trash = c;
 		c = c->right;
+		// ft_strdel(&trash->token.str);
+		// free(trash);
 	}
 	return (save);
 }
@@ -250,11 +264,13 @@ t_tree			*fill_process(t_tree *c, t_process *p)
 	return (c);
 }
 
-int				fill_job(t_tree *c, t_job *j)
+int				fill_job(t_tree *cc, t_job *j)
 {
 	t_process 	*new;
 	t_process	**tmp;
-
+	t_tree		*c;
+	
+	c = cc;
 	tmp = &j->process;
 	while (c && (c->token.id != AND_IF && c->token.id != OR_IF) && c->token.id != SEMI && c->token.id != AND)
 	{
@@ -265,7 +281,10 @@ int				fill_job(t_tree *c, t_job *j)
 		tmp = &new->next;
 		c = fill_process(c, new);
 		if (c && c->token.id != PIPE)
-			j->finish_command = cpy_from_tree(c);
+		{
+			if (c->token.id != SEMI && c->token.id != AND)
+				j->finish_command = cpy_from_tree(c);			
+		}
 		else
 			j->finish_command = NULL;
 	}
@@ -453,17 +472,20 @@ int				ft_fill_for_jobs(t_tree *head)
 				DEBUG("PRE ENCHAINEMENT\n");
 				tmp3 = get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
 				DEBUG("%s\n", tmp2->command)
+				ft_free_tree(tmp2->finish_command);
 				tmp2->finish_command = NULL;
-				if (job_is_completed(tmp2))
-					free_job(tmp2);
+				free_job(tmp2);
 				tmp2 = tmp3;
 				DEBUG("POST ENCHAINEMENT\n")
 
-			}			
+			}
 		}
 		DEBUG("fin boucle interne\n");
 		tmp = tmp->left;
 	}
+	DEBUG("Avant free de l'arbre\n")
+	ft_free_tree(head);
+	DEBUG("apres free de l'arbre\n")
 	//ft_free_order(g_job_order);
 	//return (ft_free_tree(head));
 
