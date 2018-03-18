@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/17 16:55:20 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 14:52:36 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int			main(int ac, char **av, char **env)
 	sh_init_prog(env, &cmd, &info);
 	while (!g_sh_exit && (ac || av))
 	{
-		do_job_notification();
+		//do_job_notification();
 		sh_reinit_edition_state(&cmd, &info, NULL);
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
@@ -126,9 +126,7 @@ int			main(int ac, char **av, char **env)
 		//update_status();
 		if (ret != -3)
 			parser(&cmd.cmd);
-		//do_job_notification();
-
-		nanosleep((const struct timespec[]){{0, 30000000L}}, NULL);
+		do_job_notification();
 		ft_strdel(&cmd.cmd);
 	}
 	sh_quit_prog(&cmd);

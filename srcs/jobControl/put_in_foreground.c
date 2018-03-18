@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/17 17:27:08 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 15:23:14 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 	{
 
 		display_process_interrupt(j);
+		DEBUG("WEXITSTATUS(j->status_last_process) : %d\n", WEXITSTATUS(j->status_last_process))
 		next = get_new_job(j->finish_command, WEXITSTATUS(j->status_last_process), j->foreground);
 		ft_free_tree(j->finish_command);
+		j->finish_command = NULL;
 		// DEBUG("j->status_last_process = %d\n", WEXITSTATUS(j->status_last_process));
 		// if (j->finish_command)
 		// 	DEBUG("\n\n\n\n\n\n\n j->finish_command : %s\n\n\n\n\n\n\n", j->finish_command->token.str)
@@ -79,11 +81,15 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 		// }
 		return (next);
 	}
-	// if (WIFSIGNALED(j->process->status))
+	// if (WIFSIGNALED(j->status_last_process))
 	// {
-	// 	WTERMSIG(j->process->status);
-	// 		ft_putstr_fd("Killed : 2", g_sh.fd_tty);
-	// 	ft_putendl_fd("", g_sh.fd_tty);
+	// 	DEBUG("WTERMSIG(j->process->status) %d\n", WTERMSIG(j->process->status))
+	// 	if (WTERMSIG(j->status_last_process) == SIGINT)
+	// 		write(g_sh.fd_tty, "\n", 1);
+	// 	else
+	// 		process_display_short(j->process, j->command); //ATTENTION UTILISATION DE FT_PRINTF CAR SAME FONCTION UTILISER PAR JOBS
+	// 	ft_free_tree(j->finish_command);
+	// 	j->finish_command = NULL;
 	// }
 	
 
@@ -105,10 +111,11 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 		// j->finish_command = NULL;
 		// job_ret = j->process->status;
 		//get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
-		ft_free_tree(j->finish_command);
-		DEBUG("TOTO\n");
-		j->finish_command = NULL;
+
+		//ft_free_tree(j->finish_command);
 		free_job(j);
+		//j->finish_command = NULL;
+		
 		//del_job(j);
 		// DEBUG("Job is complete if %s\n", tmp->token.str);
 		// if (tmp)
@@ -132,30 +139,4 @@ t_job	*put_job_in_foreground(t_job *j, int cont)
 		return (next);
 	}
 	return (NULL);
-}
-
-void	put_process_in_foreground(t_process *p, int cont)
-{
-	t_job	*newjob;
-
-	tcsetpgrp(g_shell_terminal, p->pid);
-	DEBUG("put foreground \n");
-	if (cont)
-	{
-		if (kill(-p->pid, SIGCONT) < 0)
-			sh_error(1, 0, NULL, 1, "job control: kill SIGCONT");
-	}
-	waitpid(p->pid, &g_sh.exitstatus, WUNTRACED);
-	p->status = g_sh.exitstatus;
-	if (WIFSTOPPED(p->status))
-	{
-		newjob = ft_create_jobs(NULL);
-		newjob->process = cpy_profonde_process(p);
-		newjob->process->state = PROCESS_STOPPED;
-		newjob->pgid = getpgid(p->pid);
-		tcgetattr(g_shell_terminal, &newjob->tmodes);
-		termcaps_set_tty();
-		display_process_interrupt(newjob);
-	}
-	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 }

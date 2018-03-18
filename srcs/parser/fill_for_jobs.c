@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/17 19:19:27 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 15:29:27 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_tree			*cpy_from_tree(t_tree *c)
 	t_tree		*save;
 
 	new = NULL;
-	DEBUG("					Val token avant cpy : %s\n", c->token.str)
 	while (c)
 	{
 		if (!new)
@@ -44,7 +43,6 @@ t_tree			*cpy_from_tree(t_tree *c)
 //			new->token = c->token;
 			new = new->right;
 		}
-		DEBUG("OLD = %p, NEW = %p\n", c, new);
 		//		DEBUG("OLD = %p, NEW = %p\n", c, new);
 		trash = c;
 		c = c->right;
@@ -155,18 +153,11 @@ void			execute_job(t_job *job)
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
 	if (!job->process->next  && job->foreground && do_built_in(job->process, env))
 	{
-		//A ta sauce le roux
-		// DEBUG("execute_job : built in executer\n");
 		job->is_buildin = 1;
 		job->status_last_process = g_sh.exitstatus;
-		// tmp = get_new_job(job->finish_command, job->status_last_process, job->foreground);
-		// DEBUG("ft_fill_for_jobs : BESOIN DE FREE sur la ligne ref->finish_command = NULL;\n")
-		// job->finish_command = NULL;
-		
 	}
 	else
 	{
-		DEBUG("execute_job : Avant l'appel de execute_job_with_fork\n");
 		put_job_at_head_in_job_order(job);
 		put_job_at_end_in_first_job(job);
 		execute_job_with_fork(job, env);
@@ -452,8 +443,8 @@ int				ft_fill_for_jobs(t_tree *head)
 		tmp2 = create_new_job(tmp);
 		while (tmp2)
 		{
-			DEBUG("avant execute\n");
 			execute_job(tmp2);
+			print_job(tmp2);
 			if (!g_shell_is_interactive)
 				wait_for_job (tmp2);
 			else if (tmp2->is_buildin == 0 && tmp2->foreground)
@@ -469,25 +460,15 @@ int				ft_fill_for_jobs(t_tree *head)
 			}
 			else if (tmp2->is_buildin == 1)
 			{
-				DEBUG("PRE ENCHAINEMENT\n");
 				tmp3 = get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
-				DEBUG("%s\n", tmp2->command)
 				ft_free_tree(tmp2->finish_command);
 				tmp2->finish_command = NULL;
 				free_job(tmp2);
 				tmp2 = tmp3;
-				DEBUG("POST ENCHAINEMENT\n")
-
 			}
 		}
-		DEBUG("fin boucle interne\n");
 		tmp = tmp->left;
 	}
-	DEBUG("Avant free de l'arbre\n")
 	ft_free_tree(head);
-	DEBUG("apres free de l'arbre\n")
-	//ft_free_order(g_job_order);
-	//return (ft_free_tree(head));
-
 	return (0);
 }
