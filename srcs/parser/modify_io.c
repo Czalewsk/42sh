@@ -16,18 +16,30 @@ int			greatand(int fd, t_tree *c, t_process *p)
 {
 	int		ofd;
 
-	(void)p;
-	close(fd);
 	ofd = -1;
-	if (ft_str_isdigit(c->token.str) == 1)
+	if (ft_isint(c->token.str) == 1)
 		ofd = ft_atoi(c->token.str);
 	else if (ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
 		ofd = -1;
 	else if ((ofd = open(c->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
-		return (-1);
-	if (ofd != -1)
-		p->stderr = dup2(ofd, fd);
+	{
+		sh_error(-1, 0, NULL, 2, c->token.str,
+			" open failed\n");		
+		return (-1);		
+	}
+	DEBUG("OFD = = = %d\n", ofd);
+	if (fd == 1 && ofd == -1)
+		p->closeout = 1;
+	else if (fd == 0 && ofd == -1)
+		p->closein = 1;
+	else if (fd == 2 && ofd == -1)
+		p->closeerr = 1;
+	else
+	{
+		p->stdout = ofd;
+		p->stderr = ofd;
+	}
 	return (0);
 }
 
@@ -37,7 +49,7 @@ int			lessand(int fd, t_tree *c, t_process *p)
 
 	(void)p;
 	ofd = -1;
-	if (ft_str_isdigit(c->token.str) == 1)
+	if (ft_isint(c->token.str) == 1)
 	{
 		p->stdin = ft_atoi(c->token.str);
 		if (fcntl(ofd, F_GETFD) == -1)
@@ -46,8 +58,10 @@ int			lessand(int fd, t_tree *c, t_process *p)
 				" is not set as file descriptor\n");
 			return (-1);
 		}
-		if (fd != ofd)
-			dup2(dup2(ofd, fd), STDERR_FILENO);
+		if (ofd != -1)
+			p->stderr = dup2(ofd, fd);
+		else
+			close(fd);
 		return (0);
 	}
 	sh_error(-1, 0, NULL, 1, "Error, file number execpted\n");
@@ -68,18 +82,20 @@ t_tree		*modify_io(t_process *p, t_tree *clist)
 	int	fd;
 
 	fd = -1;
-	if (ft_str_isdigit(clist->token.str) == 1)
+	if (ft_isint(clist->token.str) == 1 && ft_str_isdigit(clist->token.str) == 1)
 		fd = ft_atoi(clist->token.str);
 	if (fcntl(fd, F_GETFD) == -1)
 	{
-		if (((fd = open(clist->token.str, O_WRONLY, 0755))) == -1)
+		if (fd != 0 && fd != 2 && fd != 1)
+			add_in_arguments(p, clist);
+		else if (((fd = open(clist->token.str, O_WRONLY, 0755))) == -1)
 		{
 			sh_error(0, 0, NULL, 2, clist->token.str,
 				" is not set as file descriptor\n");
 			return ((void *)1);
 		}
 	}
-	else if (modify_fd(fd, clist->right, p) == -1)
+	if (modify_fd(fd, clist->right, p) == -1)
 		return ((void *)1);
 	return (clist->right->right->right);
 }
