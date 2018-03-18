@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 20:13:36 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/18 21:40:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,11 @@ t_job			*create_new_job(t_tree *c)
 		tmp->token.id = SEMI;
 	else if (tmp->token.id == AND)
 		job->foreground = 0;
-	fill_job(c, job);
+	if (fill_job(c, job) == -1)
+	{
+		free_job(job);
+		return (NULL);
+	}
 	return (job);
 }
 
