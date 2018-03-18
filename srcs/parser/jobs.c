@@ -6,11 +6,13 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 20:49:17 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:50:55 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:40:33 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+extern struct termios s_termios_backup;
 
 char	*get_command_from_process(char **argv_p)
 {
@@ -59,8 +61,8 @@ t_job	*ft_create_jobs(t_tree *c)
 	DEBUG("before recup command \n");
 	if (c)
 		njob->command = get_command(njob->command, c);
-	else
-		njob->command = get_command_from_process(g_current_process->argv);
+	// else
+	// 	njob->command = get_command_from_process(g_current_process->argv);
 	DEBUG("after recup command \n");
 	njob->num = get_id_max_job();
 	DEBUG("after recup num \n");
@@ -68,6 +70,7 @@ t_job	*ft_create_jobs(t_tree *c)
 		new_order->next = g_job_order;
 	g_job_order = new_order;
 	tmp = g_first_job;
+	njob->tmodes = s_termios_backup;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	if (tmp)

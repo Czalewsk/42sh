@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 23:53:00 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/13 18:38:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static struct termios	s_termios_backup;
+struct termios			s_termios_backup;
 static struct termios	s_termios;
 
 /*

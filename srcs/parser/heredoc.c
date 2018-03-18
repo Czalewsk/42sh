@@ -25,15 +25,13 @@ t_tree		*here_doc(t_process *p, t_tree *c)
 {
 	int		*fd;
 
-	fd = here_list->content;
-	close(STDIN_FILENO);
+	fd = g_here_list->content;
 	close(fd[1]);
-	p->stdin = dup(fd[0]);
-	close(fd[0]);
+	p->stdin = fd[0];
 	c = c->right->right;
 	while (c && c->token.id == DLESS)
 		c = c->right->right;
-	ft_lst_remove_index(&here_list, 0, NULL);
+	ft_lst_remove_index(&g_here_list, 0, NULL);
 	return (c);
 }
 
@@ -42,8 +40,8 @@ t_tree	*add_new_fd(t_tree *new)
 	int		fd[2];
 	char	*hr;
 
-	if (!here_list)
-		here_list = NULL;
+	if (!g_here_list)
+		g_here_list = NULL;
 	if (pipe(fd) == -1)
 		return ((void *)1);
 	hr = NULL;
@@ -55,7 +53,7 @@ t_tree	*add_new_fd(t_tree *new)
 		ft_strdel(&hr);		
 	}
 	ft_strdel(&hr);
-	ft_lst_pushend(&here_list, ft_lstnew(&fd, sizeof(int *)));
+	ft_lst_pushend(&g_here_list, ft_lstnew(&fd, sizeof(int *)));
 	return (new);
 }
 
@@ -63,8 +61,12 @@ t_tree	*add_current_fd(t_tree *new)
 {
 	char	*hr;
 	int		*fd;
+	t_list	*tmp;
 
-	fd = here_list->content;
+	tmp = g_here_list;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	fd = tmp->content;
 	while (prompt_add("> ", &hr, 1) == -2)
 	{
 		if (read_hr(hr, new->token.str) == 0)
@@ -87,7 +89,9 @@ t_tree	*here(t_tree *current, t_tree *new)
 		if (tmp && (tmp->token.id == PIPE
 			|| tmp->token.id == AND_IF
 			|| tmp->token.id == OR_IF))
+		{
 			break ;
+		}
 		if (tmp && tmp->token.id == DLESS)
 			return (add_current_fd(new));
 	}

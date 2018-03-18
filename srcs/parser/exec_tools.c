@@ -12,21 +12,21 @@
 
 #include "ft_sh.h"
 
-void			set_fd(t_process *p)
-{
-	if (p->stdin != STDIN_FILENO)
-		dup2(p->stdin, STDIN_FILENO);
-	if (p->stdout != STDOUT_FILENO)
-	{
-		close(STDOUT_FILENO);
-		dup2(p->stdout, STDOUT_FILENO);
-	}
-	if (p->stderr != STDERR_FILENO)
-	{
-		close(STDERR_FILENO);
-		dup2(p->stderr, STDERR_FILENO);
-	}
-}
+// void			set_fd(t_process *p)
+// {
+// 	if (p->stdin != STDIN_FILENO)
+// 		dup2(p->stdin, STDIN_FILENO);
+// 	if (p->stdout != STDOUT_FILENO)
+// 	{
+// 		close(STDOUT_FILENO);
+// 		dup2(p->stdout, STDOUT_FILENO);
+// 	}
+// 	if (p->stderr != STDERR_FILENO)
+// 	{
+// 		close(STDERR_FILENO);
+// 		dup2(p->stderr, STDERR_FILENO);
+// 	}
+// }
 
 void		reset_fdd(t_process *p)
 {

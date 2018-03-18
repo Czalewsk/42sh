@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/11 16:05:00 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 19:21:41 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	del_job_in_first(t_job *j)
 void	free_job(t_job *j)
 {
 	ft_memdel((void**)&(j->command));
+	if (j->finish_command)
+	{
+		ft_free_tree(j->finish_command);
+		j->finish_command = NULL;
+	}
 	ft_free_process(j->process);
 	ft_memdel((void**)&(j));
 }
@@ -75,25 +80,26 @@ void	free_job(t_job *j)
 void	do_job_notification(void)
 {
 	t_job	*tmp;
-	t_job	*last_job;
 	t_job	*next_job;
 
 	update_status();
 	tmp = g_first_job;
-	last_job = NULL;
 	while (tmp)
 	{
 		next_job = tmp->next;
-		if (job_is_completed(tmp) == 1)
-			jobs_display(tmp, 0);
-		else if (job_is_stopped(tmp) == 1 && !tmp->notified)
+		if (tmp->foreground == 0)
 		{
-			jobs_display(tmp, 0);
-			tmp->notified = 1;
-			last_job = tmp;
+			if (job_is_completed(tmp) == 1)
+			{
+				jobs_display(tmp, 0);
+				del_job(tmp);
+			}
+			else if (job_is_stopped(tmp) == 1 && !tmp->notified)
+			{
+				jobs_display(tmp, 0);
+				tmp->notified = 1;
+			}
 		}
-		else
-			last_job = tmp;
 		tmp = next_job;
 	}
 	clear_completed_job();

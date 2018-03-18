@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 09:45:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/11 18:45:24 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/17 18:50:15 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void					signal_sigint(int sig, siginfo_t *siginfo,
 		void *context);
 void					sigwinch(void);
 void					signal_avoid(void);
+void					signal_sigcont(void);
 
 #endif

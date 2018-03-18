@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:36:19 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/16 19:54:59 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,11 @@
 
 #include "ft_sh.h"
 
-struct	s_tree				*head_tree;
-struct	s_tree				*current;
-t_list						*here_list;
-
 typedef struct				s_tree
 {
 	struct s_tree			*father;
 	struct s_tree			*previous;
 	struct s_tree			*left;
-	struct s_tree			*save_left;
 	struct s_tree			*right;
 	struct s_token			token;
 }							t_tree;
@@ -66,17 +61,40 @@ typedef	struct	s_builtin
 	char	*name;
 	int		(*f)(t_process *p, int argc, char **argv, char **env);
 }				t_builtin;
-void				wait_multiple_proc(t_list *pid_list);
-pid_t					init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
-void				dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
-t_tree				*new_success_or_if(t_tree *c);
-void 				do_pipe(t_tree *c, t_tree *end, t_job *job);
-void				init_current_process(void);
-void			set_fd(t_process *p);
-void			close_pipe_heredoc(t_tree *c);
-int				execute(t_process *p, t_job *job, char **env, int k);
-t_tree			*get_new_from_failure_and(t_tree *c);
 
+extern t_tree				*g_head_tree;
+extern t_tree				*g_current;
+extern t_list				*g_here_list;
+
+
+int				exec_in_line(t_job *job, char **env);
+void	print_process(t_process *p);
+void	put_job_at_head_in_job_order(t_job *job);
+void	put_job_at_end_in_first_job(t_job *job);
+void	print_first_job();
+void	print_job_order();
+void	print_job(t_job *job);
+t_job			*get_new_job(t_tree *c, int exit_status, int fg);
+void			execute_job(t_job *job);
+t_tree			*next_on_tree(t_tree *c, int exit_status);
+
+t_tree					*split_cmd_jobs(t_tree *c, int if_fg);
+t_tree				*execute_run(t_tree *c, t_job *job, t_list *lst);
+void					wait_multiple_proc(t_list *pid_list, t_job *job);
+pid_t					init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
+void					dup_and_close_son_pipe(t_tree *c, t_tree *e, int p[2][2], t_list *pid_list);
+t_tree					*new_success_or_if(t_tree *c);
+int						get_id_max_job();
+void 					do_pipe(t_tree *c, t_tree *end, t_job *job);
+t_job			*create_new_job(t_tree *c);
+void					init_current_process(t_tree *c, t_job *job);
+void					set_fd(t_process *p);
+void					close_pipe_heredoc(t_tree *c);
+int						execute(t_job *job, char **env, int k);
+t_tree					*get_new_from_failure_and(t_tree *c);
+
+int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env);
+void			execute_job_with_fork(t_job *j, char **env);
 int							clear_execute(char **path, t_process *p);
 int							do_built_in(t_process *p, char **env);
 int							set_for_pipe(t_tree *c, t_job *job);
@@ -127,6 +145,6 @@ t_tree						*check_pipe(t_tree *tmp, t_tree *stop, t_job *job);
 t_tree						*check_run_v2(t_tree *c, t_job *job);
 
 void						clear_assign_word(t_tree *cur, t_tree *new);
-t_tree						*cmd_action(t_tree *c, t_job *job);
+t_tree						*cmd_action(t_tree *c, t_job *job, t_list *lst);
 
 #endif

@@ -117,19 +117,19 @@ char		**how_to_do(char **argv, char *cmd)
 
 char	**sub_shell_main(char **argv, char *cmd)
 {
-	t_tree	*n_head;
-	t_tree	*n_current;
+//	t_tree	*n_head;
+//	t_tree	*n_current;
 
-	n_head = NULL;
-	n_current = NULL;
+//	n_head = NULL;
+//	n_current = NULL;
 	if ((argv = how_to_do(argv, cmd)) == NULL)
 		sh_error(0, 0, NULL, 1, "parse error in command substitution");
-	head_tree = n_head;
-	current = n_current;
+//	g_head_tree = n_head;
+//	g_current = n_current;
 	return (argv);
 }
 
-char	*extrac_from_quote(char *dst, char *ref)
+char	*extrac_from_backtite(char *dst, char *ref)
 {
 	int	i;
 	int	e;
@@ -153,15 +153,15 @@ t_tree	*subshell(t_process *p, t_tree *c)
 	t_tree	*save_head_tree;
 	t_tree	*save_current;
 
-	save_current = current;
-	save_head_tree = head_tree;
+	save_current = g_current;
+	save_head_tree = g_head_tree;
 	new = (char *)ft_memalloc(sizeof(char) * ft_strlen(c->token.str));
-	new = extrac_from_quote(new, c->token.str);
+	new = extrac_from_backtite(new, c->token.str);
 	if (new && new[0] != '\0')
 		p->argv = sub_shell_main(p->argv, new);
 	free(new);
-	head_tree = save_head_tree;
-	current = save_current;
+	g_head_tree = save_head_tree;
+	g_current = save_current;
 	if (p->argv == NULL)
 		return ((void *)1);
 	return (c->right);
