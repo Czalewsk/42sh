@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 13:36:49 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/15 22:42:03 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/18 19:59:47 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,11 @@ static void	exec_util(t_process *p, int argc, char **argv, char **env)
 	p2.stdin = p->stdin;
 	p2.stdout = p->stdout;
 	p2.stderr = p->stderr;
-	if (!do_built_in(&p2, env))
-		execute(&p2, NULL, env, 1);
+	// if (!do_built_in(&p2, env))
+	// 	execute_job_with_fork(p2, env);
+	/* UTILISE LES JOBS ET NON LES PROCESS SAL CON 
+	
+	des bisous*/
 }
 
 int			builtin_env(t_process *p, int argc, char **argv, char **env)
