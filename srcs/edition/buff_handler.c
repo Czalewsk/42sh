@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 15:17:27 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/25 18:35:51 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/18 22:19:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static size_t	g_max_char_visu;
 static void		realloc_t_buf(t_buf *cmd)
 {
 	cmd->size_max *= 2;
-	cmd->cmd = ft_memrealloc(cmd->cmd, cmd->size_actual, cmd->size_max);
+	cmd->cmd = ft_memrealloc(cmd->cmd, cmd->size_actual + 1, cmd->size_max);
 }
 
 void			buff_max_char_init(t_read *info)
@@ -53,12 +53,12 @@ char			buff_handler(t_buf *cmd, t_key *entry, char *str, t_read *info)
 	if ((entry || str) && !sh_limits_char(entry, str, info))
 		return (0);
 	if (entry)
-		while (entry->nread + cmd->size_actual >= cmd->size_max - 1)
+		while (entry->nread + cmd->size_actual > cmd->size_max - 2)
 			realloc_t_buf(cmd);
 	else if (str)
 	{
 		len = ft_strlen(str);
-		while (len + cmd->size_actual >= cmd->size_max - 1)
+		while (len + cmd->size_actual > cmd->size_max - 2)
 			realloc_t_buf(cmd);
 	}
 	else

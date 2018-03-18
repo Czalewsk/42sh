@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/03 16:51:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/18 22:28:01 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,26 +90,31 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	int		i;
 	int		ret;
 	t_buf	pasted;
+	char	*space;
 
+	space = ft_strnew(SIZE_READ);
+	ft_memset(space, ' ', SIZE_READ);
 	g_sh.edition_state = PASTED;
 	buff_handler(&pasted, NULL, NULL, info);
 	i = 6;
 	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
+		if (pasted.size_actual > pasted.size_max - 2)
+			buff_handler(&pasted, NULL, space, info);
 		if (ret == 1)
-			pasted.cmd[pasted.size_actual++] = *(entry->entry + i);
+			pasted.cmd[pasted.size_actual++] =*(entry->entry + i);
 		if (i < entry->nread - 1)
 			i++;
 		else
 		{
 			i = 0;
 			ft_bzero(entry, sizeof(t_key));
-			buff_handler(&pasted, NULL, "             ", info);
 			read_key(entry);
 		}
 	}
 	insert_chars_pasted(cmd, info, &pasted);
 	remove_excess(entry, i + 1);
 	free(pasted.cmd);
+	free(space);
 	return (1);
 }
