@@ -117,15 +117,8 @@ char		**how_to_do(char **argv, char *cmd)
 
 char	**sub_shell_main(char **argv, char *cmd)
 {
-//	t_tree	*n_head;
-//	t_tree	*n_current;
-
-//	n_head = NULL;
-//	n_current = NULL;
 	if ((argv = how_to_do(argv, cmd)) == NULL)
 		sh_error(0, 0, NULL, 1, "parse error in command substitution");
-//	g_head_tree = n_head;
-//	g_current = n_current;
 	return (argv);
 }
 
@@ -157,7 +150,7 @@ t_tree	*subshell(t_process *p, t_tree *c)
 	save_head_tree = g_head_tree;
 	new = (char *)ft_memalloc(sizeof(char) * ft_strlen(c->token.str));
 	new = extrac_from_backtite(new, c->token.str);
-	if (new && new[0] != '\0')
+	if (new && new[0] != '\n')
 		p->argv = sub_shell_main(p->argv, new);
 	free(new);
 	g_head_tree = save_head_tree;

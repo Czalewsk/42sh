@@ -37,6 +37,9 @@ typedef struct	s_process
 	int					stdin;
 	int					stdout;
 	int					stderr;
+	int					closein;
+	int					closeout;
+	int					closeerr;
 }				t_process;
 
 typedef struct	s_job
