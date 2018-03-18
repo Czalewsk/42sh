@@ -6,7 +6,7 @@
 /*   By: czalewsk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 19:38:32 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:20:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/17 17:18:29 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		cursor_back_home(t_read *info, char after_prompt)
 	if ((line = ((info->curs_char + info->prompt) / info->win_co) -
 				(info->prompt / info->win_co)))
 		tputs(tparm(g_termcaps_cap[NUP], line), 0, &ft_putchar_termcap);
+	tputs(tgetstr("ce", NULL), 0, &ft_putchar_termcap);
 	tputs(g_termcaps_cap[CLEAR], 0, &ft_putchar_termcap);
 }
 

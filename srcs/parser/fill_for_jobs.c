@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 20:00:54 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 20:13:36 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,11 +360,14 @@ void	print_process(t_process *p)
 	DEBUG("		ARGV du process :\n");
 	DEBUG("			");
 	i = 0;
-	while (p->argv[i])
-	{
-		DEBUG("%s ", p->argv[i]);
-		i++;
-	}
+	if (p->argv)
+		while (p->argv[i])
+		{
+			DEBUG("%s ", p->argv[i]);
+			i++;
+		}
+	else
+		DEBUG("No argv");
 	DEBUG("\n");
 }
 

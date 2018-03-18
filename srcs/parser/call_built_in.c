@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/15 13:37:45 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/18 20:11:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		do_built_in(t_process *p, char **env)
 	int		i;
 
 	i = -1;
+	if (!p->argv)
+		return (0);
 	while (g_builtins[++i].name)
 	{
 		if (!ft_strcmp(g_builtins[i].name, p->argv[0]))
