@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 09:55:58 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/16 22:33:56 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 18:30:51 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	job_is_stopped(t_job *j)
 	p = j->process;
 	while (p != NULL)
 	{
-		if (p->state != PROCESS_STOPPED)
+		if (p->state != PROCESS_STOPPED && p->state != PROCESS_COMPLETED)
 			return (0);
 		p = p->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 15:02:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 19:28:01 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct	s_job
 	char				notified;
 	pid_t				pgid;
 	struct termios		tmodes;
-	int					is_buildin;
+	int					is_builtin;
 }				t_job;
 
 extern t_job		*g_first_job;
@@ -73,7 +73,7 @@ t_job			*put_job_in_foreground(t_job *j, int cont);
 void			put_job_in_background(t_job *j, int cont);
 
 int				jobs_display(t_job *j, int long_flag);
-void			process_display_short(t_process *process, char *cmd);
+void			process_display_short(t_process *process, char *cmd, int fd);
 void			process_display_long(t_process *process, char *cmd);
 int				jobs_display_only_id(t_job *j);
 void			del_job_in_first(t_job *j);

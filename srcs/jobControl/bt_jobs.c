@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/17 19:28:29 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 18:03:44 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	jobs_display_jobspec(char info, char run_or_stop, char **arg)
 				"jobs: ", arg[i], ": no such job\n");
 		else if (run_or_stop == 'r' && job_is_running(tmp) == 0)
 			;
-		else if (run_or_stop == 's' && job_is_stopped(tmp))
+		else if (run_or_stop == 's' && job_is_running(tmp) != 0)
 			;
 		else if (info == 'p')
 			jobs_display_only_id(tmp);
@@ -62,7 +62,7 @@ static int	jobs_display_no_jobspec(char info, char run_or_stop)
 		next = j->next;
 		if (run_or_stop == 'r' && job_is_running(j) == 0)
 			;
-		else if (run_or_stop == 's' && job_is_stopped(j) != 0)
+		else if (run_or_stop == 's' && job_is_running(j) != 0)
 			;
 		else if (info == 'p')
 			jobs_display_only_id(j);
@@ -99,7 +99,7 @@ int			bt_jobs(t_process *p, int size, char **arg, char **env)
 	if (arg == NULL || arg[i] == NULL)
 		jobs_display_no_jobspec(info, run_or_stop);
 	else
-		jobs_display_jobspec(info, run_or_stop, arg);
+		jobs_display_jobspec(info, run_or_stop, arg + i);
 	clear_completed_job();
 	return (0);
 }

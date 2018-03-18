@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 15:29:27 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 19:45:06 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void			execute_job(t_job *job)
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
 	if (!job->process->next  && job->foreground && do_built_in(job->process, env))
 	{
-		job->is_buildin = 1;
+		job->is_builtin = 1;
 		job->status_last_process = g_sh.exitstatus;
 	}
 	else
@@ -431,11 +431,19 @@ void	print_job_order()
 	DEBUG("			PRINT JOB ORDER\n\n\n\n");
 }
 
+t_job			*need_norme(t_job *j)
+{
+	t_job	*res;
+
+	res = get_new_job(j->finish_command, j->status_last_process, j->foreground);
+	free_job(j);
+	return (res);
+}
+
 int				ft_fill_for_jobs(t_tree *head)
 {
 	t_tree		*tmp;
 	t_job		*tmp2;
-	t_job		*tmp3;
 
 	tmp = head;
 	while (tmp)
@@ -444,28 +452,17 @@ int				ft_fill_for_jobs(t_tree *head)
 		while (tmp2)
 		{
 			execute_job(tmp2);
-			print_job(tmp2);
 			if (!g_shell_is_interactive)
 				wait_for_job (tmp2);
-			else if (tmp2->is_buildin == 0 && tmp2->foreground)
-			{
+			else if (tmp2->is_builtin == 0 && tmp2->foreground)
 				tmp2 = put_job_in_foreground(tmp2, 0);
-			}
-			else if (tmp2->is_buildin == 0)
+			else if (tmp2->is_builtin == 0)
 			{
-				dprintf(g_sh.fd_tty, "[%d] %d\n", tmp2->num, tmp2->process->pid); //LI CONNARD AVANT DE FAIRE LA NORME NEED CHANGER AUTRE QUE DPRINTF
-				g_sh.exitstatus = 0;
 				put_job_in_background(tmp2, 0);
 				tmp2 = NULL;
 			}
-			else if (tmp2->is_buildin == 1)
-			{
-				tmp3 = get_new_job(tmp2->finish_command, tmp2->status_last_process, tmp2->foreground);
-				ft_free_tree(tmp2->finish_command);
-				tmp2->finish_command = NULL;
-				free_job(tmp2);
-				tmp2 = tmp3;
-			}
+			else if (tmp2->is_builtin == 1)
+				tmp2 = need_norme(tmp2);
 		}
 		tmp = tmp->left;
 	}

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:08:50 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/17 15:43:10 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 15:52:22 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	bt_fg(t_process *p, int size, char **arg, char **env)
 	(void)env;
 	(void)p;
 	(void)size;
-	print_first_job();
 	tmp = get_job(arg[1]);
 	if (tmp == NULL)
 	{

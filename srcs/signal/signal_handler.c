@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 13:55:11 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/17 19:04:30 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/18 19:51:30 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static unsigned	long	g_signal_mask;
 **Variable qui defini si un signal doit etre gere par le signal handler
 */
 
- static const	char	g_signal_interrupt[MAX_NB_SIGNAL] = {
+static const char	g_signal_interrupt[MAX_NB_SIGNAL] = {
 	[SIGCHLD] = 17,
 	[SIGTSTP] = 7,
 	[SIGTTIN] = 77,
@@ -35,7 +35,7 @@ static unsigned	long	g_signal_mask;
 ** dans le signal manager
 */
 
- static			void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) = {
+static void	(*const g_signal_fct[MAX_NB_SIGNAL])(void) = {
 	[SIGCHLD] = &signal_sigchld,
 	[SIGTSTP] = &signal_sigtstp,
 	[SIGTTIN] = &signal_sigttin,
