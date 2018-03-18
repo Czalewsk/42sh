@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 21:40:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/18 21:46:48 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,10 +271,12 @@ int				fill_job(t_tree *cc, t_job *j)
 		*tmp = new;
 		tmp = &new->next;
 		c = fill_process(c, new);
+		if (!j->process->argv)
+			return (-1);
 		if (c && c->token.id != PIPE)
 		{
 			if (c->token.id != SEMI && c->token.id != AND)
-				j->finish_command = cpy_from_tree(c);			
+				j->finish_command = cpy_from_tree(c);
 		}
 		else
 			j->finish_command = NULL;
