@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 11:38:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 17:41:26 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ char			read_key(t_key *entry)
 	return (1);
 }
 
-void			debug_key(t_key *entry)
-{
-	int		i;
-
-	i = 0;
-	DEBUG("READ=%i\r\n", entry->nread);
-	while (i < entry->nread)
-		DEBUG("%hhi\r\n", entry->entry[i++]);
-}
+/*
+**void			debug_key(t_key *entry)
+**{
+**	int		i;
+**
+**	i = 0;
+**	DEBUG("READ=%i\r\n", entry->nread);
+**	while (i < entry->nread)
+**		DEBUG("%hhi\r\n", entry->entry[i++]);
+**}
+*/
 
 /*
 ** Retourne un char dans read_line
