@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 19:28:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/19 15:48:58 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 typedef struct	s_process
 {
-	struct s_process	*next; //liste des process pour les pipes 
+	struct s_process	*next;
 	char				**argv;
 	pid_t				pid;
 	int					state;

@@ -6,12 +6,12 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 10:59:59 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/12 14:41:32 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/19 13:51:48 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansions.h"
-#include "sh_glob.h"
+#include "utils.h"
 
 static t_list	*get_globing(char *str)
 {
@@ -20,7 +20,7 @@ static t_list	*get_globing(char *str)
 	t_list	*prev;
 
 	lst = NULL;
-	if (sh_glob(str, &cur))
+	if (sh_globbing(str, &cur))
 	{
 		while (cur)
 		{

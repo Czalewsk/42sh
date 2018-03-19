@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 23:44:18 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/13 18:25:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 16:19:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char		pasted_remove_highlight_char(t_buf *cmd, t_read *info, t_key *entry)
 {
+	tputs(g_termcaps_cap[INV_OFF], 0, &ft_putchar_termcap);
 	g_sh.edition_state = NORMAL;
 	(void)entry;
 	cursor_back_home(info, 1);
@@ -24,6 +25,7 @@ char		pasted_remove_highlight_char(t_buf *cmd, t_read *info, t_key *entry)
 
 char		pasted_remove_highlight(t_buf *cmd, t_read *info, t_key *entry)
 {
+	tputs(g_termcaps_cap[INV_OFF], 0, &ft_putchar_termcap);
 	g_sh.edition_state = NORMAL;
 	(void)entry;
 	cursor_back_home(info, 1);

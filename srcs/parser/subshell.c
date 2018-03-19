@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 23:38:08 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/27 23:38:08 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/19 15:46:38 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,11 @@ char		**concat_tab_for_sub(char **argv, char **k, int size)
 
 	if (!argv)
 		return (k);
-	i = 0;
+	i = -1;
 	a = 0;
 	ret = (char **)ft_memalloc(sizeof(char *) * (size + 2));
-	while (argv && argv[i])
-	{
-			ret[i] = ft_strdup(argv[i]);
-			i++;
-	}
+	while (argv && argv[++i])
+		ret[i] = ft_strdup(argv[i]);
 	i > 1 ? i-- : i;
 	while (k && k[a])
 	{
@@ -141,11 +138,11 @@ char	*extrac_from_backtite(char *dst, char *ref)
 
 t_tree	*subshell(t_process *p, t_tree *c)
 {
-	(void)p;
 	char	*new;
 	t_tree	*save_head_tree;
 	t_tree	*save_current;
 
+	(void)p;
 	save_current = g_current;
 	save_head_tree = g_head_tree;
 	new = (char *)ft_memalloc(sizeof(char) * ft_strlen(c->token.str));

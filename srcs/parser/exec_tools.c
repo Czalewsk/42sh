@@ -6,27 +6,11 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:42:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 14:42:59 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:33:07 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-// void			set_fd(t_process *p)
-// {
-// 	if (p->stdin != STDIN_FILENO)
-// 		dup2(p->stdin, STDIN_FILENO);
-// 	if (p->stdout != STDOUT_FILENO)
-// 	{
-// 		close(STDOUT_FILENO);
-// 		dup2(p->stdout, STDOUT_FILENO);
-// 	}
-// 	if (p->stderr != STDERR_FILENO)
-// 	{
-// 		close(STDERR_FILENO);
-// 		dup2(p->stderr, STDERR_FILENO);
-// 	}
-// }
 
 void		reset_fdd(t_process *p)
 {
