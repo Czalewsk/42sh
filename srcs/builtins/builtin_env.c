@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 13:36:49 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/18 19:59:47 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/19 16:44:39 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	setup_env(t_process *p, char ***env, int argc, char **argv)
 static void	exec_util(t_process *p, int argc, char **argv, char **env)
 {
 	int			i;
+	t_job		job;
 	t_process	p2;
 
 	if (!argc)
@@ -62,16 +63,16 @@ static void	exec_util(t_process *p, int argc, char **argv, char **env)
 			ft_putendl_fd(env[i], p->stdout);
 		return ;
 	}
+	ft_bzero(&job, sizeof(t_job));
+	job.process = &p2;
+	job.foreground = 1;
 	ft_bzero(&p2, sizeof(t_process));
 	p2.argv = argv;
 	p2.stdin = p->stdin;
 	p2.stdout = p->stdout;
 	p2.stderr = p->stderr;
-	// if (!do_built_in(&p2, env))
-	// 	execute_job_with_fork(p2, env);
-	/* UTILISE LES JOBS ET NON LES PROCESS SAL CON 
-	
-	des bisous*/
+	if (!do_built_in(&p2, env))
+	 	execute_job_with_fork(&job, env);
 }
 
 int			builtin_env(t_process *p, int argc, char **argv, char **env)
