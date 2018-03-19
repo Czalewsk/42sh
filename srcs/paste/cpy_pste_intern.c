@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/18 21:27:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 15:39:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char		cpy_cut_validate(t_buf *cmd, t_read *info, t_key *entry)
 		g_sh.edition_state = NORMAL;
 		ft_memmove(cmd->cmd + start, cmd->cmd + end,
 				cmd->size_actual - end + 2);
-		cmd->cmd[cmd->size_actual - (end - start)]= 0;
+		cmd->cmd[cmd->size_actual - (end - start)] = 0;
 		cmd->size_actual -= (end - start);
 		display_str(cmd, info, NULL,
 				info->curs_char - ft_strlen_utf8(g_sh.pasted));

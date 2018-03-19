@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 21:58:39 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/15 00:13:18 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/19 15:37:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int			stats_filecmp(const char *p1, const char *p2);
 void		cwd_init(void);
 void		cwd_change(const char *path);
 void		cwd_destroy(void);
+void		ft_xfree(int nb, ...);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/18 19:54:51 by scorbion         ###   ########.fr        #
+#    Updated: 2018/03/19 14:34:12 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,10 +82,10 @@ SRCS_FILES		= ft_sh 													\
 				  parser/fill_for_jobs parser/add_in_tree parser/fd			\
 				  parser/tools_for_fill parser/init parser/exec				\
 				  parser/modify_io parser/add_in_arguments 					\
-				  parser/read_from_prompt parser/pipe parser/jobs			\
+				  parser/read_from_prompt parser/jobs						\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  parser/clear_assign_word									\
-				  parser/exec_tools parser/pipe_tools						\
+				  parser/exec_tools											\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
 				  jobControl/bt_bg											\
