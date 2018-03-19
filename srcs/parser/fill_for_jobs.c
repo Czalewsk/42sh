@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 21:46:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 17:05:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,8 @@ int				fill_job(t_tree *cc, t_job *j)
 		new = ft_memalloc(sizeof(t_process));
 		*tmp = new;
 		tmp = &new->next;
-		c = fill_process(c, new);
+		if ((c = fill_process(c, new)) == (void*)1)
+				return (-1);
 		if (!j->process->argv)
 			return (-1);
 		if (c && c->token.id != PIPE)
