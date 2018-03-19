@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:19 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/17 17:10:04 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/19 11:51:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int			ft_free_array(char **argv)
 	char	*t;
 
 	i = 0;
-
 	while (argv && argv[i])
 	{
 		t = argv[i++];
@@ -68,40 +67,5 @@ t_process *l;
 		free(l);
 
 	}
-	return (0);
-}
-
-int			ft_free_jobs(t_job *j)
-{
-	if (j->command)
-	{
-		free(j->command);
-	}
-	// if (j->process)
-	// {
-	// 	ft_free_process(j->free_process);
-	// }
-	if (j)
-	{
-		free(j);
-	}
-	return (0);
-}
-
-int			ft_free_order(t_list *lst)
-{
-	t_list	*tmp;
-
-	tmp = lst;
-	while (tmp)
-	{
-		lst = tmp;
-		ft_free_jobs(lst->content);
-		tmp = tmp->next;
-		if (lst)
-			free(lst);
-	}
-	g_job_order = NULL;
-	g_first_job = NULL;
 	return (0);
 }

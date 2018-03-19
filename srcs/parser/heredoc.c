@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 21:03:58 by maastie           #+#    #+#             */
-/*   Updated: 2018/02/24 21:03:59 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/19 11:59:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_tree		*here_doc(t_process *p, t_tree *c)
 	return (c);
 }
 
-t_tree	*add_new_fd(t_tree *new)
+t_tree		*add_new_fd(t_tree *new)
 {
 	int		fd[2];
 	char	*hr;
@@ -50,14 +50,14 @@ t_tree	*add_new_fd(t_tree *new)
 		if (read_hr(hr, new->token.str) == 0)
 			break ;
 		ft_putstr_fd(hr, fd[1]);
-		ft_strdel(&hr);		
+		ft_strdel(&hr);
 	}
 	ft_strdel(&hr);
 	ft_lst_pushend(&g_here_list, ft_lstnew(&fd, sizeof(int *)));
 	return (new);
 }
 
-t_tree	*add_current_fd(t_tree *new)
+t_tree		*add_current_fd(t_tree *new)
 {
 	char	*hr;
 	int		*fd;
@@ -72,13 +72,13 @@ t_tree	*add_current_fd(t_tree *new)
 		if (read_hr(hr, new->token.str) == 0)
 			break ;
 		ft_putstr_fd(hr, fd[1]);
-		ft_strdel(&hr);		
+		ft_strdel(&hr);
 	}
 	ft_strdel(&hr);
 	return (new);
 }
 
-t_tree	*here(t_tree *current, t_tree *new)
+t_tree		*here(t_tree *current, t_tree *new)
 {
 	t_tree	*tmp;
 

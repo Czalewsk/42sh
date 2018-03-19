@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/16 19:54:59 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/19 11:51:52 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int							ft_leave_parse(t_token t);
 int							read_parser(char **cmd, char *cur);
 int							cnewline(t_token t, char **cmd, char *cur);
 int							read_from_prompt(char **cmd, char *cur);
-int							ft_free_order(t_list *lst);
 int							ft_free_node(t_tree *token);
 int							ft_free_array(char **argv);
 int							ft_free_tree(t_tree *c);

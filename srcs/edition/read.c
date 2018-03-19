@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:53:46 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/16 21:24:49 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/19 11:38:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void			debug_key(t_key *entry)
 
 char			key_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 {
-//	debug_key(entry);
 	if ((entry->entry[0] == 27 || ft_iswcntrl((int)*(entry->entry))))
 		return (key_manager(cmd, info, entry));
 	sh_reinit_edition_state(cmd, info, entry);

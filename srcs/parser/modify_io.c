@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:14 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/11 16:31:14 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/19 11:55:05 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ int			greatand(int fd, t_tree *c, t_process *p)
 	else if ((ofd = open(c->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 	{
-		sh_error(-1, 0, NULL, 2, c->token.str,
-			" open failed\n");		
-		return (-1);		
+		sh_error(-1, 0, NULL, 2, c->token.str, " open failed\n");
+		return (-1);
 	}
-	DEBUG("OFD = = = %d\n", ofd);
 	if (fd == 1 && ofd == -1)
 		p->closeout = 1;
 	else if (fd == 0 && ofd == -1)
@@ -82,7 +80,8 @@ t_tree		*modify_io(t_process *p, t_tree *clist)
 	int	fd;
 
 	fd = -1;
-	if (ft_isint(clist->token.str) == 1 && ft_str_isdigit(clist->token.str) == 1)
+	if (ft_isint(clist->token.str) == 1
+			&& ft_str_isdigit(clist->token.str) == 1)
 		fd = ft_atoi(clist->token.str);
 	if (fcntl(fd, F_GETFD) == -1)
 	{

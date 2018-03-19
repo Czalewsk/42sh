@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/03 16:51:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 11:48:37 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 t_tree	*ft_great(t_process *p, t_tree *c)
 {
-
 	if ((p->stdout = open(c->right->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 	{
 		sh_error(0, 0, NULL, 3, "Error: ",
-			c->right->token.str, " open failed\n");		
-		return ((void *)1);	
+			c->right->token.str, " open failed\n");
+		return ((void *)1);
 	}
 	return (c->right->right);
 }
@@ -58,23 +57,18 @@ t_tree	*gand(t_process *p, t_tree *c)
 				c->right->token.str, " is not set as file descriptor\n");
 			return ((void *)1);
 		}
-		p->stderr = p->stdout;
+	}
+	else if (!ft_memcmp("-", c->right->token.str,
+				ft_strlen(c->right->token.str)))
 		return (c->right->right);
-	}
-	else
+	else if ((p->stdout = open(c->right->token.str, O_CREAT |
+					O_TRUNC | O_WRONLY, 0755)) == -1)
 	{
-		if (ft_memcmp("-", c->right->token.str,
-			ft_strlen(c->right->token.str)) == 0)
-			return (c->right->right);
-		else if ((p->stdout = open(c->right->token.str, O_CREAT |
-			O_TRUNC | O_WRONLY, 0755)) == -1)
-		{
-			sh_error(0, 0, NULL, 3, "Error: ",
+		sh_error(0, 0, NULL, 3, "Error: ",
 				c->right->token.str, " open failed\n");
-			return ((void *)1);			
-		}
-		p->stderr = p->stdout;
+		return ((void *)1);
 	}
+	p->stderr = p->stdout;
 	return (c->right->right);
 }
 
@@ -84,7 +78,7 @@ t_tree	*ft_dgreat(t_process *p, t_tree *c)
 		O_CREAT | O_WRONLY, 0755))) == -1)
 	{
 		sh_error(0, 0, NULL, 3, "Error: ",
-			c->right->token.str, " open failed\n");		
+			c->right->token.str, " open failed\n");
 		return ((void *)1);
 	}
 	return (c->right->right);
