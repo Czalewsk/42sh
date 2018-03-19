@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 14:55:19 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/14 11:55:58 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/19 15:48:22 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ char			completion_to_normal_char(t_buf *cmd, t_read *info,
 */
 int				fcmp_select(t_select *s1, t_select *s2);
 t_select		*new_select(char *name, char *path);
-void			add_ls(t_comp *comp, t_ldl_head *head, char *search, char *path);
+void			add_ls(t_comp *comp, t_ldl_head *head,
+				char *search, char *path);
 int				add_dir(t_comp *comp, t_ldl_head *head);
 int				add_bin(t_comp *comp, t_ldl_head *head);
 int				add_env(t_comp *comp, t_ldl_head *head, char **env);
