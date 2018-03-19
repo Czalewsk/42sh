@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 14:38:27 by bviala            #+#    #+#             */
-/*   Updated: 2017/12/20 18:18:42 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/19 15:09:11 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 char	no_history_up(t_buf *cmd, t_read *info, int last)
 {
-	if (!g_sh.h_current)
+	if (!g_sh.h_current || (!last && !g_sh.h_current->next))
 		return (0);
-	if (!last && g_sh.h_current->next && g_sh.h_first)
+	if (!last && g_sh.h_first && g_sh.h_current->next)
 		g_sh.h_current = g_sh.h_current->next;
 	else if (last)
 		g_sh.h_current = g_sh.history->tail;
 	if (!g_sh.h_first)
 		g_sh.h_first++;
-	if (!ft_strncmp(g_sh.h_save, g_sh.h_current->content,
+	if (g_sh.h_current && !ft_strncmp(g_sh.h_save, g_sh.h_current->content,
 				ft_strlen(g_sh.h_save)))
 		display_str(cmd, info, g_sh.h_current->content,
 				ft_strlen(g_sh.h_current->content));
-	else
+	else if (g_sh.h_current)
 	{
 		if (last)
 			return (no_history_do(cmd, info, 0));
