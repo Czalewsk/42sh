@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 15:39:28 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 16:17:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,14 @@ char		cpy_cut_intern(t_buf *cmd, t_read *info, t_key *entry)
 	if (info->total_char)
 	{
 		if (g_sh.edition_state == COPY_PASTE)
+		{
 			cpy_cut_validate(cmd, info, entry);
+			tputs(g_termcaps_cap[INV_ON], 0, &ft_putchar_termcap);
+		}
 		else
 		{
 			g_sh.edition_state = COPY_PASTE;
+			tputs(g_termcaps_cap[INV_ON], 0, &ft_putchar_termcap);
 			ft_bzero(g_cpy_paste_cursor, sizeof(g_cpy_paste_cursor));
 			g_copy_cut = entry->entry[5] - 79;
 			g_cpy_paste_cursor[0] = sh_curs_unicode(cmd->cmd,

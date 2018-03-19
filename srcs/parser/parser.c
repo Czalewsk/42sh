@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:21:54 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:23:00 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int			take_token_from_list(t_list *lst, t_token c)
 	{
 		f = tmp;
 		n = (t_token *)tmp->content;
+		sh_escape(n->str);
 		ft_memcpy(&t, n, sizeof(t_token));
 		free(n);
 		if (place_token(t) < 0)
@@ -84,6 +85,7 @@ int			read_parser(char **cmd, char *cur)
 	{
 		if (!expansions_expand(&lst, &t))
 		{
+			sh_escape(t.str);
 			if (t.id == NEWLINE)
 			{
 				if (cnewline(t, cmd, cur) == -1)
