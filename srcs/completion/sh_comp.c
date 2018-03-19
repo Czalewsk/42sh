@@ -6,25 +6,11 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/24 18:09:31 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/08 18:27:28 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/19 18:47:31 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-t_ldl		*get_current(t_ldl_head *lst)
-{
-	t_ldl *ldl;
-
-	ldl = lst ? lst->head : NULL;
-	while (ldl)
-	{
-		if (((t_select *)ldl->content)->is_current)
-			return (ldl);
-		ldl = ldl->next;
-	}
-	return (ldl);
-}
 
 static int	current_index(t_ldl_head *head)
 {
@@ -90,6 +76,15 @@ void		calcul_display(t_comp *comp, t_read *info, t_buf *cmd)
 	comp->index_col = current_index(comp->head) / comp->nb_file_col;
 }
 
+static void	sh_comp2(t_buf *cmd, t_read *info)
+{
+	info->curs_char = info->total_char;
+	clear_prompt_comp(g_sh.comp);
+	cursor_back_begin(info);
+	prompt_display(info, 0);
+	ft_putstr_fd(cmd->cmd, g_sh.fd_tty);
+}
+
 char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 {
 	t_ldl	*ldl;
@@ -101,14 +96,16 @@ char		sh_comp(t_buf *cmd, t_read *info, t_key *entry)
 		if (g_sh.comp->head->length == 1 || g_sh.comp->ret)
 			return (validate_completion(cmd, info, entry));
 		if (g_sh.comp->first)
-		{
-			clear_prompt_comp(g_sh.comp);
-			cursor_back_begin(info);
-			prompt_display(info, 0);
-			ft_putstr_fd(cmd->cmd, g_sh.fd_tty);
-		}
+			sh_comp2(cmd, info);
 		else
+		{
+			g_sh.comp->part =
+				((info->total_char - info->curs_char) / info->win_co);
+			if (((info->total_char - info->curs_char) % info->win_co))
+				g_sh.comp->part++;
+			ft_putnchar_fd('\n', g_sh.comp->part, g_sh.fd_tty);
 			g_sh.comp->first = 1;
+		}
 		ft_putchar_fd('\n', g_sh.fd_tty);
 		print_comp(g_sh.comp, info, cmd);
 	}
