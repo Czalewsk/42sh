@@ -6,13 +6,12 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 16:37:55 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/14 23:22:32 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/19 15:47:56 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __FT_SH_H
 # define __FT_SH_H
-
 
 # include "job_control.h"
 # include "libft.h"
@@ -40,7 +39,6 @@
 # include "sh_signal.h"
 # include "utils.h"
 
-
 /*
 ** Structure globale, comprenant les informations relatives a :
 ** - l'etat de l'edition de ligne (normal, auto-completion ou historique)
@@ -49,7 +47,7 @@
 ** - le statut de sortie de la commande precedente (SUCCESS ou Code d'erreur)
 ** - le copycolle
 */
-typedef struct			s_sh
+typedef struct		s_sh
 {
 	int				edition_state;
 	int				fd_tty;
@@ -74,20 +72,19 @@ typedef struct			s_sh
 	char			*pasted;
 	char			prompt_display;
 
-}						t_sh;
+}					t_sh;
 
-extern t_sh				g_sh;
+extern t_sh			g_sh;
 
 /*
 ** Variable permettant decrire les term sur le bon fd (ft_putchar_termcap)
 */
-extern int	g_termcps_fd;
+extern int			g_termcps_fd;
 
 /*
 ** Variable qui contient les fonctions a appelee pour reset la machine a etat
 **  selon l'etat dans lequelle elle est.
 */
-
 extern char			(*const g_special_case[EDITION_MAX_STATE])(t_buf *cmd,
 		t_read *info, t_key *entry);
 
@@ -97,8 +94,8 @@ extern char			g_sh_exit;
 ** Fonction qui check l'etat de l'edition et qui le cas echeant le reinitialise
 **  /!\ La variable entry peut etre egal a NULL /!\
 */
-
-void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry);
+void				sh_reinit_edition_state(t_buf *cmd,
+		t_read *info, t_key *entry);
 
 # define SIZE_BUF_CMD (128)
 # define PROMPT ("✗ ")

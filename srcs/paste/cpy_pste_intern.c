@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/18 21:27:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 16:17:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char		cpy_cut_validate(t_buf *cmd, t_read *info, t_key *entry)
 		g_sh.edition_state = NORMAL;
 		ft_memmove(cmd->cmd + start, cmd->cmd + end,
 				cmd->size_actual - end + 2);
-		cmd->cmd[cmd->size_actual - (end - start)]= 0;
+		cmd->cmd[cmd->size_actual - (end - start)] = 0;
 		cmd->size_actual -= (end - start);
 		display_str(cmd, info, NULL,
 				info->curs_char - ft_strlen_utf8(g_sh.pasted));
@@ -112,10 +112,14 @@ char		cpy_cut_intern(t_buf *cmd, t_read *info, t_key *entry)
 	if (info->total_char)
 	{
 		if (g_sh.edition_state == COPY_PASTE)
+		{
 			cpy_cut_validate(cmd, info, entry);
+			tputs(g_termcaps_cap[INV_ON], 0, &ft_putchar_termcap);
+		}
 		else
 		{
 			g_sh.edition_state = COPY_PASTE;
+			tputs(g_termcaps_cap[INV_ON], 0, &ft_putchar_termcap);
 			ft_bzero(g_cpy_paste_cursor, sizeof(g_cpy_paste_cursor));
 			g_copy_cut = entry->entry[5] - 79;
 			g_cpy_paste_cursor[0] = sh_curs_unicode(cmd->cmd,
