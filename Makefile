@@ -80,11 +80,12 @@ SRCS_FILES		= ft_sh 													\
 				  glob/glob_free_function glob/glob_is_relative				\
 				  parser/parser parser/parser_rules parser/free_parser		\
 				  parser/fill_for_jobs parser/add_in_tree parser/fd			\
-				  parser/tools_for_fill parser/init parser/exec				\
+				  parser/tools_for_fill parser/init parser/execution		\
+				  parser/fill_for_jobs2 parser/tools_for_fill2				\
 				  parser/modify_io parser/add_in_arguments 					\
 				  parser/read_from_prompt parser/jobs						\
 				  parser/heredoc parser/call_built_in parser/subshell		\
-				  parser/clear_assign_word									\
+				  parser/clear_assign_word parser/subshell_tools			\
 				  parser/exec_tools											\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\

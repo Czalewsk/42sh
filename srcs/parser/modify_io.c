@@ -16,10 +16,8 @@ int			greatand(int fd, t_tree *c, t_process *p)
 {
 	int		ofd;
 
-	ofd = -1;
-	if (ft_isint(c->token.str) == 1)
-		ofd = ft_atoi(c->token.str);
-	else if (ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
+	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
+	if (ofd == -1 && ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
 		ofd = -1;
 	else if ((ofd = open(c->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
@@ -33,11 +31,12 @@ int			greatand(int fd, t_tree *c, t_process *p)
 		p->closein = 1;
 	else if (fd == 2 && ofd == -1)
 		p->closeerr = 1;
-	else
-	{
+	else if (fd == 1)
 		p->stdout = ofd;
+	else if (fd == 2)
 		p->stderr = ofd;
-	}
+	else if (fd == 0)
+		p->stdin = ofd;
 	return (0);
 }
 
@@ -45,24 +44,26 @@ int			lessand(int fd, t_tree *c, t_process *p)
 {
 	int		ofd;
 
-	(void)p;
-	ofd = -1;
-	if (ft_isint(c->token.str) == 1)
+	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
+	if (ofd == -1 && ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
+		ofd = -1;
+	else
 	{
-		p->stdin = ft_atoi(c->token.str);
-		if (fcntl(ofd, F_GETFD) == -1)
-		{
-			sh_error(-1, 0, NULL, 2, c->token.str,
-				" is not set as file descriptor\n");
-			return (-1);
-		}
-		if (ofd != -1)
-			p->stderr = dup2(ofd, fd);
-		else
-			close(fd);
-		return (0);
+		sh_error(-1, 0, NULL, 2, c->token.str, " file number execpted\n");
+		return (-1);
 	}
-	sh_error(-1, 0, NULL, 1, "Error, file number execpted\n");
+	if (fd == 1 && ofd == -1)
+		p->closeout = 1;
+	else if (fd == 0 && ofd == -1)
+		p->closein = 1;
+	else if (fd == 2 && ofd == -1)
+		p->closeerr = 1;
+	else if (fd == 1)
+		p->stdout = ofd;
+	else if (fd == 2)
+		p->stderr = ofd;
+	else if (fd == 0)
+		p->stdin = ofd;
 	return (-1);
 }
 
@@ -79,13 +80,10 @@ t_tree		*modify_io(t_process *p, t_tree *clist)
 {
 	int	fd;
 
-	fd = -1;
-	if (ft_isint(clist->token.str) == 1
-			&& ft_str_isdigit(clist->token.str) == 1)
-		fd = ft_atoi(clist->token.str);
+	fd = ft_isint(clist->token.str) ? ft_atoi(clist->token.str) : -1;
 	if (fcntl(fd, F_GETFD) == -1)
 	{
-		if (fd != 0 && fd != 2 && fd != 1)
+		if (fd != 0 && fd != 2 && fd != 1 && fd != -1)
 			add_in_arguments(p, clist);
 		else if (((fd = open(clist->token.str, O_WRONLY, 0755))) == -1)
 		{

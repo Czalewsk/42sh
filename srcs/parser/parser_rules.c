@@ -37,6 +37,7 @@ const t_classic g_classics[] = {
 	{DLESS, SUBSH, &go_to_current_right, &here},
 	{DGREAT, WORD, &go_to_current_right, NULL},
 	{GREAT, WORD, &go_to_current_right, NULL},
+	{GREAT, SUBSH, &go_to_current_right, NULL},
 	{GREATAND, WORD, &go_to_current_right, NULL},
 	{IO_NUMBER, GREAT, &go_to_current_right, NULL},
 	{IO_NUMBER, GREATAND, &go_to_current_right, NULL},
