@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 13:36:49 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/20 13:21:39 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/20 15:48:10 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			builtin_env(t_process *p, int argc, char **argv, char **env)
 	int		index;
 	int		ret;
 
-	ret = 0;
+	g_sh.exitstatus = 0;
 	if ((index = ft_getopt(argc, argv, "i", &options)) == -1)
 	{
 		sh_error_bi(p->stderr, 1, 3, "env: illegal option -- ", options,
