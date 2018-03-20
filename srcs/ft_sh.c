@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 15:37:51 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/20 22:32:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ inline void	info_init(t_read *info)
 	struct winsize	ws;
 
 	ft_bzero(info, sizeof(t_read));
+	g_sh.prompt_add = 0;
 	ioctl(g_sh.fd_tty, TIOCGWINSZ, &ws) ? ft_bzero(&ws, sizeof(ws)) : 0;
 	info->win_co = ws.ws_col;
 	info->win_height = ws.ws_row - 1;
