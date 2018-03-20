@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 11:15:43 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/20 11:51:12 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/20 17:34:43 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*find_path(char *name, char *path)
 	{
 		fullpath = ft_strjoin(pathsplit[i], "/");
 		fullpath = ft_strjoin_free(fullpath, name, 0);
-		if (access(fullpath, X_OK | F_OK) != -1)
+		if (ft_is_a_bin(fullpath))
 		{
 			free_tab2d(&pathsplit);
 			return (fullpath);
