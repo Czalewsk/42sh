@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 12:02:51 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/05 17:34:51 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/19 18:42:17 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		clear_prompt_comp(t_comp *comp)
 {
 	int		up;
 
-	up = comp ? comp->nb_file_col + 1 + comp->part : 0;
+	up = comp ? comp->nb_file_col + 1 : 0;
 	tputs(tparm(g_termcaps_cap[COL], 0), 0, &ft_putchar_termcap);
 	if (up)
 		tputs(tparm(g_termcaps_cap[NUP], up), 0, &ft_putchar_termcap);

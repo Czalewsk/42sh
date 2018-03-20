@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/27 15:59:37 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/19 17:23:30 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/19 19:38:07 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,24 @@ static int		expand_variable(t_list **lst[2], const t_token *tk, char **cur,
 	i = 1;
 	while (found[i] && (ft_isalnum(found[i]) || found[i] == '_'))
 		++i;
-	if (i == 1 && found[i] == '?')
-		++i;
-	if (i > 1)
+	(i == 1 && found[i] == '?') && i++;
+	if (i <= 1)
+		return (0);
+	if (found - *cur)
+		ft_lst_pushend(lst[1], ft_lstnew(*cur, found - *cur));
+	name = ft_strncmp("?", found + 1, i - 1) ?
+		ft_strndup(found + 1, i - 1) : NULL;
+	if ((value = name ? env_get(name) : ft_itoa(g_sh.exitstatus)))
 	{
-		if (found - *cur)
-			ft_lst_pushend(lst[1], ft_lstnew(*cur, found - *cur));
-		name = ft_strncmp("?", found + 1, i - 1) ?
-			ft_strndup(found + 1, i - 1) : NULL;
-		value = name ? env_get(name) : ft_itoa(g_sh.exitstatus);
-		if (value)
+		if (ft_is_escape(found, tk->str))
+			ft_lst_pushend(lst[1], ft_lstnew(value, ft_strlen(value)));
+		else
 			expand_env(lst, tk, value, env_get("IFS"));
-		*cur += i;
-		if (!name)
-			free(value);
-		free(name);
-		return (1);
 	}
-	return (0);
+	if ((*cur += i) && !name)
+		free(value);
+	free(name);
+	return (1);
 }
 
 char			expand_parameters(const t_token *tk, t_list **lst)
