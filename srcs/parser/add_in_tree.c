@@ -46,14 +46,23 @@ int				check_last_token(t_tree *cur)
 
 int				cnewline(t_token t, char **cmd, char *cur)
 {
+	int			new_line_call;
+
 	if (t.str && t.str != NULL)
 		free(t.str);
 	if (!g_head_tree || !g_current)
 		return (0);
 	else if (check_last_token(g_current) == -1)
 		return (-1);
-	else if (g_current->token.id == OR_IF || g_current->token.id == AND_IF)
-		return (read_from_prompt(cmd, cur));
+	else if (g_current->token.id == OR_IF ||
+		g_current->token.id == AND_IF || g_current->token.id == PIPE)
+		while ((new_line_call = read_from_prompt(cmd, cur)))
+		{
+			if (new_line_call == -1 || new_line_call == -3)
+				return (-1);
+			if (new_line_call == -2)
+				break ;
+		}
 	return (0);
 }
 

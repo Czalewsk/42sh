@@ -22,11 +22,11 @@ int				exec_in_line(t_job *job, char **env)
 	return (1);
 }
 
-int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
+int				exec_with_acces(char *t, t_process *p, t_job *j, char **e)
 {
-	if (job->foreground)
+	if (j->foreground)
 		termcaps_restore_tty();
-	launch_process(tmp, p, job, env);
+	launch_process(t, p, j, e);
 	return (g_sh.exitstatus);
 }
 
@@ -84,6 +84,7 @@ void			execute_job_with_fork(t_job *j, char **env)
 	t_process	*pr;
 	int			p[2][2];
 
+	ft_memset(p, -1, sizeof(int[2][2]));
 	pr = j->process;
 	while (pr)
 	{
