@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 13:36:49 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/18 19:59:47 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/20 13:21:39 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	setup_env(t_process *p, char ***env, int argc, char **argv)
 static void	exec_util(t_process *p, int argc, char **argv, char **env)
 {
 	int			i;
-	t_process	p2;
+	char		*cmd;
 
 	if (!argc)
 	{
@@ -62,16 +62,15 @@ static void	exec_util(t_process *p, int argc, char **argv, char **env)
 			ft_putendl_fd(env[i], p->stdout);
 		return ;
 	}
-	ft_bzero(&p2, sizeof(t_process));
-	p2.argv = argv;
-	p2.stdin = p->stdin;
-	p2.stdout = p->stdout;
-	p2.stderr = p->stderr;
-	// if (!do_built_in(&p2, env))
-	// 	execute_job_with_fork(p2, env);
-	/* UTILISE LES JOBS ET NON LES PROCESS SAL CON 
-	
-	des bisous*/
+	cmd = NULL;
+	if (ft_strstr(argv[0], "/") && access(argv[0], X_OK | F_OK) != -1)
+		cmd = argv[0];
+	else
+		cmd = find_path(argv[0], ft_getenv(env, "PATH"));
+	if (cmd)
+		execve(cmd, argv, env);
+	sh_error_bi(p->stderr, 0, 3, "env: command not found: ", argv[0], "\n");
+	g_sh.exitstatus = EXIT_FAILURE;
 }
 
 int			builtin_env(t_process *p, int argc, char **argv, char **env)
