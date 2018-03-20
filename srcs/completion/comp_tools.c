@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 00:50:59 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/13 22:26:15 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:47:33 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,18 @@ char		*comp_checktilde(char *search, size_t len_search, char *home)
 	}
 	path[i] = '\0';
 	return (path);
+}
+
+t_ldl		*get_current(t_ldl_head *lst)
+{
+	t_ldl	*ldl;
+
+	ldl = lst ? lst->head : NULL;
+	while (ldl)
+	{
+		if (((t_select *)ldl->content)->is_current)
+			return (ldl);
+		ldl = ldl->next;
+	}
+	return (ldl);
 }
