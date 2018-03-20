@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/20 12:14:44 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/20 13:28:20 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 		exit(EXIT_FAILURE);
 	modify_io_child(p, pipe, j->process == p, !p->next);
 	if (do_built_in(p, env))
-		(void)1;
+		exit(g_sh.exitstatus);
 	if (ft_strstr(p->argv[0], "/") != NULL)
 	{
 		if (exec_in_line(j, env) == 0)
