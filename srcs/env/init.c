@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 20:02:14 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/19 17:27:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:20:39 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ void	env_init(const char **env)
 	shlvl = ft_itoa(level + 1);
 	env_set("SHLVL", shlvl, ENV_GLOBAL);
 	g_sh.envupd = 1;
+	free(shlvl);
 }
