@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/20 13:13:52 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:39:59 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 extern	struct termios	s_termios_backup;
 extern	t_cmd_action	g_cmd_actions[];
 
+
 t_tree			*cpy_from_tree(t_tree *c)
 {
 	t_tree		*new;
-	t_tree		*trash;
 	t_tree		*save;
 
 	new = NULL;
@@ -31,8 +31,6 @@ t_tree			*cpy_from_tree(t_tree *c)
 			new->token.id = c->token.id;
 			new->token.size = c->token.size;
 			save = new;
-//			DEBUG("OLD = %p, NEW = %p\n", c, new);
-			
 		}
 		else
 		{
@@ -40,14 +38,9 @@ t_tree			*cpy_from_tree(t_tree *c)
 			new->right->token.str = ft_strdup(c->token.str);
 			new->right->token.id = c->token.id;
 			new->right->token.size = c->token.size;
-//			new->token = c->token;
 			new = new->right;
 		}
-		//		DEBUG("OLD = %p, NEW = %p\n", c, new);
-		trash = c;
 		c = c->right;
-		// ft_strdel(&trash->token.str);
-		// free(trash);
 	}
 	return (save);
 }
@@ -62,21 +55,6 @@ int				exec_with_acces(char *tmp, t_process *p, t_job *job, char **env)
 
 void			modify_io_child(t_process *p, int pipe[2][2], int premier, int dernier)
 {
-	(void)p;
-	// if (!premier)
-	// {
-	// 	DEBUG("\t\t\t\tPREMIER\n");
-	// 	DEBUG("p->stdin = %d, p->stdout = %d, p->stderr = %d\n", p->stdin, p->stdout, p->stderr);
-	// 	DEBUG("pipe[0][0] = %d, pipe[0][1] = %d\n", pipe[0][0], pipe[0][1]);
-	// 	DEBUG("pipe[1][0] = %d, pipe[1][1] = %d\n", pipe[1][0], pipe[1][1]);
-	// }
-	// if (!dernier)
-	// {
-	// 	DEBUG("\t\t\t\tDERNIER\n");
-	// 	DEBUG("p->stdin = %d, p->stdout = %d, p->stderr = %d\n", p->stdin, p->stdout, p->stderr);
-	// 	DEBUG("pipe[0][0] = %d, pipe[0][1] = %d\n", pipe[0][0], pipe[0][1]);
-	// 	DEBUG("pipe[1][0] = %d, pipe[1][1] = %d\n", pipe[1][0], pipe[1][1]);
-	// }
 	if (dernier && premier)
 	{
 		if (p->stdin != STDIN_FILENO)
@@ -95,7 +73,7 @@ void			modify_io_child(t_process *p, int pipe[2][2], int premier, int dernier)
 		if (p->stdin != STDIN_FILENO)
 			dup2(p->stdin, STDIN_FILENO);
 	}
-	if (!premier)	
+	if (!premier)
 	{
 		if (p->stdin != STDIN_FILENO)
 			dup2(p->stdin, STDIN_FILENO);
@@ -140,7 +118,6 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 void			execute_job(t_job *job)
 {
 	char		**env;
-	// t_job		*tmp;
 
 	if (job == NULL)
 		return ;
@@ -165,7 +142,6 @@ void			execute_job_with_fork(t_job *j, char **env)
 	int			p[2][2];
 
 	pr = j->process;
-//	p[1][0] = pr->stdin;
 	while (pr)
 	{
 		if (pr != j->process)
@@ -182,7 +158,6 @@ void			execute_job_with_fork(t_job *j, char **env)
 		{
 			j->pgid = pr->pid;
 			setpgid(pr->pid, j->pgid);
-			DEBUG("isatty : %d\n", isatty(g_shell_terminal));
 			if (j->foreground == 1 && tcsetpgrp(g_shell_terminal, j->pgid) == -1)
 				exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
 		}
@@ -192,10 +167,6 @@ void			execute_job_with_fork(t_job *j, char **env)
 		if (pr != j->process)
 			close(p[1][0]);
 		p[1][0] = p[0][0];
-	// if (STDIN_FILENO != pr->stdin)
-	// 	close(pr->stdin);
-	// if (STDOUT_FILENO != pr->stdout)
-	// 	close(pr->stdout);
 		pr = pr->next;
 	}
 }
@@ -330,111 +301,100 @@ t_job			*create_new_job(t_tree *c)
 	return (job);
 }
 
-int 			wait_osef_exec(t_process *p)
-{
-	int ret;
-
-	ret = -1;
-	while (p)
-	{
-		waitpid(p->pid, &ret, 0);
-		p = p->next;
-	}
-	return (ret);
-}
-
-void	print_process(t_process *p)
-{
-	int		i;
-
-	if (p == NULL)
-	{
-		DEBUG("		process p est NULL\n");
-		return ;
-	}
-	DEBUG("		process p a un next : %s\n", p->next != NULL ? "oui" : "non");
-	DEBUG("		pid du process : %d\n", p->pid);
-	DEBUG("		state du process : %d\n", p->state);
-	DEBUG("		status du process : %d\n", p->status);
-	DEBUG("		stdin du process : %d\n", p->stdin);
-	DEBUG("		stdout du process : %d\n", p->stdout);
-	DEBUG("		stderr du process : %d\n", p->stderr);
-	DEBUG("		ARGV du process :\n");
-	DEBUG("			");
-	i = 0;
-	if (p->argv)
-		while (p->argv[i])
-		{
-			DEBUG("%s ", p->argv[i]);
-			i++;
-		}
-	else
-		DEBUG("No argv");
-	DEBUG("\n");
-}
-
-void	print_job(t_job *job)
-{
-	t_process	*tmp;
-
-	if (job == NULL)
-	{
-		DEBUG("job est NULL\n");
-		return ;
-	}
-	DEBUG("\n\nJOB\n");
-	DEBUG("job status_last_process : %d\n", job->status_last_process);
-	DEBUG("job num : %d\n", job->num);
-	DEBUG("job command : %s\n", job->command);
-	DEBUG("job foreground : %d\n", job->foreground);
-	DEBUG("job PGID : %d\n", job->pgid);
-	DEBUG("job have tree : %s\n", job->finish_command != NULL ? "oui" : "non");
-	tmp = job->process;
-	while (tmp)
-	{
-		print_process(tmp);
-		tmp = tmp->next;
-	}
-	DEBUG("\n\n");
-}
-
-void	print_first_job()
-{
-	t_job	*tmp;
-
-	tmp = g_first_job;
-	if (tmp == NULL)
-	{
-		DEBUG("g_first_job est NULL\n");
-		return ;
-	}
-	DEBUG("\n\n\n			PRINT FIRST JOB\n");
-	while (tmp)
-	{
-		print_job(tmp);
-		tmp = tmp->next;
-	}
-	DEBUG("			PRINT FIRST JOB\n\n\n\n");
-}
-
-void	print_job_order()
-{
-	t_list	*tmp;
-
-	tmp = g_job_order;
-	if (tmp == NULL)
-	{
-		DEBUG("g_job_order est NULL\n");
-		return ;
-	}
-	DEBUG("\n\n\n			PRINT JOB ORDER\n");
-	while (tmp)
-	{
-		print_job(tmp->content);
-		tmp = tmp->next;
-	}
-	DEBUG("			PRINT JOB ORDER\n\n\n\n");
-}
+/*
+**void	print_process(t_process *p)
+**{
+**	int		i;
+**
+**	if (p == NULL)
+**	{
+**		DEBUG("		process p est NULL\n");
+**		return ;
+**	}
+**	DEBUG("		process p a un next : %s\n", p->next != NULL ? "oui" : "non");
+**	DEBUG("		pid du process : %d\n", p->pid);
+**	DEBUG("		state du process : %d\n", p->state);
+**	DEBUG("		status du process : %d\n", p->status);
+**	DEBUG("		stdin du process : %d\n", p->stdin);
+**	DEBUG("		stdout du process : %d\n", p->stdout);
+**	DEBUG("		stderr du process : %d\n", p->stderr);
+**	DEBUG("		ARGV du process :\n");
+**	DEBUG("			");
+**	i = 0;
+**	if (p->argv)
+**		while (p->argv[i])
+**		{
+**			DEBUG("%s ", p->argv[i]);
+**			i++;
+**		}
+**	else
+**		DEBUG("No argv");
+**	DEBUG("\n");
+**}
+**
+**void	print_job(t_job *job)
+**{
+**	t_process	*tmp;
+**
+**	if (job == NULL)
+**	{
+**		DEBUG("job est NULL\n");
+**		return ;
+**	}
+**	DEBUG("\n\nJOB\n");
+**	DEBUG("job status_last_process : %d\n", job->status_last_process);
+**	DEBUG("job num : %d\n", job->num);
+**	DEBUG("job command : %s\n", job->command);
+**	DEBUG("job foreground : %d\n", job->foreground);
+**	DEBUG("job PGID : %d\n", job->pgid);
+**	DEBUG("job have tree : %s\n", job->finish_command != NULL ? "oui" : "non");
+**	tmp = job->process;
+**	while (tmp)
+**	{
+**		print_process(tmp);
+**		tmp = tmp->next;
+**	}
+**	DEBUG("\n\n");
+**}
+**
+**void	print_first_job()
+**{
+**	t_job	*tmp;
+**
+**	tmp = g_first_job;
+**	if (tmp == NULL)
+**	{
+**		DEBUG("g_first_job est NULL\n");
+**		return ;
+**	}
+**	DEBUG("\n\n\n			PRINT FIRST JOB\n");
+**	while (tmp)
+**	{
+**		print_job(tmp);
+**		tmp = tmp->next;
+**	}
+**	DEBUG("			PRINT FIRST JOB\n\n\n\n");
+**}
+**
+**void	print_job_order()
+**{
+**	t_list	*tmp;
+**
+**	tmp = g_job_order;
+**	if (tmp == NULL)
+**	{
+**		DEBUG("g_job_order est NULL\n");
+**		return ;
+**	}
+**	DEBUG("\n\n\n			PRINT JOB ORDER\n");
+**	while (tmp)
+**	{
+**		print_job(tmp->content);
+**		tmp = tmp->next;
+**	}
+**	DEBUG("			PRINT JOB ORDER\n\n\n\n");
+**}
+*/
 
 t_job			*need_norme(t_job *j)
 {
