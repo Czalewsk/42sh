@@ -16,10 +16,22 @@ int			read_from_prompt(char **cmd, char *cur)
 {
 	char	*nfpr;
 	int		i;
+	int		ret_prompt;
 
 	nfpr = NULL;
-	prompt_add(PROMPT, &nfpr, 0);
+	ret_prompt = prompt_add(PROMPT, &nfpr, 0);
 	i = cur - (*cmd);
-	(*cmd) = ft_strjoin_free(*cmd, nfpr, 2);
+	if (ret_prompt == -3 || ret_prompt == -1)
+	{
+		ft_strdel(&nfpr);
+		return (-1);
+	}
+	if (nfpr && nfpr[0] != '\n')
+		(*cmd) = ft_strjoin_free(*cmd, nfpr, 2);
+	else
+	{
+		ft_strdel(&nfpr);
+		return (-8);
+	}
 	return (read_parser(cmd, (*cmd) + i));
 }

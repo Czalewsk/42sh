@@ -37,8 +37,14 @@ int			place_token(t_token t)
 	return (add_in_classic_tree(g_current, n = init_node(t, n)));
 }
 
-int			ft_leave_parse(t_token t)
+int			ft_leave_parse(t_token t, int k)
 {
+	if (k == 1)
+	{
+		if (t.str)
+			free(t.str);
+		return (-1);
+	}
 	if (t.id == NEWLINE)
 		sh_error(0, 0, NULL, 1, "Error parsing near `\\n'\n");
 	else
@@ -67,7 +73,7 @@ int			take_token_from_list(t_list *lst, t_token c)
 		ft_memcpy(&t, n, sizeof(t_token));
 		free(n);
 		if (place_token(t) < 0)
-			return (ft_leave_parse(t));
+			return (ft_leave_parse(t, 0));
 		tmp = tmp->next;
 		free(f);
 	}
@@ -90,13 +96,13 @@ int			read_parser(char **cmd, char *cur)
 			if (t.id == NEWLINE)
 			{
 				if (cnewline(t, cmd, cur) == -1)
-					return (ft_leave_parse(t));
+					return (ft_leave_parse(t, 0));
 			}
 			else if (place_token(t) < 0)
-				return (ft_leave_parse(t));
+				return (ft_leave_parse(t, 0));
 		}
 		else if (retexp == -1)
-			return (-1);
+			return (ft_leave_parse(t, 1));
 		else if (take_token_from_list(lst, t) == -1)
 			return (-1);
 	}
