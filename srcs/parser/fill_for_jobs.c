@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 21:46:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/20 11:52:12 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void			modify_io_child(t_process *p, int pipe[2][2], int premier, int dernier)
 
 int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 {
-	char		**path;
 	char		*exec_line;
 	int			i;
 
@@ -123,23 +122,18 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 	if (do_built_in(p, env))
 		(void)1;
 	if (ft_strstr(p->argv[0], "/") != NULL)
+	{
 		if (exec_in_line(j, env) == 0)
 			exit(EXIT_FAILURE);
-	path = ft_strsplit(ft_getenv(env, "PATH"), ':');
-	while (path && path[i])
-	{
-		exec_line = ft_strjoin(path[i++], "/");
-		exec_line = ft_strjoin_free(exec_line, p->argv[0], 0);
-		if (access(exec_line, X_OK | F_OK) != -1)
-		{
-			exec_with_acces(exec_line, p, j, env);
-			ft_strdel(&exec_line);
-			exit(clear_execute(path, p));// pas de free sur p;
-		}
-		ft_strdel(&exec_line);
 	}
+	else if ((exec_line = find_path(p->argv[0], ft_getenv(env, "PATH"))))
+	{
+		exec_with_acces(exec_line, p, j, env);
+		ft_strdel(&exec_line);
+		exit(g_sh.exitstatus);// pas de free sur p;
+	}
+	ft_strdel(&exec_line);
 	sh_error(0, 0, NULL, 3, "command not found: ", p->argv[0], "\n");
-	clear_execute(path, p);
 	exit(EXIT_FAILURE);
 }
 
