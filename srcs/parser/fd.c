@@ -14,6 +14,7 @@
 
 t_tree	*ft_great(t_process *p, t_tree *c)
 {
+	just_the_last(p);
 	if ((p->stdout = open(c->right->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 	{
@@ -26,6 +27,7 @@ t_tree	*ft_great(t_process *p, t_tree *c)
 
 t_tree	*land(t_process *p, t_tree *c)
 {
+	just_the_last(p);
 	if (ft_isint(c->right->token.str) == 1)
 	{
 		p->stdin = ft_atoi(c->right->token.str);

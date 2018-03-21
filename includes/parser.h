@@ -66,6 +66,7 @@ extern t_tree		*g_head_tree;
 extern t_tree		*g_current;
 extern t_list		*g_here_list;
 
+void				just_the_last(t_process *p);
 int					less(int fd, t_tree *c, t_process *p);
 char				**how_to_do(char **argv, char *cmd);
 char				**add_to_argv(char **argv, char *to_add);

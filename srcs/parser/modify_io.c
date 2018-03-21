@@ -25,6 +25,7 @@ int			greatand(int fd, t_tree *c, t_process *p)
 		sh_error(-1, 0, NULL, 2, c->token.str, " open failed\n");
 		return (-1);
 	}
+	just_the_last(p);
 	if (fd == 1 && ofd == -1)
 		p->closeout = 1;
 	else if (fd == 0 && ofd == -1)
@@ -52,6 +53,7 @@ int			lessand(int fd, t_tree *c, t_process *p)
 		sh_error(-1, 0, NULL, 2, c->token.str, " file number execpted\n");
 		return (-1);
 	}
+	just_the_last(p);
 	if (fd == -1 && ofd == 0)
 		p->closeout = 1;
 	else if (fd == -1 && ofd == 1)
