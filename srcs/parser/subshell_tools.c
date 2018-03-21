@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 17:52:52 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/21 17:18:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/21 20:23:09 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char		*add_it_spaced(char *dst, char *src)
 
 char		**sub_shell_main(char **argv, char *cmd)
 {
-	DEBUG("\n\n\n\n\n%s\n\n\n\n\n", cmd);
 	if ((argv = how_to_do(argv, cmd)) == NULL)
 		sh_error(0, 0, NULL, 1, "parse error in command substitution\n");
 	return (argv);
