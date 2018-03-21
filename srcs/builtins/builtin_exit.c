@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 19:24:49 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/21 19:42:46 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/21 20:35:17 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char		sh_quit_ctrld(t_buf *cmd, t_read *info, t_key *entry)
 {
 	(void)info;
 	(void)entry;
-	if (!cmd->size_actual)
+	if (!cmd->size_actual && !g_sh.prompt_add)
 	{
 		if (!g_displayed && g_first_job)
 		{
