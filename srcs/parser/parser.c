@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/19 18:23:00 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/21 14:07:19 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int			read_parser(char **cmd, char *cur)
 			sh_escape(t.str);
 			if (t.id == NEWLINE)
 			{
-				if (cnewline(t, cmd, cur) == -1)
+				if (cnewline(t, cmd, &cur) == -1)
 					return (ft_leave_parse(t, 0));
 			}
 			else if (place_token(t) < 0)
