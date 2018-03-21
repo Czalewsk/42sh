@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/19 15:54:49 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/21 14:07:55 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ int					clear_execute(char **path, t_process *p);
 int					do_built_in(t_process *p, char **env);
 int					set_for_pipe(t_tree *c, t_job *job);
 int					read_parser(char **cmd, char *cur);
-int					cnewline(t_token t, char **cmd, char *cur);
-int					read_from_prompt(char **cmd, char *cur);
+int					cnewline(t_token t, char **cmd, char **cur);
+int					read_from_prompt(char **cmd, char **cur);
 int					ft_free_node(t_tree *token);
 int					ft_free_array(char **argv);
 int					ft_free_tree(t_tree *c);
