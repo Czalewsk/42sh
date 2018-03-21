@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:06:24 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/20 16:06:24 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/20 21:55:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 	int			i;
 
 	i = 0;
+	exec_line = NULL;
 	if (!p->argv)
 		exit(EXIT_FAILURE);
 	exec_line = NULL;
@@ -73,9 +74,9 @@ void			execute_job(t_job *job)
 	}
 	else
 	{
+		execute_job_with_fork(job, env);
 		put_job_at_head_in_job_order(job);
 		put_job_at_end_in_first_job(job);
-		execute_job_with_fork(job, env);
 	}
 }
 

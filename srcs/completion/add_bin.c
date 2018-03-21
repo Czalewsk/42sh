@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 15:59:01 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/01 18:41:04 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/21 14:21:16 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	add_bin_from_dir(t_comp *comp, t_ldl_head *head, int n, char *path)
 	char			*full_path;
 
 	if (!(dir_stream = opendir(path)))
-		return (sh_error(0, 1, NULL, 3, "Fail opendir : ", path, "\n"));
+		return (0);
 	while ((dir = readdir(dir_stream)) != NULL)
 	{
 		full_path = ft_strjoin(path, dir->d_name);

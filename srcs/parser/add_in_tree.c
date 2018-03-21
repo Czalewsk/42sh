@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:06 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/07 14:25:04 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/21 14:07:46 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int				check_last_token(t_tree *cur)
 	return (0);
 }
 
-int				cnewline(t_token t, char **cmd, char *cur)
+int				cnewline(t_token t, char **cmd, char **cur)
 {
 	int			new_line_call;
 

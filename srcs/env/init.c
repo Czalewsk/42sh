@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 20:02:14 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/20 15:20:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/20 21:41:29 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	env_init(const char **env)
 		g_sh.env[i]->type = ENV_GLOBAL;
 	}
 	if ((shlvl = ft_getenv((char **)env, "SHLVL")) && ft_isint(shlvl))
-		level = ft_atoi(shlvl);
+	{
+		if ((level = ft_atoi(shlvl)) < 0)
+			level = 0;
+	}
 	else
 		level = 0;
 	shlvl = ft_itoa(level + 1);

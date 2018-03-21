@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 13:28:53 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 17:33:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/20 20:55:56 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char		cpy_cut_validate(t_buf *cmd, t_read *info, t_key *entry)
 	}
 	else
 		pasted_remove_highlight_char(cmd, info, entry);
-	tputs(g_termcaps_cap[INV_ON], 0, &ft_putchar_termcap);
+	tputs(g_termcaps_cap[INV_OFF], 0, &ft_putchar_termcap);
 	ft_bzero(entry, sizeof(t_key));
 	return (1);
 }
