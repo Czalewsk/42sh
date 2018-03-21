@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 04:21:22 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 18:14:49 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/21 19:35:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ const t_key_map			g_key_map[] =
 		{NULL, &comp_arrow_down, &history_do, NULL,
 			&pasted_remove_highlight}},
 	{4, QUIT, 1, {CTRL_KEY('D')},
-		{&sh_quit, &quit_completion, &sh_quit, &sh_quit, &sh_quit}},
+		{&sh_quit_ctrld, &quit_completion, &sh_quit, &sh_quit, &sh_quit}},
 	{5, ENTER, 1, {13},
 		{&sh_validate_line, &validate_completion, &sh_validate_line,
 			&sh_validate_line, &cpy_cut_validate}},

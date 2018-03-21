@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 20:54:18 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/21 18:56:40 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:45:22 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	*esc_dquote_bs(char *str, char *to_remove, int index)
 	return (&sh_esc_dquote);
 }
 
-void				*sh_esc_dquote(char *str, char *to_remove, int index)
+void	*sh_esc_dquote(char *str, char *to_remove, int index)
 {
 	const char	not_echapped[] = "$`\\\"";
-	void	*(*const fcts[4])(char *, char *, int) =
+	void		*(*const fcts[4])(char *, char *, int) =
 	{&esc_d_bq, &esc_d_bq, &esc_dquote_bs, &esc_dquote_dq};
 	void		*ret;
 	long int	esc;
