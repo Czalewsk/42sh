@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 11:15:43 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/20 17:34:43 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/21 19:14:30 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*find_path(char *name, char *path)
 			free_tab2d(&pathsplit);
 			return (fullpath);
 		}
+		ft_strdel(&fullpath);
 	}
 	free_tab2d(&pathsplit);
 	return (NULL);
