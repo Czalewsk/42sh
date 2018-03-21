@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:23:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 19:03:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:14:33 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void			remove_escape(char *str, char *to_remove)
 
 	i = 0;
 	j = 0;
-	while (*str)
+	while (*(str + j))
 	{
 		if (esc_remove(to_remove, i))
 		{
@@ -42,10 +42,11 @@ static void			remove_escape(char *str, char *to_remove)
 			i++;
 			continue ;
 		}
-		(*str = *(str + j));
+		*str = *(str + j);
 		str++;
 		i++;
 	}
+	*str = '\0';
 }
 
 void				*escape_fonctions(char *str, char *to_remove,
