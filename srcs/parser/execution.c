@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:06:24 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/20 21:55:54 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/21 20:31:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,16 @@ void			execute_job_with_fork(t_job *j, char **env)
 		if (pr != j->process)
 			close(p[1][1]);
 		if (pr->next && pipe(p[0]) == -1)
+		{
+			exit(sh_error(1, 0, NULL, 1, "Fail to create pipe.\n"));
 			return ;
+		}
 		p[1][1] = p[0][1];
 		if ((pr->pid = fork()) == -1)
+		{
+			exit(sh_error(1, 0, NULL, 1, "Fail to fork.\n"));
 			return ;
+		}
 		pere(j, pr, p, env);
 		pr = pr->next;
 	}
