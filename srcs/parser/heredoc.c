@@ -39,20 +39,23 @@ t_tree		*add_new_fd(t_tree *new)
 {
 	int		fd[2];
 	char	*hr;
+	int		ret_p;
 
 	if (!g_here_list)
 		g_here_list = NULL;
 	if (pipe(fd) == -1)
 		return ((void *)1);
 	hr = NULL;
-	while (prompt_add("> ", &hr, 1) == -2)
+	while ((ret_p = prompt_add("> ", &hr, 1)) == -2)
 	{
-		if (read_hr(hr, new->token.str) == 0)
+		if (ret_p == -1 || read_hr(hr, new->token.str) == 0)
 			break ;
 		ft_putstr_fd(hr, fd[1]);
 		ft_strdel(&hr);
 	}
 	ft_strdel(&hr);
+	if (ret_p == -3)
+		return ((void *)1);
 	ft_lst_pushend(&g_here_list, ft_lstnew(&fd, sizeof(int *)));
 	return (new);
 }
@@ -61,20 +64,23 @@ t_tree		*add_current_fd(t_tree *new)
 {
 	char	*hr;
 	int		*fd;
+	int		ret_p;
 	t_list	*tmp;
 
 	tmp = g_here_list;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	fd = tmp->content;
-	while (prompt_add("> ", &hr, 1) == -2)
+	while ((ret_p = prompt_add("> ", &hr, 1)) == -2)
 	{
-		if (read_hr(hr, new->token.str) == 0)
+		if (ret_p == -1 || read_hr(hr, new->token.str) == 0)
 			break ;
 		ft_putstr_fd(hr, fd[1]);
 		ft_strdel(&hr);
 	}
 	ft_strdel(&hr);
+	if (ret_p == -3)
+		return ((void *)1);
 	return (new);
 }
 
