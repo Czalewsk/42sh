@@ -54,11 +54,11 @@ int			lessand(int fd, t_tree *c, t_process *p)
 		return (-1);
 	}
 	just_the_last(p);
-	if (fd == -1 && ofd == 0)
-		p->closeout = 1;
-	else if (fd == -1 && ofd == 1)
+	if (fd == 0 && ofd == -1)
 		p->closein = 1;
-	else if (fd == -1 && ofd == 2)
+	else if (fd == 1 && ofd == -1)
+		p->closeout = 1;
+	else if (fd == 2 && ofd == -1)
 		p->closeerr = 1;
 	else if (fd == 1)
 		p->stdout = ofd;
