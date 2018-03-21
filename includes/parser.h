@@ -66,6 +66,8 @@ extern t_tree		*g_head_tree;
 extern t_tree		*g_current;
 extern t_list		*g_here_list;
 
+int					ft_leave_parse(t_token t, int k);
+int					ret_douille(int ret, t_token t);
 void				just_the_last(t_process *p);
 int					less(int fd, t_tree *c, t_process *p);
 char				**how_to_do(char **argv, char *cmd);

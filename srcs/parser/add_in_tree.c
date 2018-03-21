@@ -83,7 +83,7 @@ int				add_in_classic_tree(t_tree *cur, t_tree *new)
 			if (g_classics[i].here)
 			{
 				if ((g_classics[i].here(cur, new)) == (void *)1)
-					return (ft_free_node(new));
+					return (-2);
 			}
 			return (0);
 		}

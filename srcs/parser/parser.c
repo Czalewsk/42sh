@@ -83,14 +83,13 @@ int			take_token_from_list(t_list *lst, t_token c)
 int			read_parser(char **cmd, char *cur)
 {
 	int		ret;
-	int		retexp;
 	t_list	*lst;
 	t_token	t;
 
 	ret = 0;
 	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) > 0)
 	{
-		if (!(retexp = expansions_expand(&lst, &t)))
+		if (!(ret = expansions_expand(&lst, &t)))
 		{
 			sh_escape(t.str);
 			if (t.id == NEWLINE)
@@ -98,10 +97,10 @@ int			read_parser(char **cmd, char *cur)
 				if (cnewline(t, cmd, &cur) == -1)
 					return (ft_leave_parse(t, 0));
 			}
-			else if (place_token(t) < 0)
-				return (ft_leave_parse(t, 0));
+			else if ((ret = place_token(t)) < 0)
+				return (ret_douille(ret, t));
 		}
-		else if (retexp == -1)
+		else if (ret == -1)
 			return (ft_leave_parse(t, 1));
 		else if (take_token_from_list(lst, t) == -1)
 			return (-1);
