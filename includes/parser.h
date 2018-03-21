@@ -66,6 +66,7 @@ extern t_tree		*g_head_tree;
 extern t_tree		*g_current;
 extern t_list		*g_here_list;
 
+int					less(int fd, t_tree *c, t_process *p);
 char				**how_to_do(char **argv, char *cmd);
 char				**add_to_argv(char **argv, char *to_add);
 char				**concat_tab_for_sub(char **argv, char **k, int size);
@@ -84,7 +85,6 @@ t_tree				*get_new_from_failure_and(t_tree *c);
 int					exec_with_acces(char *t, t_process *p, t_job *j, char **e);
 int					executor(t_job *j, t_process *p,
 	int pipe[2][2], char **env);
-int					exec_in_line(t_job *job, char **env);
 int					get_id_max_job();
 void				pere(t_job *j, t_process *pr, int p[2][2], char **env);
 void				modify_io_child(t_process *p,

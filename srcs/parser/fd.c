@@ -35,6 +35,7 @@ t_tree	*land(t_process *p, t_tree *c)
 				c->right->token.str, " is not set as file descriptor\n");
 			return ((void *)1);
 		}
+		p->stderr = p->stdout;
 		return (c->right->right);
 	}
 	if (!ft_memcmp(c->right->token.str, "-", ft_strlen(c->right->token.str)))
@@ -42,6 +43,7 @@ t_tree	*land(t_process *p, t_tree *c)
 		p->stdin = -1;
 		return (c->right->right);
 	}
+	p->stderr = p->stdout;
 	sh_error(-1, 0, NULL, 1, "Error: file number execpted\n");
 	return ((void *)1);
 }

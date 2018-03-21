@@ -75,6 +75,7 @@ char		*add_it_spaced(char *dst, char *src)
 
 char		**sub_shell_main(char **argv, char *cmd)
 {
+	DEBUG("\n\n\n\n\n%s\n\n\n\n\n", cmd);
 	if ((argv = how_to_do(argv, cmd)) == NULL)
 		sh_error(0, 0, NULL, 1, "parse error in command substitution");
 	return (argv);

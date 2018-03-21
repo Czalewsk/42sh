@@ -12,11 +12,11 @@
 
 #include "ft_sh.h"
 
-int				exec_in_line(t_job *job, char **env)
+int				exec_in_line(t_job *job, t_process *p, char **env)
 {
-	if (access(job->process->argv[0], X_OK | F_OK) != -1)
+	if (access(p->argv[0], X_OK | F_OK) != -1)
 	{
-		exec_with_acces(job->process->argv[0], job->process, job, env);
+		exec_with_acces(p->argv[0], p, job, env);
 		return (0);
 	}
 	return (1);
@@ -38,12 +38,13 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 	i = 0;
 	if (!p->argv)
 		exit(EXIT_FAILURE);
+	exec_line = NULL;
 	modify_io_child(p, pipe, j->process == p, !p->next);
 	if (do_built_in(p, env))
 		exit(g_sh.exitstatus);
-	if (ft_strstr(p->argv[0], "/") != NULL)
+	if (ft_strstr(p->argv[0], "/") || ft_strstr(p->argv[0], "./"))
 	{
-		if (exec_in_line(j, env) == 0)
+		if (exec_in_line(j, p, env) == 0)
 			exit(EXIT_FAILURE);
 	}
 	else if ((exec_line = find_path(p->argv[0], ft_getenv(env, "PATH"))))

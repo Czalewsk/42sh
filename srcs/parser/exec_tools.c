@@ -45,3 +45,23 @@ void		pere(t_job *j, t_process *pr, int p[2][2], char **env)
 		close(p[1][0]);
 	p[1][0] = p[0][0];
 }
+
+int			less(int fd, t_tree *c, t_process *p)
+{
+	int		ofd;
+
+	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
+	if (ofd == -1 && (p->stdin = open(c->token.str, O_WRONLY, 0755)) == -1)
+	{
+		sh_error(0, 0, NULL, 3, "Error: ",
+			c->token.str, " open failed\n");
+		return (-1);
+	}
+	if (fd == 1)
+		p->stdout = ofd;
+	else if (fd == 2)
+		p->stderr = ofd;
+	else if (fd == 0)
+		p->stdin = ofd;
+	return (0);
+}

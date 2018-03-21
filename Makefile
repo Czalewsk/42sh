@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/20 12:04:58 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/20 20:43:51 by maastie          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g# -fsanitize=address
+FLAGS			= -Wall -Wextra -Werror -g #-fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -157,7 +157,7 @@ $(NAME): $(OBJ) $(LIBFT)
 		@$(CC) -Llibft -lft -ltermcap $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
 		@printf "\r$(GREEN)✅  [$(NAME)] was succesfully created ✅$(NOC)\n"
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT)
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT) Makefile
 		@mkdir $(OBJS_PATH) 2> /dev/null || true
 		@mkdir $(OBJS_DIRS) 2> /dev/null || true
 		@$(CC) $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) -o $@ -c $<
