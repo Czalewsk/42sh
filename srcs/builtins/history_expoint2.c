@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 17:00:01 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/15 17:29:03 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/21 10:36:54 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*change_expoint_h(char *str, char *old, char *new)
 	char	*curs;
 
 	len = ft_strlen(str) - ft_strlen(old) + ft_strlen(new);
-	s = (char *)ft_memalloc(len);
+	s = (char *)ft_memalloc(len + 1);
 	curs = ft_strstr(str, old);
 	s = ft_strncpy(s, str, ft_strlen(str) - ft_strlen(curs));
 	s = ft_strcat(s, new);
