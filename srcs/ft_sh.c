@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/20 22:32:25 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/22 15:53:39 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ static void	sh_quit_prog(t_buf *cmd)
 	termcaps_restore_tty();
 	close(g_sh.fd_tty);
 	close(g_sh.test_fd);
+	close(g_sh.fds[0]);
+	close(g_sh.fds[1]);
+	close(g_sh.fds[2]);
 	clear_job();
 }
 
@@ -67,6 +70,9 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	init_history();
 	termcaps_init();
 	update_display_init(info, cmd);
+	g_sh.fds[0] = dup(STDIN_FILENO);
+	g_sh.fds[1] = dup(STDOUT_FILENO);
+	g_sh.fds[2] = dup(STDERR_FILENO);
 }
 
 inline void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry)
@@ -123,9 +129,6 @@ int			main(int ac, char **av, char **env)
 		info_init(&info);
 		prompt_display(&info, g_new_prompt);
 		buff_max_char_init(&info);
-		g_sh.fds[0] = dup(STDIN_FILENO);
-		g_sh.fds[1] = dup(STDOUT_FILENO);
-		g_sh.fds[2] = dup(STDERR_FILENO);
 		if ((ret = read_line(&cmd, &info)) == -1)
 			break ;
 		update_status();

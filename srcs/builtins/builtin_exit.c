@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 19:24:49 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/21 20:35:17 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/22 16:01:50 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			builtin_exit(t_process *p, int argc, char **argv, char **env)
 		return (sh_error(1, 1, NULL, 1, "exit\nThere are stopped jobs.\n"));
 	}
 	g_sh_exit = 1;
-	return (ft_atoi(argc == 2 ? argv[1] : ""));
+	return (argc == 2 ? ft_atoi(argv[1]) : g_sh.exitstatus);
 }
 
 char		sh_quit_ctrld(t_buf *cmd, t_read *info, t_key *entry)
