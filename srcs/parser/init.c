@@ -18,3 +18,10 @@ t_tree		*init_node(t_token c, t_tree *n)
 	n->token = c;
 	return (n);
 }
+
+int			ret_douille(int ret, t_token t)
+{
+	if (ret == -1)
+		return (ft_leave_parse(t, 0));
+	return (-1);
+}

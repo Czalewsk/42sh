@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/20 12:04:58 by thugo            ###   ########.fr        #
+#    Updated: 2018/03/22 15:07:50 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g# -fsanitize=address
+FLAGS			= -Wall -Wextra -Werror -g -fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -80,11 +80,12 @@ SRCS_FILES		= ft_sh 													\
 				  glob/glob_free_function glob/glob_is_relative				\
 				  parser/parser parser/parser_rules parser/free_parser		\
 				  parser/fill_for_jobs parser/add_in_tree parser/fd			\
-				  parser/tools_for_fill parser/init parser/exec				\
+				  parser/tools_for_fill parser/init parser/execution		\
+				  parser/fill_for_jobs2 parser/tools_for_fill2				\
 				  parser/modify_io parser/add_in_arguments 					\
 				  parser/read_from_prompt parser/jobs						\
 				  parser/heredoc parser/call_built_in parser/subshell		\
-				  parser/clear_assign_word									\
+				  parser/clear_assign_word parser/subshell_tools			\
 				  parser/exec_tools											\
 				  paste/paste_handler paste/pasted_remove_highlight			\
 				  paste/cpy_pste_intern										\
@@ -156,7 +157,7 @@ $(NAME): $(OBJ) $(LIBFT)
 		@$(CC) -Llibft -lft -ltermcap $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) $^ -o $(NAME)
 		@printf "\r$(GREEN)✅  [$(NAME)] was succesfully created ✅$(NOC)\n"
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT)
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HEADERS) $(HEADERS_LIBFT) Makefile
 		@mkdir $(OBJS_PATH) 2> /dev/null || true
 		@mkdir $(OBJS_DIRS) 2> /dev/null || true
 		@$(CC) $(FLAGS) $(INCLUDES) $(INCLUDES_LIBFT) -o $@ -c $<

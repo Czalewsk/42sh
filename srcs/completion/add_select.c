@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 17:08:42 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/14 11:54:18 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/21 14:22:03 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void		add_ls(t_comp *comp, t_ldl_head *head, char *search, char *path)
 	path = comp_checktilde(search, ft_strlen(search), env_get("HOME"));
 	if (!(dir_stream = opendir(path)))
 	{
-		sh_error(0, 1, NULL, 3, "Fail opendir : ", path, "\n");
 		ft_strdel(&path);
 		return ;
 	}

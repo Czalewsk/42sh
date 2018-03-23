@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 14:43:07 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/05 15:27:59 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:34:45 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ char				paste_intern(t_buf *cmd, t_read *info, t_key *entry);
 void				buff_max_char_init(t_read *info);
 void				*key_token(t_key *entry);
 char				sh_stop_line(t_buf *cmd, t_read *info, t_key *entry);
+char				sh_quit_ctrld(t_buf *cmd, t_read *info, t_key *entry);
 
 #endif

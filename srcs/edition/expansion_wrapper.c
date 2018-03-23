@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 23:52:47 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/02/11 17:08:50 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/19 18:08:34 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,11 @@ char		expansion_wrapper(t_buf *cmd, t_read *info, t_key *entry)
 		auto_completion = 0;
 	if (auto_completion)
 	{
-		g_sh.comp_status = wrapper_is_arg(cmd);
-		first_comp(cmd, info, entry, tkkn);
+		if (!g_sh.prompt_add)
+		{
+			g_sh.comp_status = wrapper_is_arg(cmd);
+			first_comp(cmd, info, entry, tkkn);
+		}
 	}
 	else
 	{

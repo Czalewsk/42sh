@@ -6,13 +6,11 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:29 by maastie           #+#    #+#             */
-/*   Updated: 2018/01/11 16:31:29 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/21 20:26:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-/// a modifier pour opti malloc de **
 
 char		**realloc_argv(char **argv, char *to_add, int s)
 {
@@ -20,7 +18,7 @@ char		**realloc_argv(char **argv, char *to_add, int s)
 	int		i;
 
 	i = 0;
-	if ((new = (char **)malloc(sizeof(char *) * (s + 1))) == NULL)
+	if ((new = (char **)ft_memalloc(sizeof(char *) * (s + 1))) == NULL)
 		return (NULL);
 	while (argv && argv[i])
 	{
@@ -41,7 +39,7 @@ char		**get_new_argv(char **argv, char *to_add)
 	i = 0;
 	if (!argv)
 	{
-		if ((argv = (char **)malloc(sizeof(char *) * 2)) == NULL)
+		if ((argv = (char **)ft_memalloc(sizeof(char *) * 2)) == NULL)
 			return (NULL);
 		argv[0] = ft_strdup(to_add);
 		argv[1] = NULL;

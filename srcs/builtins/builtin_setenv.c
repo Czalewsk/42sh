@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 08:31:57 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/09 09:43:23 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/20 16:04:52 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ int			builtin_setenv(t_process *p, int argc, char **argv, char **env)
 	{
 		if (!ft_isposixname(argv[1]))
 		{
+			if (!ft_isalpha(argv[1][0]))
+			{
+				return (sh_error_bi(p->stderr, EXIT_FAILURE, 1,
+					"setenv: Variable name must begin with a letter.\n"));
+			}
 			return (sh_error_bi(p->stderr, EXIT_FAILURE, 1,
-				"setenv: Variable name must begin with a letter.\n"));
+				"setenv: Variable name must contain alphanumeric chars.\n"));
 		}
 		env_set(argv[1], argc == 3 ? argv[2] : "", ENV_GLOBAL);
 	}

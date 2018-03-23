@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:28:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 19:25:59 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:13:40 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ t_job		*put_job_in_foreground(t_job *j, int cont)
 		if (kill(-j->pgid, SIGCONT) < 0)
 			sh_error(1, 0, NULL, 1, "job control: kill SIGCONT");
 	}
-	print_job(j);
 	wait_for_job(j);
-	print_job(j);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	tcgetattr(g_shell_terminal, &j->tmodes);
 	termcaps_set_tty();

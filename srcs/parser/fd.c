@@ -14,6 +14,7 @@
 
 t_tree	*ft_great(t_process *p, t_tree *c)
 {
+	just_the_last(p);
 	if ((p->stdout = open(c->right->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 	{
@@ -26,7 +27,8 @@ t_tree	*ft_great(t_process *p, t_tree *c)
 
 t_tree	*land(t_process *p, t_tree *c)
 {
-	if ((p || !p) && ft_str_isdigit(c->right->token.str) == 1)
+	just_the_last(p);
+	if (ft_isint(c->right->token.str) == 1)
 	{
 		p->stdin = ft_atoi(c->right->token.str);
 		if (fcntl(p->stdin, F_GETFD) == -1)
@@ -35,6 +37,7 @@ t_tree	*land(t_process *p, t_tree *c)
 				c->right->token.str, " is not set as file descriptor\n");
 			return ((void *)1);
 		}
+		p->stderr = p->stdout;
 		return (c->right->right);
 	}
 	if (!ft_memcmp(c->right->token.str, "-", ft_strlen(c->right->token.str)))
@@ -42,13 +45,14 @@ t_tree	*land(t_process *p, t_tree *c)
 		p->stdin = -1;
 		return (c->right->right);
 	}
+	p->stderr = p->stdout;
 	sh_error(-1, 0, NULL, 1, "Error: file number execpted\n");
 	return ((void *)1);
 }
 
 t_tree	*gand(t_process *p, t_tree *c)
 {
-	if (ft_str_isdigit(c->right->token.str) == 1)
+	if (ft_isint(c->right->token.str) == 1)
 	{
 		p->stdout = ft_atoi(c->right->token.str);
 		if (fcntl(p->stdout, F_GETFD) == -1)
@@ -58,9 +62,11 @@ t_tree	*gand(t_process *p, t_tree *c)
 			return ((void *)1);
 		}
 	}
-	else if (!ft_memcmp("-", c->right->token.str,
-				ft_strlen(c->right->token.str)))
+	else if (!ft_memcmp("-", c->right->token.str, 1))
+	{
+		p->closeout = 1;
 		return (c->right->right);
+	}
 	else if ((p->stdout = open(c->right->token.str, O_CREAT |
 					O_TRUNC | O_WRONLY, 0755)) == -1)
 	{

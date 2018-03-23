@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 16:37:55 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 15:47:56 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/19 18:06:28 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 typedef struct		s_sh
 {
 	int				edition_state;
+	char			prompt_add;
 	int				fd_tty;
 	t_ldl_head		*hist;
 	t_ldl			*hist_current;

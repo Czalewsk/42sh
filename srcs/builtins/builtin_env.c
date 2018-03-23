@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 13:36:49 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/20 13:21:39 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/20 18:23:26 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,38 @@ static int	setup_env(t_process *p, char ***env, int argc, char **argv)
 	return (i);
 }
 
+static int	print_env(t_process *p, int argc, char **env)
+{
+	int		i;
+
+	if (argc)
+		return (0);
+	i = -1;
+	while (env[++i])
+		ft_putendl_fd(env[i], p->stdout);
+	return (1);
+}
+
 static void	exec_util(t_process *p, int argc, char **argv, char **env)
 {
-	int			i;
 	char		*cmd;
+	t_process	p2;
 
-	if (!argc)
-	{
-		i = -1;
-		while (env[++i])
-			ft_putendl_fd(env[i], p->stdout);
-		return ;
-	}
 	cmd = NULL;
-	if (ft_strstr(argv[0], "/") && access(argv[0], X_OK | F_OK) != -1)
-		cmd = argv[0];
+	if (print_env(p, argc, env))
+		return ;
+	ft_bzero(&p2, sizeof(t_process));
+	p2.argv = argv;
+	p2.stdout = p->stdout;
+	p2.stderr = p->stderr;
+	p2.stdin = p->stdin;
+	if (ft_strchr(argv[0], '/'))
+	{
+		if (access(argv[0], X_OK | F_OK) != -1)
+			cmd = argv[0];
+	}
+	else if (do_built_in(&p2, env))
+		return ;
 	else
 		cmd = find_path(argv[0], ft_getenv(env, "PATH"));
 	if (cmd)
@@ -79,7 +96,7 @@ int			builtin_env(t_process *p, int argc, char **argv, char **env)
 	int		index;
 	int		ret;
 
-	ret = 0;
+	g_sh.exitstatus = 0;
 	if ((index = ft_getopt(argc, argv, "i", &options)) == -1)
 	{
 		sh_error_bi(p->stderr, 1, 3, "env: illegal option -- ", options,

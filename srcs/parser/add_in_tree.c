@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 19:32:06 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/07 14:25:04 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/21 14:07:46 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,25 @@ int				check_last_token(t_tree *cur)
 	return (0);
 }
 
-int				cnewline(t_token t, char **cmd, char *cur)
+int				cnewline(t_token t, char **cmd, char **cur)
 {
+	int			new_line_call;
+
 	if (t.str && t.str != NULL)
 		free(t.str);
 	if (!g_head_tree || !g_current)
 		return (0);
 	else if (check_last_token(g_current) == -1)
 		return (-1);
-	else if (g_current->token.id == OR_IF || g_current->token.id == AND_IF)
-		return (read_from_prompt(cmd, cur));
+	else if (g_current->token.id == OR_IF ||
+		g_current->token.id == AND_IF || g_current->token.id == PIPE)
+		while ((new_line_call = read_from_prompt(cmd, cur)))
+		{
+			if (new_line_call == -1 || new_line_call == -3)
+				return (-1);
+			if (new_line_call == -2)
+				break ;
+		}
 	return (0);
 }
 
@@ -74,7 +83,7 @@ int				add_in_classic_tree(t_tree *cur, t_tree *new)
 			if (g_classics[i].here)
 			{
 				if ((g_classics[i].here(cur, new)) == (void *)1)
-					return (ft_free_node(new));
+					return (-2);
 			}
 			return (0);
 		}

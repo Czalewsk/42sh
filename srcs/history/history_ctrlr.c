@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/29 15:51:28 by bviala            #+#    #+#             */
-/*   Updated: 2018/02/08 14:13:17 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/19 18:10:52 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ char		history_ctrlr(t_buf *cmd, t_read *info, t_key *entry)
 	int		ret;
 	size_t	pos;
 
+	if (g_sh.prompt_add)
+		return (0);
 	new = NULL;
 	to_find = NULL;
 	pos = 0;

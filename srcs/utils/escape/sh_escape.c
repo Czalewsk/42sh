@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 20:23:05 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/08 19:03:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/23 11:19:20 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void			remove_escape(char *str, char *to_remove)
 
 	i = 0;
 	j = 0;
-	while (*str)
+	while (*(str + j))
 	{
 		if (esc_remove(to_remove, i))
 		{
@@ -42,18 +42,21 @@ static void			remove_escape(char *str, char *to_remove)
 			i++;
 			continue ;
 		}
-		(*str = *(str + j));
+		*str = *(str + j);
 		str++;
 		i++;
 	}
+	*str = '\0';
 }
 
 void				*escape_fonctions(char *str, char *to_remove,
-		int index)
+		int *i)
 {
 	char		*res;
+	int			index;
 	const void	*fcts[3] = {&sh_esc_dquote, &sh_esc_squote, &sh_esc_bslash};
 
+	index = *i;
 	if ((res = ft_strchr(g_charset, *str)))
 	{
 		set_remove(to_remove, index);
@@ -66,7 +69,7 @@ void				*escape_fonctions(char *str, char *to_remove,
 
 void				sh_escape(char *str)
 {
-	void		*(*f)(char *, char *, int);
+	void		*(*f)(char *, char *, int *);
 	char		*to_remove;
 	int			i;
 
@@ -76,7 +79,7 @@ void				sh_escape(char *str)
 	to_remove = ft_memalloc((i / 8) + 1);
 	i = -1;
 	while (*(str + ++i))
-		f = f(str + i, to_remove, i);
+		f = f(str + i, to_remove, &i);
 	remove_escape(str, to_remove);
 	ft_strdel(&to_remove);
 }

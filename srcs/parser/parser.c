@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/19 18:23:00 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/23 11:40:52 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,16 @@ int			place_token(t_token t)
 	return (add_in_classic_tree(g_current, n = init_node(t, n)));
 }
 
-int			ft_leave_parse(t_token t)
+int			ft_leave_parse(t_token t, int k)
 {
+	if (k == 1)
+	{
+		if (t.str)
+			free(t.str);
+		return (-1);
+	}
 	if (t.id == NEWLINE)
-		sh_error(0, 0, NULL, 1, "Error parsing near `\\n'\n");
+		sh_error(0, 1, NULL, 1, "Error parsing near `\\n'");
 	else
 	{
 		sh_error(0, 0, NULL, 3, "Error parsing near `", t.str, "`\n");
@@ -67,7 +73,7 @@ int			take_token_from_list(t_list *lst, t_token c)
 		ft_memcpy(&t, n, sizeof(t_token));
 		free(n);
 		if (place_token(t) < 0)
-			return (ft_leave_parse(t));
+			return (ft_leave_parse(t, 0));
 		tmp = tmp->next;
 		free(f);
 	}
@@ -83,17 +89,19 @@ int			read_parser(char **cmd, char *cur)
 	ret = 0;
 	while ((ret = lexer_getnexttoken(&t, &cur, cmd)) > 0)
 	{
-		if (!expansions_expand(&lst, &t))
+		if (!(ret = expansions_expand(&lst, &t)))
 		{
 			sh_escape(t.str);
 			if (t.id == NEWLINE)
 			{
-				if (cnewline(t, cmd, cur) == -1)
-					return (ft_leave_parse(t));
+				if (cnewline(t, cmd, &cur) == -1)
+					return (ft_leave_parse(t, 0));
 			}
-			else if (place_token(t) < 0)
-				return (ft_leave_parse(t));
+			else if ((ret = place_token(t)) < 0)
+				return (ret_douille(ret, t));
 		}
+		else if (ret == -1)
+			return (ft_leave_parse(t, 1));
 		else if (take_token_from_list(lst, t) == -1)
 			return (-1);
 	}
