@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/20 14:41:33 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/23 11:31:08 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ int				ft_fill_for_jobs(t_tree *head)
 	t_job		*tmp2;
 
 	tmp = head;
-	while (tmp)
+	while (tmp && !g_sh_exit)
 	{
 		tmp2 = create_new_job(tmp);
-		while (tmp2)
+		while (tmp2 && !g_sh_exit)
 		{
 			execute_job(tmp2);
 			if (!g_shell_is_interactive)

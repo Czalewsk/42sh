@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:30:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/21 14:07:19 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/23 11:40:52 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			ft_leave_parse(t_token t, int k)
 		return (-1);
 	}
 	if (t.id == NEWLINE)
-		sh_error(0, 0, NULL, 1, "Error parsing near `\\n'\n");
+		sh_error(0, 1, NULL, 1, "Error parsing near `\\n'");
 	else
 	{
 		sh_error(0, 0, NULL, 3, "Error parsing near `", t.str, "`\n");
