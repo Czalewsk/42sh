@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 08:52:37 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 09:08:49 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 static void		bg_launch(t_job *j)
 {
 	char	*num;
-
-if (j == NULL)
-	return ;
 
 	num = ft_itoa(j->num);
 	if (job_is_running(j))
@@ -51,14 +48,9 @@ int				bt_bg(t_process *p, int size, char **arg, char **env)
 	(void)env;
 	(void)p;
 	(void)size;
-	if (getpid() != g_shell_pgid)
-	{
-		sh_error(0, 0, NULL, 1, "bg: no job control in this shell.\n");
-		exit(1);
-	}
-	i = 1;
+	can_execute_builtin_job_control("bg");
 	retour = 0;
-	if (arg[i] == NULL)
+	if ((i = 1) && arg[i] == NULL)
 	{
 		if ((tmp = get_job(NULL)) == NULL)
 			retour = sh_error(1, 0, NULL, 1, "bg: current: no such job\n");

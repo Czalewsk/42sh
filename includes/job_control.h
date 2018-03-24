@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/19 15:48:58 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/24 09:09:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ extern int			g_shell_terminal;
 extern int			g_shell_is_interactive;
 
 void			put_first_in_job_order(t_job *j);
+void			can_execute_builtin_job_control(char *type);
 int				bt_fg(t_process *p, int size, char **arg, char **env);
 int				bt_bg(t_process *p, int size, char **arg, char **env);
 t_job			*get_job(char *arg);
