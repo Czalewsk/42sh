@@ -6,16 +6,16 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 17:31:13 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 17:54:01 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 10:55:07 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int	jobs_display(t_job *j, int long_flag)
+int	jobs_display(t_job *j, int long_flag, int is_do_job_notification)
 {
 	ft_printf("[%d]", j->num);
-	if (g_job_order)
+	if (g_job_order && is_do_job_notification == 0)
 	{
 		if ((t_job*)(g_job_order->content) == j)
 			ft_printf("+");
@@ -24,7 +24,7 @@ int	jobs_display(t_job *j, int long_flag)
 		else
 			ft_printf(" ");
 	}
-	ft_printf("  ");
+	ft_printf("%s", is_do_job_notification ? "   " : "  ");
 	if (long_flag)
 		process_display_long(j->process, j->command);
 	else
