@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 10:55:42 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 12:18:39 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ void			mark_job_as_running (t_job *j);
 t_job			*put_job_in_foreground(t_job *j, int cont);
 void			put_job_in_background(t_job *j, int cont);
 
-int				jobs_display(t_job *j, int long_flag,
-					int is_do_job_notification);
+int				jobs_display(t_job *j, int long_flag, int fd);
 void			process_display_short(t_process *process, char *cmd, int fd);
 void			process_display_long(t_process *process, char *cmd);
 int				jobs_display_only_id(t_job *j);
