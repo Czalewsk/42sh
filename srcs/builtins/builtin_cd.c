@@ -5,125 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/15 22:01:26 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/15 22:44:16 by thugo            ###   ########.fr       */
+/*   Created: 2018/03/23 08:29:39 by thugo             #+#    #+#             */
+/*   Updated: 2018/03/24 17:11:46 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/param.h>
 #include "ft_sh.h"
 
-static char	*resolve_path(t_process *p, char **argv, char **env)
+static int	convert_tological(char **curpath)
 {
-	char	*path;
+	char	*cur;
+	char	*comp_start;
 
-	if (!*argv)
+	cur = *curpath + 1;
+	comp_start = *curpath;
+	ft_printf("Enter: %s\n", *curpath);
+	while (*cur)
 	{
-		if (!(path = ft_getenv(env, "HOME")))
+		if (*cur == '/' || (!*(cur + 1) && ++cur))
 		{
-			sh_error_bi(p->stderr, 0, 1, "cd: HOME not set\n");
-			return (NULL);
+			printf("Comp: %.*s\n", (int)(cur - comp_start - 1), comp_start + 1);
+			printf("Cur: %s\n", cur);
+			if (cur - comp_start == 1){ft_printf("CC1\n");
+				ft_strcpy(comp_start, cur--);}
+			if (!ft_strncmp(comp_start + 1, ".", cur - comp_start - 1)){ft_printf("CC2\n");
+				(ft_strcpy(comp_start, cur) && (cur -= 3));}
+			if (!*cur)
+				--cur;
+			comp_start = cur;
 		}
+		++cur;
 	}
-	else if (!ft_strcmp(*argv, "-"))
-	{
-		if (!(path = ft_getenv(env, "OLDPWD")))
-		{
-			sh_error_bi(p->stderr, 0, 1, "cd: OLDPWD not set\n");
-			return (0);
-		}
-	}
-	else
-		path = *argv;
-	return (path);
+	return (0);
 }
 
-static char	*get_lpath(char *path, char **env)
-{
-	char	**splitpath;
-	char	*lpath;
-	int		i;
+/*
+**	Return:
+**		2: HOME
+**		1: OLDPWD
+**		0: Argv
+*/
 
-	splitpath = ft_strsplit(path, '/');
-	if (path[0] == '/')
-		lpath = ft_strnew(0);
-	else if (ft_getenv(env, "PWD"))
-		lpath = ft_strdup(ft_getenv(env, "PWD"));
-	else
-		lpath = getcwd(NULL, 0);
-	i = -1;
-	while (splitpath[++i])
+static int	set_curpath(char **argv, char **env, char **curpath)
+{
+	char	*first;
+
+	*curpath = NULL;
+	if ((argv[0] && !ft_strcmp(argv[0], "-")) || !argv[0])
 	{
-		if (!ft_strcmp(splitpath[i], "..") && ft_strlen(lpath) > 1)
-			lpath = ft_strnfdup(lpath, ft_strrchr(lpath, '/') - lpath);
-		else if (ft_strcmp(splitpath[i], ".") && ft_strcmp(splitpath[i], ".."))
-			lpath = ft_strjoin_free(lpath, ft_strjoin("/", splitpath[i]), 2);
+		*curpath = ft_strdup(ft_getenv(env, !argv[0] ? "HOME" : "OLDPWD"));
+		return (!argv[0] ? 2 : 1);
 	}
-	free_tab2d((char ***)&splitpath);
-	return ((lpath = ft_strlen(lpath) ? lpath : ft_strjoin_free(lpath, "/",
-		0)));
-}
-
-static int	can_change_dir(t_process *p, char *path)
-{
-	char	stats;
-
-	stats = stats_check(path);
-	if (ft_strlen(path) && (!(stats & STATS_EXIST) || !(stats & STATS_EXEC) ||
-		!(stats & STATS_DIR)))
-	{
-		if (!(stats & STATS_EXIST))
-			sh_error_bi(p->stderr, 0, 3, "cd: no such file or directory: ",
-				path, "\n");
-		else if (!(stats & STATS_DIR))
-			sh_error_bi(p->stderr, 0, 3, "cd: not a directory: ", path, "\n");
-		else if (!(stats & STATS_EXEC))
-			sh_error_bi(p->stderr, 0, 3, "cd: permission denied: ", path,
-				"\n");
-		return (0);
-	}
-	return (1);
-}
-
-static int	changedir(t_process *p, char *path, char *cmd, char **env)
-{
-	char	cwd[MAXPATHLEN];
-
-	if (!can_change_dir(p, cmd ? cmd : path))
-		return (1);
-	if (!ft_getenv(env, "PWD"))
-		env_set("OLDPWD", getcwd(cwd, MAXPATHLEN), ENV_GLOBAL);
-	else
-		env_set("OLDPWD", ft_getenv(env, "PWD"), ENV_GLOBAL);
-	cwd_change(path);
+	first = ft_strchr(argv[0], '/');
+	if (!first)
+		first = argv[0] + ft_strlen(argv[0]);
+	if ((argv[0][0] == '/' || (!ft_strncmp(argv[0], "." ,first - argv[0]) ||
+			!ft_strncmp(argv[0], "..", first - argv[0]))))
+		*curpath = ft_strdup(argv[0]);
+	else if (!*curpath)
+		*curpath = find_cdpath(argv[0], ft_getenv(env, "CDPATH"));
+	*curpath = *curpath ? *curpath : ft_strdup(argv[0]);
 	return (0);
 }
 
 int			builtin_cd(t_process *p, int argc, char **argv, char **env)
 {
-	char	*path[2];
-	char	*opt;
+	char	opt[3];
+	char	*curpath;
 	int		index;
 	int		ret;
 
-	if ((index = ft_getopt(argc, argv, "LP", &opt)) == -1)
-	{
-		free(opt);
+	if ((index = ft_getopt_buf(argc, argv, "LP", opt)) == -1)
 		return (sh_error_bi(p->stderr, 1, 3, "cd: bad option: -", opt, "\n"));
-	}
-	if (!(path[0] = resolve_path(p, argv + index, env)))
+	ret = set_curpath(argv + index, env, &curpath);
+	if (!curpath && ret == 1)
+		return (sh_error_bi(p->stderr, 1, 1, "cd: $OLDPWD not set\n"));
+	else if (!curpath && ret == 2)
+		return (sh_error_bi(p->stderr, 1, 1, "cd: $HOME not set\n"));
+	if (!ft_strchr(opt, 'P'))
 	{
-		free(opt);
-		return (1);
+		if (curpath[0] != '/')
+			curpath = g_sh.cwd[ft_strlen(g_sh.cwd) - 1] == '/' ?
+				ft_strjoin_free(g_sh.cwd, curpath, 1) :
+				ft_strjoin_free(g_sh.cwd, ft_strjoin_free("/", curpath, 1), 1);
+		convert_tological(&curpath);
 	}
-	if (ft_strchr(opt, 'P'))
-		ret = changedir(p, path[0], NULL, env);
-	else
-	{
-		path[1] = get_lpath(path[0], env);
-		ret = changedir(p, path[1], path[0], env);
-		free(path[1]);
-	}
-	free(opt);
-	return (ret);
+	ft_printf("Curpath: %s\n", curpath);
+	free(curpath);
+	return (0);
 }
