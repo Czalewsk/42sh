@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/29 15:54:48 by bviala            #+#    #+#              #
-#    Updated: 2018/03/22 15:08:06 by czalewsk         ###   ########.fr        #
+#    Updated: 2018/03/24 14:42:19 by thugo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ NAME 		= libft.a
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC			= gcc
-FLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -110,7 +110,7 @@ SRCS_FILES	= lst/ft_lstadd.c lst/ft_lstcmp.c lst/ft_lstdel.c lst/ft_lstlen.c\
 			  utils/ft_is_escape.c utils/ft_isfile.c						\
 			  utils/ft_count_len.c utils/ft_howmany.c utils/ft_getopt.c		\
 			  utils/ft_tab2dlen.c utils/ft_isposixname.c					\
-			  utils/dup_and_close.c utils/ft_xfree.c						\
+			  utils/dup_and_close.c utils/ft_xfree.c utils/ft_getopt_buf.c	\
 			  printf/cast.c printf/ft_printf.c printf/launch_mod.c			\
 			  printf/parsing.c printf/parsing_utilities.c printf/print.c	\
 			  printf/solve_c.c	printf/solve_d.c							\
