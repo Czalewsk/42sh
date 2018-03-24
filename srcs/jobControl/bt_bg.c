@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 09:08:49 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 10:52:58 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,23 @@ static void		bg_launch(t_job *j)
 	free(num);
 }
 
+static int		bg_is_launchable(t_job *j, char *arg)
+{
+	if (j == NULL)
+	{
+		if (arg == NULL)
+			return (sh_error(1, 0, NULL, 1, "bg: current: no such job\n"));
+		else
+			return (sh_error(1, 0, NULL, 3, "bg: ", arg, ": no such job\n"));
+	}
+	else if (job_is_completed(j))
+		return (sh_error(1, 0, NULL, 1, "bg: job has terminated\n"));
+	bg_launch(j);
+	return (0);
+}
+
 int				bt_bg(t_process *p, int size, char **arg, char **env)
 {
-	t_job	*tmp;
 	int		i;
 	int		retour;
 
@@ -50,19 +64,12 @@ int				bt_bg(t_process *p, int size, char **arg, char **env)
 	(void)size;
 	can_execute_builtin_job_control("bg");
 	retour = 0;
-	if ((i = 1) && arg[i] == NULL)
-	{
-		if ((tmp = get_job(NULL)) == NULL)
-			retour = sh_error(1, 0, NULL, 1, "bg: current: no such job\n");
-		else
-			bg_launch(tmp);
-	}
+	i = 1;
+	if (arg[i] == NULL)
+		retour = bg_is_launchable(get_job(NULL), NULL);
 	while (arg[i])
 	{
-		if ((tmp = get_job(arg[i])) == NULL)
-			retour = sh_error(1, 0, NULL, 3, "bg: ", arg[i], ": no such job\n");
-		else
-			bg_launch(tmp);
+		retour = bg_is_launchable(get_job(arg[i]), arg[i]) || retour;
 		i++;
 	}
 	return (retour);
