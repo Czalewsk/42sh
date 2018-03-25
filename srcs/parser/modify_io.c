@@ -12,117 +12,91 @@
 
 #include "ft_sh.h"
 
-int			greatand(int fd, t_tree *c, t_process *p)
+/*
+	Si le new->right/left == -2 ferme le fd
+	Si le new->right/left == -1 erreur
+
+	// sur les >& valid si le fd est open : open (file)
+	// sur les &> le left est un argument;
+*/
+
+int		open_fd(t_tree *c)
 {
-	int		ofd;
+	int		ret;
 
-	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
-	if (ofd == -1 && ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
-		ofd = -1;
-	else if (ofd == -1 && (ofd = open(c->token.str, O_CREAT |
-		O_TRUNC | O_WRONLY, 0755)) == -1)
-	{
-		sh_error(-1, 0, NULL, 2, c->token.str, " open failed\n");
-		return (-1);
-	}
-	just_the_last(p);
-	if (fd == 1 && ofd == -1)
-		p->closeout = 1;
-	else if (fd == 0 && ofd == -1)
-		p->closein = 1;
-	else if (fd == 2 && ofd == -1)
-		p->closeerr = 1;
-	else if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	return (0);
-}
-
-int			lessand(int fd, t_tree *c, t_process *p)
-{
-	int		ofd;
-
-	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
-	if (ofd == -1 && ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
-		ofd = -1;
-	else
-	{
-		sh_error(-1, 0, NULL, 2, c->token.str, " file number execpted\n");
-		return (-1);
-	}
-	just_the_last(p);
-	if (fd == 0 && ofd == -1)
-		p->closein = 1;
-	else if (fd == 1 && ofd == -1)
-		p->closeout = 1;
-	else if (fd == 2 && ofd == -1)
-		p->closeerr = 1;
-	else if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	return (0);
-}
-
-int			great(int fd, t_tree *c, t_process *p)
-{
-	int		ofd;
-
-	if ((ofd = open(c->token.str, O_CREAT |
-		O_TRUNC | O_WRONLY, 0755)) == -1)
-	{
-		sh_error(0, 0, NULL, 3, "Error: ",
-			c->token.str, " open failed\n");
-		return (-1);
-	}
-	if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	else
-		p->stdout = ofd;
-	return (0);
-}
-
-int			modify_fd(int fd, t_tree *c, t_process *p)
-{
-	if (c->token.id == GREATAND)
-		return (greatand(fd, c->right, p));
-	else if (c->token.id == LESSAND)
-		return (lessand(fd, c->right, p));
+	ret = -1;
+	if (c->token.id == LESS)
+		ret = open(c->right->token.str, O_RDONLY, 0755);
 	else if (c->token.id == GREAT)
-		return (great(fd, c->right, p));
-	else if (c->token.id == LESS)
-		return (less(fd, c->right, p));
-	return (0);
+		ret = open(c->right->token.str, O_CREAT | O_TRUNC | O_WRONLY, 0755);
+	else if (c->token.id == DGREAT)
+		ret = open(c->right->token.str, O_APPEND | O_CREAT | O_WRONLY, 0755);
+	else if (c->token.id == LESSGREAT)
+		ret = open(c->right->token.str, O_RDWR, 0755);
+	return (ret);
 }
 
-t_tree		*modify_io(t_process *p, t_tree *clist)
+int			get_fd(t_tree *c)
 {
-	int	fd;
+	int	ret;
 
-	fd = ft_isint(clist->token.str) ? ft_atoi(clist->token.str) : -1;
-	if (fcntl(fd, F_GETFD) == -1)
-	{
-		if (ft_memcmp(clist->token.str, "-", 1) == 0)
-			fd = -1;
-		else if (fd != 0 && fd != 2 && fd != 1 && fd != -1)
-			add_in_arguments(p, clist);
-		else if (((fd = open(clist->token.str, O_WRONLY, 0755))) == -1)
-		{
-			sh_error(0, 0, NULL, 2, clist->token.str,
-				" is not set as file descriptor\n");
-			return ((void *)1);
-		}
-	}
-	if (modify_fd(fd, clist->right, p) == -1)
-		return ((void *)1);
-	return (clist->right->right->right);
+	ret = ft_isint(c->right->token.str) ? ft_atoi(c->right->token.str) : -2;
+	if (ret == -2 && ft_memcmp(c->right->token.str, "-", 1) == 0)
+		ret = -2;
+	// cas du ambigeous redirection
+	return (ret);
+}
+
+int		init_fd(t_tree *c)
+{
+	if (c->token.id == GREAT || c->token.id == DGREAT || c->token.id == LESS)
+		return (open_fd(c));
+	else if (c->token.id == GREATAND || c->token.id == ANDGREAT || c->token.id == LESSAND)
+		return (get_fd(c));
+	return (-1);
+}
+
+t_tree		*set_fd_in_process(t_process *p, t_tree *c)
+{
+	t_fd	*new;
+
+	new = (t_fd *)ft_memalloc(sizeof(t_fd));
+//	DEBUG("|%s|\n", c->right->token.str);
+	if (c->token.id == GREATAND || c->token.id == GREAT || c->token.id == DGREAT
+		|| c->token.id == ANDGREAT)
+		new->left_fd = 1;
+	else
+		new->left_fd = 0;
+///	new->fd_action = get_fonction_from_token(c);
+	new->right_fd = init_fd(c);
+	ft_lst_pushend(&p->fd_list, ft_lstnew(&new, sizeof(t_fd *)));
+	DEBUG("new->left_fd = |%d|, new->right_fd = |%d|\n", new->left_fd, new->right_fd);
+	return (c->right->right);
+}
+
+int			get_first_fd(t_tree *c)
+{
+	int		ret;
+
+	ret = -1;
+	return (ret);
+}
+
+t_tree		*modify_io(t_process *p, t_tree *c)
+{
+	int			left_fd;
+	t_list		*last_fd;
+	t_fd		*n_fd;
+
+/*
+	left_fd = ft_isint(c->right->token.str) ? ft_atoi(c->right->token.str) : -2;
+*/
+
+	set_fd_in_process(p, c->right);
+	last_fd = p->fd_list;
+	while (last_fd->next)
+		last_fd = last_fd->next;
+	n_fd = last_fd->content;
+	n_fd->left_fd = left_fd;
+	return (c->right->right->right);
 }

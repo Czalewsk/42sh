@@ -14,40 +14,50 @@
 
 t_tree	*ft_great(t_process *p, t_tree *c)
 {
-	just_the_last(p);
-	if ((p->stdout = open(c->right->token.str, O_CREAT |
+	int		fd;
+
+	if ((fd = open(c->right->token.str, O_CREAT |
 		O_TRUNC | O_WRONLY, 0755)) == -1)
 	{
 		sh_error(0, 0, NULL, 3, "Error: ",
 			c->right->token.str, " open failed\n");
 		return ((void *)1);
 	}
+	p->stdout = fd;
+//	p->stdout = fd_assignation(1, p->stdout, fd);
 	return (c->right->right);
 }
 
 t_tree	*land(t_process *p, t_tree *c)
 {
-	just_the_last(p);
-	if (ft_isint(c->right->token.str) == 1)
-	{
-		p->stdin = ft_atoi(c->right->token.str);
-		if (fcntl(p->stdin, F_GETFD) == -1)
-		{
-			sh_error(0, 0, NULL, 3, "Error: ",
-				c->right->token.str, " is not set as file descriptor\n");
-			return ((void *)1);
-		}
-		p->stderr = p->stdout;
-		return (c->right->right);
-	}
-	if (!ft_memcmp(c->right->token.str, "-", ft_strlen(c->right->token.str)))
-	{
-		p->stdin = -1;
-		return (c->right->right);
-	}
-	p->stderr = p->stdout;
-	sh_error(-1, 0, NULL, 1, "Error: file number execpted\n");
-	return ((void *)1);
+
+//	t_fd	new;
+
+	(void)p;
+	return (c->right->right);
+//	ft_lst_pushend(&p->fd_list, ft_lstnew(new, sizeof(t_fd)));
+	// if (!p->fd_list)
+	// 	p->fd_list = (t_list *)ft_memalloc(sizeof(t_list))
+	// if (ft_isint(c->right->token.str) == 1)
+	// {
+	// 	p->stdin = ft_atoi(c->right->token.str);
+	// 	if (fcntl(p->stdin, F_GETFD) == -1)
+	// 	{
+	// 		sh_error(0, 0, NULL, 3, "Error: ",
+	// 			c->right->token.str, " is not set as file descriptor\n");
+	// 		return ((void *)1);
+	// 	}
+	// 	p->stderr = p->stdout;
+	// 	return (c->right->right);
+	// }
+	// if (!ft_memcmp(c->right->token.str, "-", ft_strlen(c->right->token.str)))
+	// {
+	// 	p->stdin = -1;
+	// 	return (c->right->right);
+	// }
+	// p->stderr = p->stdout;
+	// sh_error(-1, 0, NULL, 1, "Error: file number execpted\n");
+	// return ((void *)1);
 }
 
 t_tree	*gand(t_process *p, t_tree *c)
@@ -64,7 +74,7 @@ t_tree	*gand(t_process *p, t_tree *c)
 	}
 	else if (!ft_memcmp("-", c->right->token.str, 1))
 	{
-		p->closeout = 1;
+//		p->closeout = 1;
 		return (c->right->right);
 	}
 	else if ((p->stdout = open(c->right->token.str, O_CREAT |

@@ -43,11 +43,11 @@ t_tree			*cpy_from_tree(t_tree *c)
 
 void			closeinouterr(t_process *p)
 {
-	if (p->closein == 1)
+	if (p->stdin == -1)
 		close(STDIN_FILENO);
-	if (p->closeout == 1)
+	if (p->stdout == -1)
 		close(STDOUT_FILENO);
-	if (p->closeerr == 1)
+	if (p->stderr == -1)
 		close(STDERR_FILENO);
 }
 

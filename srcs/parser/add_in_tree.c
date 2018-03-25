@@ -39,7 +39,7 @@ int				check_last_token(t_tree *cur)
 
 	t = cur->token.id;
 	if (t == GREAT || t == LESS || t == LESSAND || t == GREATAND ||
-		t == LESSGREAT || t == DLESS || t == DGREAT)
+		t == LESSGREAT || t == DLESS || t == DGREAT || t == ANDGREAT)
 		return (-1);
 	return (0);
 }
@@ -80,6 +80,7 @@ int				add_in_classic_tree(t_tree *cur, t_tree *new)
 		{
 			if ((g_current = g_classics[i].cmp(cur, new)) == (void *)1)
 				return (ft_free_node(new));
+			DEBUG("%p|%s|\n", g_current, g_current->token.str);
 			if (g_classics[i].here)
 			{
 				if ((g_classics[i].here(cur, new)) == (void *)1)

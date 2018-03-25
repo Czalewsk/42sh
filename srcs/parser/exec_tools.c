@@ -51,9 +51,6 @@ void		just_the_last(t_process *p)
 	p->stderr = 2;
 	p->stdout = 1;
 	p->stdin = 0;
-	p->closein = 0;
-	p->closeout = 0;
-	p->closeerr = 0;
 }
 
 int			less(int fd, t_tree *c, t_process *p)

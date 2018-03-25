@@ -24,11 +24,25 @@ typedef struct		s_tree
 	struct s_token			token;
 }					t_tree;
 
+typedef struct 		s_fd
+{
+	int				(*fd_action)(int , int );
+	int				left_fd;
+	int				right_fd;
+
+}					t_fd;
+
 typedef struct		s_cmd_action
 {
 	t_token_id	one;
 	t_tree		*(*fjob)(t_process *p, t_tree *clist);
 }					t_cmd_action;
+
+typedef struct		s_here_list
+{
+	int					fd[2];
+	int					num;
+}					t_here;
 
 typedef struct		s_valid_res
 {
@@ -66,6 +80,7 @@ extern t_tree		*g_head_tree;
 extern t_tree		*g_current;
 extern t_list		*g_here_list;
 
+int					fd_assignation(int ref, int set, int new);
 int					ft_leave_parse(t_token t, int k);
 int					ret_douille(int ret, t_token t);
 void				just_the_last(t_process *p);
@@ -122,6 +137,7 @@ char				*get_command(char *ret, t_tree *chead);
 char				**get_new_argv(char **argv, char *to_add);
 char				**extract_from_tab(char **env, char *ref);
 t_process			*init_process(t_process *p);
+t_tree				*set_fd_in_process(t_process *p, t_tree *c);
 t_tree				*here(t_tree *current, t_tree *new);
 t_tree				*init_node(t_token c, t_tree *n);
 t_tree				*subshell(t_process *p, t_tree *c);
