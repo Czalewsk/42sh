@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 08:29:39 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/26 16:08:57 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/26 18:27:34 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,14 @@ static void	convert_tological(char *curpath)
 			else if (!ft_strncmp(comp_start + 1, "..", cur - comp_start - 1))
 				cur = ft_strcpy(comp_start != curpath ? ft_strnrchr(curpath,
 					'/', comp_start - (curpath + 1)) : comp_start, cur);
+			curpath = *curpath ? curpath : ft_strcpy(curpath, "/");
 			if (!*cur)
 				--cur;
 			comp_start = cur;
 		}
 		++cur;
 	}
-	if (--cur != curpath && *cur == '/')
+	if (cur != curpath && --cur != curpath && *cur == '/')
 		*cur = '\0';
 }
 
