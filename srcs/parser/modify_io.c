@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:14 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 17:42:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/26 19:46:32 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,59 +54,49 @@ int		open_fd(t_tree *c)
 	return (ret);
 }
 
-int			get_fd(t_tree *c)
-{
-	int	ret;
-
-	ret = ft_isint(c->right->token.str) ? ft_atoi(c->right->token.str) : -1;
-	if (ret == -1 && ft_memcmp(c->right->token.str, "-", 1) == 0)
-		ret = -2;
-	// cas du ambigeous redirection
-	return (ret);
-}
-
-int		init_fd(t_tree *c)
+/*int		init_fd(t_tree *c)
 {
 	if (c->token.id == GREAT || c->token.id == DGREAT || c->token.id == LESS)
 		return (open_fd(c));
 	else if (c->token.id == GREATAND || c->token.id == ANDGREAT || c->token.id == LESSAND)
 		return (get_fd(c));
 	return (-1);
-}
+}*/
 
 t_tree		*set_fd_in_process(t_process *p, t_tree *c)
 {
 	t_fd	*new;
 
 	new = (t_fd *)ft_memalloc(sizeof(t_fd));
-	if (c->token.id == GREATAND || c->token.id == GREAT || c->token.id == DGREAT
-		|| c->token.id == ANDGREAT)
-		new->left_fd = 1;
-	else
-		new->left_fd = 0;
-	new->right_fd = init_fd(c);
+	if (c->previous && c->previous->token.id != IO_NUMBER)
+	{
+		new->io_default = 1;
+//	if (c->token.id == GREATAND || c->token.id == GREAT || c->token.id == DGREAT
+//		|| c->token.id == ANDGREAT)
+//		new->left_fd = 1;
+//	else
+//		new->left_fd = 0;
+	}
+//	new->right_fd = init_fd(c);
 	new->right_str = ft_strdup(c->right->token.str);
-	if (new->right_fd == -2)
-		new->fd_action = sh_close;
-	else
-		new->fd_action = get_fonction_from_token(c);
+//	if (new->right_fd == -2)
+//		new->fd_action = sh_close;
+//	else
+	new->fd_action = get_fonction_from_token(c);
 	ft_lst_pushend(&p->fd_list, ft_lstnew(new, sizeof(t_fd)));
 	return (c->right->right);
 }
 
 t_tree		*modify_io(t_process *p, t_tree *c)
 {
-	int			left_fd;
 	t_list		*last_fd;
 	t_fd		*n_fd;
 
-	left_fd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
 	set_fd_in_process(p, c->right);
 	last_fd = p->fd_list;
 	while (last_fd->next)
 		last_fd = last_fd->next;
 	n_fd = last_fd->content;
-	n_fd->left_fd = left_fd;
 	n_fd->left_str = ft_strdup(c->token.str);
 	return (c->right->right->right);
 }

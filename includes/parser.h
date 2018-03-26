@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 17:53:46 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/26 19:55:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ typedef struct		s_tree
 
 typedef struct 		s_fd
 {
-	char			(*fd_action)(int , int );
-	int				left_fd;
+	char			(*fd_action)(char * , char *, char);
+	int				id;
+	char			io_default;
 	char			*left_str;
-	int				right_fd;
 	char			*right_str;
 
 }					t_fd;
@@ -156,13 +156,13 @@ t_tree				*gand(t_process *p, t_tree *c);
 t_tree				*lessgreat(t_process *p, t_tree *c);
 t_tree				*clobber(t_process *p, t_tree *c);
 void				clear_assign_word(t_tree *cur, t_tree *new);
-char				sh_greatand(int lfd, int rfd);
-char				sh_close(int lfd, int rfd);
-char				sh_lessand(int lfd, int rfd);
-char				sh_less(int lfd, int rfd);
-char				sh_dgreat(int lfd, int rfd);
-char				sh_great(int lfd, int rfd);
-char				sh_lessgreat(int lfd, int rfd);
+char				sh_greatand(char *left, char *right, char io_default);
+char				sh_lessand(char *left, char *right, char io_default);
+char				sh_less(char *left, char *right, char io_default);
+char				sh_dgreat(char *left, char *right, char io_default);
+char				sh_great(char *left, char *right, char io_default);
+char				sh_lessgreat(char *left, char *right, char io_default);
 void				do_pipe_child(int pipe[2][2], int pr, int dr);
+char				sh_close(char *left, char *right, char io_default);
 
 #endif
