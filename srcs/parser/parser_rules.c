@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 16:41:07 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/13 17:22:14 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/26 17:30:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ const t_classic g_classics[] = {
 	{IO_NUMBER, GREAT, &go_to_current_right, NULL},
 	{IO_NUMBER, GREATAND, &go_to_current_right, NULL},
 	{IO_NUMBER, ANDGREAT, &go_to_current_right, NULL},
+	{IO_NUMBER, DGREAT, &go_to_current_right, NULL},
 	{IO_NUMBER, SUBSH, &go_to_current_right, NULL},
 	{IO_NUMBER, LESSAND, &go_to_current_right, NULL},
 	{IO_NUMBER, LESS, &go_to_current_right, NULL},

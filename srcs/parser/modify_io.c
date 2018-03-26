@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:14 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/19 11:55:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/26 17:42:12 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,27 @@
 	Si le new->right/left == -2 ferme le fd
 	Si le new->right/left == -1 erreur
 
-	// sur les >& valid si le fd est open : open (file)
 	// sur les &> le left est un argument;
 */
+
+
+void	*get_fonction_from_token(t_tree *c)
+{
+	DEBUG("\tc_str=[%s]|\n", c->token.str);
+	if (c->token.id == GREAT)
+		return (sh_great);
+	if (c->token.id == GREATAND)
+		return (sh_greatand);
+	if (c->token.id == LESSAND)
+		return (sh_lessand);
+	if (c->token.id == LESS)
+		return (sh_less);
+	if (c->token.id == LESSGREAT)
+		return (sh_lessgreat);
+	if (c->token.id == DGREAT)
+		return (sh_dgreat);
+	return (NULL);
+}
 
 int		open_fd(t_tree *c)
 {
@@ -40,8 +58,8 @@ int			get_fd(t_tree *c)
 {
 	int	ret;
 
-	ret = ft_isint(c->right->token.str) ? ft_atoi(c->right->token.str) : -2;
-	if (ret == -2 && ft_memcmp(c->right->token.str, "-", 1) == 0)
+	ret = ft_isint(c->right->token.str) ? ft_atoi(c->right->token.str) : -1;
+	if (ret == -1 && ft_memcmp(c->right->token.str, "-", 1) == 0)
 		ret = -2;
 	// cas du ambigeous redirection
 	return (ret);
@@ -61,25 +79,19 @@ t_tree		*set_fd_in_process(t_process *p, t_tree *c)
 	t_fd	*new;
 
 	new = (t_fd *)ft_memalloc(sizeof(t_fd));
-//	DEBUG("|%s|\n", c->right->token.str);
 	if (c->token.id == GREATAND || c->token.id == GREAT || c->token.id == DGREAT
 		|| c->token.id == ANDGREAT)
 		new->left_fd = 1;
 	else
 		new->left_fd = 0;
-///	new->fd_action = get_fonction_from_token(c);
 	new->right_fd = init_fd(c);
-	ft_lst_pushend(&p->fd_list, ft_lstnew(&new, sizeof(t_fd *)));
-	DEBUG("new->left_fd = |%d|, new->right_fd = |%d|\n", new->left_fd, new->right_fd);
+	new->right_str = ft_strdup(c->right->token.str);
+	if (new->right_fd == -2)
+		new->fd_action = sh_close;
+	else
+		new->fd_action = get_fonction_from_token(c);
+	ft_lst_pushend(&p->fd_list, ft_lstnew(new, sizeof(t_fd)));
 	return (c->right->right);
-}
-
-int			get_first_fd(t_tree *c)
-{
-	int		ret;
-
-	ret = -1;
-	return (ret);
 }
 
 t_tree		*modify_io(t_process *p, t_tree *c)
@@ -88,15 +100,13 @@ t_tree		*modify_io(t_process *p, t_tree *c)
 	t_list		*last_fd;
 	t_fd		*n_fd;
 
-/*
-	left_fd = ft_isint(c->right->token.str) ? ft_atoi(c->right->token.str) : -2;
-*/
-
+	left_fd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
 	set_fd_in_process(p, c->right);
 	last_fd = p->fd_list;
 	while (last_fd->next)
 		last_fd = last_fd->next;
 	n_fd = last_fd->content;
 	n_fd->left_fd = left_fd;
+	n_fd->left_str = ft_strdup(c->token.str);
 	return (c->right->right->right);
 }

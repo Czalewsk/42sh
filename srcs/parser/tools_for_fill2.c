@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:04:55 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/20 16:04:55 by maastie          ###   ########.fr       */
+/*   Updated: 2018/03/26 18:05:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,56 +41,29 @@ t_tree			*cpy_from_tree(t_tree *c)
 	return (save);
 }
 
-void			closeinouterr(t_process *p)
+void			modify_io_child(t_process *p)
 {
-	if (p->stdin == -1)
-		close(STDIN_FILENO);
-	if (p->stdout == -1)
-		close(STDOUT_FILENO);
-	if (p->stderr == -1)
-		close(STDERR_FILENO);
+	t_list		*tmp;
+	t_fd		*test_fd;
+
+	tmp = p->fd_list;
+	while (tmp)
+	{
+		test_fd = tmp->content;
+		DEBUG("left=%d str=[%s]|\n\n right = %d str=[%s]|\n\n\n", test_fd->left_fd,test_fd->left_str, test_fd->right_fd, test_fd->right_str);
+		test_fd->fd_action(test_fd->left_fd, test_fd->right_fd); // gerer erreur dup2
+		tmp = tmp->next;
+	}
 }
 
-void			closeall(int pipe[2][2])
+void			do_pipe_child(int pipe[2][2], int pr, int dr)
 {
+	if (!dr)
+			dup2(pipe[1][1], STDOUT_FILENO);
+	if (!pr)
+			dup2(pipe[1][0], STDIN_FILENO);
 	close(pipe[0][0]);
 	close(pipe[0][1]);
 	close(pipe[1][0]);
 	close(pipe[1][1]);
-}
-
-void			dernier_premier(t_process *p)
-{
-	if (p->stdin != STDIN_FILENO)
-		dup2(p->stdin, STDIN_FILENO);
-	if (p->stdout != STDOUT_FILENO)
-		dup2(p->stdout, STDOUT_FILENO);
-	if (p->stderr != STDERR_FILENO)
-		dup2(p->stderr, STDERR_FILENO);
-}
-
-void			modify_io_child(t_process *p, int pipe[2][2], int pr, int dr)
-{
-	closeinouterr(p);
-	if (dr && pr)
-		dernier_premier(p);
-	if (!dr)
-	{
-		if (p->stdout != STDOUT_FILENO)
-			dup2(p->stdout, STDOUT_FILENO);
-		else
-			dup2(pipe[1][1], STDOUT_FILENO);
-		if (p->stdin != STDIN_FILENO)
-			dup2(p->stdin, STDIN_FILENO);
-	}
-	if (!pr)
-	{
-		if (p->stdin != STDIN_FILENO)
-			dup2(p->stdin, STDIN_FILENO);
-		else
-			dup2(pipe[1][0], STDIN_FILENO);
-		if (p->stdout != STDOUT_FILENO)
-			dup2(p->stdout, STDOUT_FILENO);
-	}
-	closeall(pipe);
 }

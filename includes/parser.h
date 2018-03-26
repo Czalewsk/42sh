@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/21 14:07:55 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/26 17:53:46 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ typedef struct		s_tree
 
 typedef struct 		s_fd
 {
-	int				(*fd_action)(int , int );
+	char			(*fd_action)(int , int );
 	int				left_fd;
+	char			*left_str;
 	int				right_fd;
+	char			*right_str;
 
 }					t_fd;
 
@@ -105,8 +107,7 @@ int					executor(t_job *j, t_process *p,
 	int pipe[2][2], char **env);
 int					get_id_max_job();
 void				pere(t_job *j, t_process *pr, int p[2][2], char **env);
-void				modify_io_child(t_process *p,
-	int pipe[2][2], int pr, int dr);
+void				modify_io_child(t_process *p);
 void				print_process(t_process *p);
 void				put_job_at_head_in_job_order(t_job *job);
 void				put_job_at_end_in_first_job(t_job *job);
@@ -155,5 +156,13 @@ t_tree				*gand(t_process *p, t_tree *c);
 t_tree				*lessgreat(t_process *p, t_tree *c);
 t_tree				*clobber(t_process *p, t_tree *c);
 void				clear_assign_word(t_tree *cur, t_tree *new);
+char				sh_greatand(int lfd, int rfd);
+char				sh_close(int lfd, int rfd);
+char				sh_lessand(int lfd, int rfd);
+char				sh_less(int lfd, int rfd);
+char				sh_dgreat(int lfd, int rfd);
+char				sh_great(int lfd, int rfd);
+char				sh_lessgreat(int lfd, int rfd);
+void				do_pipe_child(int pipe[2][2], int pr, int dr);
 
 #endif
