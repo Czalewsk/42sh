@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/22 15:53:39 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/26 20:47:57 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,11 @@ static void	sh_init_prog(char **env, t_buf *cmd, t_read *info)
 	cwd_init();
 	g_sh.hist_file = ft_strjoin(ft_getenv(env, "HOME"), "/");
 	g_sh.hist_file = ft_strjoin_free(g_sh.hist_file, HIST_FILE, 0);
-	g_sh.fd_tty = open(ttyname(0), O_WRONLY);
-	g_sh.test_fd = open(ttyname(0), O_RDONLY);
+	init_fd();
 	g_termcps_fd = g_sh.fd_tty;
 	init_history();
 	termcaps_init();
 	update_display_init(info, cmd);
-	g_sh.fds[0] = dup(STDIN_FILENO);
-	g_sh.fds[1] = dup(STDOUT_FILENO);
-	g_sh.fds[2] = dup(STDERR_FILENO);
 }
 
 inline void	sh_reinit_edition_state(t_buf *cmd, t_read *info, t_key *entry)

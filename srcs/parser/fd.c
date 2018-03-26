@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 20:18:01 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/26 22:08:01 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,25 @@ int			sh_check_fd(char *str)
 		" must be between 0 and 10\n"));
 }
 
-char		sh_great(char *left, char *right, char io_default)
+char		sh_great(char *left, char *right, char io_default, t_list **open_fd)
 {
 	int lfd;
 	int rfd;
 
-	if ((rfd= open(right, O_CREAT | O_TRUNC | O_WRONLY, 0755)) == -1)
+	if ((rfd = open(right, O_CREAT | O_TRUNC | O_WRONLY, 0755)) == -1)
 		return (1);
 	if (io_default)
 		lfd = 1;
 	else
 		lfd = sh_check_fd(left);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	dup2(rfd, lfd);
 	return (0);
 }
 
 
-char		sh_dgreat(char *left, char *right, char io_default)
+char		sh_dgreat(char *left, char *right, char io_default,
+		t_list **open_fd)
 {
 	int lfd;
 	int rfd;
@@ -52,11 +54,12 @@ char		sh_dgreat(char *left, char *right, char io_default)
 		lfd = 1;
 	else
 		lfd = sh_check_fd(left);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	dup2(rfd, lfd);
 	return (0);
 }
 
-char		sh_less(char *left, char *right, char io_default)
+char		sh_less(char *left, char *right, char io_default, t_list **open_fd)
 {
 	int lfd;
 	int rfd;
@@ -67,15 +70,17 @@ char		sh_less(char *left, char *right, char io_default)
 		lfd = 0;
 	else
 		lfd = sh_check_fd(left);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) == -1)
 		return (1);
 	return (0);
 }
 
-char		sh_lessand(char *left, char *right, char io_default)
+char		sh_lessand(char *left, char *right, char io_default, t_list **open_fd)
 {
 	int lfd;
 	int rfd;
+	int duped;
 
 	rfd = sh_check_fd(right);
 	if (io_default)
@@ -84,31 +89,43 @@ char		sh_lessand(char *left, char *right, char io_default)
 		lfd = sh_check_fd(left);
 	if (rfd == -1)
 		close(lfd);
-	else if (dup2(dup(rfd), lfd) == -1)
-		return (1);
+	else// if (dup2(dup(rfd), lfd) == -1)
+	{
+		duped = dup(rfd);
+		ft_lstadd(open_fd, ft_lstnew(&duped, sizeof(int)), 0);
+		if (dup2(duped, lfd) == -1)
+			return (1);
+	}
 	return (0);
 }
 
-char		sh_greatand(char	*left, char	*right, char io_default)
+char		sh_greatand(char	*left, char	*right, char io_default,
+		t_list **open_fd)
 {
 	int lfd;
 	int	rfd;
+	int duped;
 
+	(void)open_fd;
 	rfd = sh_check_fd(right);
 	if (io_default)
 		lfd = 1;
 	else
 		lfd = sh_check_fd(left);
-	DEBUG("left=[%s] | lfd=%d|\n", left, lfd);
-	DEBUG("right=[%s] | rfd=%d|\n", right, rfd);
 	if (rfd == -1)
 		close(lfd);
-	else if (dup2(dup(rfd), lfd) == -1)
-		return (1);
+	else //if (dup2(dup(rfd), lfd) == -1)
+	{
+		duped = dup(rfd);
+		ft_lstadd(open_fd, ft_lstnew(&duped, sizeof(int)), 0);
+		if (dup2(duped, lfd) == -1)
+			return (1);
+	}
 	return (0);
 }
 
-char		sh_lessgreat(char *left, char *right, char io_default)
+char		sh_lessgreat(char *left, char *right, char io_default,
+		t_list **open_fd)
 {
 	int lfd;
 	int rfd;
@@ -119,8 +136,8 @@ char		sh_lessgreat(char *left, char *right, char io_default)
 		lfd = 0;
 	else
 		lfd = sh_check_fd(left);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(dup(rfd), lfd) == -1)
 		return (1);
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:04:55 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 19:55:38 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/26 22:10:02 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void			modify_io_child(t_process *p)
 	while (tmp)
 	{
 		test_fd = tmp->content;
-//		DEBUG("left=%d str=[%s]|\n\n right = %d str=[%s]|\n\n\n", test_fd->left_fd,test_fd->left_str, test_fd->right_fd, test_fd->right_str);
-		test_fd->fd_action(test_fd->left_str, test_fd->right_str, test_fd->io_default); // gerer erreur dup2
+		test_fd->fd_action(test_fd->left_str, test_fd->right_str, test_fd->io_default, &p->open_fd); // gerer erreur dup2
 		tmp = tmp->next;
 	}
 }

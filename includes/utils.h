@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 21:58:39 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/20 11:27:42 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/26 21:11:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ void		cwd_change(const char *path);
 void		cwd_destroy(void);
 void		ft_xfree(int nb, ...);
 char		*find_path(char *name, char *path);
+void		init_fd(void);
+void		reset_fd(t_list *open_fd);
 
 #endif
