@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:14 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 11:37:22 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 15:15:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ t_tree		*add_heredoc_in_process(t_process *p, t_tree *c)
 		new->io_default = 1;
 	new->fd_action = get_fonction_from_token(c);
 	ft_lst_pushend(&p->fd_list, ft_lstnew(new, sizeof(t_fd)));
+	ft_lst_pushend(&p->open_fd, ft_lstnew(((t_here*)g_here_list->content)->fd, sizeof(int)));
+	ft_lst_pushend(&p->open_fd, ft_lstnew(((t_here*)g_here_list->content)->fd + 1, sizeof(int)));
 	return (c->right->right);
 }

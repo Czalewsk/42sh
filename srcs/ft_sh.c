@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:10:34 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/26 20:47:57 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 14:23:35 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int			main(int ac, char **av, char **env)
 			break ;
 		update_status();
 		if (ret != -3)
-//			printtoken(&cmd.cmd);
+			//printtoken(&cmd.cmd);
 			parser(&cmd.cmd);
 		do_job_notification();
 		ft_strdel(&cmd.cmd);

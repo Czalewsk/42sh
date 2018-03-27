@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 11:42:36 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 15:45:48 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,13 @@ char		sh_great(char *left, char *right, char io_default, t_list **open_fd)
 	int lfd;
 	int rfd;
 
-	if ((rfd = open(right, O_CREAT | O_TRUNC | O_WRONLY, 0755)) == -1)
+	if ((rfd = open(right, O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1)
 		return (1);
-	if (io_default)
-		lfd = 1;
-	else
-		lfd = sh_check_fd(left);
+	lfd = io_default ? 1 : sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) < 0)
 		return (-1);
+	close(rfd);
 	return (0);
 }
 
@@ -49,12 +47,9 @@ char		sh_dgreat(char *left, char *right, char io_default,
 	int lfd;
 	int rfd;
 
-	if ((rfd= open(right, O_CREAT | O_APPEND | O_WRONLY, 0755)) == -1)
+	if ((rfd= open(right, O_CREAT | O_APPEND | O_WRONLY, 0644)) == -1)
 		return (1);
-	if (io_default)
-		lfd = 1;
-	else
-		lfd = sh_check_fd(left);
+	lfd = io_default ? 1 : sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) < -1)
 		return (-1);
@@ -66,12 +61,9 @@ char		sh_less(char *left, char *right, char io_default, t_list **open_fd)
 	int lfd;
 	int rfd;
 
-	if ((rfd = open(right, O_RDONLY, 0755)) == -1)
+	if ((rfd = open(right, O_RDONLY, 0644)) == -1)
 		return (1);
-	if (io_default)
-		lfd = 0;
-	else
-		lfd = sh_check_fd(left);
+	lfd = io_default ? 0 : sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) == -1)
 		return (-1);
@@ -82,22 +74,14 @@ char		sh_lessand(char *left, char *right, char io_default, t_list **open_fd)
 {
 	int lfd;
 	int rfd;
-	int duped;
 
+	(void)open_fd;
 	rfd = sh_check_fd(right);
-	if (io_default)
-		lfd = 0;
-	else
-		lfd = sh_check_fd(left);
+	lfd = io_default ? 0 : sh_check_fd(left);
 	if (rfd == -1)
 		close(lfd);
-	else
-	{
-		duped = dup(rfd);
-		ft_lstadd(open_fd, ft_lstnew(&duped, sizeof(int)), 0);
-		if (dup2(duped, lfd) == -1)
+	else if (dup2(rfd, lfd) == -1)
 			return (-1);
-	}
 	return (0);
 }
 
@@ -106,23 +90,14 @@ char		sh_greatand(char	*left, char	*right, char io_default,
 {
 	int lfd;
 	int	rfd;
-	int duped;
 
 	(void)open_fd;
 	rfd = sh_check_fd(right);
-	if (io_default)
-		lfd = 1;
-	else
-		lfd = sh_check_fd(left);
+	lfd = io_default ? 1 : sh_check_fd(left);
 	if (rfd == -1)
 		close(lfd);
-	else
-	{
-		duped = dup(rfd);
-		ft_lstadd(open_fd, ft_lstnew(&duped, sizeof(int)), 0);
-		if (dup2(duped, lfd) == -1)
-			return (-1);
-	}
+	else if (dup2(rfd, lfd) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -132,14 +107,14 @@ char		sh_lessgreat(char *left, char *right, char io_default,
 	int lfd;
 	int rfd;
 
-	if ((rfd= open(right, O_RDWR | O_CREAT, 0755)) == -1)
+	if ((rfd = open(right, O_RDWR | O_CREAT, 0644)) == -1)
 		return (1);
 	if (io_default)
 		lfd = 0;
 	else
 		lfd = sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
-	if (dup2(dup(rfd), lfd) == -1)
+	if (dup2(rfd, lfd) == -1)
 		return (-1);
 	return (0);
 }
@@ -169,9 +144,8 @@ char		sh_dless(char *left, char *right, char io_default,
 		ft_lst_remove_index(&g_here_list, 0, NULL);
 	}
 	lfd = io_default ? 0 : sh_check_fd(left);
-	if (dup2(rfd, lfd) == -1)
-		return (-1);
-	close(rfd);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
+	dup2(rfd, lfd);
+	close(rfd);
 	return (0);
 }

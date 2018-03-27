@@ -6,7 +6,7 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 20:32:48 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/26 21:29:01 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 14:04:47 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ void		init_fd(void)
 	g_sh.fd_tty = dup2(open2, 12);
 	close(open1);
 	close(open2);
+	fcntl(g_sh.test_fd, F_SETFD, FD_CLOEXEC);
+	fcntl(g_sh.fd_tty, F_SETFD, FD_CLOEXEC);
 	g_sh.fds[0] = dup2(0, 13);
 	g_sh.fds[1] = dup2(1, 14);
 	g_sh.fds[2] = dup2(2, 15);
+	fcntl(g_sh.fds[0], F_SETFD, FD_CLOEXEC);
+	fcntl(g_sh.fds[1], F_SETFD, FD_CLOEXEC);
+	fcntl(g_sh.fds[2], F_SETFD, FD_CLOEXEC);
 }
 
 void		reset_fd(t_list *open_fd)

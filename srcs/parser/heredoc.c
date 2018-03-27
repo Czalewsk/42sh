@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 21:03:58 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 11:46:29 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 14:55:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ t_tree		*here(t_tree *current, t_tree *new)
 		if (tmp && (tmp->token.id == PIPE
 			|| tmp->token.id == AND_IF
 			|| tmp->token.id == OR_IF))
-		{
 			break ;
-		}
 		if (tmp && tmp->token.id == DLESS)
 			return (add_current_fd(new, new_h, here_num));
 	}

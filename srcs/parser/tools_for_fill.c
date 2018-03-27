@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/16 21:47:17 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/27 15:09:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char			*get_command(char *ret, t_tree *chead)
 	return (ret);
 }
 
-void			close_skiped_here()
+void			close_skiped_here(void)
 {
 	t_list		*tmp;
 	t_here		*tmpp;
