@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/13 17:37:25 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/27 20:34:31 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int					ft_getopt(int argc, char **argv, const char *options,
 int					ft_tab2dlen(const void **tab);
 int					ft_isposixname(char *name);
 void				dup_and_close(int new, int old, int closed);
+int					ft_atoi_base(char *str, const char *base);
 
 #endif
