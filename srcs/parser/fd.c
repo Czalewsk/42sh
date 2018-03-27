@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 09:17:53 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 11:42:36 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,37 @@ char		sh_lessgreat(char *left, char *right, char io_default,
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(dup(rfd), lfd) == -1)
 		return (-1);
+	return (0);
+}
+
+char		sh_dless(char *left, char *right, char io_default,
+		t_list **open_fd)
+{
+	t_list	*tmp_list;
+	t_here	*tmph;
+	int		ref_here;
+	int		lfd;
+	int		rfd;
+
+	(void)right;
+	if (!(tmp_list = g_here_list))
+		return (0);
+	tmph = tmp_list->content;
+	ref_here = tmph->num;
+	rfd = tmph->fd[0];
+	close(tmph->fd[1]);
+	while (tmp_list)
+	{
+		tmph = tmp_list->content;
+		if (tmph->num != ref_here)
+			break ;
+		tmp_list = tmp_list->next;
+		ft_lst_remove_index(&g_here_list, 0, NULL);
+	}
+	lfd = io_default ? 0 : sh_check_fd(left);
+	if (dup2(rfd, lfd) == -1)
+		return (-1);
+	close(rfd);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	return (0);
 }

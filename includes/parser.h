@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 09:26:24 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 11:39:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,8 @@ char				sh_great(char *left, char *right, char io_default,
 char				sh_lessgreat(char *left, char *right, char io_default,
 		t_list **open_fd);
 void				do_pipe_child(int pipe[2][2], int pr, int dr);
+char				sh_dless(char *left, char *right, char io_default,
+		t_list **open_fd);
+t_tree				*add_heredoc_in_process(t_process *p, t_tree *c);
 
 #endif

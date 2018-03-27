@@ -6,13 +6,11 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 21:03:58 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/19 11:59:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 10:52:09 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-
 
 int			read_hr(char *hr, char *ref)
 {
@@ -22,8 +20,6 @@ int			read_hr(char *hr, char *ref)
 		return (-1);
 	return (0);
 }
-
-
 
 t_tree		*here_doc(t_process *p, t_tree *c)
 {
@@ -38,7 +34,6 @@ t_tree		*here_doc(t_process *p, t_tree *c)
 	ref_here = tmph->num;
 	close(tmph->fd[1]);
 	p->stdin = tmph->fd[0];
-//	p->stdin = fd_assignation(0, p->stdin, tmph->fd[0]);
 	while (tmp_list)
 	{
 		tmph = tmp_list->content;

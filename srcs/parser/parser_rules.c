@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 16:41:07 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 09:51:20 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 11:38:55 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ const t_cmd_action	g_cmd_actions[] = {
 	{DGREAT, &set_fd_in_process},
 	{SUBSH, &subshell},
 	{ASSIGNMENT_WORD, &assign_word},
+	{DLESS, &add_heredoc_in_process},
 	{0, NULL}
 };
 
