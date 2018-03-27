@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 09:34:02 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 09:45:43 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		do_built_in(t_process *p, char **env)
 		if (!ft_strcmp(g_builtins[i].name, p->argv[0]))
 		{
 			g_sh.exitstatus = (modify_io_child(p)) ? g_builtins[i].f(p,
-					ft_tab2dlen((const void **)p->argv), p->argv, env) : 0;
+					ft_tab2dlen((const void **)p->argv), p->argv, env) : 1;
 			reset_fd(p->open_fd);
 			return (1);
 		}

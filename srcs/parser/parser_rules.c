@@ -6,20 +6,11 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 16:41:07 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 17:30:12 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 09:51:20 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
-
-// const t_fd_action	g_fd_action[] = {
-// 	{ANDGREAT, &and_great},
-// 	{DLESS, &here_doc},
-// 	{DGREAT, &dgreat},
-// 	{GREATAND, &great_and},
-// 	{GREAT, &great},
-// 	{LESS, &less},
-// }
 
 const t_cmd_action	g_cmd_actions[] = {
 	{WORD, &add_in_arguments},
@@ -29,12 +20,10 @@ const t_cmd_action	g_cmd_actions[] = {
 	{LESS, &set_fd_in_process},
 	{GREAT, &set_fd_in_process},
 	{LESSGREAT, &set_fd_in_process},
-//	{DLESS, &set_fd_by_here},
 	{DGREAT, &set_fd_in_process},
 	{SUBSH, &subshell},
 	{ASSIGNMENT_WORD, &assign_word},
 	{0, NULL}
-//	{ANDGREAT, &set_fd_in_process},
 };
 
 const t_classic g_classics[] = {
