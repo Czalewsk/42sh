@@ -15,6 +15,8 @@
 
 # include "ft_sh.h"
 
+typedef struct 	s_fd	t_fd;
+
 typedef struct		s_tree
 {
 	struct s_tree			*father;
@@ -26,11 +28,11 @@ typedef struct		s_tree
 
 typedef struct 		s_fd
 {
-	char			(*fd_action)(char * , char *, char, t_list **);
-	int				id;
+	char			(*fd_action)(t_fd *, t_list **);
 	char			io_default;
 	char			*left_str;
 	char			*right_str;
+	int 			here_doc;
 
 }					t_fd;
 
@@ -115,6 +117,7 @@ void				print_job_order();
 void				print_job(t_job *job);
 void				execute_job(t_job *job);
 void				wait_multiple_proc(t_list *pid_list, t_job *job);
+void				remove_here_list(void);
 pid_t				init_pipe_run(pid_t f, int p[2][2], t_tree *c, t_tree *e);
 void				dup_and_close_son_pipe(t_tree *c, t_tree *e,
 		int p[2][2], t_list *pid_list);
@@ -147,21 +150,14 @@ t_tree				*add_in_arguments(t_process *p, t_tree *clist);
 t_tree				*go_to_current_right(t_tree *cur, t_tree *new);
 t_tree				*go_to_current_left(t_tree *cur, t_tree *new);
 void				clear_assign_word(t_tree *cur, t_tree *new);
-char				sh_greatand(char *left, char *right, char io_default,
-		t_list **open_fd);
-char				sh_lessand(char *left, char *right, char io_default,
-		t_list **open_fd);
-char				sh_less(char *left, char *right, char io_default,
-		t_list **open_fd);
-char				sh_dgreat(char *left, char *right, char io_default,
-		t_list **open_fd);
-char				sh_great(char *left, char *right, char io_default,
-		t_list **open_fd);
-char				sh_lessgreat(char *left, char *right, char io_default,
-		t_list **open_fd);
+char				sh_greatand(t_fd *fd_list, t_list **open_fd);
+char				sh_lessand(t_fd *fd_list, t_list **open_fd);
+char				sh_less(t_fd *fd_list, t_list **open_fd);
+char				sh_dgreat(t_fd *fd_list, t_list **open_fd);
+char				sh_great(t_fd *fd_list, t_list **open_fd);
+char				sh_lessgreat(t_fd *fd_list, t_list **open_fd);
 void				do_pipe_child(int pipe[2][2], int pr, int dr);
-char				sh_dless(char *left, char *right, char io_default,
-		t_list **open_fd);
+char				sh_dless(t_fd *fd_list, t_list **open_fd);
 t_tree				*add_heredoc_in_process(t_process *p, t_tree *c);
 
 #endif

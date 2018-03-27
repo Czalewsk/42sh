@@ -37,6 +37,7 @@ typedef struct	s_process
 	int					stdin;
 	int					stdout;
 	int					stderr;
+	int					here_doc;
 	t_list				*fd_list;
 	t_list				*open_fd;
 }				t_process;

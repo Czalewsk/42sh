@@ -31,6 +31,7 @@ t_tree			*cpy_from_tree(t_tree *c)
 		else
 		{
 			new->right = (t_tree *)ft_memalloc(sizeof(t_tree));
+			new->right->previous = new;
 			new->right->token.str = ft_strdup(c->token.str);
 			new->right->token.id = c->token.id;
 			new->right->token.size = c->token.size;
@@ -51,8 +52,9 @@ char			modify_io_child(t_process *p)
 	while (tmp)
 	{
 		test_fd = tmp->content;
-		if ((ret = test_fd->fd_action(test_fd->left_str, test_fd->right_str,
-				test_fd->io_default, &p->open_fd)))
+		if (!test_fd->fd_action)
+			DEBUG("\tCest la merde\n");
+		if ((ret = test_fd->fd_action(test_fd, &p->open_fd)))
 		{
 			if (ret == 1)
 				sh_error(0, 0, NULL, 2, test_fd->right_str,

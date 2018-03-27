@@ -134,6 +134,13 @@ int			main(int ac, char **av, char **env)
 		do_job_notification();
 		ft_strdel(&cmd.cmd);
 	}
+	t_list 	*tmp;
+	tmp = g_here_list;
+	while (tmp)
+	{
+		DEBUG("Je suis ici dans le main bande de nazes\n")
+		tmp = tmp->next;
+	}
 	sh_quit_prog(&cmd);
 	return (g_sh.exitstatus);
 }

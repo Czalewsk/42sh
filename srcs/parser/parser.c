@@ -117,6 +117,18 @@ int			parser(char **cmd)
 	cur = *cmd;
 	g_head_tree = NULL;
 	g_current = NULL;
+
+	t_list	*tmp;
+	t_here	*tmph;
+
+	tmp = g_here_list;
+	DEBUG("NUM HERE LIST \n");
+	while (tmp)
+	{
+		tmph = tmp->content;
+		DEBUG("NUM HERE LIST = %d, \n", tmph->num);
+		tmp = tmp->next;
+	}
 	i = read_parser(cmd, cur);
 	if (i == -1 || i == -2)
 	{

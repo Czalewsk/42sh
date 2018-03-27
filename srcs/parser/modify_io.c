@@ -42,14 +42,24 @@ void	*get_fonction_from_token(t_tree *c)
 
 t_tree		*set_fd_in_process(t_process *p, t_tree *c)
 {
-	t_fd	*new;
+	t_fd	new;
 
-	new = (t_fd *)ft_memalloc(sizeof(t_fd));
+	ft_bzero(&new, sizeof(t_fd));
 	if (c->previous && c->previous->token.id != IO_NUMBER)
-		new->io_default = 1;
-	new->right_str = ft_strdup(c->right->token.str);
-	new->fd_action = get_fonction_from_token(c);
-	ft_lst_pushend(&p->fd_list, ft_lstnew(new, sizeof(t_fd)));
+	{
+		new.io_default = 1;
+		DEBUG("io_default est bien a 1 bqtqrd \n");
+	}
+	else
+	{
+		DEBUG("c->previous == %s\n", c->token.str);
+	}
+	new.right_str = ft_strdup(c->right->token.str);
+	new.fd_action = get_fonction_from_token(c);
+	DEBUG("setfdprocess[%s]\n", new.right_str);
+	DEBUG("setfdprocess2[%s]\n", new.left_str);
+	DEBUG("io_defukt in set_process=%d|\n", new.io_default);
+	ft_lst_pushend(&p->fd_list, ft_lstnew(&new, sizeof(t_fd)));
 	return (c->right->right);
 }
 
@@ -58,6 +68,8 @@ t_tree		*modify_io(t_process *p, t_tree *c)
 	t_list		*last_fd;
 	t_fd		*n_fd;
 
+	if (c->right->token.id == DLESS && (add_heredoc_in_process(p, c->right) || 1))
+		return (c->right->right->right);
 	set_fd_in_process(p, c->right);
 	last_fd = p->fd_list;
 	while (last_fd->next)
@@ -67,18 +79,44 @@ t_tree		*modify_io(t_process *p, t_tree *c)
 	return (c->right->right->right);
 }
 
+void		remove_here_list(void)
+{
+	t_list  *tmp_list;
+	t_here  *tmph;
+	int		ref_here;
+
+	tmp_list = g_here_list;
+	tmph = tmp_list->content;
+	ref_here = tmph->num;
+	while (tmp_list)
+	{
+		tmph = tmp_list->content;
+		tmp_list = tmp_list->next;
+		if (tmph->num != ref_here)
+			break ;
+		close(tmph->fd[0]);
+		close(tmph->fd[1]);
+		ft_lst_remove_index(&g_here_list, 0, NULL);
+	}
+}
+
 t_tree		*add_heredoc_in_process(t_process *p, t_tree *c)
 {
-	t_fd	*new;
+	t_fd	new;
 
-	new = (t_fd *)ft_memalloc(sizeof(t_fd));
+	DEBUG("Je suis in add here doc\n");
+	ft_bzero(&new, sizeof(t_fd));
 	if (c->previous && c->previous->token.id == IO_NUMBER)
-		new->left_str = ft_strdup(c->token.str);
+		new.left_str = ft_strdup(c->previous->token.str);
 	else
-		new->io_default = 1;
-	new->fd_action = get_fonction_from_token(c);
-	ft_lst_pushend(&p->fd_list, ft_lstnew(new, sizeof(t_fd)));
-	ft_lst_pushend(&p->open_fd, ft_lstnew(((t_here*)g_here_list->content)->fd, sizeof(int)));
-	ft_lst_pushend(&p->open_fd, ft_lstnew(((t_here*)g_here_list->content)->fd + 1, sizeof(int)));
+		new.io_default = 1;
+	new.here_doc = ((t_here*)g_here_list->content)->fd[0];
+	new.fd_action = get_fonction_from_token(c);
+	ft_lstadd(&p->fd_list, ft_lstnew(&new, sizeof(t_fd)), 0);
+	ft_lstadd(&p->open_fd, ft_lstnew(((t_here*)g_here_list->content)->fd, sizeof(int)), 0);
+	// ft_lstadd(&p->open_fd, ft_lstnew(&((t_here*)g_here_list->content)->fd[1], sizeof(int)), 0);
+	close(((t_here*)g_here_list->content)->fd[1]);
+	DEBUG("Pipe0=%d | pipe1=%d|\n", *(int*)((t_here*)g_here_list->content)->fd, *(int*)((t_here*)g_here_list->content)->fd + 1)
+	ft_lst_remove_index(&g_here_list, 0, NULL);
 	return (c->right->right);
 }
