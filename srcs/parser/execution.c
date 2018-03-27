@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:06:24 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 17:53:27 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 09:26:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 	if (!p->argv)
 		exit(EXIT_FAILURE);
 	do_pipe_child(pipe, j->process == p, !p->next);
-	modify_io_child(p);
+	if (!modify_io_child(p))
+		exit(EXIT_FAILURE);
 	if (do_built_in(p, env))
 		exit(g_sh.exitstatus);
 	if (ft_strstr(p->argv[0], "/") || ft_strstr(p->argv[0], "./"))

@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:04:55 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 22:10:02 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 09:27:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,30 @@ t_tree			*cpy_from_tree(t_tree *c)
 	return (save);
 }
 
-void			modify_io_child(t_process *p)
+char			modify_io_child(t_process *p)
 {
 	t_list		*tmp;
 	t_fd		*test_fd;
+	int			ret;
 
 	tmp = p->fd_list;
 	while (tmp)
 	{
 		test_fd = tmp->content;
-		test_fd->fd_action(test_fd->left_str, test_fd->right_str, test_fd->io_default, &p->open_fd); // gerer erreur dup2
+		if ((ret = test_fd->fd_action(test_fd->left_str, test_fd->right_str,
+				test_fd->io_default, &p->open_fd)))
+		{
+			if (ret == 1)
+				sh_error(0, 0, NULL, 2, test_fd->right_str,
+						": No such file or directory\n");
+			else
+				sh_error(0, 0, NULL, 1,
+						"Fail to dup2\n");
+			return (0);
+		}
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
 void			do_pipe_child(int pipe[2][2], int pr, int dr)

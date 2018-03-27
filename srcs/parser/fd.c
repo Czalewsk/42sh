@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 22:08:01 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 09:17:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ char		sh_great(char *left, char *right, char io_default, t_list **open_fd)
 	else
 		lfd = sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
-	dup2(rfd, lfd);
+	if (dup2(rfd, lfd) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -55,7 +56,8 @@ char		sh_dgreat(char *left, char *right, char io_default,
 	else
 		lfd = sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
-	dup2(rfd, lfd);
+	if (dup2(rfd, lfd) < -1)
+		return (-1);
 	return (0);
 }
 
@@ -64,7 +66,7 @@ char		sh_less(char *left, char *right, char io_default, t_list **open_fd)
 	int lfd;
 	int rfd;
 
-	if ((rfd= open(right, O_RDONLY, 0755)) == -1)
+	if ((rfd = open(right, O_RDONLY, 0755)) == -1)
 		return (1);
 	if (io_default)
 		lfd = 0;
@@ -72,7 +74,7 @@ char		sh_less(char *left, char *right, char io_default, t_list **open_fd)
 		lfd = sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) == -1)
-		return (1);
+		return (-1);
 	return (0);
 }
 
@@ -89,12 +91,12 @@ char		sh_lessand(char *left, char *right, char io_default, t_list **open_fd)
 		lfd = sh_check_fd(left);
 	if (rfd == -1)
 		close(lfd);
-	else// if (dup2(dup(rfd), lfd) == -1)
+	else
 	{
 		duped = dup(rfd);
 		ft_lstadd(open_fd, ft_lstnew(&duped, sizeof(int)), 0);
 		if (dup2(duped, lfd) == -1)
-			return (1);
+			return (-1);
 	}
 	return (0);
 }
@@ -114,12 +116,12 @@ char		sh_greatand(char	*left, char	*right, char io_default,
 		lfd = sh_check_fd(left);
 	if (rfd == -1)
 		close(lfd);
-	else //if (dup2(dup(rfd), lfd) == -1)
+	else
 	{
 		duped = dup(rfd);
 		ft_lstadd(open_fd, ft_lstnew(&duped, sizeof(int)), 0);
 		if (dup2(duped, lfd) == -1)
-			return (1);
+			return (-1);
 	}
 	return (0);
 }
@@ -138,6 +140,6 @@ char		sh_lessgreat(char *left, char *right, char io_default,
 		lfd = sh_check_fd(left);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(dup(rfd), lfd) == -1)
-		return (1);
+		return (-1);
 	return (0);
 }

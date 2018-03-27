@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 21:07:58 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 09:26:24 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int					executor(t_job *j, t_process *p,
 	int pipe[2][2], char **env);
 int					get_id_max_job();
 void				pere(t_job *j, t_process *pr, int p[2][2], char **env);
-void				modify_io_child(t_process *p);
+char				modify_io_child(t_process *p);
 void				print_process(t_process *p);
 void				put_job_at_head_in_job_order(t_job *job);
 void				put_job_at_end_in_first_job(t_job *job);
