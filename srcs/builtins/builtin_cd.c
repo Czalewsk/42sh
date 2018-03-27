@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 08:29:39 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/26 18:27:34 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/27 18:00:24 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	change_dir(t_process *p, char *path, int logic, int print)
 		(STATS_EXIST | STATS_EXEC | STATS_DIR))
 	{
 		if (!(stats & STATS_EXIST))
-			sh_error_bi(p->stderr, 0, 3, "cd: no such file or directory: ",
-				path, "\n");
+			sh_error_bi(p->stderr, 0, 3, "cd: ", path,
+				": No such file or directory\n");
 		else if (!(stats & STATS_DIR))
-			sh_error_bi(p->stderr, 0, 3, "cd: not a directory: ", path, "\n");
+			sh_error_bi(p->stderr, 0, 3, "cd: ", path, ": Not a directory\n");
 		else if (!(stats & STATS_EXEC))
-			sh_error_bi(p->stderr, 0, 3, "cd: permission denied: ", path,
-				"\n");
+			sh_error_bi(p->stderr, 0, 3, "cd: ", path,
+				": Permission denied\n");
 		return (EXIT_FAILURE);
 	}
 	env_set("OLDPWD", g_sh.cwd, ENV_GLOBAL);
@@ -38,19 +38,19 @@ static int	change_dir(t_process *p, char *path, int logic, int print)
 	return (EXIT_SUCCESS);
 }
 
-static char	*ft_strnrchr(const char *s, char c, size_t size)
+static int	can_access(char *curpath, char *cur)
 {
-	char	*save;
-	int		i;
+	char	*temp;
 
-	save = NULL;
-	if (c == '\0')
-		return ((char *)s + ft_strlen(s));
-	i = -1;
-	while (s[++i] && i < (int)size)
-		if (s[i] == c)
-			save = (char *)s + i;
-	return (save);
+	temp = ft_strndup(curpath, cur == curpath ? 1 : cur - curpath);
+	if ((stats_check(temp) & (STATS_EXIST | STATS_EXEC | STATS_DIR)) !=
+		(STATS_EXIST | STATS_EXEC | STATS_DIR))
+	{
+		free(temp);
+		return (0);
+	}
+	free(temp);
+	return (1);
 }
 
 static void	convert_tological(char *curpath)
@@ -72,8 +72,8 @@ static void	convert_tological(char *curpath)
 				cur = ft_strcpy(comp_start != curpath ? ft_strnrchr(curpath,
 					'/', comp_start - (curpath + 1)) : comp_start, cur);
 			curpath = *curpath ? curpath : ft_strcpy(curpath, "/");
-			if (!*cur)
-				--cur;
+			if (!can_access(curpath, !*cur ? --cur : cur))
+				return ;
 			comp_start = cur;
 		}
 		++cur;
@@ -109,7 +109,7 @@ static int	set_curpath(char **argv, char **env, char **curpath)
 	else if (!*curpath && (*curpath = find_cdpath(argv[0],
 			ft_getenv(env, "CDPATH"))))
 		return (3);
-	*curpath = ft_strdup(argv[0]);
+	*curpath = *curpath ? *curpath : ft_strdup(argv[0]);
 	return (0);
 }
 
