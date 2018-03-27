@@ -6,11 +6,45 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:43:08 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 19:08:47 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 15:04:59 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static char *g_tab[] = {
+	"Hangup: 1",
+	"Interrupt: 2",
+	"Quit: 3",
+	"Illegal instruction: 4",
+	"Trace/BPT trap: 5",
+	"Abort trap: 6",
+	"EMT trap: 7",
+	"Floating point exception: 8",
+	"Killed: 9",
+	"Bus error: 10",
+	"Segmentation fault: 11",
+	"Bad system call: 12",
+	"Broken pipe: 13",
+	"Alarm clock: 14",
+	"Terminated: 15",
+	"Urgent I/O condition: 16",
+	"Suspended (signal): 17",
+	"Suspended: 18",
+	"Continued: 19",
+	"Child exited: 20",
+	"Stopped (tty input): 21",
+	"Stopped (tty output): 22",
+	"I/O possible: 23",
+	"Cputime limit exceeded: 24",
+	"Filesize limit exceeded: 25",
+	"Virtual timer expired: 26",
+	"Profiling timer expired: 27",
+	"Window size changes: 28",
+	"Information request: 29",
+	"User defined signal 1: 30",
+	"User defined signal 2: 31"
+};
 
 static char	*get_printable_state(t_process *p)
 {
@@ -21,7 +55,7 @@ static char	*get_printable_state(t_process *p)
 	if (p->state == PROCESS_COMPLETED)
 	{
 		if (WIFSIGNALED(p->status))
-			ft_strcat(state, strsignal(WTERMSIG(p->status)));
+			ft_strcat(state, g_tab[WTERMSIG(p->status) - 1]);
 		else if (p->status == 0)
 			ft_strcat(state, "Done");
 		else
@@ -67,8 +101,8 @@ void		process_display_long(t_process *p, char *cmd)
 			ft_printf("      ");
 		state = get_printable_state(tmp);
 		add_nb_empty_space(state, 20);
-		ft_printf("%d	%s	%c%s\n", tmp->pid,
-			state, i == 0 ? ' ' : '|', cmd_process[i]);
+		ft_printf("%d	%s	%s%c\n", tmp->pid,
+			state, cmd_process[i], tmp->next == NULL ? ' ' : '|');
 		tmp = tmp->next;
 		ft_memdel((void**)&state);
 		i++;
@@ -78,9 +112,13 @@ void		process_display_long(t_process *p, char *cmd)
 
 void		process_display_short(t_process *p, char *cmd, int fd)
 {
-	char	*state;
+	char		*state;
+	t_process	*tmp;
 
-	state = get_printable_state(p);
+	tmp = p;
+	while (tmp->next)
+		tmp = tmp->next;
+	state = get_printable_state(tmp);
 	add_nb_empty_space(state, 20);
 	ft_putstr_fd(state, fd);
 	ft_putendl_fd(cmd, fd);

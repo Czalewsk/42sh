@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:31:22 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 18:57:46 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 14:16:54 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ int	mark_process(t_job *j, pid_t pid, int status)
 			if (p->next == NULL)
 				j->status_last_process = status;
 			if (WIFSTOPPED(status))
-			{
 				p->state = PROCESS_STOPPED;
-				j->notified = 0;
-			}
 			else if (WIFCONTINUED(status))
 				p->state = PROCESS_RUNNING;
 			else
 				p->state = PROCESS_COMPLETED;
-			put_first_in_job_order(j);
+			if (!WIFEXITED(status))
+				put_first_in_job_order(j);
+			j->notified = 0;
 			return (0);
 		}
 		p = p->next;

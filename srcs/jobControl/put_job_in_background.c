@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:29:53 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/18 19:36:18 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/24 10:46:35 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@ void	put_job_in_background(t_job *j, int cont)
 	char	*pid;
 	char	*print;
 
-	num = ft_itoa(j->num);
-	pid = ft_itoa(j->process->pid);
-	print = ft_strxjoin(4, "[", num, "] ", pid);
-	ft_putendl_fd(print, g_sh.fd_tty);
-	ft_memdel((void**)&num);
-	ft_memdel((void**)&pid);
-	ft_memdel((void**)&print);
+	if (j->status_last_process == 0)
+	{
+		num = ft_itoa(j->num);
+		pid = ft_itoa(j->process->pid);
+		print = ft_strxjoin(4, "[", num, "] ", pid);
+		ft_putendl_fd(print, g_sh.fd_tty);
+		ft_memdel((void**)&num);
+		ft_memdel((void**)&pid);
+		ft_memdel((void**)&print);
+	}
 	g_sh.exitstatus = 0;
 	if (cont)
 		if (kill(-j->pgid, SIGCONT) < 0)

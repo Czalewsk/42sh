@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 16:30:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/13 22:42:36 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/26 14:05:27 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,20 @@ static char	*get_fullexpand(const t_token *tk, char *expand, char *expoint,
 	return (fullexpand);
 }
 
+/*
+**	Le retour est un int comme suivant : 
+**	(et la nouvelle string est stockee dans expand)
+**	-1 : error: event not found;
+**	1 : found and change;
+**	0 : No need change : exe tel quel;
+*/
+
 char		expand_history_expoint(const t_token *tk, t_list **lst)
 {
 	char	*expoint;
 	char	*expand;
 	char	*exword;
+	int		ret_expoint;
 
 	expoint = tk->str;
 	while (*expoint && (expoint = ft_strchr(expoint, '!')) &&
@@ -71,11 +80,17 @@ char		expand_history_expoint(const t_token *tk, t_list **lst)
 	if (!expoint)
 		return (sh_error(-1, 0, NULL, 2, tk->str, ": event not found\n"));
 	exword = get_exword(expoint);
-	if (!(expand = history_expoint(exword)))
+	if ((ret_expoint = history_expoint(exword, &expand)) < 0)
 	{
 		sh_error(-1, 0, NULL, 2, exword, ": event not found\n");
 		free(exword);
 		return (-1);
+	}
+	else if (!ret_expoint)
+	{
+		ft_strdel(&exword);
+		ft_strdel(&expand);
+		return (0);
 	}
 	return (make_tokens(lst, get_fullexpand(tk, expand, expoint, exword)));
 }
