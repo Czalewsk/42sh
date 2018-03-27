@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 23:24:26 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/18 20:11:43 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/23 14:16:17 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 const t_builtin	g_builtins[] = {
 	{"export", builtin_export},
 	{"unsetenv", builtin_unsetenv},
+	{"unset", builtin_unsetenv},
 	{"setenv", builtin_setenv},
 	{"cd", builtin_cd},
 	{"jobs", bt_jobs},

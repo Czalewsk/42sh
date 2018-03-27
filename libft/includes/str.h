@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:57 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/15 02:48:56 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/27 16:48:10 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ char				*ft_strxjoin(int nb_elemt, ...);
 char				*ft_strcnt(const char *s, const char *sfind);
 char				*ft_strnchr(const char *str, int c, size_t len);
 char				*ft_strnfdup(char *s, size_t len);
+char				*ft_strnrchr(const char *s, char c, size_t size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 15:58:44 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/13 17:37:25 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/27 20:36:46 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ char				ft_is_escape(char *esc, char *str);
 t_list				*ft_list_folders(char *path);
 int					ft_getopt(int argc, char **argv, const char *options,
 		char **res);
+int					ft_getopt_buf(int argc, char **argv, const char *options,
+		char *res);
 int					ft_tab2dlen(const void **tab);
 int					ft_isposixname(char *name);
 void				dup_and_close(int new, int old, int closed);
+int					ft_atoi_base(char *str, const char *base);
 
 #endif

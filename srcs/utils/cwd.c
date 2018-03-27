@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 22:58:08 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/15 00:18:09 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/25 20:03:27 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	try(char *path)
 	stats = stats_check(path);
 	if ((stats & STATS_EXIST) && (stats & STATS_EXEC) && (stats & STATS_DIR))
 	{
-		cwd_change(path);
+		cwd_change(path, 1);
 		return (1);
 	}
 	return (0);
@@ -52,12 +52,12 @@ void		cwd_init(void)
 	chdir(g_sh.cwd);
 }
 
-void		cwd_change(const char *path)
+void		cwd_change(const char *path, int logic)
 {
 	chdir(path);
 	if (g_sh.cwd)
 		free(g_sh.cwd);
-	if (path[0] == '/')
+	if (logic)
 	{
 		env_set("PWD", path, ENV_GLOBAL);
 		if (!(g_sh.cwd = ft_strdup(path)))
