@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:42:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/26 20:50:19 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 11:48:53 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,4 @@ void		just_the_last(t_process *p)
 	p->stderr = 2;
 	p->stdout = 1;
 	p->stdin = 0;
-}
-
-int			less(int fd, t_tree *c, t_process *p)
-{
-	int		ofd;
-
-	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
-	if (ofd == -1 && (p->stdin = open(c->token.str, O_WRONLY, 0755)) == -1)
-	{
-		sh_error(0, 0, NULL, 3, "Error: ",
-			c->token.str, " open failed\n");
-		return (-1);
-	}
-	if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	return (0);
 }

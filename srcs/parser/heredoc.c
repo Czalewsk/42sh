@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 21:03:58 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 10:52:09 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 11:46:29 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,6 @@ int			read_hr(char *hr, char *ref)
 	else if (ft_memcmp(hr, ref, ft_strlen(hr) - 1) != 0)
 		return (-1);
 	return (0);
-}
-
-t_tree		*here_doc(t_process *p, t_tree *c)
-{
-	t_list	*tmp_list;
-	t_here	*tmph;
-	int		ref_here;
-
-	tmp_list = g_here_list;
-	if (!(tmp_list = g_here_list))
-		return (c->right->right);
-	tmph = tmp_list->content;
-	ref_here = tmph->num;
-	close(tmph->fd[1]);
-	p->stdin = tmph->fd[0];
-	while (tmp_list)
-	{
-		tmph = tmp_list->content;
-		tmp_list = tmp_list->next;
-		if (tmph->num != ref_here)
-			break ;
-		else
-			ft_lst_remove_index(&g_here_list, 0, NULL);
-	}
-	return (c->right->right);
 }
 
 t_tree		*add_new_fd(t_tree *new, t_here *here, int number)

@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/26 18:32:01 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 11:39:15 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 11:49:04 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int					fd_assignation(int ref, int set, int new);
 int					ft_leave_parse(t_token t, int k);
 int					ret_douille(int ret, t_token t);
 void				just_the_last(t_process *p);
-int					less(int fd, t_tree *c, t_process *p);
 char				**how_to_do(char **argv, char *cmd);
 char				**add_to_argv(char **argv, char *to_add);
 char				**concat_tab_for_sub(char **argv, char **k, int size);
@@ -147,14 +146,6 @@ t_tree				*modify_io(t_process *p, t_tree *clist);
 t_tree				*add_in_arguments(t_process *p, t_tree *clist);
 t_tree				*go_to_current_right(t_tree *cur, t_tree *new);
 t_tree				*go_to_current_left(t_tree *cur, t_tree *new);
-t_tree				*here_doc(t_process *p, t_tree *c);
-t_tree				*ft_dgreat(t_process *p, t_tree *c);
-t_tree				*ft_great(t_process *p, t_tree *c);
-t_tree				*ft_less(t_process *p, t_tree *c);
-t_tree				*land(t_process *p, t_tree *c);
-t_tree				*gand(t_process *p, t_tree *c);
-t_tree				*lessgreat(t_process *p, t_tree *c);
-t_tree				*clobber(t_process *p, t_tree *c);
 void				clear_assign_word(t_tree *cur, t_tree *new);
 char				sh_greatand(char *left, char *right, char io_default,
 		t_list **open_fd);
