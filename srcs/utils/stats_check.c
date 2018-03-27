@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 21:09:36 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/14 23:56:59 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/23 13:50:05 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 
 static void	access_retrieve(const char *path, char *stats)
 {
-	if (!access(path, F_OK))
-		*stats |= STATS_EXIST;
-	if (!access(path, X_OK))
-		*stats |= STATS_EXEC;
+	*stats |= (STATS_EXIST | STATS_EXEC);
+	if (access(path, F_OK | X_OK))
+	{
+		if (errno == ENOENT)
+			*stats &= ~STATS_EXIST;
+		if (errno == EACCES)
+			*stats &= ~STATS_EXEC;
+	}
 }
 
 static void	stats_retrieve(const char *path, char *stats)
