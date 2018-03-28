@@ -12,19 +12,6 @@
 
 #include "ft_sh.h"
 
-int			read_hr(char *hr, char *ref)
-{
-	DEBUG("hr=[%s] ref = [%s]|\n", hr, ref);
-	if (ft_strequ(hr, ref))
-		return (0);
-	return (-1);/*
-	if (ft_strlen(hr) - 1 == 0)
-		return (-1);
-	else if (ft_memcmp(hr, ref, ft_strlen(hr)) != 0)
-		return (-1);
-	return (0);*/
-}
-
 void		*signal_leav_here_doc(void)
 {
 	while (g_here_list)
@@ -47,7 +34,7 @@ t_tree		*add_new_fd(t_tree *new, t_here *here, int number)
 	here->num = number;
 	while ((ret_p = prompt_add("> ", &hr, 1)) == -2)
 	{
-		if (ret_p == -1 || read_hr(hr, ref) == 0)
+		if (ret_p == -1 || ft_strequ(hr, ref) == 1)
 			break ;
 		ft_putstr_fd(hr, here->fd[1]);
 		ft_strdel(&hr);
