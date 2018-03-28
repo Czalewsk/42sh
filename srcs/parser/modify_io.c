@@ -36,7 +36,7 @@ t_tree		*set_fd_in_process(t_process *p, t_tree *c)
 	t_fd	new;
 
 	ft_bzero(&new, sizeof(t_fd));
-	if (c->previous && c->previous->token.id != IO_NUMBER)
+	if ((c->previous && c->previous->token.id != IO_NUMBER) || !c->previous)
 		new.io_default = 1;
 	new.right_str = ft_strdup(c->right->token.str);
 	new.fd_action = get_fonction_from_token(c);
