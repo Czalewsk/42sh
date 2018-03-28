@@ -24,5 +24,6 @@ int		rules_word(t_token *tk, char **cur, char *escape);
 int		rules_escape(t_token *tk, char **cur, char *escape);
 int		rules_subsh(t_token *tk, char **cur, char *escape);
 int		rules_history_expoint(t_token *tk, char **cur, char *escape);
+int		rules_minus(t_token *tk, char **cur, char *escape);
 
 #endif

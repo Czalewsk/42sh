@@ -19,6 +19,7 @@
 
 const t_token_assign	g_token_operator[] = {
 	{"&&", AND_IF},
+	{"&>", ANDGREAT},
 	{"&", AND},
 	{";", SEMI},
 	{"\n", NEWLINE},
@@ -28,9 +29,7 @@ const t_token_assign	g_token_operator[] = {
 	{">>", DGREAT},
 	{"<&", LESSAND},
 	{">&", GREATAND},
-	{"<<-", DLESSDASH},
 	{"<>", LESSGREAT},
-	{">|", CLOBBER},
 	{"<", LESS},
 	{">", GREAT},
 	{NULL, 0}

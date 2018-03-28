@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_sh.h"
 #include "lexer_types.h"
 #include "libft.h"
 
@@ -30,6 +31,20 @@ int		rules_word(t_token *tk, char **cur, char *escape)
 		}
 		++tk->size;
 		++*cur;
+	}
+	return (0);
+}
+
+int		rules_minus(t_token *tk, char **cur, char *escape)
+{
+	if (!tk->str && !*escape && **cur == '-' && g_current &&
+		(g_current->token.id == LESSAND || g_current->token.id == GREATAND))
+	{
+		tk->str = *cur;
+		tk->id = WORD;
+		++tk->size;
+		++*cur;
+		return (1);
 	}
 	return (0);
 }

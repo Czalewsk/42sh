@@ -72,6 +72,7 @@ SRCS_FILES		= ft_sh 													\
 				  utils/sh_error utils/fds_utils utils/update_display		\
 				  utils/stats_check utils/cwd utils/find_path				\
 				  utils/find_cdpath											\
+				  utils/fd													\
 				  glob/brace_expansion glob/brace_valide_type				\
 				  glob/brace_fill_seq glob/brace_find glob/brace_expand		\
 				  glob/glob_buff_handler glob/glob_path glob/glob			\
@@ -84,7 +85,7 @@ SRCS_FILES		= ft_sh 													\
 				  parser/tools_for_fill parser/init parser/execution		\
 				  parser/fill_for_jobs2 parser/tools_for_fill2				\
 				  parser/modify_io parser/add_in_arguments 					\
-				  parser/read_from_prompt parser/jobs						\
+				  parser/read_from_prompt parser/jobs parser/fd2			\
 				  parser/heredoc parser/call_built_in parser/subshell		\
 				  parser/clear_assign_word parser/subshell_tools			\
 				  parser/exec_tools											\

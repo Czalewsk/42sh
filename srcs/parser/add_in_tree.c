@@ -39,7 +39,7 @@ int				check_last_token(t_tree *cur)
 
 	t = cur->token.id;
 	if (t == GREAT || t == LESS || t == LESSAND || t == GREATAND ||
-		t == LESSGREAT || t == DLESS || t == DGREAT)
+		t == LESSGREAT || t == DLESS || t == DGREAT || t == ANDGREAT)
 		return (-1);
 	return (0);
 }

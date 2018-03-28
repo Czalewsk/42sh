@@ -75,8 +75,10 @@ char		*add_it_spaced(char *dst, char *src)
 
 char		**sub_shell_main(char **argv, char *cmd)
 {
+	g_sh.subshellactive = 1;
 	if ((argv = how_to_do(argv, cmd)) == NULL)
 		sh_error(0, 0, NULL, 1, "parse error in command substitution\n");
+	g_sh.subshellactive = 0;
 	return (argv);
 }
 

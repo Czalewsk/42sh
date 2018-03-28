@@ -23,6 +23,7 @@ static	int (*g_rules[])(t_token *, char **, char *) = {
 	rules_assignment_word,
 	rules_history_expoint,
 	rules_subsh,
+	rules_minus,
 	rules_word,
 	NULL
 };

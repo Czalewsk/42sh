@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 12:18:39 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/26 20:56:22 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ typedef struct	s_process
 	int					stdin;
 	int					stdout;
 	int					stderr;
-	int					closein;
-	int					closeout;
-	int					closeerr;
+	int					here_doc;
+	t_list				*fd_list;
+	t_list				*open_fd;
 }				t_process;
 
 typedef struct	s_job
