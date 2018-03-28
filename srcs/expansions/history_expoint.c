@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 16:30:15 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/26 14:05:27 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/28 11:26:02 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_fullexpand(const t_token *tk, char *expand, char *expoint,
 }
 
 /*
-**	Le retour est un int comme suivant : 
+**	Le retour est un int comme suivant :
 **	(et la nouvelle string est stockee dans expand)
 **	-1 : error: event not found;
 **	1 : found and change;
