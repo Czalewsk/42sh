@@ -23,15 +23,8 @@ int			read_hr(char *hr, char *ref)
 
 void		*signal_leav_here_doc(void)
 {
-	t_here	*here;
-
 	while (g_here_list)
-	{
-		here = g_here_list->content;
-		close(here->fd[0]);
-		close(here->fd[1]);
 		remove_here_list();
-	}
 	return ((void *)1);
 }
 
@@ -67,6 +60,11 @@ t_tree		*here(t_tree *current, t_tree *new)
 	static int	here_num;
 
 	tmp = current;
+	if (g_sh.subshellactive == 1)
+	{
+		sh_error(-1, 0, NULL, 1, "Error, here-doc not supported on substitute command\n");
+		return ((void *)1);
+	}
 	ft_bzero(&new_h, sizeof(t_here));
 	while (tmp)
 	{

@@ -24,6 +24,7 @@ typedef struct		s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 	struct s_token	token;
+
 }					t_tree;
 
 typedef struct 		s_fd
