@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:42:59 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 15:19:21 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/28 21:54:44 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@ int			clear_execute(char **path, t_process *p)
 	(void)p;
 	ft_free_array(path);
 	return (g_sh.exitstatus);
+}
+
+void		remove_here(t_process *p)
+{
+	while (p->fd_list)
+	{
+		ft_lst_remove_index(&g_here_list, 0, sh_heredoc_remove);
+		ft_lst_remove_index(&p->fd_list, 0, NULL);
+	}
 }
 
 void		pere(t_job *j, t_process *pr, int p[2][2], char **env)
@@ -33,6 +42,8 @@ void		pere(t_job *j, t_process *pr, int p[2][2], char **env)
 	setpgid(pr->pid, j->pgid);
 	if (!pr->pid)
 		executor(j, pr, p, env);
+	if (!pr->argv && pr->fd_list)
+		remove_here(pr);
 	tmp = pr->open_fd;
 	while (tmp)
 	{

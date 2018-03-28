@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 16:06:52 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/22 15:50:07 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/28 21:19:28 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ int			read_from_prompt(char **cmd, char **cur)
 	ret_prompt = prompt_add(PROMPT, &nfpr, 1);
 	i = *cur - *cmd;
 	len = 0;
-	if (ret_prompt == -3 || ret_prompt == -1)
+	if (ret_prompt == -3 || ret_prompt == -1){
+		while (g_here_list)
+			remove_here_list();
 		ft_strdel(&nfpr);
+	}
 	if (ret_prompt == -3 || ret_prompt == -1)
 		return (-1);
 	if (nfpr && nfpr[0] != '\n')

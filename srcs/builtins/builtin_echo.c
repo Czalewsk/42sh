@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 12:28:50 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/28 16:27:06 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/28 20:38:51 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void		echo_conv(char **str)
 static int		ft_echo(const char *av, char *s, int *const nonl, char *value)
 {
 	char const	key[] = { 'a', 'b', 'c', 'f', 'n', 'r', 't', 'v', '\\', 0 };
-	char const	key_ascii[] = { 7, 8, 0, 12, 10, 13, 9, 11, 47, 0 };
+	char const	key_ascii[] = { 7, 8, 0, 12, 10, 13, 9, 11, 92, 0 };
 
 	while (*s)
 	{

@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 21:03:58 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 14:55:04 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/28 21:48:42 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 int			read_hr(char *hr, char *ref)
 {
+	DEBUG("hr=[%s] ref = [%s]|\n", hr, ref);
+	if (ft_strequ(hr, ref))
+		return (0);
+	return (-1);/*
 	if (ft_strlen(hr) - 1 == 0)
 		return (-1);
-	else if (ft_memcmp(hr, ref, ft_strlen(ref)) != 0)
+	else if (ft_memcmp(hr, ref, ft_strlen(hr)) != 0)
 		return (-1);
-	return (0);
+	return (0);*/
 }
 
 void		*signal_leav_here_doc(void)
@@ -32,7 +36,9 @@ t_tree		*add_new_fd(t_tree *new, t_here *here, int number)
 {
 	char			*hr;
 	int				ret_p;
+	char			*ref;
 
+	ref = ft_strjoin(new->token.str, "\n");
 	if (!g_here_list)
 		g_here_list = NULL;
 	if (pipe(here->fd) == -1)
@@ -41,11 +47,12 @@ t_tree		*add_new_fd(t_tree *new, t_here *here, int number)
 	here->num = number;
 	while ((ret_p = prompt_add("> ", &hr, 1)) == -2)
 	{
-		if (ret_p == -1 || read_hr(hr, new->token.str) == 0)
+		if (ret_p == -1 || read_hr(hr, ref) == 0)
 			break ;
 		ft_putstr_fd(hr, here->fd[1]);
 		ft_strdel(&hr);
 	}
+	ft_strdel(&ref);
 	ft_strdel(&hr);
 	if (ret_p == -3)
 		return (signal_leav_here_doc());
@@ -77,4 +84,11 @@ t_tree		*here(t_tree *current, t_tree *new)
 			return (add_new_fd(new, &new_h, here_num));
 	}
 	return (add_new_fd(new, &new_h, ++here_num));
+}
+
+void		sh_heredoc_remove(t_here *content)
+{
+	close(content->fd[0]);
+	close(content->fd[1]);
+	free(content);
 }

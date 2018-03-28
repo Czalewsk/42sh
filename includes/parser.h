@@ -155,5 +155,6 @@ t_tree				*add_in_arguments(t_process *p, t_tree *clist);
 t_tree				*go_to_current_right(t_tree *cur, t_tree *new);
 t_tree				*go_to_current_left(t_tree *cur, t_tree *new);
 t_tree				*add_heredoc_in_process(t_process *p, t_tree *c);
+void				sh_heredoc_remove(t_here *content);
 
 #endif

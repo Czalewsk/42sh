@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 17:31:28 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/23 11:31:08 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/28 22:19:57 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int				fill_job(t_tree *cc, t_job *j)
 		*tmp = new;
 		tmp = &new->next;
 		if ((c = fill_process(c, new)) == (void*)1)
-			return (-1);
-		if (!j->process->argv)
 			return (-1);
 		j->finish_command = finish_norme(j, c);
 	}

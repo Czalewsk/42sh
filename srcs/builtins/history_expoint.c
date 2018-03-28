@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 21:15:11 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/26 14:15:51 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/28 20:27:16 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	check_entry(char *str, char **new)
 	*new = NULL;
 	if (!str || str[0] != '!')
 		return (1);
-	DEBUG("str is |%s|\n", str);
 	if (!str[1] || str[1] == ' ')
 	{
 		*new = ft_strdup(str);

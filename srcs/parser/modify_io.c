@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:14 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 15:15:51 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/28 22:09:12 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void		remove_here_list(void)
 	t_here	*tmph;
 	int		ref_here;
 
-	tmp_list = g_here_list;
+	if (!(tmp_list = g_here_list))
+		return ;
 	tmph = tmp_list->content;
 	ref_here = tmph->num;
 	while (tmp_list)
