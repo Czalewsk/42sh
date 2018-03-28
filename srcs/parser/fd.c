@@ -16,10 +16,10 @@ int			sh_check_fd(char *str)
 {
 	int		ret;
 
-	if (!ft_isint(str))
-		return (sh_error(-2, 0, NULL, 2, str, ": Bad file descriptor\n"));
 	if (ft_memcmp(str, "-", 1) == 0)
 		return (-1);
+	if (!ft_isint(str))
+		return (sh_error(-2, 0, NULL, 2, str, ": Bad file descriptor\n"));
 	ret = ft_atoi(str);
 	if (ret <= 10)
 		return (ret);
@@ -38,9 +38,14 @@ char		sh_lessand(t_fd *test_fd, t_list **open_fd)
 		return (-1);
 	if (rfd == -1)
 		close(lfd);
-	else if (dup2(rfd, lfd) == -1)
-		return (-1);
+	else
+	{
+		rfd = dup(rfd);
+		if (dup2(rfd, lfd) == -1)
+			return (-1);
+	}
 	ft_lstadd(open_fd, ft_lstnew(&rfd, sizeof(int)), 0);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 //	close(rfd);
 	return (0);
 }
@@ -50,16 +55,19 @@ char		sh_greatand(t_fd *test_fd, t_list **open_fd)
 	int		lfd;
 	int		rfd;
 
-	(void)open_fd;
 	rfd = sh_check_fd(test_fd->right_str);
 	if ((lfd = test_fd->io_default ? 1 : sh_check_fd(test_fd->left_str)) == -2)
 		return (-1);
 	if (rfd == -1)
 		close(lfd);
-	else if (dup2(rfd, lfd) == -1)
-		return (-1);
+	else 
+	{
+		rfd = dup(rfd);
+		if (dup2(rfd, lfd) == -1)
+			return (-1);
+	}
 	ft_lstadd(open_fd, ft_lstnew(&rfd, sizeof(int)), 0);
-//	close(rfd);
+	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	return (0);
 }
 
@@ -74,11 +82,9 @@ char		sh_lessgreat(t_fd *test_fd, t_list **open_fd)
 		lfd = 0;
 	else
 		lfd = sh_check_fd(test_fd->left_str);
-	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) == -1)
 		return (-1);
 	ft_lstadd(open_fd, ft_lstnew(&rfd, sizeof(int)), 0);
-//	close(rfd);
 	return (0);
 }
 
