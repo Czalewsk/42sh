@@ -84,14 +84,11 @@ void			execute_job_with_fork(t_job *j, char **env)
 {
 	t_process	*pr;
 	int			p[2][2];
-//	int			c_h;
 
-//	c_h = 0;
 	ft_memset(p, -1, sizeof(int[2][2]));
 	pr = j->process;
 	while (pr)
 	{
-		// c_h == 0 && pr->here_doc == 1 ? (c_h = 1) : c_h;
 		if (pr != j->process)
 			close(p[1][1]);
 		if (pr->next && pipe(p[0]) == -1)
@@ -108,6 +105,4 @@ void			execute_job_with_fork(t_job *j, char **env)
 		pere(j, pr, p, env);
 		pr = pr->next;
 	}
-	// DEBUG("c_h = %d\n", c_h);
-	// c_h == 1 ? remove_here_list() : c_h;
 }

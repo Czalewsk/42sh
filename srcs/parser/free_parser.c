@@ -57,7 +57,7 @@ int			ft_free_array(char **argv)
 
 void		sh_free_fd_list(void *content, size_t size)
 {
-	t_fd 	*tmp;
+	t_fd	*tmp;
 
 	(void)size;
 	tmp = content;

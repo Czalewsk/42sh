@@ -28,11 +28,8 @@ const t_cmd_action	g_cmd_actions[] = {
 };
 
 const t_classic g_classics[] = {
-
-
 	{AND, LESSGREAT, &go_to_current_left, NULL},
 	{SEMI, LESSGREAT, &go_to_current_left, NULL},
-
 	{LESSGREAT, WORD, &go_to_current_right, NULL},
 	{IO_NUMBER, LESSGREAT, &go_to_current_right, NULL},
 	{WORD, LESSGREAT, &go_to_current_right, NULL},
@@ -40,8 +37,6 @@ const t_classic g_classics[] = {
 	{OR_IF, LESSGREAT, &go_to_current_right, NULL},
 	{PIPE, LESSGREAT, &go_to_current_right, NULL},
 	{SUBSH, LESSGREAT, &go_to_current_right, NULL},
-
-//	{ANDGREAT, WORD, &go_to_current_right, NULL},
 	{AND, WORD, &go_to_current_left, NULL},
 	{AND, SUBSH, &go_to_current_left, NULL},
 	{AND, IO_NUMBER, &go_to_current_left, NULL},
@@ -51,7 +46,6 @@ const t_classic g_classics[] = {
 	{AND_IF, WORD, &go_to_current_right, NULL},
 	{AND_IF, SUBSH, &go_to_current_right, NULL},
 	{AND_IF, IO_NUMBER, &go_to_current_right, NULL},
-//	{AND_IF, ANDGREAT, &go_to_current_left, NULL},
 	{DLESS, WORD, &go_to_current_right, &here},
 	{DLESS, SUBSH, &go_to_current_right, &here},
 	{DGREAT, WORD, &go_to_current_right, NULL},
@@ -74,18 +68,15 @@ const t_classic g_classics[] = {
 	{OR_IF, IO_NUMBER, &go_to_current_right, NULL},
 	{OR_IF, LESSAND, &go_to_current_right, NULL},
 	{OR_IF, GREATAND, &go_to_current_right, NULL},
-//	{OR_IF, ANDGREAT, &go_to_current_right, NULL},
 	{PIPE, WORD, &go_to_current_right, NULL},
 	{PIPE, SUBSH, &go_to_current_right, NULL},
 	{PIPE, IO_NUMBER, &go_to_current_right, NULL},
 	{PIPE, LESSAND, &go_to_current_right, NULL},
 	{PIPE, GREATAND, &go_to_current_right, NULL},
-//	{PIPE, ANDGREAT, &go_to_current_right, NULL},
 	{SEMI, WORD, &go_to_current_left, NULL},
 	{SEMI, SUBSH, &go_to_current_left, NULL},
 	{SEMI, IO_NUMBER, &go_to_current_left, NULL},
 	{SEMI, LESSAND, &go_to_current_left, NULL},
-//	{SEMI, GREATAND, &go_to_current_left, NULL},
 	{SUBSH, AND, &go_to_current_right, NULL},
 	{SUBSH, AND_IF, &go_to_current_right, NULL},
 	{SUBSH, OR_IF, &go_to_current_right, NULL},
@@ -99,7 +90,6 @@ const t_classic g_classics[] = {
 	{SUBSH, LESS, &go_to_current_right, NULL},
 	{SUBSH, LESSAND, &go_to_current_right, NULL},
 	{SUBSH, GREATAND, &go_to_current_right, NULL},
-//	{SUBSH, ANDGREAT, &go_to_current_right, NULL},
 	{WORD, SUBSH, &go_to_current_right, NULL},
 	{WORD, IO_NUMBER, &go_to_current_right, NULL},
 	{WORD, DLESS, &go_to_current_right, NULL},
@@ -111,7 +101,6 @@ const t_classic g_classics[] = {
 	{WORD, GREAT, &go_to_current_right, NULL},
 	{WORD, AND_IF, &go_to_current_right, NULL},
 	{WORD, OR_IF, &go_to_current_right, NULL},
-//	{WORD, ANDGREAT, &go_to_current_right, NULL},
 	{WORD, AND, &go_to_current_right, NULL},
 	{WORD, SEMI, &go_to_current_right, NULL},
 	{WORD, PIPE, &go_to_current_right, NULL},

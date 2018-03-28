@@ -58,7 +58,7 @@ t_tree			*get_new_from_failure_and(t_tree *tmp)
 		{
 			close_skiped_here();
 			while (tmp && (tmp->token.id != OR_IF
-				|| tmp->token.id != AND_IF || tmp->token.id != PIPE))
+				&& tmp->token.id != AND_IF && tmp->token.id != PIPE))
 				tmp = tmp->right;
 			if (!tmp)
 				return (tmp);
@@ -78,7 +78,7 @@ t_tree			*new_success_or_if(t_tree *c)
 		{
 			close_skiped_here();
 			while (c && (c->token.id != OR_IF
-				|| c->token.id != AND_IF || c->token.id != PIPE))
+				&& c->token.id != AND_IF && c->token.id != PIPE))
 				c = c->right;
 			if (!c)
 				return (c);

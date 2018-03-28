@@ -31,24 +31,15 @@ void		pere(t_job *j, t_process *pr, int p[2][2], char **env)
 			exit(sh_error(1, 0, NULL, 1, "Erreur tcsetpgrp launch_process\n"));
 	}
 	setpgid(pr->pid, j->pgid);
-
 	if (!pr->pid)
 		executor(j, pr, p, env);
 	tmp = pr->open_fd;
 	while (tmp)
 	{
 		close(*(int*)tmp->content);
-		DEBUG("Je close le fd=%d|\n",*(int*)tmp->content) 
 		tmp = tmp->next;
 	}
 	if (pr != j->process)
 		close(p[1][0]);
 	p[1][0] = p[0][0];
-}
-
-void		just_the_last(t_process *p)
-{
-	p->stderr = 2;
-	p->stdout = 1;
-	p->stdin = 0;
 }

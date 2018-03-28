@@ -16,7 +16,6 @@ extern t_valid_res	g_valid_ress[];
 t_tree	*g_head_tree;
 t_tree	*g_current;
 t_list	*g_here_list;
-//t_list	*g_fd_list;
 
 int			place_token(t_token t)
 {
@@ -27,8 +26,9 @@ int			place_token(t_token t)
 	{
 		if (t.id == NEWLINE)
 			return (0);
-		if (t.id != WORD && t.id != IO_NUMBER && t.id != SUBSH && t.id != LESSAND
-				&& t.id != ASSIGNMENT_WORD && t.id != GREATAND && t.id != ANDGREAT)
+		if (t.id != WORD && t.id != IO_NUMBER && t.id != SUBSH
+			&& t.id != LESSAND && t.id != ASSIGNMENT_WORD
+			&& t.id != GREATAND && t.id != ANDGREAT)
 			return (-1);
 		else if ((g_head_tree = init_node(t, g_head_tree)) == NULL)
 			return (-3);
@@ -117,18 +117,6 @@ int			parser(char **cmd)
 	cur = *cmd;
 	g_head_tree = NULL;
 	g_current = NULL;
-
-	t_list	*tmp;
-	t_here	*tmph;
-
-	tmp = g_here_list;
-	DEBUG("NUM HERE LIST \n");
-	while (tmp)
-	{
-		tmph = tmp->content;
-		DEBUG("NUM HERE LIST = %d, \n", tmph->num);
-		tmp = tmp->next;
-	}
 	i = read_parser(cmd, cur);
 	if (i == -1 || i == -2)
 	{

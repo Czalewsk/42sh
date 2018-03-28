@@ -12,20 +12,28 @@
 
 #include "ft_sh.h"
 
-t_tree			*cpy_from_tree(t_tree *c)
+t_tree		*norme_cpy_from_tree(t_tree *c)
 {
-	t_tree		*new;
-	t_tree		*save;
+	t_tree	*new;
+
+	new = (t_tree *)ft_memalloc(sizeof(t_tree));
+	new->token.str = ft_strdup(c->token.str);
+	new->token.id = c->token.id;
+	new->token.size = c->token.size;
+	return (new);
+}
+
+t_tree		*cpy_from_tree(t_tree *c)
+{
+	t_tree	*new;
+	t_tree	*save;
 
 	new = NULL;
 	while (c)
 	{
 		if (!new)
 		{
-			new = (t_tree *)ft_memalloc(sizeof(t_tree));
-			new->token.str = ft_strdup(c->token.str);
-			new->token.id = c->token.id;
-			new->token.size = c->token.size;
+			new = norme_cpy_from_tree(c);
 			save = new;
 		}
 		else
@@ -42,18 +50,16 @@ t_tree			*cpy_from_tree(t_tree *c)
 	return (save);
 }
 
-char			modify_io_child(t_process *p)
+char		modify_io_child(t_process *p)
 {
-	t_list		*tmp;
-	t_fd		*test_fd;
-	int			ret;
+	t_list	*tmp;
+	t_fd	*test_fd;
+	int		ret;
 
 	tmp = p->fd_list;
 	while (tmp)
 	{
 		test_fd = tmp->content;
-		if (!test_fd->fd_action)
-			DEBUG("\tCest la merde\n");
 		if ((ret = test_fd->fd_action(test_fd, &p->open_fd)))
 		{
 			if (ret == 1)
@@ -69,12 +75,12 @@ char			modify_io_child(t_process *p)
 	return (1);
 }
 
-void			do_pipe_child(int pipe[2][2], int pr, int dr)
+void		do_pipe_child(int pipe[2][2], int pr, int dr)
 {
 	if (!dr)
-			dup2(pipe[1][1], STDOUT_FILENO);
+		dup2(pipe[1][1], STDOUT_FILENO);
 	if (!pr)
-			dup2(pipe[1][0], STDIN_FILENO);
+		dup2(pipe[1][0], STDIN_FILENO);
 	close(pipe[0][0]);
 	close(pipe[0][1]);
 	close(pipe[1][0]);
