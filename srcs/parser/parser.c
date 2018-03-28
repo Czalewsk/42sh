@@ -28,7 +28,8 @@ int			place_token(t_token t)
 			return (0);
 		if (t.id != WORD && t.id != IO_NUMBER && t.id != SUBSH
 			&& t.id != LESSAND && t.id != ASSIGNMENT_WORD
-			&& t.id != GREATAND && t.id != ANDGREAT)
+			&& t.id != GREATAND && t.id != ANDGREAT
+			&& t.id != LESS && t.id != GREAT && t.id != DGREAT && t.id != DLESS)
 			return (-1);
 		else if ((g_head_tree = init_node(t, g_head_tree)) == NULL)
 			return (-3);

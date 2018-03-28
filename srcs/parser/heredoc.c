@@ -21,6 +21,20 @@ int			read_hr(char *hr, char *ref)
 	return (0);
 }
 
+void		*signal_leav_here_doc(void)
+{
+	t_here	*here;
+
+	while (g_here_list)
+	{
+		here = g_here_list->content;
+		close(here->fd[0]);
+		close(here->fd[1]);
+		remove_here_list();
+	}
+	return ((void *)1);
+}
+
 t_tree		*add_new_fd(t_tree *new, t_here *here, int number)
 {
 	char			*hr;
@@ -41,11 +55,7 @@ t_tree		*add_new_fd(t_tree *new, t_here *here, int number)
 	}
 	ft_strdel(&hr);
 	if (ret_p == -3)
-	{
-		close(here->fd[0]);
-		close(here->fd[1]);
-		return ((void *)1);
-	}
+		return (signal_leav_here_doc());
 	ft_lst_pushend(&g_here_list, ft_lstnew(here, sizeof(t_here)));
 	return (new);
 }
