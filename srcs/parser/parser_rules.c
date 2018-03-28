@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 16:41:07 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 11:51:56 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/29 00:50:44 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ const t_classic g_classics[] = {
 	{WORD, WORD, &go_to_current_right, NULL},
 	{ASSIGNMENT_WORD, ASSIGNMENT_WORD, &go_to_current_right, NULL},
 	{ASSIGNMENT_WORD, WORD, &go_to_current_right, NULL},
+	{ASSIGNMENT_WORD, PIPE, &go_to_current_right, NULL},
 	{0, 0, NULL, NULL}
 };

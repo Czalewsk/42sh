@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:06:24 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/28 21:59:01 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/29 00:58:23 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void			execute_job(t_job *job)
 	if (job == NULL)
 		return ;
 	env = env_make(ENV_GLOBAL | ENV_TEMP);
-	if (!job->process->next && job->foreground && ft_strcmp(
-		job->process->argv[0], "env") && do_built_in(job->process, env))
+	if (!job->process->next && job->foreground && job->process->argv &&
+	ft_strcmp(job->process->argv[0], "env") && do_built_in(job->process, env))
 	{
 		job->is_builtin = 1;
 		job->status_last_process = g_sh.exitstatus;
