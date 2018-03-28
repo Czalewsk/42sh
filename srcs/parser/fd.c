@@ -16,9 +16,11 @@ int			sh_check_fd(char *str)
 {
 	int		ret;
 
-	ret = ft_isint(str) ? ft_atoi(str) : -1;
-	if (ret == -1 && ft_memcmp(str, "-", 1) == 0)
+	if (!ft_isint(str))
+		return (sh_error(-2, 0, NULL, 2, str, ": Bad file descriptor\n"));
+	if (ft_memcmp(str, "-", 1) == 0)
 		return (-1);
+	ret = ft_atoi(str);
 	if (ret <= 10)
 		return (ret);
 	return (sh_error(-1, 0, NULL, 3, "Error in redirection, number ", str,
@@ -32,7 +34,8 @@ char		sh_lessand(t_fd *test_fd, t_list **open_fd)
 
 	(void)open_fd;
 	rfd = sh_check_fd(test_fd->right_str);
-	lfd = test_fd->io_default ? 0 : sh_check_fd(test_fd->left_str);
+	if ((lfd = test_fd->io_default ? 0 : sh_check_fd(test_fd->left_str)) == -2)
+		return (-1);
 	if (rfd == -1)
 		close(lfd);
 	else if (dup2(rfd, lfd) == -1)
@@ -48,7 +51,8 @@ char		sh_greatand(t_fd *test_fd, t_list **open_fd)
 
 	(void)open_fd;
 	rfd = sh_check_fd(test_fd->right_str);
-	lfd = test_fd->io_default ? 1 : sh_check_fd(test_fd->left_str);
+	if ((lfd = test_fd->io_default ? 1 : sh_check_fd(test_fd->left_str)) == -2)
+		return (-1);
 	if (rfd == -1)
 		close(lfd);
 	else if (dup2(rfd, lfd) == -1)
