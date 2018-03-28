@@ -40,6 +40,7 @@ char		sh_dgreat(t_fd *test_fd, t_list **open_fd)
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) < -1)
 		return (-1);
+	close(rfd);
 	return (0);
 }
 
@@ -54,5 +55,6 @@ char		sh_less(t_fd *test_fd, t_list **open_fd)
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
 	if (dup2(rfd, lfd) == -1)
 		return (-1);
+	close(rfd);
 	return (0);
 }
