@@ -6,11 +6,21 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 12:28:50 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/27 19:56:55 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/28 14:52:46 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+static int		count_len_oct(char tmp[4])
+{
+	int		len;
+
+	len = 0;
+	while (tmp[len] >= '0' && tmp[len] < '8')
+		len++;
+	return (len);
+}
 
 static void		echo_conv(char **str)
 {
@@ -18,72 +28,58 @@ static void		echo_conv(char **str)
 	int		len_num;
 	char	tmp[4];
 
-	DEBUG("str |%s|\n", *str);
-	ft_memmove(*str - 1, *str + 1, ft_strlen(*str + 1) + 1);
-	DEBUG("str 2|%s|\n", *str - 1);
-		ft_strncpy(tmp, *str - 1, 3);
-		num = ft_atoi(*str - 1);
-		len_num = ft_count_len(num);
-		if ((num > 0 && num <= 255) || (!num && *(*str - 1) == '0'))
-		{
-			DEBUG("tmp |%s|, num |%d| len |%d|\n", tmp, num, len_num);
-			DEBUG("str now |%s|\n", *str - 1);
-			*(*str - 1) = (char)num;
-			DEBUG("str now |%s|\n", *str - 1);
-			ft_memmove(*str, *str + len_num - 1, ft_strlen(*str + len_num - 1) + 1);
-		}
-
-		
-
-
-//	echo_conv2(*str, 1, 1);
+	ft_memmove(*str - 1, *str, ft_strlen(*str) + 1);
+	if (!**str || **str < '0' || **str > '7')
+	{
+		*(*str - 1) = 0;
+		return ;
+	}
+	ft_strncpy(tmp, *str, 3);
+	len_num = count_len_oct(tmp);
+	tmp[len_num] = 0;
+	num = ft_atoi_base(tmp, "01234567");
+	*(*str - 1) = num;
+	ft_memmove(*str, *str + len_num, ft_strlen(*str + len_num) + 1);
 }
 
-static size_t	ft_echo(const char *argv,
-		char *str, int *const nonl, char *value)
+static int		ft_echo(const char *av, char *s, int *const nonl, char *value)
 {
 	char const	key[] = { 'a', 'b', 'c', 'f', 'n', 'r', 't', 'v', '\\', 0 };
 	char const	key_ascii[] = { 7, 8, 0, 12, 10, 13, 9, 11, 47, 0 };
 
-	while (*str)
+	while (*s)
 	{
-		if (*str == '\\' && *(++str))
+		if (*s == '\\' && *(++s))
 		{
-			if ((value = ft_strchr(key, *str)))
+			if ((value = ft_strchr(key, *s)))
 			{
-				str[-1] = key_ascii[value - key];
-				ft_memmove(str, str + 1, ft_strlen(str + 1) + 1);
-				if (*value == 'c')
-				{
-					*nonl = 1;
-					return (str - argv - 1);
-				}
+				s[-1] = key_ascii[value - key];
+				ft_memmove(s, s + 1, ft_strlen(s + 1) + 1);
+				if (*value == 'c' && (*nonl = 1))
+					return (s - av - 1);
 			}
-			else if (*str == '0')
-			{
-				DEBUG("before str - 1 |%s|, str |%s|\n", str - 1, str);
-				echo_conv(&str);
-				DEBUG("after str - 1 |%s|, str |%s|\n\n\n", str - 1, str);
-			}
+			else if (*s == '0')
+				echo_conv(&s);
 			else
-				++str;
+				++s;
 		}
-		else if (*str)
-			++str;
+		else if (*s)
+			++s;
 	}
-	return (str - argv);
+	return (s - av);
 }
 
 int				builtin_echo(t_process *p, int argc, char **argv, char **env)
 {
 	int		nonl;
-	size_t	len;
 
 	(void)argc;
 	(void)env;
 	if (write(p->stdout, "merci cedric, petit batard", 0) == -1)
+	{
 		return (sh_error_bi(2, EXIT_FAILURE, 1,
 					"echo : write error: Bad file descriptor\n"));
+	}
 	argv++;
 	if (!(nonl = 0) && *argv && !ft_strcmp(*argv, "-n"))
 	{
@@ -92,8 +88,7 @@ int				builtin_echo(t_process *p, int argc, char **argv, char **env)
 	}
 	while (*argv && nonl != 1)
 	{
-		len = ft_echo(*argv, *argv, &nonl, NULL);
-		ft_putnstr_fd(*argv, len, p->stdout);
+		write(p->stdout, *argv, ft_echo(*argv, *argv, &nonl, NULL));
 		argv++;
 		if (*argv)
 			ft_putchar_fd(' ', p->stdout);
