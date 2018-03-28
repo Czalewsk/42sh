@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:07:30 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/16 21:47:17 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/27 15:09:16 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,42 @@ char			*get_command(char *ret, t_tree *chead)
 	return (ret);
 }
 
-t_tree			*get_new_from_failure_and(t_tree *tmp)
+void			close_skiped_here(void)
 {
-	int			a;
-	int			*fd;
+	t_list		*tmp;
+	t_here		*tmpp;
+	int			ref_here;
 
-	a = 0;
+	tmp = g_here_list;
+	tmpp = tmp->content;
+	ref_here = tmpp->num;
 	while (tmp)
 	{
-		if (tmp->token.id == DLESS && a == 0)
+		tmpp = tmp->content;
+		tmp = tmp->next;
+		if (tmpp->num != ref_here)
+			break ;
+		close(tmpp->fd[0]);
+		close(tmpp->fd[1]);
+		ft_lst_remove_index(&g_here_list, 0, NULL);
+	}
+}
+
+t_tree			*get_new_from_failure_and(t_tree *tmp)
+{
+	while (tmp)
+	{
+		if (tmp->token.id == DLESS)
 		{
-			a = 1;
-			fd = g_here_list->content;
-			close(fd[0]);
-			close(fd[1]);
-			ft_lst_remove_index(&g_here_list, 0, NULL);
+			close_skiped_here();
+			while (tmp && (tmp->token.id != OR_IF
+				&& tmp->token.id != AND_IF && tmp->token.id != PIPE))
+				tmp = tmp->right;
+			if (!tmp)
+				return (tmp);
 		}
 		if (tmp->token.id == OR_IF)
 			return (tmp->right);
-		if (tmp->token.id == PIPE || tmp->token.id == AND_IF)
-			a = 0;
 		tmp = tmp->right;
 	}
 	return (tmp);
@@ -58,24 +74,19 @@ t_tree			*get_new_from_failure_and(t_tree *tmp)
 
 t_tree			*new_success_or_if(t_tree *c)
 {
-	int			*fd;
-	int			a;
-
-	a = 0;
 	while (c)
 	{
-		if (c->token.id == DLESS && a == 0)
+		if (c->token.id == DLESS)
 		{
-			a = 1;
-			fd = g_here_list->content;
-			close(fd[0]);
-			close(fd[1]);
-			ft_lst_remove_index(&g_here_list, 0, NULL);
+			close_skiped_here();
+			while (c && (c->token.id != OR_IF
+				&& c->token.id != AND_IF && c->token.id != PIPE))
+				c = c->right;
+			if (!c)
+				return (c);
 		}
 		if (c->token.id == AND_IF)
 			return (c->right);
-		if (c->token.id == PIPE || c->token.id == OR_IF)
-			a = 0;
 		c = c->right;
 	}
 	return (c);

@@ -6,123 +6,97 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/11 16:31:14 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/19 11:55:05 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/27 15:15:51 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-int			greatand(int fd, t_tree *c, t_process *p)
+void		*get_fonction_from_token(t_tree *c)
 {
-	int		ofd;
-
-	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
-	if (ofd == -1 && ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
-		ofd = -1;
-	else if (ofd == -1 && (ofd = open(c->token.str, O_CREAT |
-		O_TRUNC | O_WRONLY, 0755)) == -1)
-	{
-		sh_error(-1, 0, NULL, 2, c->token.str, " open failed\n");
-		return (-1);
-	}
-	just_the_last(p);
-	if (fd == 1 && ofd == -1)
-		p->closeout = 1;
-	else if (fd == 0 && ofd == -1)
-		p->closein = 1;
-	else if (fd == 2 && ofd == -1)
-		p->closeerr = 1;
-	else if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	return (0);
-}
-
-int			lessand(int fd, t_tree *c, t_process *p)
-{
-	int		ofd;
-
-	ofd = ft_isint(c->token.str) ? ft_atoi(c->token.str) : -1;
-	if (ofd == -1 && ft_memcmp(c->token.str, "-", ft_strlen(c->token.str)) == 0)
-		ofd = -1;
-	else
-	{
-		sh_error(-1, 0, NULL, 2, c->token.str, " file number execpted\n");
-		return (-1);
-	}
-	just_the_last(p);
-	if (fd == 0 && ofd == -1)
-		p->closein = 1;
-	else if (fd == 1 && ofd == -1)
-		p->closeout = 1;
-	else if (fd == 2 && ofd == -1)
-		p->closeerr = 1;
-	else if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	return (0);
-}
-
-int			great(int fd, t_tree *c, t_process *p)
-{
-	int		ofd;
-
-	if ((ofd = open(c->token.str, O_CREAT |
-		O_TRUNC | O_WRONLY, 0755)) == -1)
-	{
-		sh_error(0, 0, NULL, 3, "Error: ",
-			c->token.str, " open failed\n");
-		return (-1);
-	}
-	if (fd == 1)
-		p->stdout = ofd;
-	else if (fd == 2)
-		p->stderr = ofd;
-	else if (fd == 0)
-		p->stdin = ofd;
-	else
-		p->stdout = ofd;
-	return (0);
-}
-
-int			modify_fd(int fd, t_tree *c, t_process *p)
-{
+	if (c->token.id == GREAT)
+		return (sh_great);
 	if (c->token.id == GREATAND)
-		return (greatand(fd, c->right, p));
-	else if (c->token.id == LESSAND)
-		return (lessand(fd, c->right, p));
-	else if (c->token.id == GREAT)
-		return (great(fd, c->right, p));
-	else if (c->token.id == LESS)
-		return (less(fd, c->right, p));
-	return (0);
+		return (sh_greatand);
+	if (c->token.id == LESSAND)
+		return (sh_lessand);
+	if (c->token.id == LESS)
+		return (sh_less);
+	if (c->token.id == LESSGREAT)
+		return (sh_lessgreat);
+	if (c->token.id == DGREAT)
+		return (sh_dgreat);
+	if (c->token.id == DLESS)
+		return (sh_dless);
+	return (NULL);
 }
 
-t_tree		*modify_io(t_process *p, t_tree *clist)
+t_tree		*set_fd_in_process(t_process *p, t_tree *c)
 {
-	int	fd;
+	t_fd	new;
 
-	fd = ft_isint(clist->token.str) ? ft_atoi(clist->token.str) : -1;
-	if (fcntl(fd, F_GETFD) == -1)
+	ft_bzero(&new, sizeof(t_fd));
+	if ((c->previous && c->previous->token.id != IO_NUMBER) || !c->previous)
+		new.io_default = 1;
+	new.right_str = ft_strdup(c->right->token.str);
+	new.fd_action = get_fonction_from_token(c);
+	ft_lst_pushend(&p->fd_list, ft_lstnew(&new, sizeof(t_fd)));
+	return (c->right->right);
+}
+
+t_tree		*modify_io(t_process *p, t_tree *c)
+{
+	t_list	*last_fd;
+	t_fd	*n_fd;
+
+	if (c->right->token.id == DLESS
+		&& (add_heredoc_in_process(p, c->right) || 1))
+		return (c->right->right->right);
+	set_fd_in_process(p, c->right);
+	last_fd = p->fd_list;
+	while (last_fd->next)
+		last_fd = last_fd->next;
+	n_fd = last_fd->content;
+	n_fd->left_str = ft_strdup(c->token.str);
+	return (c->right->right->right);
+}
+
+void		remove_here_list(void)
+{
+	t_list	*tmp_list;
+	t_here	*tmph;
+	int		ref_here;
+
+	tmp_list = g_here_list;
+	tmph = tmp_list->content;
+	ref_here = tmph->num;
+	while (tmp_list)
 	{
-		if (ft_memcmp(clist->token.str, "-", 1) == 0)
-			fd = -1;
-		else if (fd != 0 && fd != 2 && fd != 1 && fd != -1)
-			add_in_arguments(p, clist);
-		else if (((fd = open(clist->token.str, O_WRONLY, 0755))) == -1)
-		{
-			sh_error(0, 0, NULL, 2, clist->token.str,
-				" is not set as file descriptor\n");
-			return ((void *)1);
-		}
+		tmph = tmp_list->content;
+		tmp_list = tmp_list->next;
+		if (tmph->num != ref_here)
+			break ;
+		close(tmph->fd[0]);
+		close(tmph->fd[1]);
+		ft_lst_remove_index(&g_here_list, 0, NULL);
 	}
-	if (modify_fd(fd, clist->right, p) == -1)
-		return ((void *)1);
-	return (clist->right->right->right);
+}
+
+t_tree		*add_heredoc_in_process(t_process *p, t_tree *c)
+{
+	t_fd	new;
+
+	ft_bzero(&new, sizeof(t_fd));
+	if (c->previous && c->previous->token.id == IO_NUMBER)
+		new.left_str = ft_strdup(c->previous->token.str);
+	else
+		new.io_default = 1;
+	new.here_doc = ((t_here*)g_here_list->content)->fd[0];
+	new.fd_action = get_fonction_from_token(c);
+	ft_lst_pushend(&p->fd_list, ft_lstnew(&new, sizeof(t_fd)));
+	ft_lstadd(&p->open_fd,
+		ft_lstnew(((t_here*)g_here_list->content)->fd, sizeof(int)), 0);
+	close(((t_here*)g_here_list->content)->fd[1]);
+	ft_lst_remove_index(&g_here_list, 0, NULL);
+	return (c->right->right);
 }

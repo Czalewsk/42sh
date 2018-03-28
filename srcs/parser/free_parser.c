@@ -55,6 +55,17 @@ int			ft_free_array(char **argv)
 	return (0);
 }
 
+void		sh_free_fd_list(void *content, size_t size)
+{
+	t_fd	*tmp;
+
+	(void)size;
+	tmp = content;
+	free(tmp->right_str);
+	free(tmp->left_str);
+	free(content);
+}
+
 int			ft_free_process(t_process *p)
 {
 	t_process	*l;
@@ -63,6 +74,8 @@ int			ft_free_process(t_process *p)
 	{
 		l = p;
 		ft_free_array(p->argv);
+		ft_lstdel(&p->fd_list, &sh_free_fd_list);
+		ft_lstdel(&p->open_fd, NULL);
 		p = p->next;
 		free(l);
 	}

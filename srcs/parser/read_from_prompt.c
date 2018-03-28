@@ -24,10 +24,9 @@ int			read_from_prompt(char **cmd, char **cur)
 	i = *cur - *cmd;
 	len = 0;
 	if (ret_prompt == -3 || ret_prompt == -1)
-	{
 		ft_strdel(&nfpr);
+	if (ret_prompt == -3 || ret_prompt == -1)
 		return (-1);
-	}
 	if (nfpr && nfpr[0] != '\n')
 	{
 		len = ft_strlen(nfpr);

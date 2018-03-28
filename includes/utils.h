@@ -46,5 +46,7 @@ void		cwd_destroy(void);
 void		ft_xfree(int nb, ...);
 char		*find_path(char *name, char *path);
 char		*find_cdpath(char *find, char *cdpath);
+void		init_fd(void);
+void		reset_fd(t_list *open_fd);
 
 #endif
