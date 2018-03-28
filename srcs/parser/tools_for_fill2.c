@@ -64,7 +64,7 @@ char		modify_io_child(t_process *p)
 		{
 			if (ret == 1)
 				sh_error(0, 0, NULL, 2, test_fd->right_str,
-						": No such file or directory\n");
+						": No such file or directory or access\n");
 			else
 				sh_error(0, 0, NULL, 1,
 						"Fail to dup2\n");

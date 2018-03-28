@@ -46,6 +46,8 @@ void			close_skiped_here(void)
 		tmp = tmp->next;
 		if (tmpp->num != ref_here)
 			break ;
+		close(tmpp->fd[0]);
+		close(tmpp->fd[1]);
 		ft_lst_remove_index(&g_here_list, 0, NULL);
 	}
 }
