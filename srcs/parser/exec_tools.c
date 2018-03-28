@@ -19,12 +19,19 @@ int			clear_execute(char **path, t_process *p)
 	return (g_sh.exitstatus);
 }
 
+void		sh_remove_fd(t_fd *fd)
+{
+	ft_strdel(&fd->right_str);
+	ft_strdel(&fd->left_str);
+	free(fd);
+}
+
 void		remove_here(t_process *p)
 {
 	while (p->fd_list)
 	{
 		ft_lst_remove_index(&g_here_list, 0, sh_heredoc_remove);
-		ft_lst_remove_index(&p->fd_list, 0, NULL);
+		ft_lst_remove_index(&p->fd_list, 0, sh_remove_fd);
 	}
 }
 
