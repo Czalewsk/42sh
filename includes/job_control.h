@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 12:53:03 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/28 19:49:49 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/28 20:20:26 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ t_list			*pop_job_from_job_order(t_job *j);
 void			init_job_control(void);
 
 void			launch_process(char *tmp, t_process *p, t_job *j, char **env);
+int				add_after_stopped(t_list *l1, t_list *l2);
 
 #endif

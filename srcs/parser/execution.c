@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 16:06:24 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 09:42:50 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/28 20:20:32 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 void			execute_job(t_job *job)
 {
 	char		**env;
+	t_list		*tmp;
 
 	if (job == NULL)
 		return ;
@@ -75,7 +76,14 @@ void			execute_job(t_job *job)
 	else
 	{
 		execute_job_with_fork(job, env);
-		put_job_at_head_in_job_order(job);
+		if (job->foreground)
+			put_job_at_head_in_job_order(job);
+		else
+		{
+			tmp = ft_lstnew(NULL, 0);
+			tmp->content = job;
+			ft_lstinsert_if_end(&g_job_order, tmp, add_after_stopped);
+		}
 		put_job_at_end_in_first_job(job);
 	}
 }
