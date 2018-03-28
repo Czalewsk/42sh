@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 14:28:00 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/11 20:24:45 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/29 01:26:34 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	export_variables(t_process *p, char **argv, char **env)
 			value = sep + 1;
 		}
 		if (!ft_isposixname(name ? name : *argv))
-			posix_name_err(p, name ? name : *argv);
+			return (posix_name_err(p, name ? name : *argv));
 		if (value)
 			env_set(name, value, ENV_GLOBAL);
 		else if ((sep = ft_getenv(env, name ? name : *argv)))
@@ -67,8 +67,10 @@ static int	export_variables(t_process *p, char **argv, char **env)
 int			builtin_export(t_process *p, int argc, char **argv, char **env)
 {
 	int		id;
+	int		ret;
 	char	*res;
 
+	ret = EXIT_SUCCESS;
 	if ((id = ft_getopt(argc, argv, "p", &res)) == -1)
 	{
 		ft_putstr_fd("export: -", p->stderr);
@@ -80,7 +82,7 @@ int			builtin_export(t_process *p, int argc, char **argv, char **env)
 	if ((ft_strchr(res, 'p') || !*res) && argc == id)
 		print_variables(p, env);
 	else
-		export_variables(p, argv + id, env);
+		ret = export_variables(p, argv + id, env);
 	free(res);
-	return (EXIT_SUCCESS);
+	return (ret);
 }
