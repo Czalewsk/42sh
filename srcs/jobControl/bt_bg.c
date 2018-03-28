@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 16:18:10 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 10:52:58 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/28 18:11:03 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		bg_launch(t_job *j)
 				ft_printf(" ");
 		}
 		ft_printf(" %s &\n", j->command);
-		put_first_in_job_order(j);
+		put_last_in_job_order(j);
 		continue_job(j, 0);
 	}
 	free(num);
