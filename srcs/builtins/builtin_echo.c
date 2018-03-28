@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 12:28:50 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/28 14:52:46 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/28 16:27:06 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,18 @@ static int		ft_echo(const char *av, char *s, int *const nonl, char *value)
 	return (s - av);
 }
 
+static int		ft_onlyn(char *str)
+{
+	if (*str != '-')
+		return (0);
+	while (*(++str))
+	{
+		if (*str && *str != 'n')
+			return (0);
+	}
+	return (1);
+}
+
 int				builtin_echo(t_process *p, int argc, char **argv, char **env)
 {
 	int		nonl;
@@ -81,7 +93,7 @@ int				builtin_echo(t_process *p, int argc, char **argv, char **env)
 					"echo : write error: Bad file descriptor\n"));
 	}
 	argv++;
-	if (!(nonl = 0) && *argv && !ft_strcmp(*argv, "-n"))
+	if (!(nonl = 0) && *argv && (!ft_strcmp(*argv, "-n") || ft_onlyn(*argv)))
 	{
 		argv++;
 		nonl = 2;
