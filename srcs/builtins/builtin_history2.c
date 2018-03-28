@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 22:39:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/12 18:42:35 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/29 01:47:58 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int			built_h_clear_one(char *res, char **argv, t_process *p)
 	}
 	else if (ft_strchr(res, 'd'))
 	{
-		if (built_h_clear_one2(*argv, p) != EXIT_SUCCESS)
+		if (!*argv || built_h_clear_one2(*argv, p) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
 	update_history(p);
