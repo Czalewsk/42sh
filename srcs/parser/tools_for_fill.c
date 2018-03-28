@@ -19,7 +19,7 @@ char			*get_command(char *ret, t_tree *chead)
 	tmp = chead;
 	while (tmp)
 	{
-		if (tmp->token.id == AND_IF || tmp->token.id == OR_IF)
+		if (tmp->token.id == AND_IF || tmp->token.id == OR_IF || tmp->token.id == SEMI)
 			break ;
 		if (!ret)
 			ret = ft_strdup(tmp->token.str);

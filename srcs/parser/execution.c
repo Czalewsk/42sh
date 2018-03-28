@@ -37,10 +37,10 @@ int				executor(t_job *j, t_process *p, int pipe[2][2], char **env)
 
 	i = 0;
 	exec_line = NULL;
-	if (!p->argv)
-		exit(EXIT_FAILURE);
 	do_pipe_child(pipe, j->process == p, !p->next);
 	if (!modify_io_child(p))
+		exit(EXIT_FAILURE);
+	if (!p->argv)
 		exit(EXIT_FAILURE);
 	if (do_built_in(p, env))
 		exit(g_sh.exitstatus);
