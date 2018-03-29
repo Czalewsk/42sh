@@ -6,7 +6,7 @@
 /*   By: thugo <thugo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 17:44:16 by thugo             #+#    #+#             */
-/*   Updated: 2018/03/15 13:24:23 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/29 13:18:24 by thugo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		rules_comment(t_token *tk, char **cur, char *escape)
 {
 	if (**cur == '#' && !tk->size && !*escape)
 	{
-		while (*++*cur)
+		while (*++*cur && **cur != '\n')
 			;
 		return (1);
 	}
