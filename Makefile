@@ -6,7 +6,7 @@
 #    By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/01 16:49:39 by bviala            #+#    #+#              #
-#    Updated: 2018/03/27 20:42:06 by bviala           ###   ########.fr        #
+#    Updated: 2018/03/29 04:01:07 by czalewsk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME 			= 42sh
 
 #-------------------------------| COMPILATION |--------------------------------#
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror -g #-fsanitize=address
+FLAGS			= -Wall -Wextra -Werror -g -fsanitize=address
 #------------------------------------------------------------------------------#
 
 #---------------------------------| INCLUDES |---------------------------------#
@@ -90,7 +90,7 @@ SRCS_FILES		= ft_sh 													\
 				  parser/clear_assign_word parser/subshell_tools			\
 				  parser/exec_tools											\
 				  paste/paste_handler paste/pasted_remove_highlight			\
-				  paste/cpy_pste_intern										\
+				  paste/cpy_pste_intern paste/paste_handler_utils			\
 				  jobControl/bt_bg											\
 				  jobControl/bt_fg											\
 				  jobControl/bt_jobs										\

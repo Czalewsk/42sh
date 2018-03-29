@@ -6,13 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 15:17:27 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/18 22:19:17 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/29 04:18:54 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static size_t	g_max_char_visu;
+size_t	g_max_char_visu;
 
 static void		realloc_t_buf(t_buf *cmd)
 {
@@ -38,6 +38,8 @@ static char		sh_limits_char(t_key *entry, char *str, t_read *info)
 		return (1);
 	if (str)
 	{
+		if (info->total_char >= g_max_char_visu - 1)
+			return (0);
 		*(str + g_max_char_visu - info->total_char - 1) = 0;
 		return (1);
 	}

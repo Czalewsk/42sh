@@ -6,11 +6,13 @@
 /*   By: czalewsk <czalewsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 19:10:41 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/19 15:37:41 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/29 04:06:07 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+extern size_t	g_max_char_visu;
 
 static void	remove_excess(t_key *entry, int len)
 {
@@ -45,18 +47,20 @@ void		insert_chars_pasted_in(t_buf *cmd, t_read *info, t_buf *pasted)
 {
 	char	*curs;
 	int		len;
+	int		size_pasted;
 
+	size_pasted = ft_strlen(pasted->cmd);
 	len = sh_curs_unicode(cmd->cmd, info->curs_char, 0);
 	curs = cmd->cmd + len;
-	ft_memmove(curs + pasted->size_actual, curs, ft_strlen(curs));
-	ft_memcpy(curs, pasted->cmd, pasted->size_actual);
+	ft_memmove(curs + size_pasted, curs, ft_strlen(curs));
+	ft_memcpy(curs, pasted->cmd, size_pasted);
 	cursor_back_home(info, 1);
 	write(g_sh.fd_tty, cmd->cmd, len);
 	tputs(g_termcaps_cap[HIGH_START], 0, &ft_putchar_termcap);
-	write(g_sh.fd_tty, curs, pasted->size_actual);
+	write(g_sh.fd_tty, curs, size_pasted);
 	tputs(g_termcaps_cap[HIGH_STOP], 0, &ft_putchar_termcap);
-	write(g_sh.fd_tty, curs + pasted->size_actual, cmd->size_actual - len
-			- pasted->size_actual);
+	write(g_sh.fd_tty, curs + size_pasted, cmd->size_actual - len
+			- size_pasted);
 }
 
 void		insert_chars_pasted(t_buf *cmd, t_read *info, t_buf *pasted)
@@ -91,22 +95,22 @@ char		paste_handler(t_buf *cmd, t_read *info, t_key *entry)
 	int		ret;
 	t_buf	pasted;
 	char	*space;
+	char	stop;
 
-	(space = ft_strnew(SIZE_READ)) && ft_memset(space, ' ', SIZE_READ);
-	(g_sh.edition_state = PASTED) && buff_handler(&pasted, NULL, NULL, info);
+	stop = 0;
 	i = 6;
+	init_paste_handler(&space, &pasted, info);
 	while ((ret = paste_end(entry->entry[i])) >= 0)
 	{
-		if (pasted.size_actual > pasted.size_max - 2)
-			buff_handler(&pasted, NULL, space, info);
-		(ret == 1) && (pasted.cmd[pasted.size_actual++] = *(entry->entry + i));
-		if (i < entry->nread - 1)
-			i++;
-		else if (!(i = 0))
-		{
-			ft_bzero(entry, sizeof(t_key));
-			read_key(entry);
-		}
+		if (pasted.size_actual > pasted.size_max - 2 &&
+				!buff_handler(&pasted, NULL, space, info))
+			stop = 1;
+		if (!stop)
+			(ret == 1) && (pasted.cmd[pasted.size_actual++] =
+					*(entry->entry + i));
+		else
+			(ret == 1) && ++pasted.size_actual;
+		read_and_bzero(entry, &i);
 	}
 	insert_chars_pasted(cmd, info, &pasted);
 	remove_excess(entry, i + 1);

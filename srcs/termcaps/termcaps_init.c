@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/06 16:42:58 by czalewsk          #+#    #+#             */
-/*   Updated: 2018/03/13 18:38:44 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/29 02:42:03 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void				termcaps_cap_init(void)
 	g_termcaps_cap[INV_OFF] = tgetstr("ve", NULL);
 	g_termcaps_cap[SPE_ON] = tgetstr("te", NULL);
 	g_termcaps_cap[SPE_OFF] = tgetstr("ti", NULL);
+	g_termcaps_cap[GO_TOP] = tgetstr("ho", NULL);
 }
 
 void					termcaps_backup_tty(void)
