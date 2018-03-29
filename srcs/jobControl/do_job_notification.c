@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/03 16:36:06 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/28 19:44:51 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/29 11:53:11 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	do_job_notification(void)
 	while (tmp)
 	{
 		next_job = tmp->next;
-		if (job_is_completed(tmp) == 1)
+		if (job_is_completed(tmp) == 1 && !tmp->notified)
 			jobs_display(tmp, 0, g_sh.fd_tty);
 		else if (job_is_stopped(tmp) == 1 && !tmp->notified)
 		{

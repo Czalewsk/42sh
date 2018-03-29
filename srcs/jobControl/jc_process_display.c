@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:43:08 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 15:04:59 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/29 11:40:42 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void		process_display_long(t_process *p, char *cmd)
 			ft_printf("      ");
 		state = get_printable_state(tmp);
 		add_nb_empty_space(state, 20);
-		ft_printf("%d	%s	%s%c\n", tmp->pid,
-			state, cmd_process[i], tmp->next == NULL ? ' ' : '|');
+		ft_printf("%d	%s	%s%s\n", tmp->pid,
+			state, cmd_process[i], tmp->next == NULL ? " " : "|");
 		tmp = tmp->next;
 		ft_memdel((void**)&state);
 		i++;
