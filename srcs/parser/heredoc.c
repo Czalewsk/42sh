@@ -12,8 +12,10 @@
 
 #include "ft_sh.h"
 
-void		*signal_leav_here_doc(void)
+void		*signal_leav_here_doc(t_here *here)
 {
+	close(here->fd[0]);
+	close(here->fd[1]);
 	while (g_here_list)
 		remove_here_list();
 	return ((void *)1);
@@ -42,7 +44,7 @@ t_tree		*add_new_fd(t_tree *new, t_here *here, int number)
 	ft_strdel(&ref);
 	ft_strdel(&hr);
 	if (ret_p == -3)
-		return (signal_leav_here_doc());
+		return (signal_leav_here_doc(here));
 	ft_lst_pushend(&g_here_list, ft_lstnew(here, sizeof(t_here)));
 	return (new);
 }
