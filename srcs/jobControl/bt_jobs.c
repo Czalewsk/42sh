@@ -6,7 +6,7 @@
 /*   By: scorbion <scorbion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 13:37:27 by scorbion          #+#    #+#             */
-/*   Updated: 2018/03/24 12:18:15 by scorbion         ###   ########.fr       */
+/*   Updated: 2018/03/29 12:02:41 by scorbion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,5 @@ int			bt_jobs(t_process *p, int size, char **arg, char **env)
 		jobs_display_no_jobspec(info, run_or_stop);
 	else
 		jobs_display_jobspec(info, run_or_stop, arg + i);
-	clear_completed_job();
 	return (0);
 }
