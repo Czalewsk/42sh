@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 16:06:52 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/28 21:19:28 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/29 02:11:25 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ int			read_from_prompt(char **cmd, char **cur)
 	char	*nfpr;
 	int		i;
 	int		ret_prompt;
-	int		len;
 
-	nfpr = NULL;
 	ret_prompt = prompt_add(PROMPT, &nfpr, 1);
 	i = *cur - *cmd;
-	len = 0;
-	if (ret_prompt == -3 || ret_prompt == -1){
+	if (ret_prompt == -3 || ret_prompt == -1)
+	{
 		while (g_here_list)
 			remove_here_list();
 		ft_strdel(&nfpr);
@@ -32,7 +30,6 @@ int			read_from_prompt(char **cmd, char **cur)
 		return (-1);
 	if (nfpr && nfpr[0] != '\n')
 	{
-		len = ft_strlen(nfpr);
 		(*cmd) = ft_strjoin_free(*cmd, nfpr, 2);
 		*cur = (*cmd) + i;
 	}
@@ -41,5 +38,5 @@ int			read_from_prompt(char **cmd, char **cur)
 		ft_strdel(&nfpr);
 		return (-8);
 	}
-	return (read_parser(cmd, (*cmd) + i + len));
+	return (read_parser(cmd, (*cmd) + i + (nfpr ? ft_strlen(nfpr) : 0)));
 }

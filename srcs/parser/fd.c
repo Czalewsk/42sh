@@ -6,7 +6,7 @@
 /*   By: maastie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 19:44:57 by maastie           #+#    #+#             */
-/*   Updated: 2018/03/27 15:45:48 by czalewsk         ###   ########.fr       */
+/*   Updated: 2018/03/29 02:05:15 by czalewsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char		sh_lessand(t_fd *test_fd, t_list **open_fd)
 	}
 	ft_lstadd(open_fd, ft_lstnew(&rfd, sizeof(int)), 0);
 	ft_lstadd(open_fd, ft_lstnew(&lfd, sizeof(int)), 0);
-//	close(rfd);
 	return (0);
 }
 
@@ -60,7 +59,7 @@ char		sh_greatand(t_fd *test_fd, t_list **open_fd)
 		return (-1);
 	if (rfd == -1)
 		close(lfd);
-	else 
+	else
 	{
 		rfd = dup(rfd);
 		if (dup2(rfd, lfd) == -1)
