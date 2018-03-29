@@ -6,7 +6,7 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/21 19:13:08 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/26 12:44:51 by bviala           ###   ########.fr       */
+/*   Updated: 2018/03/29 13:57:38 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@
 int		builtin_export(t_process *p, int argc, char **argv, char **env);
 int		builtin_history(t_process *p, int argc, char **argv, char **env);
 int		built_h_clear_one(char *res, char **argv, t_process *p);
+int		built_h_clear_one2(char *str, t_process *p);
 int		built_h_save_one(char **argv, t_process *p);
+int		built_h_isad(char **argv, t_process *p);
+char	*built_h_isas(char **argv, t_process *p);
+int		built_h_error_s(t_process *p);
+void	update_history(t_process *p);
+int		launch_clearlast(t_process *p);
 int		builtin_unsetenv(t_process *p, int argc, char **argv, char **env);
 int		builtin_setenv(t_process *p, int argc, char **argv, char **env);
 int		builtin_cd(t_process *p, int argc, char **argv, char **env);

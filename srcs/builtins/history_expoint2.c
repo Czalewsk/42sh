@@ -6,11 +6,40 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 17:00:01 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/21 10:36:54 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/29 13:58:52 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
+
+int		built_h_error_s(t_process *p)
+{
+	return (sh_error_bi(p->stderr, -1, 2, "builtin history: ",
+		"missing arguments\nusage : history -s args\n"));
+}
+
+char	*built_h_isas(char **argv, t_process *p)
+{
+	launch_clearlast(p);
+	argv = argv + 2;
+	if (!*argv)
+		return (NULL);
+	else
+		return (ft_strdup(*argv));
+}
+
+int		built_h_isad(char **argv, t_process *p)
+{
+	if (!*argv)
+	{
+		return (sh_error_bi(p->stderr, -1, 2, "builtin history: ",
+			"missing arguments\nusage : history -d args\n"));
+	}
+	if (built_h_clear_one2(*argv, p) != EXIT_SUCCESS)
+		return (EXIT_FAILURE);
+	update_history(p);
+	return (EXIT_SUCCESS);
+}
 
 void	update_expoint_h(t_ldl_head *history, char *save)
 {

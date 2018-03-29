@@ -6,13 +6,13 @@
 /*   By: bviala <bviala@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 22:39:56 by bviala            #+#    #+#             */
-/*   Updated: 2018/03/29 01:47:58 by thugo            ###   ########.fr       */
+/*   Updated: 2018/03/29 13:58:49 by bviala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sh.h"
 
-static void	update_history(t_process *p)
+void		update_history(t_process *p)
 {
 	t_ldl	*ldl;
 	int		fd;
@@ -38,7 +38,7 @@ static void	update_history(t_process *p)
 	}
 }
 
-static int	launch_clearlast(t_process *p)
+int			launch_clearlast(t_process *p)
 {
 	char	*av[4];
 	char	*num;
@@ -55,7 +55,7 @@ static int	launch_clearlast(t_process *p)
 	return (ret);
 }
 
-static int	built_h_clear_one2(char *str, t_process *p)
+int			built_h_clear_one2(char *str, t_process *p)
 {
 	size_t		id;
 
@@ -77,7 +77,7 @@ int			built_h_clear_one(char *res, char **argv, t_process *p)
 		argv = argv + 2;
 	else
 	{
-		return (sh_error_bi(p->stderr, -1, 2, "builtin history: "
+		return (sh_error_bi(p->stderr, -1, 2, "builtin history: ",
 		"missing arguments\nusage: history [n]/[-cpds] args\n"));
 	}
 	if (ft_strchr(res, 'p'))
@@ -88,10 +88,7 @@ int			built_h_clear_one(char *res, char **argv, t_process *p)
 		launch_clearlast(p);
 	}
 	else if (ft_strchr(res, 'd'))
-	{
-		if (!*argv || built_h_clear_one2(*argv, p) != EXIT_SUCCESS)
-			return (EXIT_FAILURE);
-	}
+		return (built_h_isad(argv, p));
 	update_history(p);
 	return (EXIT_SUCCESS);
 }
@@ -101,9 +98,9 @@ int			built_h_save_one(char **argv, t_process *p)
 	int		fd;
 	char	*cmd;
 
-	launch_clearlast(p);
+	if (!(cmd = built_h_isas(argv, p)))
+		return (built_h_error_s(p));
 	argv = argv + 2;
-	cmd = ft_strdup(*argv);
 	while (++argv && *argv)
 		cmd = ft_strjoin_free(ft_strjoin_free(cmd, " \0", 0), *argv, 0);
 	g_sh.history = ft_ldl_addfront(g_sh.history, ft_strdup(cmd));
